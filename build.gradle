@@ -1,0 +1,39 @@
+buildscript {
+  ext.kotlin_version = '1.2.50'
+
+  repositories {
+    google()
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.1.3'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+
+allprojects {
+  group = 'org.nypl.audiobook'
+  version = '0.0.1'
+
+  apply plugin: 'maven'
+}
+
+subprojects {
+  repositories {
+
+    mavenCentral()
+    mavenLocal()
+
+    maven {
+      credentials {
+        username findProperty("org.librarysimplified.nexus.username")
+        password findProperty("org.librarysimplified.nexus.password")
+      }
+      url "https://nexus.librarysimplified.org:8443/nexus/content/groups/external/"
+    }
+
+    jcenter()
+    google()
+  }
+}

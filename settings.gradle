@@ -1,0 +1,7 @@
+rootProject.name = 'org.nypl.audiobook.android'
+
+include ':org.nypl.audiobook.android.api'
+include ':org.nypl.audiobook.android.tests'
+
+project(':org.nypl.audiobook.android.api').projectDir = "$rootDir/org.nypl.audiobook.android.api" as File
+project(':org.nypl.audiobook.android.tests').projectDir = "$rootDir/org.nypl.audiobook.android.tests" as File

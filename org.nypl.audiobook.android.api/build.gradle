@@ -1,0 +1,21 @@
+apply plugin: 'kotlin'
+
+dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+  implementation group: 'joda-time', name: 'joda-time', version: '2.9.9'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
+  implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+}
+
+repositories {
+  mavenCentral()
+}
+
+compileKotlin {
+  kotlinOptions.jvmTarget = "1.6"
+}
+
+compileTestKotlin {
+  kotlinOptions.jvmTarget = "1.6"
+}
