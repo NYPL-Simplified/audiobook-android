@@ -17,6 +17,7 @@ allprojects {
   version = '0.0.1'
 
   apply plugin: 'maven'
+  apply plugin: 'maven-publish'
 }
 
 subprojects {
