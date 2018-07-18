@@ -3,4 +3,4 @@
 .idea
 build
 local.properties
-org.nypl.audiobook.demo.android.main/src/main/assets/app.properties
+org.nypl.audiobook.android.open_access/src/main/resources/org/nypl/audiobook/android/open_access/provider.properties
