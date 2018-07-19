@@ -2,5 +2,5 @@ audiobook-android
 ===
 
 ```
-$ ./gradlew clean jar test publishToMavenLocal
+$ ./gradlew clean assembleDebug test publishToMavenLocal
 ```
