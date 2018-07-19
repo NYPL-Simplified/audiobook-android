@@ -41,6 +41,18 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
     return this.version
   }
 
+  override fun toString(): String {
+    return StringBuilder(32)
+      .append(this.name())
+      .append(':')
+      .append(this.version.major)
+      .append('.')
+      .append(this.version.minor)
+      .append('.')
+      .append(this.version.patch)
+      .toString()
+  }
+
   companion object {
 
     private val log = LoggerFactory.getLogger(ExoEngineProvider::class.java)
