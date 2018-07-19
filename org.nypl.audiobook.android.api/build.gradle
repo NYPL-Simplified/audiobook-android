@@ -25,8 +25,18 @@ publishing {
       artifactId 'org.nypl.audiobook.android.api'
       version version
       artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.api-debug.aar")
+
+      pom.withXml {
+        def dependencies = asNode().appendNode('dependencies')
+
+        final dependency = dependencies.appendNode('dependency')
+        dependency.appendNode('groupId', 'com.fasterxml.jackson.core')
+        dependency.appendNode('artifactId', 'jackson-databind')
+        dependency.appendNode('version', '2.9.5')
+      }
     }
   }
+
   repositories {
     maven {
       url "$buildDir/repo"

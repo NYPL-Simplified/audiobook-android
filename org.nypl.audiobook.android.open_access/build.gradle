@@ -48,8 +48,18 @@ publishing {
       artifactId 'org.nypl.audiobook.android.open_access'
       version version
       artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.open_access-debug.aar")
+
+      pom.withXml {
+        def dependencies = asNode().appendNode('dependencies')
+
+        final dependency = dependencies.appendNode('dependency')
+        dependency.appendNode('groupId', 'org.nypl.audiobook')
+        dependency.appendNode('artifactId', 'org.nypl.audiobook.android.api')
+        dependency.appendNode('version', version)
+      }
     }
   }
+
   repositories {
     maven {
       url "$buildDir/repo"
