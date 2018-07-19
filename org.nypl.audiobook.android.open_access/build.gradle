@@ -1,5 +1,5 @@
-apply plugin: 'kotlin'
-apply plugin: 'java-library'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 dependencies {
   api project(':org.nypl.audiobook.android.api')
@@ -30,27 +30,29 @@ task generatePropertiesResources {
   properties.store(new FileOutputStream(file), "Automatically generated - DO NOT EDIT")
 }
 
-compileKotlin.dependsOn generatePropertiesResources
+preBuild.dependsOn generatePropertiesResources
 
-jar {
-  manifest {
-    attributes(
-      "Specification-Title": project.name,
-      "Specification-Vendor": "NYPL",
-      "Specification-Version": version,
-      "Sealed": true
-    )
+android {
+  compileSdkVersion 27
+  buildToolsVersion "27.0.3"
+
+  packagingOptions {
+
   }
 }
 
-repositories {
-  mavenCentral()
-}
-
-compileKotlin {
-  kotlinOptions.jvmTarget = "1.6"
-}
-
-compileTestKotlin {
-  kotlinOptions.jvmTarget = "1.6"
+publishing {
+  publications {
+    debugAAR(MavenPublication) {
+      groupId group
+      artifactId 'org.nypl.audiobook.android.open_access'
+      version version
+      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.open_access-debug.aar")
+    }
+  }
+  repositories {
+    maven {
+      url "$buildDir/repo"
+    }
+  }
 }
