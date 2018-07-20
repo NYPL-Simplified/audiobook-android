@@ -2,22 +2,20 @@ package org.nypl.audiobook.android.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
-import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.io.InputStream
 import java.util.ServiceLoader
 
+/**
+ * Functions to parse manifests.
+ */
+
 object PlayerManifests {
 
-  private val log = LoggerFactory.getLogger(PlayerManifests::class.java)
+  private val providers: MutableList<PlayerManifestParserType> =
+    ServiceLoader.load(PlayerManifestParserType::class.java).toMutableList()
 
-  private val providers : MutableList<PlayerManifestParserType>
-
-  init {
-    this.providers = ServiceLoader.load(PlayerManifestParserType::class.java).toMutableList()
-  }
-
-  private fun findParser(node: ObjectNode) : PlayerManifestParserType? {
+  private fun findParser(node: ObjectNode): PlayerManifestParserType? {
     for (provider in this.providers) {
       if (provider.canParse(node)) {
         return provider
@@ -25,6 +23,11 @@ object PlayerManifests {
     }
     return null
   }
+
+  /**
+   * Parse a manifest from the given input stream. This will try each of the available
+   * parser providers in turn until one claims that it can parse the resulting JSON manifest.
+   */
 
   fun parse(stream: InputStream): PlayerResult<PlayerManifest, Exception> {
     try {

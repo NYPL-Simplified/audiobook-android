@@ -11,11 +11,8 @@ object PlayerAudioEngines : PlayerAudioEnginesType {
 
   private val log = LoggerFactory.getLogger(PlayerAudioEngines::class.java)
 
-  private val providers : MutableList<PlayerAudioEngineProviderType>
-
-  init {
-    this.providers = ServiceLoader.load(PlayerAudioEngineProviderType::class.java).toMutableList()
-  }
+  private val providers : MutableList<PlayerAudioEngineProviderType> =
+    ServiceLoader.load(PlayerAudioEngineProviderType::class.java).toMutableList()
 
   override fun findAllFor(
     manifest: PlayerManifest,

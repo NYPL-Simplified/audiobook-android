@@ -2,7 +2,15 @@ package org.nypl.audiobook.android.api
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
-import com.fasterxml.jackson.databind.node.JsonNodeType
+import com.fasterxml.jackson.databind.node.JsonNodeType.ARRAY
+import com.fasterxml.jackson.databind.node.JsonNodeType.BINARY
+import com.fasterxml.jackson.databind.node.JsonNodeType.BOOLEAN
+import com.fasterxml.jackson.databind.node.JsonNodeType.MISSING
+import com.fasterxml.jackson.databind.node.JsonNodeType.NULL
+import com.fasterxml.jackson.databind.node.JsonNodeType.NUMBER
+import com.fasterxml.jackson.databind.node.JsonNodeType.OBJECT
+import com.fasterxml.jackson.databind.node.JsonNodeType.POJO
+import com.fasterxml.jackson.databind.node.JsonNodeType.STRING
 import com.fasterxml.jackson.databind.node.ObjectNode
 import org.nypl.audiobook.android.api.PlayerManifestScalar.PlayerManifestScalarBoolean
 import org.nypl.audiobook.android.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarInteger
@@ -33,7 +41,7 @@ class PlayerJSONParserUtilities private constructor() {
      *
      * @return `n` as an [ObjectNode]
      *
-     * @throws JSONParseException On type errors
+     * @throws PlayerJSONParseException On type errors
      */
 
     @Throws(PlayerJSONParseException::class)
@@ -42,14 +50,15 @@ class PlayerJSONParserUtilities private constructor() {
       n: JsonNode): ObjectNode {
 
       when (n.nodeType) {
-        JsonNodeType.ARRAY,
-        JsonNodeType.BINARY,
-        JsonNodeType.BOOLEAN,
-        JsonNodeType.MISSING,
-        JsonNodeType.NULL,
-        JsonNodeType.NUMBER,
-        JsonNodeType.POJO,
-        JsonNodeType.STRING -> {
+        null,
+        ARRAY,
+        BINARY,
+        BOOLEAN,
+        MISSING,
+        NULL,
+        NUMBER,
+        POJO,
+        STRING -> {
           val sb = StringBuilder(128)
           if (key != null) {
             sb.append("Expected: A key '")
@@ -67,7 +76,7 @@ class PlayerJSONParserUtilities private constructor() {
 
           throw PlayerJSONParseException(sb.toString())
         }
-        JsonNodeType.OBJECT -> {
+        OBJECT -> {
           return n as ObjectNode
         }
       }
@@ -89,17 +98,18 @@ class PlayerJSONParserUtilities private constructor() {
 
       val n = getNode(s, key)
       when (n.nodeType) {
-        JsonNodeType.ARRAY -> {
+        ARRAY -> {
           return n as ArrayNode
         }
-        JsonNodeType.BINARY,
-        JsonNodeType.BOOLEAN,
-        JsonNodeType.MISSING,
-        JsonNodeType.NULL,
-        JsonNodeType.NUMBER,
-        JsonNodeType.POJO,
-        JsonNodeType.STRING,
-        JsonNodeType.OBJECT -> {
+        null,
+        BINARY,
+        BOOLEAN,
+        MISSING,
+        NULL,
+        NUMBER,
+        POJO,
+        STRING,
+        OBJECT -> {
           val sb = StringBuilder(128)
           sb.append("Expected: A key '")
           sb.append(key)
@@ -128,14 +138,15 @@ class PlayerJSONParserUtilities private constructor() {
 
       val v = getNode(o, key)
       when (v.nodeType) {
-        JsonNodeType.ARRAY,
-        JsonNodeType.BINARY,
-        JsonNodeType.MISSING,
-        JsonNodeType.NULL,
-        JsonNodeType.OBJECT,
-        JsonNodeType.POJO,
-        JsonNodeType.STRING,
-        JsonNodeType.NUMBER -> {
+        null,
+        ARRAY,
+        BINARY,
+        MISSING,
+        NULL,
+        OBJECT,
+        POJO,
+        STRING,
+        NUMBER -> {
           val sb = StringBuilder(128)
           sb.append("Expected: A key '")
           sb.append(key)
@@ -145,7 +156,7 @@ class PlayerJSONParserUtilities private constructor() {
           sb.append("\n")
           throw PlayerJSONParseException(sb.toString())
         }
-        JsonNodeType.BOOLEAN -> {
+        BOOLEAN -> {
           return v.asBoolean()
         }
       }
@@ -167,14 +178,15 @@ class PlayerJSONParserUtilities private constructor() {
 
       val v = getNode(n, key)
       when (v.nodeType) {
-        JsonNodeType.ARRAY,
-        JsonNodeType.BINARY,
-        JsonNodeType.BOOLEAN,
-        JsonNodeType.MISSING,
-        JsonNodeType.NULL,
-        JsonNodeType.OBJECT,
-        JsonNodeType.POJO,
-        JsonNodeType.STRING -> {
+        null,
+        ARRAY,
+        BINARY,
+        BOOLEAN,
+        MISSING,
+        NULL,
+        OBJECT,
+        POJO,
+        STRING -> {
           val sb = StringBuilder(128)
           sb.append("Expected: A key '")
           sb.append(key)
@@ -184,7 +196,7 @@ class PlayerJSONParserUtilities private constructor() {
           sb.append("\n")
           throw PlayerJSONParseException(sb.toString())
         }
-        JsonNodeType.NUMBER -> {
+        NUMBER -> {
           return v.asInt()
         }
       }
@@ -269,14 +281,15 @@ class PlayerJSONParserUtilities private constructor() {
 
       val v = getNode(s, key)
       when (v.nodeType) {
-        JsonNodeType.ARRAY,
-        JsonNodeType.BINARY,
-        JsonNodeType.BOOLEAN,
-        JsonNodeType.MISSING,
-        JsonNodeType.NULL,
-        JsonNodeType.NUMBER,
-        JsonNodeType.OBJECT,
-        JsonNodeType.POJO -> {
+        null,
+        ARRAY,
+        BINARY,
+        BOOLEAN,
+        MISSING,
+        NULL,
+        NUMBER,
+        OBJECT,
+        POJO -> {
           val sb = StringBuilder(128)
           sb.append("Expected: A key '")
           sb.append(key)
@@ -286,7 +299,7 @@ class PlayerJSONParserUtilities private constructor() {
           sb.append("\n")
           throw PlayerJSONParseException(sb.toString())
         }
-        JsonNodeType.STRING -> {
+        STRING -> {
           return v.asText()
         }
       }
@@ -408,14 +421,15 @@ class PlayerJSONParserUtilities private constructor() {
 
       val v = getNode(n, key)
       when (v.nodeType) {
-        JsonNodeType.ARRAY,
-        JsonNodeType.BINARY,
-        JsonNodeType.BOOLEAN,
-        JsonNodeType.MISSING,
-        JsonNodeType.NULL,
-        JsonNodeType.OBJECT,
-        JsonNodeType.POJO,
-        JsonNodeType.STRING -> {
+        null,
+        ARRAY,
+        BINARY,
+        BOOLEAN,
+        MISSING,
+        NULL,
+        OBJECT,
+        POJO,
+        STRING -> {
           val sb = StringBuilder(128)
           sb.append("Expected: A key '")
           sb.append(key)
@@ -425,7 +439,7 @@ class PlayerJSONParserUtilities private constructor() {
           sb.append("\n")
           throw PlayerJSONParseException(sb.toString())
         }
-        JsonNodeType.NUMBER -> {
+        NUMBER -> {
           try {
             return BigInteger(v.asText())
           } catch (e: NumberFormatException) {
@@ -471,14 +485,15 @@ class PlayerJSONParserUtilities private constructor() {
 
       val v = getNode(n, key)
       when (v.nodeType) {
-        JsonNodeType.ARRAY,
-        JsonNodeType.BINARY,
-        JsonNodeType.BOOLEAN,
-        JsonNodeType.MISSING,
-        JsonNodeType.NULL,
-        JsonNodeType.OBJECT,
-        JsonNodeType.POJO,
-        JsonNodeType.STRING -> {
+        null,
+        ARRAY,
+        BINARY,
+        BOOLEAN,
+        MISSING,
+        NULL,
+        OBJECT,
+        POJO,
+        STRING -> {
           val sb = StringBuilder(128)
           sb.append("Expected: A key '")
           sb.append(key)
@@ -488,7 +503,7 @@ class PlayerJSONParserUtilities private constructor() {
           sb.append("\n")
           throw PlayerJSONParseException(sb.toString())
         }
-        JsonNodeType.NUMBER -> {
+        NUMBER -> {
           return v.asDouble()
         }
       }
@@ -509,11 +524,12 @@ class PlayerJSONParserUtilities private constructor() {
 
       val v = getNode(n, key)
       when (v.nodeType) {
-        JsonNodeType.ARRAY,
-        JsonNodeType.BINARY,
-        JsonNodeType.MISSING,
-        JsonNodeType.OBJECT,
-        JsonNodeType.POJO -> {
+        null,
+        ARRAY,
+        BINARY,
+        MISSING,
+        OBJECT,
+        POJO -> {
           val sb = StringBuilder(128)
           sb.append("Expected: An object of a scalar type.\n")
           sb.append("Received: A value of type ")
@@ -522,15 +538,15 @@ class PlayerJSONParserUtilities private constructor() {
           throw PlayerJSONParseException(sb.toString())
         }
 
-        JsonNodeType.NULL -> return null
-        JsonNodeType.BOOLEAN -> return PlayerManifestScalarBoolean(v.asBoolean())
-        JsonNodeType.NUMBER ->
+        NULL -> return null
+        BOOLEAN -> return PlayerManifestScalarBoolean(v.asBoolean())
+        NUMBER ->
           if (v.isIntegralNumber) {
             return PlayerManifestScalarInteger(v.asInt())
           } else {
             return PlayerManifestScalarReal(v.asDouble())
           }
-        JsonNodeType.STRING -> return PlayerManifestScalarString(v.asText())
+        STRING -> return PlayerManifestScalarString(v.asText())
       }
     }
   }
