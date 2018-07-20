@@ -1,0 +1,67 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+dependencies {
+  api project(':org.nypl.audiobook.android.api')
+
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation 'org.slf4j:slf4j-api:1.7.25'
+}
+
+/*
+ * Generate a properties file based on various settings.
+ */
+
+task generatePropertiesResources {
+
+  def directory = new File(project.projectDir, "src/main/resources/org/nypl/audiobook/android/manifest/nypl").absoluteFile
+  directory.mkdirs()
+  def file = new File(directory, "provider.properties")
+  file.createNewFile()
+
+  def properties = new Properties()
+  def major = version.split("\\.").getAt(0)
+  def minor = version.split("\\.").getAt(1)
+  def patch = version.split("\\.").getAt(2)
+  properties.setProperty("version.major", major)
+  properties.setProperty("version.minor", minor)
+  properties.setProperty("version.patch", patch)
+  properties.store(new FileOutputStream(file), "Automatically generated - DO NOT EDIT")
+}
+
+preBuild.dependsOn generatePropertiesResources
+
+android {
+  compileSdkVersion 27
+  buildToolsVersion "27.0.3"
+
+  packagingOptions {
+
+  }
+}
+
+publishing {
+  publications {
+    debugAAR(MavenPublication) {
+      groupId group
+      artifactId 'org.nypl.audiobook.android.manifest.nypl'
+      version version
+      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.manifest.nypl-debug.aar")
+
+      pom.withXml {
+        def dependencies = asNode().appendNode('dependencies')
+
+        final dependency = dependencies.appendNode('dependency')
+        dependency.appendNode('groupId', 'org.nypl.audiobook')
+        dependency.appendNode('artifactId', 'org.nypl.audiobook.android.api')
+        dependency.appendNode('version', version)
+      }
+    }
+  }
+
+  repositories {
+    maven {
+      url "$buildDir/repo"
+    }
+  }
+}

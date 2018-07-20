@@ -3,7 +3,9 @@ rootProject.name = 'org.nypl.audiobook.android'
 include ':org.nypl.audiobook.android.api'
 include ':org.nypl.audiobook.android.tests'
 include ':org.nypl.audiobook.android.open_access'
+include ':org.nypl.audiobook.android.manifest.nypl'
 
 project(':org.nypl.audiobook.android.api').projectDir = "$rootDir/org.nypl.audiobook.android.api" as File
 project(':org.nypl.audiobook.android.tests').projectDir = "$rootDir/org.nypl.audiobook.android.tests" as File
 project(':org.nypl.audiobook.android.open_access').projectDir = "$rootDir/org.nypl.audiobook.android.open_access" as File
+project(':org.nypl.audiobook.android.manifest.nypl').projectDir = "$rootDir/org.nypl.audiobook.android.manifest.nypl" as File

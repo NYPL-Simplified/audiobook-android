@@ -1,4 +1,8 @@
 {
+  "@context": [
+    "http://readium.org/webpub/default.jsonld"
+  ],
+
   "links": [
     {
       "href": "http://example.org/a",

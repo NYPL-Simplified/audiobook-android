@@ -8,6 +8,7 @@ import org.nypl.audiobook.android.api.PlayerAudioEngineProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineVersion
 import org.nypl.audiobook.android.api.PlayerAudioEngines
 import org.nypl.audiobook.android.api.PlayerManifest
+import org.nypl.audiobook.android.api.PlayerManifests
 import org.nypl.audiobook.android.api.PlayerResult
 import org.slf4j.Logger
 import java.io.IOException
@@ -36,7 +37,7 @@ abstract class PlayerAudioEnginesContract {
   }
 
   private fun parseManifest(file: String): PlayerManifest {
-    val result = PlayerManifest.parse(resource(file))
+    val result = PlayerManifests.parse(resource(file))
     this.log().debug("result: {}", result)
     Assert.assertTrue("Result is success", result is PlayerResult.Success)
     val manifest = (result as PlayerResult.Success).result

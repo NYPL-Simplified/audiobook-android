@@ -9,6 +9,7 @@ dependencies {
 
   implementation project(':org.nypl.audiobook.android.api')
   implementation project(':org.nypl.audiobook.android.open_access')
+  implementation project(':org.nypl.audiobook.android.manifest.nypl')
 }
 
 android {

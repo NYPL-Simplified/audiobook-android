@@ -2,8 +2,10 @@ package org.nypl.audiobook.android.tests
 
 import org.junit.Assert
 import org.junit.Assert.assertTrue
+import org.junit.Ignore
 import org.junit.Test
 import org.nypl.audiobook.android.api.PlayerManifest
+import org.nypl.audiobook.android.api.PlayerManifests
 import org.nypl.audiobook.android.api.PlayerResult
 import org.slf4j.Logger
 import java.io.ByteArrayInputStream
@@ -20,21 +22,21 @@ abstract class PlayerManifestContract {
   @Test
   fun testEmptyManifest() {
     val stream = ByteArrayInputStream(ByteArray(0))
-    val result = PlayerManifest.parse(stream)
+    val result = PlayerManifests.parse(stream)
     this.log().debug("result: {}", result)
     assertTrue("Result is failure", result is PlayerResult.Failure)
   }
 
   @Test
   fun testErrorMinimal_0() {
-    val result = PlayerManifest.parse(resource("error_minimal_0.json"))
+    val result = PlayerManifests.parse(resource("error_minimal_0.json"))
     this.log().debug("result: {}", result)
     assertTrue("Result is failure", result is PlayerResult.Failure)
   }
 
   @Test
   fun testOkMinimal_0() {
-    val result = PlayerManifest.parse(resource("ok_minimal_0.json"))
+    val result = PlayerManifests.parse(resource("ok_minimal_0.json"))
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is PlayerResult.Success)
 
@@ -72,6 +74,19 @@ abstract class PlayerManifestContract {
     Assert.assertEquals("author_0", manifest.metadata.authors[0])
     Assert.assertEquals("author_1", manifest.metadata.authors[1])
     Assert.assertEquals("author_2", manifest.metadata.authors[2])
+  }
+
+  @Test
+  @Ignore("Temporarily disabled due to lack of support")
+  fun testOkFlatlandGardeur() {
+    val result = PlayerManifests.parse(resource("flatland.audiobook-manifest.json"))
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is PlayerResult.Success)
+
+    val success : PlayerResult.Success<PlayerManifest, Exception> =
+      result as PlayerResult.Success<PlayerManifest, Exception>
+
+    val manifest = success.result
   }
 
   private fun resource(name: String): InputStream {
