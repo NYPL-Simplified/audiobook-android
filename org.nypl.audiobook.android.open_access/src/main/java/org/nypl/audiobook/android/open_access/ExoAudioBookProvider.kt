@@ -1,5 +1,6 @@
 package org.nypl.audiobook.android.open_access
 
+import android.content.Context
 import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
 import org.nypl.audiobook.android.api.PlayerAudioBookType
 import org.nypl.audiobook.android.api.PlayerManifest
@@ -14,7 +15,7 @@ internal class ExoAudioBookProvider(
   private val manifest: PlayerManifest)
   : PlayerAudioBookProviderType {
 
-  override fun create(): PlayerResult<PlayerAudioBookType, Exception> {
+  override fun create(context: Context): PlayerResult<PlayerAudioBookType, Exception> {
     return Failure(Exception("Not implemented!"))
   }
 }
