@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 
 dependencies {
   api 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+  api 'io.reactivex:rxjava:1.2.3'
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation 'joda-time:joda-time:2.9.9'
