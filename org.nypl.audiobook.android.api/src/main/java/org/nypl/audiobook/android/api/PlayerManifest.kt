@@ -8,7 +8,6 @@ import java.net.URI
 
 data class PlayerManifest(
   val spine: List<PlayerManifestSpineItem>,
-  val links: List<PlayerManifestLink>,
   val metadata: PlayerManifestMetadata)
 
 /**
@@ -17,10 +16,7 @@ data class PlayerManifest(
 
 data class PlayerManifestMetadata(
   val title: String,
-  val language: String,
-  val duration: Double,
   val identifier: String,
-  val authors: List<String>,
   val encrypted: PlayerManifestEncrypted?)
 
 /**
@@ -29,22 +25,14 @@ data class PlayerManifestMetadata(
 
 data class PlayerManifestEncrypted(
   val scheme: String,
-  val values: Map<String, PlayerManifestScalar?>)
-
-/**
- * A link appearing in a manifest.
- */
-
-data class PlayerManifestLink(
-  val href: URI,
-  val relation: String)
+  val values: Map<String, PlayerManifestScalar>)
 
 /**
  * A spine item.
  */
 
 data class PlayerManifestSpineItem(
-  val values: Map<String, PlayerManifestScalar?>)
+  val values: Map<String, PlayerManifestScalar>)
 
 /**
  * A scalar value appearing in a manifest.

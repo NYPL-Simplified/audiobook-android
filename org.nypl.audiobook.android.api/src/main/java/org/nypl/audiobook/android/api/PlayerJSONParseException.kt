@@ -12,7 +12,7 @@ class PlayerJSONParseException : IOException {
    * Construct an exception with no message or cause.
    */
 
-  constructor() : super() {}
+  constructor() : super()
 
   /**
    * Construct an exception.
@@ -20,9 +20,7 @@ class PlayerJSONParseException : IOException {
    * @param message The message
    */
 
-  constructor(
-    message: String) : super(message) {
-  }
+  constructor(message: String) : super(message)
 
   /**
    * Construct an exception.
@@ -31,10 +29,7 @@ class PlayerJSONParseException : IOException {
    * @param cause   The cause
    */
 
-  constructor(
-    message: String,
-    cause: Throwable) : super(message, cause) {
-  }
+  constructor(message: String, cause: Throwable) : super(message, cause)
 
   /**
    * Construct an exception
@@ -42,9 +37,7 @@ class PlayerJSONParseException : IOException {
    * @param cause The case
    */
 
-  constructor(
-    cause: Throwable) : super(cause) {
-  }
+  constructor(cause: Throwable) : super(cause)
 
   companion object {
     private val serialVersionUID = 1L

@@ -44,13 +44,6 @@ abstract class PlayerManifestContract {
       result as PlayerResult.Success<PlayerManifest, Exception>
 
     val manifest = success.result
-    Assert.assertEquals(3, manifest.links.size)
-    Assert.assertEquals("http://example.org/a", manifest.links[0].href.toString())
-    Assert.assertEquals("something-0", manifest.links[0].relation)
-    Assert.assertEquals("http://example.org/b", manifest.links[1].href.toString())
-    Assert.assertEquals("something-1", manifest.links[1].relation)
-    Assert.assertEquals("http://example.org/c", manifest.links[2].href.toString())
-    Assert.assertEquals("something-2", manifest.links[2].relation)
 
     Assert.assertEquals(3, manifest.spine.size)
     Assert.assertEquals("Track 0", manifest.spine[0].values["title"].toString())
@@ -67,13 +60,6 @@ abstract class PlayerManifestContract {
 
     Assert.assertEquals("title", manifest.metadata.title)
     Assert.assertEquals("urn:id", manifest.metadata.identifier)
-    Assert.assertEquals("en", manifest.metadata.language)
-    Assert.assertEquals(1000.0, manifest.metadata.duration, 0.0)
-
-    Assert.assertEquals(3, manifest.metadata.authors.size)
-    Assert.assertEquals("author_0", manifest.metadata.authors[0])
-    Assert.assertEquals("author_1", manifest.metadata.authors[1])
-    Assert.assertEquals("author_2", manifest.metadata.authors[2])
   }
 
   @Test

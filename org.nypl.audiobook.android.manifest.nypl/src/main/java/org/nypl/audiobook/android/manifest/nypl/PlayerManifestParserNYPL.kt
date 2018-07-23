@@ -6,13 +6,11 @@ import com.fasterxml.jackson.databind.node.TextNode
 import org.nypl.audiobook.android.api.PlayerJSONParserUtilities
 import org.nypl.audiobook.android.api.PlayerManifest
 import org.nypl.audiobook.android.api.PlayerManifestEncrypted
-import org.nypl.audiobook.android.api.PlayerManifestLink
 import org.nypl.audiobook.android.api.PlayerManifestMetadata
 import org.nypl.audiobook.android.api.PlayerManifestParserType
 import org.nypl.audiobook.android.api.PlayerManifestScalar
 import org.nypl.audiobook.android.api.PlayerManifestSpineItem
 import org.nypl.audiobook.android.api.PlayerResult
-import org.w3c.dom.Text
 
 /**
  * A manifest parser that can parse manifests in the NYPL format.
@@ -45,10 +43,9 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
 
   override fun parseFromObjectNode(node: ObjectNode): PlayerResult<PlayerManifest, Exception> {
     try {
-      val links = this.parseLinks(node)
       val spine = this.parseSpine(node)
       val metadata = this.parseMetadata(node)
-      return PlayerResult.Success(PlayerManifest(spine = spine, links = links, metadata = metadata))
+      return PlayerResult.Success(PlayerManifest(spine = spine, metadata = metadata))
     } catch (e: Exception) {
       return PlayerResult.Failure(e)
     }
@@ -58,18 +55,12 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
     val metadata = PlayerJSONParserUtilities.getObject(node, "metadata")
 
     val title = PlayerJSONParserUtilities.getString(metadata, "title")
-    val language = PlayerJSONParserUtilities.getString(metadata, "language")
-    val duration = PlayerJSONParserUtilities.getDouble(metadata, "duration")
     val identifier = PlayerJSONParserUtilities.getString(metadata, "identifier")
-    val authors = this.parseAuthors(metadata)
     val encrypted = this.parseEncrypted(metadata)
 
     return PlayerManifestMetadata(
       title = title,
-      language = language,
-      duration = duration,
       identifier = identifier,
-      authors = authors,
       encrypted = encrypted)
   }
 
@@ -82,18 +73,6 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
     val scheme = PlayerJSONParserUtilities.getString(encrypted, "scheme")
     val values = this.parseScalarMap(encrypted)
     return PlayerManifestEncrypted(scheme, values)
-  }
-
-  private fun parseAuthors(node: ObjectNode): List<String> {
-    val author_array = PlayerJSONParserUtilities.getArray(node, "authors")
-    val authors = ArrayList<String>()
-
-    for (index in 0..author_array.size() - 1) {
-      if (author_array[index] is TextNode) {
-        authors.add(author_array[index].asText())
-      }
-    }
-    return authors.toList()
   }
 
   private fun parseSpine(node: ObjectNode): List<PlayerManifestSpineItem> {
@@ -111,28 +90,14 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
     return PlayerManifestSpineItem(this.parseScalarMap(node))
   }
 
-  private fun parseScalarMap(node: ObjectNode): Map<String, PlayerManifestScalar?> {
-    val values = HashMap<String, PlayerManifestScalar?>()
+  private fun parseScalarMap(node: ObjectNode): Map<String, PlayerManifestScalar> {
+    val values = HashMap<String, PlayerManifestScalar>()
     for (key in node.fieldNames()) {
-      values.put(key, PlayerJSONParserUtilities.getScalar(node, key))
+      val value = PlayerJSONParserUtilities.getScalar(node, key)
+      if (value != null) {
+        values.put(key, value)
+      }
     }
     return values.toMap()
-  }
-
-  private fun parseLinks(node: ObjectNode): List<PlayerManifestLink> {
-    val link_array = PlayerJSONParserUtilities.getArray(node, "links")
-    val links = ArrayList<PlayerManifestLink>()
-
-    for (index in 0..link_array.size() - 1) {
-      links.add(this.parsePlayerManifestLink(
-        PlayerJSONParserUtilities.checkObject(null, link_array[index])))
-    }
-    return links.toList()
-  }
-
-  private fun parsePlayerManifestLink(node: ObjectNode): PlayerManifestLink {
-    return PlayerManifestLink(
-      href = PlayerJSONParserUtilities.getURI(node, "href"),
-      relation = PlayerJSONParserUtilities.getString(node, "rel"))
   }
 }
