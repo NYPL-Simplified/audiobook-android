@@ -35,10 +35,15 @@ interface PlayerAudioBookType {
   val spineByPartAndChapter: SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>
 
   /**
-   * The initial spine item.
+   * A convenience method to return the initial spine item.
    */
 
-  fun spineElementInitial() : PlayerSpineElementType?
+  fun spineElementInitial(): PlayerSpineElementType? {
+    if (!this.spine.isEmpty()) {
+      return this.spine.first()
+    }
+    return null
+  }
 
   /**
    * A convenience method for accessing elements of the #spineByPartAndChapter property.
