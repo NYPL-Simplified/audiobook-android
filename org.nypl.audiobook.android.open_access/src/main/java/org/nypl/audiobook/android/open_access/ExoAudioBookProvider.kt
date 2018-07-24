@@ -11,11 +11,15 @@ import org.nypl.audiobook.android.api.PlayerResult.Failure
  * The ExoPlayer implementation of the {@link PlayerAudioBookProviderType} interface.
  */
 
-internal class ExoAudioBookProvider(
+class ExoAudioBookProvider(
   private val manifest: PlayerManifest)
   : PlayerAudioBookProviderType {
 
   override fun create(context: Context): PlayerResult<PlayerAudioBookType, Exception> {
-    return Failure(Exception("Not implemented!"))
+    val parsed = ExoManifest.transform(this.manifest)
+    return when (parsed) {
+      is PlayerResult.Success -> PlayerResult.Success(ExoAudioBook.create(context, parsed.result))
+      is PlayerResult.Failure -> Failure(parsed.failure)
+    }
   }
 }

@@ -10,6 +10,12 @@ import java.util.SortedMap
 interface PlayerAudioBookType {
 
   /**
+   * A unique identifier for the book.
+   */
+
+  val id: PlayerBookID
+
+  /**
    * True iff the underlying audio book supports streaming. That is, it's not necessary to download
    * a book part before it's possible to play that part.
    */
@@ -70,4 +76,5 @@ interface PlayerAudioBookType {
    */
 
   val player: PlayerType
+
 }

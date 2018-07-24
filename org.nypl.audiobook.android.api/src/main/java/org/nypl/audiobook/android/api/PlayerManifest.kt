@@ -1,7 +1,5 @@
 package org.nypl.audiobook.android.api
 
-import java.net.URI
-
 /**
  * A raw audio book manifest, parsed and typed.
  */

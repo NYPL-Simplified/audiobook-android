@@ -7,14 +7,26 @@ dependencies {
   implementation "org.slf4j:slf4j-api:1.7.25"
   implementation "ch.qos.logback:logback-classic:1.2.3"
 
+  androidTestImplementation 'com.android.support.test:runner:1.0.2'
+  androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
+
   implementation project(':org.nypl.audiobook.android.api')
-  implementation project(':org.nypl.audiobook.android.open_access')
   implementation project(':org.nypl.audiobook.android.manifest.nypl')
+  implementation project(':org.nypl.audiobook.android.open_access')
+  implementation project(':org.nypl.audiobook.android.tests')
 }
 
 android {
   compileSdkVersion 27
   buildToolsVersion "27.0.3"
+
+  defaultConfig {
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  testOptions {
+    execution 'ANDROID_TEST_ORCHESTRATOR'
+  }
 
   packagingOptions {
 
@@ -25,9 +37,9 @@ publishing {
   publications {
     debugAAR(MavenPublication) {
       groupId group
-      artifactId 'org.nypl.audiobook.android.tests'
+      artifactId 'org.nypl.audiobook.android.tests.device'
       version version
-      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.tests-debug.aar")
+      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.tests.device-debug.aar")
     }
   }
   repositories {

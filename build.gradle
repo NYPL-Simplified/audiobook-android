@@ -14,7 +14,7 @@ buildscript {
 
 allprojects {
   group = 'org.nypl.audiobook'
-  version = '0.0.6'
+  version = '0.0.7'
 
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
@@ -32,6 +32,10 @@ subprojects {
         password findProperty("org.librarysimplified.nexus.password")
       }
       url "https://nexus.librarysimplified.org:8443/nexus/content/groups/external/"
+    }
+
+    maven {
+      url "https://maven.google.com"
     }
 
     jcenter()

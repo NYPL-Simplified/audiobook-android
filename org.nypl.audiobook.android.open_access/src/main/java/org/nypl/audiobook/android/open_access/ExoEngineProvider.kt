@@ -17,11 +17,7 @@ import java.util.Properties
 
 class ExoEngineProvider : PlayerAudioEngineProviderType {
 
-  private val version: PlayerAudioEngineVersion
-
-  init {
-    this.version = parseVersionFromProperties()
-  }
+  private val version: PlayerAudioEngineVersion = parseVersionFromProperties()
 
   override fun canSupportBook(manifest: PlayerManifest): PlayerAudioBookProviderType? {
     val encrypted = manifest.metadata.encrypted
