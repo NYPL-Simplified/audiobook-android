@@ -10,6 +10,7 @@ import org.nypl.audiobook.android.api.PlayerType
 import rx.subjects.PublishSubject
 import java.util.SortedMap
 import java.util.TreeMap
+import java.util.concurrent.ExecutorService
 
 /**
  * An ExoPlayer audio book.
@@ -33,10 +34,13 @@ class ExoAudioBook private constructor(
 
   companion object {
 
-    fun create(context: Context, manifest: ExoManifest): PlayerAudioBookType {
+    fun create(
+      context: Context,
+      engineExecutor: ExecutorService,
+      manifest: ExoManifest): PlayerAudioBookType {
 
       val book_id = PlayerBookID.transform(manifest.id)
-      val player = ExoAudioBookPlayer.create(context, book_id)
+      val player = ExoAudioBookPlayer.create(context, engineExecutor, book_id)
 
       /*
        * Set up all the various bits of state required.

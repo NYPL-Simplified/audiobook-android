@@ -1,5 +1,6 @@
 package org.nypl.audiobook.android.open_access
 
+import android.os.Looper
 import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineVersion
@@ -7,6 +8,8 @@ import org.nypl.audiobook.android.api.PlayerManifest
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 import java.util.Properties
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /**
  * An audio engine provider based on ExoPlayer.
@@ -19,6 +22,24 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
 
   private val version: PlayerAudioEngineVersion = parseVersionFromProperties()
 
+  private val engineExecutor: ExecutorService =
+    Executors.newFixedThreadPool(1, { r -> createEngineThread(r) })
+
+  /**
+   * Create a thread suitable for use with the ExoPlayer audio engine. In practical terms,
+   * this means any thread that happens to have called Looper.prepare().
+   */
+
+  private fun createEngineThread(r: Runnable?): Thread {
+    val thread = Thread(Runnable {
+      Looper.prepare()
+      r?.run()
+    })
+    thread.name = "org.nypl.audiobook.android.open_access:engine:${thread.id}"
+    thread.start()
+    return thread
+  }
+
   override fun canSupportBook(manifest: PlayerManifest): PlayerAudioBookProviderType? {
     val encrypted = manifest.metadata.encrypted
     if (encrypted != null) {
@@ -26,7 +47,7 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
       return null
     }
 
-    return ExoAudioBookProvider(manifest)
+    return ExoAudioBookProvider(engineExecutor, manifest)
   }
 
   override fun name(): String {

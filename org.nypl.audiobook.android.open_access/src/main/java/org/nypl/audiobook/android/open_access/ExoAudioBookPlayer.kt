@@ -10,6 +10,9 @@ import org.nypl.audiobook.android.api.PlayerType
 import org.slf4j.LoggerFactory
 import rx.Observable
 import java.io.File
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.TimeUnit
 
 /**
  * An ExoPlayer player.
@@ -23,20 +26,30 @@ class ExoAudioBookPlayer private constructor(
 
     private val log = LoggerFactory.getLogger(ExoAudioBookPlayer::class.java)
 
-    fun create(context: Context, id : PlayerBookID): ExoAudioBookPlayer {
+    fun create(
+      context: Context,
+      engineExecutor: ExecutorService,
+      id: PlayerBookID): ExoAudioBookPlayer {
 
       val directory = findDirectoryFor(context, id)
       this.log.debug("book directory: {}", directory)
 
       /*
-       * The rendererCount parameter is not well documented. It appears to be the number of
-       * renderers that are required to render a single track. To render a piece of video that
-       * had video, audio, and a subtitle track would require three renderers. Audio books should
-       * require just one.
+       * Initialize the audio player on the engine thread.
        */
 
-      val player = ExoPlayer.Factory.newInstance(1)
-      return ExoAudioBookPlayer(player)
+      return engineExecutor.submit(Callable {
+
+        /*
+         * The rendererCount parameter is not well documented. It appears to be the number of
+         * renderers that are required to render a single track. To render a piece of video that
+         * had video, audio, and a subtitle track would require three renderers. Audio books should
+         * require just one.
+         */
+
+        val player = ExoPlayer.Factory.newInstance(1)
+        ExoAudioBookPlayer(player)
+      }).get(5L, TimeUnit.SECONDS)
     }
 
     private fun findDirectoryFor(context: Context, id: PlayerBookID): File {
