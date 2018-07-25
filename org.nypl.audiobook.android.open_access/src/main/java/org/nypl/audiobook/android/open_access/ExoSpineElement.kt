@@ -50,7 +50,7 @@ class ExoSpineElement(
     get() = this.itemManifest.title
 
   override val downloadTask: PlayerDownloadTaskType =
-    TODO()
+    TODO("Download tasks have not yet been implemented")
 
   fun setBook(book: ExoAudioBook) {
     this.bookActual = book

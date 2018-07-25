@@ -60,44 +60,44 @@ class ExoAudioBookPlayer private constructor(
   }
 
   override val isPlaying: Boolean
-    get() = TODO("not implemented")
+    get() = TODO("isPlaying has not been implemented")
 
   override var playbackRate: PlayerPlaybackRate
-    get() = TODO("not implemented")
+    get() = TODO("playbackRate has not been implemented")
     set(value) {}
 
   override val events: Observable<PlayerEvent>
-    get() = TODO("not implemented")
+    get() = TODO("events not implemented")
 
   override fun play() {
-    TODO("not implemented")
+    TODO("play not implemented")
   }
 
   override fun pause() {
-    TODO("not implemented")
+    TODO("pause not implemented")
   }
 
   override fun skipToNextChapter() {
-    TODO("not implemented")
+    TODO("skipToNextChapter not implemented")
   }
 
   override fun skipToPreviousChapter() {
-    TODO("not implemented")
+    TODO("skipToPreviousChapter not implemented")
   }
 
   override fun skipForward() {
-    TODO("not implemented")
+    TODO("skipForward not implemented")
   }
 
   override fun skipBack() {
-    TODO("not implemented")
+    TODO("skipBack not implemented")
   }
 
   override fun playAtLocation(location: PlayerPosition) {
-    TODO("not implemented")
+    TODO("playAtLocation not implemented")
   }
 
   override fun movePlayheadToLocation(location: PlayerPosition) {
-    TODO("not implemented")
+    TODO("movePlayheadToLocation not implemented")
   }
 }
