@@ -16,15 +16,15 @@ object PlayerAudioEngines : PlayerAudioEnginesType {
 
   override fun findAllFor(
     manifest: PlayerManifest,
-    filter: (PlayerAudioEngineProviderType) -> Boolean): List<PlayerEngineAndBook> {
+    filter: (PlayerAudioEngineProviderType) -> Boolean): List<PlayerEngineAndBookProvider> {
 
-    val results = ArrayList<PlayerEngineAndBook>(this.providers.size)
+    val results = ArrayList<PlayerEngineAndBookProvider>(this.providers.size)
     for (engine_provider in this.providers) {
       try {
         val book_provider = engine_provider.canSupportBook(manifest)
         if (book_provider != null) {
           if (filter(engine_provider)) {
-            results.add(PlayerEngineAndBook(engine = engine_provider, book = book_provider))
+            results.add(PlayerEngineAndBookProvider(engineProvider = engine_provider, bookProvider = book_provider))
           }
         }
       } catch (e: Exception) {

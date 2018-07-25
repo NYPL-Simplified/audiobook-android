@@ -12,14 +12,14 @@ interface PlayerAudioEnginesType {
 
   fun findAllFor(
     manifest: PlayerManifest,
-    filter: (PlayerAudioEngineProviderType) -> Boolean): List<PlayerEngineAndBook>
+    filter: (PlayerAudioEngineProviderType) -> Boolean): List<PlayerEngineAndBookProvider>
 
   /**
    * Find all providers that can handle a given book.
    */
 
   fun findAllFor(
-    manifest: PlayerManifest): List<PlayerEngineAndBook> {
+    manifest: PlayerManifest): List<PlayerEngineAndBookProvider> {
     return this.findAllFor(manifest, filter = { e -> true })
   }
 
@@ -33,8 +33,8 @@ interface PlayerAudioEnginesType {
 
   fun findBestFor(
     manifest: PlayerManifest,
-    filter: (PlayerAudioEngineProviderType) -> Boolean): PlayerEngineAndBook? {
-    return findAllFor(manifest, filter).sortedBy { pair -> pair.engine.version() }.lastOrNull()
+    filter: (PlayerAudioEngineProviderType) -> Boolean): PlayerEngineAndBookProvider? {
+    return findAllFor(manifest, filter).sortedBy { pair -> pair.engineProvider.version() }.lastOrNull()
   }
 
 }
