@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 
 dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  implementation "junit:junit:4.12"
-  implementation "org.slf4j:slf4j-api:1.7.25"
-  implementation "ch.qos.logback:logback-classic:1.2.3"
+  implementation "junit:junit:${dependency_junit_version}"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+  implementation "ch.qos.logback:logback-classic:${dependency_logback_classic_version}"
 
-  androidTestImplementation 'com.android.support.test:runner:1.0.2'
-  androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
+  androidTestImplementation "com.android.support.test:runner:${dependency_android_test_support_version}"
+  androidTestUtil "com.android.support.test:orchestrator:${dependency_android_test_support_version}"
 
   implementation project(':org.nypl.audiobook.android.api')
   implementation project(':org.nypl.audiobook.android.manifest.nypl')

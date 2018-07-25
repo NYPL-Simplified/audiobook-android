@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android'
 dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation "junit:junit:4.12"
-  implementation "org.slf4j:slf4j-api:1.7.25"
-  implementation "ch.qos.logback:logback-classic:1.2.3"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+  implementation "ch.qos.logback:logback-classic:${dependency_logback_classic_version}"
 
   implementation project(':org.nypl.audiobook.android.api')
   implementation project(':org.nypl.audiobook.android.open_access')

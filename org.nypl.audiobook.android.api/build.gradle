@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 dependencies {
-  api 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
-  api 'io.reactivex:rxjava:1.2.3'
+  api "com.fasterxml.jackson.core:jackson-databind:${dependency_jackson_version}"
+  api "io.reactivex:rxjava:${dependency_rxjava_version}"
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  implementation 'joda-time:joda-time:2.9.9'
-  implementation 'org.slf4j:slf4j-api:1.7.25'
+  implementation "joda-time:joda-time:${dependency_joda_time_version}"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
 }
 
 android {
@@ -30,10 +30,25 @@ publishing {
       pom.withXml {
         def dependencies = asNode().appendNode('dependencies')
 
-        final dependency = dependencies.appendNode('dependency')
-        dependency.appendNode('groupId', 'com.fasterxml.jackson.core')
-        dependency.appendNode('artifactId', 'jackson-databind')
-        dependency.appendNode('version', '2.9.5')
+        final d0 = dependencies.appendNode('dependency')
+        d0.appendNode('groupId', 'com.fasterxml.jackson.core')
+        d0.appendNode('artifactId', 'jackson-databind')
+        d0.appendNode('version', "${dependency_jackson_version}")
+
+        final d1 = dependencies.appendNode('dependency')
+        d1.appendNode('groupId', 'joda-time')
+        d1.appendNode('artifactId', 'joda-time')
+        d1.appendNode('version', "${dependency_joda_time_version}")
+
+        final d2 = dependencies.appendNode('dependency')
+        d2.appendNode('groupId', 'org.slf4j')
+        d2.appendNode('artifactId', 'slf4j-api')
+        d2.appendNode('version', "${dependency_slf4j_version}")
+
+        final d3 = dependencies.appendNode('dependency')
+        d3.appendNode('groupId', 'io.reactivex')
+        d3.appendNode('artifactId', 'rxjava')
+        d3.appendNode('version', "${dependency_rxjava_version}")
       }
     }
   }
