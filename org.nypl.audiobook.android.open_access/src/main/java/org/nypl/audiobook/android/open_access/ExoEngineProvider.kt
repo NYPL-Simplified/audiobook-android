@@ -36,7 +36,6 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
       r?.run()
     })
     thread.name = "org.nypl.audiobook.android.open_access:engine:${thread.id}"
-    thread.start()
     return thread
   }
 
