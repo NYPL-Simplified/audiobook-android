@@ -55,6 +55,7 @@ publishing {
         d0.appendNode('groupId', 'org.nypl.audiobook')
         d0.appendNode('artifactId', 'org.nypl.audiobook.android.api')
         d0.appendNode('version', version)
+        d0.appendNode('type', 'aar')
 
         final d1 = dependencies.appendNode('dependency')
         d1.appendNode('groupId', 'org.slf4j')
