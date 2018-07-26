@@ -3,6 +3,7 @@ package org.nypl.audiobook.android.tests.open_access
 import android.content.Context
 import org.junit.Assert
 import org.junit.Test
+import org.nypl.audiobook.android.api.PlayerAudioEngineRequest
 import org.nypl.audiobook.android.api.PlayerManifest
 import org.nypl.audiobook.android.api.PlayerManifests
 import org.nypl.audiobook.android.api.PlayerResult
@@ -23,8 +24,9 @@ abstract class ExoEngineProviderContract {
   @Test
   fun testAudioEnginesTrivial() {
     val manifest = parseManifest("ok_minimal_0.json")
+    val request = PlayerAudioEngineRequest(manifest, filter = { true })
     val engine_provider = ExoEngineProvider()
-    val book_provider = engine_provider.canSupportBook(manifest)
+    val book_provider = engine_provider.tryRequest(request)
     Assert.assertNotNull("Engine must handle manifest", book_provider)
     val book_provider_nn = book_provider!!
     val result = book_provider_nn.create(context())

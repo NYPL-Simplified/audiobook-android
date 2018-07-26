@@ -5,6 +5,7 @@ import org.junit.Test
 import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
 import org.nypl.audiobook.android.api.PlayerAudioBookType
 import org.nypl.audiobook.android.api.PlayerAudioEngineProviderType
+import org.nypl.audiobook.android.api.PlayerAudioEngineRequest
 import org.nypl.audiobook.android.api.PlayerAudioEngineVersion
 import org.nypl.audiobook.android.api.PlayerAudioEngines
 import org.nypl.audiobook.android.api.PlayerManifest
@@ -25,14 +26,16 @@ abstract class PlayerAudioEnginesContract {
   @Test
   fun testAudioEnginesTrivial() {
     val manifest = parseManifest("ok_minimal_0.json")
-    val providers = PlayerAudioEngines.findAllFor(manifest)
+    val request = PlayerAudioEngineRequest(manifest, { true })
+    val providers = PlayerAudioEngines.findAllFor(request)
     Assert.assertEquals("Exactly one open access provider should be present", 1, providers.size)
   }
 
   @Test
   fun testAudioEnginesAllFiltered() {
     val manifest = parseManifest("ok_minimal_0.json")
-    val providers = PlayerAudioEngines.findAllFor(manifest, filter = { e -> false })
+    val request = PlayerAudioEngineRequest(manifest, { false })
+    val providers = PlayerAudioEngines.findAllFor(request)
     Assert.assertEquals("No providers should be present", 0, providers.size)
   }
 

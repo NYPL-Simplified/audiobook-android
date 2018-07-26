@@ -3,6 +3,7 @@ package org.nypl.audiobook.android.open_access
 import android.os.Looper
 import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineProviderType
+import org.nypl.audiobook.android.api.PlayerAudioEngineRequest
 import org.nypl.audiobook.android.api.PlayerAudioEngineVersion
 import org.nypl.audiobook.android.api.PlayerManifest
 import org.slf4j.LoggerFactory
@@ -39,7 +40,8 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
     return thread
   }
 
-  override fun canSupportBook(manifest: PlayerManifest): PlayerAudioBookProviderType? {
+  override fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType? {
+    val manifest = request.manifest
     val encrypted = manifest.metadata.encrypted
     if (encrypted != null) {
       log.debug("cannot open encrypted books")

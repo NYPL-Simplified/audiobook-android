@@ -14,17 +14,16 @@ object PlayerAudioEngines : PlayerAudioEnginesType {
   private val providers : MutableList<PlayerAudioEngineProviderType> =
     ServiceLoader.load(PlayerAudioEngineProviderType::class.java).toMutableList()
 
-  override fun findAllFor(
-    manifest: PlayerManifest,
-    filter: (PlayerAudioEngineProviderType) -> Boolean): List<PlayerEngineAndBookProvider> {
-
+  override fun findAllFor(request: PlayerAudioEngineRequest): List<PlayerEngineAndBookProvider> {
     val results = ArrayList<PlayerEngineAndBookProvider>(this.providers.size)
     for (engine_provider in this.providers) {
       try {
-        val book_provider = engine_provider.canSupportBook(manifest)
+        val book_provider = engine_provider.tryRequest(request)
         if (book_provider != null) {
-          if (filter(engine_provider)) {
-            results.add(PlayerEngineAndBookProvider(engineProvider = engine_provider, bookProvider = book_provider))
+          if (request.filter(engine_provider)) {
+            results.add(PlayerEngineAndBookProvider(
+              engineProvider = engine_provider,
+              bookProvider = book_provider))
           }
         }
       } catch (e: Exception) {

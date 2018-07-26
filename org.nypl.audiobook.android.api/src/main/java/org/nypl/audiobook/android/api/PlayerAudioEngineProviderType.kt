@@ -26,6 +26,6 @@ interface PlayerAudioEngineProviderType {
    * @return An audio book provider, if the book is supported by the engine
    */
 
-  fun canSupportBook(manifest: PlayerManifest): PlayerAudioBookProviderType?
+  fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType?
 
 }
