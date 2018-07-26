@@ -19,6 +19,14 @@ android {
   packagingOptions {
 
   }
+
+  /*
+   * We don't care about lint-related failures in the test suite.
+   */
+
+  lintOptions {
+    abortOnError false
+  }
 }
 
 publishing {
