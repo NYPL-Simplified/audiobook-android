@@ -5,7 +5,6 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation "junit:junit:${dependency_junit_version}"
   implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
-  implementation "ch.qos.logback:logback-classic:${dependency_logback_classic_version}"
 
   androidTestImplementation "com.android.support.test:runner:${dependency_android_test_support_version}"
   androidTestUtil "com.android.support.test:orchestrator:${dependency_android_test_support_version}"
@@ -30,6 +29,14 @@ android {
 
   packagingOptions {
 
+  }
+
+  /*
+   * We don't care about lint-related failures in the test suite.
+   */
+
+  lintOptions {
+    abortOnError false
   }
 }
 
