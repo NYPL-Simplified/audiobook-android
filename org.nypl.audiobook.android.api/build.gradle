@@ -52,7 +52,7 @@ publishing {
         d3.appendNode('version', "${dependency_rxjava_version}")
 
         final d4 = dependencies.appendNode('dependency')
-        d4.appendNode('groupId', 'com.google')
+        d4.appendNode('groupId', 'com.google.guava')
         d4.appendNode('artifactId', 'guava')
         d4.appendNode('version', "${dependency_guava_version}")
       }
