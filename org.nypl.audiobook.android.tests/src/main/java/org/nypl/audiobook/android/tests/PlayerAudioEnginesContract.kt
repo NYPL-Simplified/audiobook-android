@@ -26,7 +26,7 @@ abstract class PlayerAudioEnginesContract {
   @Test
   fun testAudioEnginesTrivial() {
     val manifest = parseManifest("ok_minimal_0.json")
-    val request = PlayerAudioEngineRequest(manifest, { true })
+    val request = PlayerAudioEngineRequest(manifest, { true }, DishonestDownloadProvider())
     val providers = PlayerAudioEngines.findAllFor(request)
     Assert.assertEquals("Exactly one open access provider should be present", 1, providers.size)
   }
@@ -34,7 +34,7 @@ abstract class PlayerAudioEnginesContract {
   @Test
   fun testAudioEnginesAllFiltered() {
     val manifest = parseManifest("ok_minimal_0.json")
-    val request = PlayerAudioEngineRequest(manifest, { false })
+    val request = PlayerAudioEngineRequest(manifest, { false }, DishonestDownloadProvider())
     val providers = PlayerAudioEngines.findAllFor(request)
     Assert.assertEquals("No providers should be present", 0, providers.size)
   }

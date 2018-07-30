@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 dependencies {
   api "com.fasterxml.jackson.core:jackson-databind:${dependency_jackson_version}"
   api "io.reactivex:rxjava:${dependency_rxjava_version}"
+  api "com.google.guava:guava:${dependency_guava_version}"
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation "joda-time:joda-time:${dependency_joda_time_version}"
@@ -49,6 +50,11 @@ publishing {
         d3.appendNode('groupId', 'io.reactivex')
         d3.appendNode('artifactId', 'rxjava')
         d3.appendNode('version', "${dependency_rxjava_version}")
+
+        final d4 = dependencies.appendNode('dependency')
+        d4.appendNode('groupId', 'com.google')
+        d4.appendNode('artifactId', 'guava')
+        d4.appendNode('version', "${dependency_rxjava_version}")
       }
     }
   }

@@ -8,6 +8,7 @@ import org.nypl.audiobook.android.api.PlayerManifest
 import org.nypl.audiobook.android.api.PlayerManifests
 import org.nypl.audiobook.android.api.PlayerResult
 import org.nypl.audiobook.android.open_access.ExoEngineProvider
+import org.nypl.audiobook.android.tests.DishonestDownloadProvider
 import org.slf4j.Logger
 import java.io.InputStream
 
@@ -24,7 +25,7 @@ abstract class ExoEngineProviderContract {
   @Test
   fun testAudioEnginesTrivial() {
     val manifest = parseManifest("ok_minimal_0.json")
-    val request = PlayerAudioEngineRequest(manifest, filter = { true })
+    val request = PlayerAudioEngineRequest(manifest, filter = { true }, downloadProvider = DishonestDownloadProvider())
     val engine_provider = ExoEngineProvider()
     val book_provider = engine_provider.tryRequest(request)
     Assert.assertNotNull("Engine must handle manifest", book_provider)
