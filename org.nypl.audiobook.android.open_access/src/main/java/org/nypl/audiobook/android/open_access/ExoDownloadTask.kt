@@ -84,6 +84,7 @@ class ExoDownloadTask(
       onProgress = { percent -> this.onDownloading(percent) }))
 
     this.progressState = Downloading(future)
+    this.onBroadcastState()
     return future
   }
 
@@ -109,7 +110,14 @@ class ExoDownloadTask(
   private fun onDeleteDownloaded() {
     this.log.debug("deleting file {}", this.spineElement.partFile)
 
-    ExoFileIO.fileDelete(this.spineElement.partFile)
+    try {
+      ExoFileIO.fileDelete(this.spineElement.partFile)
+    } catch (e: Exception) {
+      this.log.error("failed to delete file: ", e)
+    } finally {
+      this.progressState = Initial
+      this.onBroadcastState()
+    }
   }
 
   override val progress: Double
