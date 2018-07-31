@@ -8,12 +8,12 @@ import org.nypl.audiobook.android.api.PlayerDownloadTaskType
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
+import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Downloaded
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Downloading
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Initial
 import org.slf4j.LoggerFactory
 import rx.subjects.PublishSubject
-
 
 class ExoDownloadTask(
   private val downloadStatusEvents: PublishSubject<PlayerSpineElementDownloadStatus>,
@@ -32,6 +32,10 @@ class ExoDownloadTask(
       false -> Initial
     }
 
+  init {
+    this.onBroadcastState()
+  }
+
   private sealed class Progress {
     object Initial : Progress()
     object Downloaded : Progress()
@@ -48,12 +52,28 @@ class ExoDownloadTask(
     })
   }
 
+  private fun onBroadcastState() {
+    synchronized(this.progressLock, {
+      when (this.progressState) {
+        Initial -> onNotDownloaded()
+        Downloaded -> onDownloaded()
+        is Downloading -> onDownloading(this.progressPercent)
+      }
+    })
+  }
+
+  private fun onNotDownloaded() {
+    this.log.debug("not downloaded")
+    this.downloadStatusEvents.onNext(PlayerSpineElementNotDownloaded)
+  }
+
   private fun onDownloading(percent: Int) {
     this.progressPercent = percent
     this.downloadStatusEvents.onNext(PlayerSpineElementDownloading(percent))
   }
 
   private fun onDownloaded() {
+    this.log.debug("downloaded")
     this.downloadStatusEvents.onNext(PlayerSpineElementDownloaded)
   }
 
@@ -90,7 +110,8 @@ class ExoDownloadTask(
   }
 
   private fun onDeleteDownloaded() {
-    this.log.debug("deleting file ")
+    this.log.debug("deleting file {}", this.spineElement.partFile)
+
     ExoFileIO.fileDelete(this.spineElement.partFile)
   }
 
