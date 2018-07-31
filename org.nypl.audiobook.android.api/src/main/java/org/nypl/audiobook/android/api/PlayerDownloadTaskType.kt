@@ -26,10 +26,4 @@ interface PlayerDownloadTaskType {
 
   val progress: Double
 
-  /**
-   * The unique ID of the download
-   */
-
-  val id: String
-
 }

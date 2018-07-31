@@ -51,10 +51,10 @@ class ExoAudioBook private constructor(
       manifest: ExoManifest,
       downloadProvider: PlayerDownloadProviderType): PlayerAudioBookType {
 
-      val book_id = PlayerBookID.transform(manifest.id)
-      val directory = findDirectoryFor(context, book_id)
+      val bookId = PlayerBookID.transform(manifest.id)
+      val directory = findDirectoryFor(context, bookId)
       this.log.debug("book directory: {}", directory)
-      val player = ExoAudioBookPlayer.create(context, engineExecutor, book_id, directory)
+      val player = ExoAudioBookPlayer.create(context, engineExecutor, bookId, directory)
 
       /*
        * Set up all the various bits of state required.
@@ -62,11 +62,11 @@ class ExoAudioBook private constructor(
 
       val statusEvents: PublishSubject<PlayerSpineElementDownloadStatus> = PublishSubject.create()
       val elements = ArrayList<ExoSpineElement>()
-      val elements_by_id = HashMap<String, ExoSpineElement>()
-      val elements_by_part = TreeMap<Int, TreeMap<Int, PlayerSpineElementType>>()
+      val elementsById = HashMap<String, ExoSpineElement>()
+      val elementsByPart = TreeMap<Int, TreeMap<Int, PlayerSpineElementType>>()
 
       var index = 0
-      var spine_item_previous: ExoSpineElement? = null
+      var spineItemPrevious: ExoSpineElement? = null
       manifest.spineItems.forEach { spine_item ->
 
         val duration =
@@ -77,6 +77,7 @@ class ExoAudioBook private constructor(
         val element =
           ExoSpineElement(
             downloadStatusEvents = statusEvents,
+            bookID = bookId,
             bookManifest = manifest,
             itemManifest = spine_item,
             partFile = partFile,
@@ -87,28 +88,28 @@ class ExoAudioBook private constructor(
             engineExecutor = engineExecutor)
 
         elements.add(element)
-        elements_by_id.put(element.id, element)
-        this.addElementByPartAndChapter(elements_by_part, element)
+        elementsById.put(element.id, element)
+        this.addElementByPartAndChapter(elementsByPart, element)
         ++index
 
         /*
          * Make the "next" field of the previous element point to the current element.
          */
 
-        val previous = spine_item_previous
+        val previous = spineItemPrevious
         if (previous != null) {
           previous.nextElement = element
         }
-        spine_item_previous = element
+        spineItemPrevious = element
       }
 
       val book = ExoAudioBook(
-        id = book_id,
+        id = bookId,
         manifest = manifest,
         exoPlayer = player,
         spine = elements,
-        spineByID = elements_by_id,
-        spineByPartAndChapter = elements_by_part as SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>,
+        spineByID = elementsById,
+        spineByPartAndChapter = elementsByPart as SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>,
         spineElementDownloadStatus = statusEvents)
 
       for (e in elements) {
@@ -122,18 +123,18 @@ class ExoAudioBook private constructor(
      */
 
     private fun addElementByPartAndChapter(
-      elements_by_part: TreeMap<Int, TreeMap<Int, PlayerSpineElementType>>,
+      elementsByPart: TreeMap<Int, TreeMap<Int, PlayerSpineElementType>>,
       element: ExoSpineElement) {
 
-      val part_chapters: TreeMap<Int, PlayerSpineElementType> =
-        if (elements_by_part.containsKey(element.itemManifest.part)) {
-          elements_by_part[element.itemManifest.part]!!
+      val partChapters: TreeMap<Int, PlayerSpineElementType> =
+        if (elementsByPart.containsKey(element.itemManifest.part)) {
+          elementsByPart[element.itemManifest.part]!!
         } else {
           TreeMap()
         }
 
-      part_chapters.put(element.itemManifest.chapter, element)
-      elements_by_part.put(element.itemManifest.part, part_chapters)
+      partChapters.put(element.itemManifest.chapter, element)
+      elementsByPart.put(element.itemManifest.part, partChapters)
     }
   }
 }

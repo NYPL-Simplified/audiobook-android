@@ -17,11 +17,16 @@ import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Initial
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ExecutorService
 
+/**
+ * An Exo implementation of the download task.
+ */
+
 class ExoDownloadTask(
   private val downloadStatusExecutor: ExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
   private val manifest: ExoManifest,
-  private val spineElement: ExoSpineElement) : PlayerDownloadTaskType {
+  private val spineElement: ExoSpineElement)
+  : PlayerDownloadTaskType {
 
   private val log = LoggerFactory.getLogger(ExoDownloadTask::class.java)
 
@@ -66,17 +71,20 @@ class ExoDownloadTask(
 
   private fun onNotDownloaded() {
     this.log.debug("not downloaded")
-    this.spineElement.setDownloadStatus(PlayerSpineElementNotDownloaded)
+    this.spineElement.setDownloadStatus(
+      PlayerSpineElementNotDownloaded(this.spineElement))
   }
 
   private fun onDownloading(percent: Int) {
     this.progressPercent = percent
-    this.spineElement.setDownloadStatus(PlayerSpineElementDownloading(percent))
+    this.spineElement.setDownloadStatus(
+      PlayerSpineElementDownloading(this.spineElement, percent))
   }
 
   private fun onDownloaded() {
     this.log.debug("downloaded")
-    this.spineElement.setDownloadStatus(PlayerSpineElementDownloaded)
+    this.spineElement.setDownloadStatus(
+      PlayerSpineElementDownloaded(this.spineElement))
   }
 
   private fun onStartDownload(): ListenableFuture<Unit> {
@@ -114,7 +122,8 @@ class ExoDownloadTask(
     synchronized(this.progressLock, {
       this.progressState = Initial
       this.spineElement.setDownloadStatus(
-        PlayerSpineElementDownloadFailed(e, e.message ?: "Missing exception message"))
+        PlayerSpineElementDownloadFailed(
+          this.spineElement, e, e.message ?: "Missing exception message"))
     })
   }
 
@@ -161,7 +170,4 @@ class ExoDownloadTask(
 
   override val progress: Double
     get() = this.progressPercent.toDouble()
-
-  override val id: String
-    get() = TODO("not implemented")
 }

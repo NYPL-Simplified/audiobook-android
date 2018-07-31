@@ -3,6 +3,7 @@ package org.nypl.audiobook.android.open_access
 import net.jcip.annotations.GuardedBy
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerAudioBookType
+import org.nypl.audiobook.android.api.PlayerBookID
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerDownloadTaskType
 import org.nypl.audiobook.android.api.PlayerPosition
@@ -19,6 +20,7 @@ import java.util.concurrent.ExecutorService
 
 class ExoSpineElement(
   private val downloadStatusEvents: PublishSubject<PlayerSpineElementDownloadStatus>,
+  val bookID: PlayerBookID,
   val bookManifest: ExoManifest,
   val itemManifest: ExoManifestSpineItem,
   val partFile: File,
@@ -35,7 +37,8 @@ class ExoSpineElement(
 
   private val statusLock: Any = Object()
   @GuardedBy("statusLock")
-  private var statusNow: PlayerSpineElementDownloadStatus = PlayerSpineElementNotDownloaded
+  private var statusNow: PlayerSpineElementDownloadStatus =
+    PlayerSpineElementNotDownloaded(this)
 
   private lateinit var bookActual: ExoAudioBook
 
@@ -75,5 +78,5 @@ class ExoSpineElement(
     get() = synchronized(this.statusLock, { this.statusNow })
 
   override val id: String
-    get() = String.format("%d-%d", this.itemManifest.part, this.itemManifest.chapter)
+    get() = String.format("%s-%d", this.bookID.value, this.index)
 }
