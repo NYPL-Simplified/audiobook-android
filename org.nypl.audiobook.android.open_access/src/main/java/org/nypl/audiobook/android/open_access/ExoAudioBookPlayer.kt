@@ -8,6 +8,7 @@ import org.nypl.audiobook.android.api.PlayerPlaybackRate
 import org.nypl.audiobook.android.api.PlayerPosition
 import org.nypl.audiobook.android.api.PlayerType
 import rx.Observable
+import rx.subjects.PublishSubject
 import java.io.File
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit
  */
 
 class ExoAudioBookPlayer private constructor(
+  private val statusEvents: PublishSubject<PlayerEvent>,
   private val exoPlayer: ExoPlayer)
   : PlayerType {
 
@@ -28,6 +30,8 @@ class ExoAudioBookPlayer private constructor(
       engineExecutor: ExecutorService,
       id: PlayerBookID,
       directory: File): ExoAudioBookPlayer {
+
+      val statusEvents = PublishSubject.create<PlayerEvent>()
 
       /*
        * Initialize the audio player on the engine thread.
@@ -43,7 +47,9 @@ class ExoAudioBookPlayer private constructor(
          */
 
         val player = ExoPlayer.Factory.newInstance(1)
-        ExoAudioBookPlayer(player)
+        ExoAudioBookPlayer(
+          exoPlayer = player,
+          statusEvents = statusEvents)
       }).get(5L, TimeUnit.SECONDS)
     }
   }
@@ -56,7 +62,7 @@ class ExoAudioBookPlayer private constructor(
     set(value) {}
 
   override val events: Observable<PlayerEvent>
-    get() = TODO("events not implemented")
+    get() = this.statusEvents
 
   override fun play() {
     TODO("play not implemented")
