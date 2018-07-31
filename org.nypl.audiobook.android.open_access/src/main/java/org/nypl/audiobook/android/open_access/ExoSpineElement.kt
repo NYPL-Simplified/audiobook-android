@@ -55,9 +55,8 @@ class ExoSpineElement(
 
   override val downloadTask: PlayerDownloadTaskType =
     ExoDownloadTask(
-      manifest = this.bookManifest,
       downloadProvider = this.downloadProvider,
-      downloadStatusEvents = this.downloadStatusEvents,
+      manifest = this.bookManifest,
       spineElement = this)
 
   fun setBook(book: ExoAudioBook) {

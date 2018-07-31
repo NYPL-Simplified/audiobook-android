@@ -5,7 +5,6 @@ import net.jcip.annotations.GuardedBy
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerDownloadRequest
 import org.nypl.audiobook.android.api.PlayerDownloadTaskType
-import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
@@ -13,10 +12,8 @@ import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Downloade
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Downloading
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Initial
 import org.slf4j.LoggerFactory
-import rx.subjects.PublishSubject
 
 class ExoDownloadTask(
-  private val downloadStatusEvents: PublishSubject<PlayerSpineElementDownloadStatus>,
   private val downloadProvider: PlayerDownloadProviderType,
   private val manifest: ExoManifest,
   private val spineElement: ExoSpineElement) : PlayerDownloadTaskType {
@@ -64,17 +61,17 @@ class ExoDownloadTask(
 
   private fun onNotDownloaded() {
     this.log.debug("not downloaded")
-    this.downloadStatusEvents.onNext(PlayerSpineElementNotDownloaded)
+    this.spineElement.setDownloadStatus(PlayerSpineElementNotDownloaded)
   }
 
   private fun onDownloading(percent: Int) {
     this.progressPercent = percent
-    this.downloadStatusEvents.onNext(PlayerSpineElementDownloading(percent))
+    this.spineElement.setDownloadStatus(PlayerSpineElementDownloading(percent))
   }
 
   private fun onDownloaded() {
     this.log.debug("downloaded")
-    this.downloadStatusEvents.onNext(PlayerSpineElementDownloaded)
+    this.spineElement.setDownloadStatus(PlayerSpineElementDownloaded)
   }
 
   private fun onStartDownload(): ListenableFuture<Unit> {
