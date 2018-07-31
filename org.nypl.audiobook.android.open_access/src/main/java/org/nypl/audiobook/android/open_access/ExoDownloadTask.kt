@@ -1,10 +1,13 @@
 package org.nypl.audiobook.android.open_access
 
+import com.google.common.util.concurrent.FutureCallback
+import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import net.jcip.annotations.GuardedBy
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerDownloadRequest
 import org.nypl.audiobook.android.api.PlayerDownloadTaskType
+import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
@@ -12,8 +15,10 @@ import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Downloade
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Downloading
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.Progress.Initial
 import org.slf4j.LoggerFactory
+import java.util.concurrent.ExecutorService
 
 class ExoDownloadTask(
+  private val downloadStatusExecutor: ExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
   private val manifest: ExoManifest,
   private val spineElement: ExoSpineElement) : PlayerDownloadTaskType {
@@ -85,7 +90,41 @@ class ExoDownloadTask(
 
     this.progressState = Downloading(future)
     this.onBroadcastState()
+
+    /*
+     * Add a callback to the future that will report download success and failure.
+     */
+
+    Futures.addCallback(future, object : FutureCallback<Unit> {
+      override fun onSuccess(result: Unit?) {
+        this@ExoDownloadTask.onDownloadCompleted()
+      }
+
+      override fun onFailure(t: Throwable?) {
+        this@ExoDownloadTask.onDownloadFailed(kotlin.Exception(t))
+      }
+    }, this.downloadStatusExecutor)
+
     return future
+  }
+
+  private fun onDownloadFailed(e: Exception) {
+    this.log.error("onDownloadFailed: ", e)
+
+    synchronized(this.progressLock, {
+      this.progressState = Initial
+      this.spineElement.setDownloadStatus(
+        PlayerSpineElementDownloadFailed(e, e.message ?: "Missing exception message"))
+    })
+  }
+
+  private fun onDownloadCompleted() {
+    this.log.debug("onDownloadCompleted")
+
+    synchronized(this.progressLock, {
+      this.progressState = Downloaded
+      this.onBroadcastState()
+    })
   }
 
   override fun delete() {

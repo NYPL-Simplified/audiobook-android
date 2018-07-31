@@ -77,13 +77,14 @@ class ExoAudioBook private constructor(
         val element =
           ExoSpineElement(
             downloadStatusEvents = statusEvents,
-            itemManifest = spine_item,
             bookManifest = manifest,
+            itemManifest = spine_item,
+            partFile = partFile,
+            downloadProvider = downloadProvider,
             index = index,
             nextElement = null,
             duration = duration,
-            downloadProvider = downloadProvider,
-            partFile = partFile)
+            engineExecutor = engineExecutor)
 
         elements.add(element)
         elements_by_id.put(element.id, element)

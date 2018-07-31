@@ -11,6 +11,7 @@ import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpi
 import org.nypl.audiobook.android.api.PlayerSpineElementType
 import rx.subjects.PublishSubject
 import java.io.File
+import java.util.concurrent.ExecutorService
 
 /**
  * A spine element in an audio book.
@@ -24,7 +25,8 @@ class ExoSpineElement(
   private val downloadProvider: PlayerDownloadProviderType,
   override val index: Int,
   internal var nextElement: PlayerSpineElementType?,
-  override val duration: Duration)
+  override val duration: Duration,
+  val engineExecutor: ExecutorService)
   : PlayerSpineElementType {
 
   /**
@@ -55,6 +57,7 @@ class ExoSpineElement(
 
   override val downloadTask: PlayerDownloadTaskType =
     ExoDownloadTask(
+      downloadStatusExecutor = this.engineExecutor,
       downloadProvider = this.downloadProvider,
       manifest = this.bookManifest,
       spineElement = this)
