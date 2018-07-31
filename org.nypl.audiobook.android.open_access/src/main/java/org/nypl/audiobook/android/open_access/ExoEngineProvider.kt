@@ -5,7 +5,6 @@ import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineRequest
 import org.nypl.audiobook.android.api.PlayerAudioEngineVersion
-import org.nypl.audiobook.android.api.PlayerManifest
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 import java.util.Properties
@@ -48,7 +47,10 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
       return null
     }
 
-    return ExoAudioBookProvider(engineExecutor, manifest)
+    return ExoAudioBookProvider(
+      engineExecutor= this.engineExecutor,
+      downloadProvider = request.downloadProvider,
+      manifest =  manifest)
   }
 
   override fun name(): String {

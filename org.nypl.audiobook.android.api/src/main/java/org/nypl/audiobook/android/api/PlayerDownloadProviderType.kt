@@ -22,6 +22,9 @@ interface PlayerDownloadProviderType {
    * output file. Implementations are permitted to produce futures that raise exceptions for any
    * error condition.
    *
+   * Implementations are required to ensure that cancelling the returned future will cancel the
+   * download in progress.
+   *
    * @return A future representing the download in progress. The future returns `Unit` on
    *         success, or an exception indicating what failed.
    */

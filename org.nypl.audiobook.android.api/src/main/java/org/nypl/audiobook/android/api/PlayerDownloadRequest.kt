@@ -1,7 +1,7 @@
 package org.nypl.audiobook.android.api
 
-import java.net.URI
 import java.io.File
+import java.net.URI
 
 /**
  * A request to download data from a given URI.

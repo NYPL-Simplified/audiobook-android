@@ -7,7 +7,6 @@ import org.nypl.audiobook.android.api.PlayerEvent
 import org.nypl.audiobook.android.api.PlayerPlaybackRate
 import org.nypl.audiobook.android.api.PlayerPosition
 import org.nypl.audiobook.android.api.PlayerType
-import org.slf4j.LoggerFactory
 import rx.Observable
 import java.io.File
 import java.util.concurrent.Callable
@@ -24,15 +23,11 @@ class ExoAudioBookPlayer private constructor(
 
   companion object {
 
-    private val log = LoggerFactory.getLogger(ExoAudioBookPlayer::class.java)
-
     fun create(
       context: Context,
       engineExecutor: ExecutorService,
-      id: PlayerBookID): ExoAudioBookPlayer {
-
-      val directory = findDirectoryFor(context, id)
-      this.log.debug("book directory: {}", directory)
+      id: PlayerBookID,
+      directory: File): ExoAudioBookPlayer {
 
       /*
        * Initialize the audio player on the engine thread.
@@ -50,12 +45,6 @@ class ExoAudioBookPlayer private constructor(
         val player = ExoPlayer.Factory.newInstance(1)
         ExoAudioBookPlayer(player)
       }).get(5L, TimeUnit.SECONDS)
-    }
-
-    private fun findDirectoryFor(context: Context, id: PlayerBookID): File {
-      val base = context.filesDir
-      val all = File(base, "exoplayer_audio")
-      return File(all, id.value)
     }
   }
 

@@ -3,12 +3,14 @@ package org.nypl.audiobook.android.open_access
 import net.jcip.annotations.GuardedBy
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerAudioBookType
+import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerDownloadTaskType
 import org.nypl.audiobook.android.api.PlayerPosition
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementType
 import rx.subjects.PublishSubject
+import java.io.File
 
 /**
  * A spine element in an audio book.
@@ -18,6 +20,8 @@ class ExoSpineElement(
   private val downloadStatusEvents: PublishSubject<PlayerSpineElementDownloadStatus>,
   val bookManifest: ExoManifest,
   val itemManifest: ExoManifestSpineItem,
+  val partFile: File,
+  private val downloadProvider: PlayerDownloadProviderType,
   override val index: Int,
   internal var nextElement: PlayerSpineElementType?,
   override val duration: Duration)
@@ -50,7 +54,11 @@ class ExoSpineElement(
     get() = this.itemManifest.title
 
   override val downloadTask: PlayerDownloadTaskType =
-    TODO("Download tasks have not yet been implemented")
+    ExoDownloadTask(
+      manifest = this.bookManifest,
+      downloadProvider = this.downloadProvider,
+      downloadStatusEvents = this.downloadStatusEvents,
+      spineElement = this)
 
   fun setBook(book: ExoAudioBook) {
     this.bookActual = book

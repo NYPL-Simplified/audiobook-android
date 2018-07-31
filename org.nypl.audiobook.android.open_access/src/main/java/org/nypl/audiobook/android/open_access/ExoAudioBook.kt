@@ -4,10 +4,13 @@ import android.content.Context
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerAudioBookType
 import org.nypl.audiobook.android.api.PlayerBookID
+import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus
 import org.nypl.audiobook.android.api.PlayerSpineElementType
 import org.nypl.audiobook.android.api.PlayerType
+import org.slf4j.LoggerFactory
 import rx.subjects.PublishSubject
+import java.io.File
 import java.util.SortedMap
 import java.util.TreeMap
 import java.util.concurrent.ExecutorService
@@ -34,13 +37,24 @@ class ExoAudioBook private constructor(
 
   companion object {
 
+    private val log = LoggerFactory.getLogger(ExoAudioBook::class.java)
+
+    private fun findDirectoryFor(context: Context, id: PlayerBookID): File {
+      val base = context.filesDir
+      val all = File(base, "exoplayer_audio")
+      return File(all, id.value)
+    }
+
     fun create(
       context: Context,
       engineExecutor: ExecutorService,
-      manifest: ExoManifest): PlayerAudioBookType {
+      manifest: ExoManifest,
+      downloadProvider: PlayerDownloadProviderType): PlayerAudioBookType {
 
       val book_id = PlayerBookID.transform(manifest.id)
-      val player = ExoAudioBookPlayer.create(context, engineExecutor, book_id)
+      val directory = findDirectoryFor(context, book_id)
+      this.log.debug("book directory: {}", directory)
+      val player = ExoAudioBookPlayer.create(context, engineExecutor, book_id, directory)
 
       /*
        * Set up all the various bits of state required.
@@ -57,6 +71,8 @@ class ExoAudioBook private constructor(
 
         val duration =
           Duration.standardSeconds(Math.floor(spine_item.duration).toLong())
+        val partFile =
+          File(directory,"${index}.part")
 
         val element =
           ExoSpineElement(
@@ -65,7 +81,9 @@ class ExoAudioBook private constructor(
             bookManifest = manifest,
             index = index,
             nextElement = null,
-            duration = duration)
+            duration = duration,
+            downloadProvider = downloadProvider,
+            partFile = partFile)
 
         elements.add(element)
         elements_by_id.put(element.id, element)
