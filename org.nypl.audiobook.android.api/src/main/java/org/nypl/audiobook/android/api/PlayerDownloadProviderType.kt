@@ -14,40 +14,21 @@ import com.google.common.util.concurrent.ListenableFuture
 interface PlayerDownloadProviderType {
 
   /**
-   * The result of a download, excluding failures.
-   */
-
-  enum class Result {
-
-    /**
-     * The download succeeded and the output file was written successfully.
-     */
-
-    SUCCEEDED,
-
-    /**
-     * The download was cancelled and the output file does not exist.
-     */
-
-    CANCELLED
-  }
-
-  /**
    * Begin a download of the specified request as soon as possible. Implementors should provide
    * progress updates to the callback given in the request.
    *
-   * An implementation of this method must return a future that returns `SUCCEEDED` if and only if
+   * An implementation of this method must return a future that returns success if and only if
    * data was downloaded from the given URI and has been successfully written to the specified
    * output file. Implementations are permitted to produce futures that raise exceptions for any
    * error condition.
    *
    * Implementations are required to ensure that cancelling the returned future will cancel the
-   * download in progress and return `CANCELLED` to indicate that cancellation occurred.
+   * download in progress. As per {@link ListenableFuture} semantics, this will result in a
+   * {@link CancellationException} being raised by callbacks or by trying to `get` the result.
    *
-   * @return A future representing the download in progress. The future returns `SUCCEEDED` on
-   *         success, `CANCELLED` on cancellation, or an exception indicating what failed.
+   * @return A future representing the download in progress.
    */
 
-  fun download(request: PlayerDownloadRequest): ListenableFuture<Result>
+  fun download(request: PlayerDownloadRequest): ListenableFuture<Unit>
 
 }

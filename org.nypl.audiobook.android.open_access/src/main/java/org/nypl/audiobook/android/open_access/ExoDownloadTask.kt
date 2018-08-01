@@ -5,7 +5,6 @@ import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import net.jcip.annotations.GuardedBy
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType.Result
 import org.nypl.audiobook.android.api.PlayerDownloadRequest
 import org.nypl.audiobook.android.api.PlayerDownloadTaskType
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
@@ -16,6 +15,7 @@ import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Downloaded
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Downloading
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Initial
 import org.slf4j.LoggerFactory
+import java.util.concurrent.CancellationException
 import java.util.concurrent.ExecutorService
 
 /**
@@ -47,7 +47,7 @@ class ExoDownloadTask(
   private sealed class State {
     object Initial : State()
     object Downloaded : State()
-    data class Downloading(val future: ListenableFuture<PlayerDownloadProviderType.Result>) : State()
+    data class Downloading(val future: ListenableFuture<Unit>) : State()
   }
 
   override fun fetch() {
@@ -89,7 +89,7 @@ class ExoDownloadTask(
     this.spineElement.setDownloadStatus(PlayerSpineElementDownloaded(this.spineElement))
   }
 
-  private fun onStartDownload(): ListenableFuture<PlayerDownloadProviderType.Result> {
+  private fun onStartDownload(): ListenableFuture<Unit> {
     this.log.debug("starting download")
 
     val future = this.downloadProvider.download(PlayerDownloadRequest(
@@ -105,18 +105,18 @@ class ExoDownloadTask(
      * Add a callback to the future that will report download success and failure.
      */
 
-    Futures.addCallback(future, object : FutureCallback<PlayerDownloadProviderType.Result> {
-      override fun onSuccess(result: PlayerDownloadProviderType.Result?) {
-        when (result) {
-          Result.CANCELLED ->
-            this@ExoDownloadTask.onDownloadCancelled()
-          Result.SUCCEEDED ->
-            this@ExoDownloadTask.onDownloadCompleted()
-        }
+    Futures.addCallback(future, object : FutureCallback<Unit> {
+      override fun onSuccess(result: Unit?) {
+        this@ExoDownloadTask.onDownloadCompleted()
       }
 
-      override fun onFailure(t: Throwable?) {
-        this@ExoDownloadTask.onDownloadFailed(kotlin.Exception(t))
+      override fun onFailure(exception: Throwable?) {
+        when (exception) {
+          is CancellationException ->
+            this@ExoDownloadTask.onDownloadCancelled()
+          else ->
+            this@ExoDownloadTask.onDownloadFailed(kotlin.Exception(exception))
+        }
       }
     }, this.downloadStatusExecutor)
 
