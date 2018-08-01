@@ -18,17 +18,18 @@ class ExoEngineThread(
   }
   runnable.run()
 }) {
+
   init {
     this.name = "org.nypl.audiobook.android.open_access:engine:${this.id}"
   }
 
   companion object {
 
-    fun isExoEngineThread() : Boolean {
+    fun isExoEngineThread(): Boolean {
       return Thread.currentThread() is ExoEngineThread
     }
 
-    fun checkIsExoEngineThread() : Unit {
+    fun checkIsExoEngineThread(): Unit {
       if (!isExoEngineThread()) {
         throw IllegalStateException(
           StringBuilder(128)

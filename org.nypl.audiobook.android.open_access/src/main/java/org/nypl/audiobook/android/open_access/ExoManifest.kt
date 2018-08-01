@@ -55,7 +55,7 @@ data class ExoManifest(
     private fun parseDuration(values: Map<String, PlayerManifestScalar>, index: Int): Double {
       if (values.containsKey("duration")) {
         val value = values["duration"]
-        return when(value) {
+        return when (value) {
           is PlayerManifestScalar.PlayerManifestScalarString ->
             throw IllegalArgumentException("Spine item ${index} has an invalid 'duration' field")
           is PlayerManifestScalar.PlayerManifestScalarBoolean ->

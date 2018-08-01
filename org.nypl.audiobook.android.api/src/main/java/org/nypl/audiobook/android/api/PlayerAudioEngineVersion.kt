@@ -25,4 +25,7 @@ data class PlayerAudioEngineVersion(
     return c_major
   }
 
+  override fun toString(): String {
+    return "${this.major}.${this.minor}.${this.patch}"
+  }
 }

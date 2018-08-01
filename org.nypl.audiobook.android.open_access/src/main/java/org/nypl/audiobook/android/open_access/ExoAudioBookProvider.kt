@@ -16,7 +16,8 @@ import java.util.concurrent.ExecutorService
 class ExoAudioBookProvider(
   private val engineExecutor: ExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
-  private val manifest: PlayerManifest)
+  private val manifest: PlayerManifest,
+  private val engineProvider: ExoEngineProvider)
   : PlayerAudioBookProviderType {
 
   override fun create(context: Context): PlayerResult<PlayerAudioBookType, Exception> {
@@ -26,10 +27,11 @@ class ExoAudioBookProvider(
         is PlayerResult.Success ->
           PlayerResult.Success(
             ExoAudioBook.create(
-              context,
-              this.engineExecutor,
-              parsed.result,
-              this.downloadProvider))
+              engineProvider = this.engineProvider,
+              context = context,
+              engineExecutor = this.engineExecutor,
+              manifest = parsed.result,
+              downloadProvider = this.downloadProvider))
         is PlayerResult.Failure ->
           Failure(parsed.failure)
       }
