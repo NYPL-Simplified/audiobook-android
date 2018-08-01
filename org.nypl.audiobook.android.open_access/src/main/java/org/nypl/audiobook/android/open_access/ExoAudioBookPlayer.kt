@@ -2,6 +2,7 @@ package org.nypl.audiobook.android.open_access
 
 import android.content.Context
 import com.google.android.exoplayer.ExoPlayer
+import net.jcip.annotations.GuardedBy
 import org.nypl.audiobook.android.api.PlayerBookID
 import org.nypl.audiobook.android.api.PlayerEvent
 import org.nypl.audiobook.android.api.PlayerPlaybackRate
@@ -19,9 +20,21 @@ import java.util.concurrent.TimeUnit
  */
 
 class ExoAudioBookPlayer private constructor(
+  private val engineExecutor: ExecutorService,
   private val statusEvents: PublishSubject<PlayerEvent>,
   private val exoPlayer: ExoPlayer)
   : PlayerType {
+
+  private data class State(
+    var playing: Boolean,
+    var rate: PlayerPlaybackRate)
+
+  private val stateLock: Any = Object()
+  @GuardedBy("stateLock")
+  private var state: State =
+    State(
+      playing = true,
+      rate = PlayerPlaybackRate.NORMAL_TIME)
 
   companion object {
 
@@ -48,51 +61,91 @@ class ExoAudioBookPlayer private constructor(
 
         val player = ExoPlayer.Factory.newInstance(1)
         ExoAudioBookPlayer(
+          engineExecutor = engineExecutor,
           exoPlayer = player,
           statusEvents = statusEvents)
+
       }).get(5L, TimeUnit.SECONDS)
     }
   }
 
+  private fun opSetPlaybackRate(value: PlayerPlaybackRate) {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
+  private fun opPlay() {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
+  private fun opSkipToNextChapter() {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
+  private fun opPause() {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
+  private fun opSkipToPreviousChapter() {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
+  private fun opSkipForward() {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
+  private fun opSkipBack() {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
+  private fun opPlayAtLocation(location: PlayerPosition) {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
+  private fun opMovePlayheadToLocation(location: PlayerPosition) {
+    ExoEngineThread.checkIsExoEngineThread()
+  }
+
   override val isPlaying: Boolean
-    get() = TODO("isPlaying has not been implemented")
+    get() = synchronized(this.stateLock, { this.state.playing })
 
   override var playbackRate: PlayerPlaybackRate
-    get() = TODO("playbackRate has not been implemented")
-    set(value) {}
+    get() = synchronized(this.stateLock, { this.state.rate })
+    set(value) {
+      this.engineExecutor.submit { this.opSetPlaybackRate(value) }
+    }
 
   override val events: Observable<PlayerEvent>
     get() = this.statusEvents
 
   override fun play() {
-    TODO("play not implemented")
+    this.engineExecutor.submit { this.opPlay() }
   }
 
   override fun pause() {
-    TODO("pause not implemented")
+    this.engineExecutor.submit { this.opPause() }
   }
 
   override fun skipToNextChapter() {
-    TODO("skipToNextChapter not implemented")
+    this.engineExecutor.submit { this.opSkipToNextChapter() }
   }
 
   override fun skipToPreviousChapter() {
-    TODO("skipToPreviousChapter not implemented")
+    this.engineExecutor.submit { this.opSkipToPreviousChapter() }
   }
 
   override fun skipForward() {
-    TODO("skipForward not implemented")
+    this.engineExecutor.submit { this.opSkipForward() }
   }
 
   override fun skipBack() {
-    TODO("skipBack not implemented")
+    this.engineExecutor.submit { this.opSkipBack() }
   }
 
   override fun playAtLocation(location: PlayerPosition) {
-    TODO("playAtLocation not implemented")
+    this.engineExecutor.submit { this.opPlayAtLocation(location) }
   }
 
   override fun movePlayheadToLocation(location: PlayerPosition) {
-    TODO("movePlayheadToLocation not implemented")
+    this.engineExecutor.submit { this.opMovePlayheadToLocation(location) }
   }
 }

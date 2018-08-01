@@ -1,6 +1,5 @@
 package org.nypl.audiobook.android.open_access
 
-import android.os.Looper
 import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineRequest
@@ -26,17 +25,11 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
     Executors.newFixedThreadPool(1, { r -> createEngineThread(r) })
 
   /**
-   * Create a thread suitable for use with the ExoPlayer audio engine. In practical terms,
-   * this means any thread that happens to have called Looper.prepare().
+   * Create a thread suitable for use with the ExoPlayer audio engine.
    */
 
   private fun createEngineThread(r: Runnable?): Thread {
-    val thread = Thread(Runnable {
-      Looper.prepare()
-      r?.run()
-    })
-    thread.name = "org.nypl.audiobook.android.open_access:engine:${thread.id}"
-    return thread
+    return ExoEngineThread(r ?: Runnable { })
   }
 
   override fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType? {
@@ -48,9 +41,9 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
     }
 
     return ExoAudioBookProvider(
-      engineExecutor= this.engineExecutor,
+      engineExecutor = this.engineExecutor,
       downloadProvider = request.downloadProvider,
-      manifest =  manifest)
+      manifest = manifest)
   }
 
   override fun name(): String {
