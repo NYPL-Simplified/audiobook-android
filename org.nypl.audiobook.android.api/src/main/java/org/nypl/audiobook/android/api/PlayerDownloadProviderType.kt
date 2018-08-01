@@ -17,18 +17,18 @@ interface PlayerDownloadProviderType {
    * Begin a download of the specified request as soon as possible. Implementors should provide
    * progress updates to the callback given in the request.
    *
-   * An implementation of this method must return a future that returns success if and only if
+   * An implementation of this method must return a future that returns `true` if and only if
    * data was downloaded from the given URI and has been successfully written to the specified
    * output file. Implementations are permitted to produce futures that raise exceptions for any
    * error condition.
    *
    * Implementations are required to ensure that cancelling the returned future will cancel the
-   * download in progress.
+   * download in progress and return `false` to indicate that cancellation occurred.
    *
-   * @return A future representing the download in progress. The future returns `Unit` on
-   *         success, or an exception indicating what failed.
+   * @return A future representing the download in progress. The future returns `true` on
+   *         success, `false` on cancellation, or an exception indicating what failed.
    */
 
-  fun download(request: PlayerDownloadRequest): ListenableFuture<Unit>
+  fun download(request: PlayerDownloadRequest): ListenableFuture<Boolean>
 
 }
