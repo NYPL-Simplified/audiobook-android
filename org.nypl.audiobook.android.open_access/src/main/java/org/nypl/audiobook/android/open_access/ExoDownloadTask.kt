@@ -32,7 +32,7 @@ class ExoDownloadTask(
 
   private var percent: Int = 0
   private val stateLock: Any = Object()
-  @GuardedBy("inProgressLock")
+  @GuardedBy("stateLock")
   private var state: State =
     when (this.spineElement.partFile.isFile) {
       true -> Downloaded
