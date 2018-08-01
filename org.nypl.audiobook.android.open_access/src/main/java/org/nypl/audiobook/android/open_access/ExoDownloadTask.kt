@@ -5,6 +5,7 @@ import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import net.jcip.annotations.GuardedBy
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
+import org.nypl.audiobook.android.api.PlayerDownloadProviderType.Result
 import org.nypl.audiobook.android.api.PlayerDownloadRequest
 import org.nypl.audiobook.android.api.PlayerDownloadTaskType
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
@@ -46,7 +47,7 @@ class ExoDownloadTask(
   private sealed class State {
     object Initial : State()
     object Downloaded : State()
-    data class Downloading(val future: ListenableFuture<Unit>) : State()
+    data class Downloading(val future: ListenableFuture<PlayerDownloadProviderType.Result>) : State()
   }
 
   override fun fetch() {
@@ -88,7 +89,7 @@ class ExoDownloadTask(
     this.spineElement.setDownloadStatus(PlayerSpineElementDownloaded(this.spineElement))
   }
 
-  private fun onStartDownload(): ListenableFuture<Unit> {
+  private fun onStartDownload(): ListenableFuture<PlayerDownloadProviderType.Result> {
     this.log.debug("starting download")
 
     val future = this.downloadProvider.download(PlayerDownloadRequest(
@@ -104,9 +105,14 @@ class ExoDownloadTask(
      * Add a callback to the future that will report download success and failure.
      */
 
-    Futures.addCallback(future, object : FutureCallback<Unit> {
-      override fun onSuccess(result: Unit?) {
-        this@ExoDownloadTask.onDownloadCompleted()
+    Futures.addCallback(future, object : FutureCallback<PlayerDownloadProviderType.Result> {
+      override fun onSuccess(result: PlayerDownloadProviderType.Result?) {
+        when (result) {
+          Result.CANCELLED ->
+            this@ExoDownloadTask.onDownloadCancelled()
+          Result.SUCCEEDED ->
+            this@ExoDownloadTask.onDownloadCompleted()
+        }
       }
 
       override fun onFailure(t: Throwable?) {
@@ -117,9 +123,14 @@ class ExoDownloadTask(
     return future
   }
 
+  private fun onDownloadCancelled() {
+    this.log.error("onDownloadCancelled")
+    this.stateSetCurrent(Initial)
+    this.onDeleteDownloaded()
+  }
+
   private fun onDownloadFailed(e: Exception) {
     this.log.error("onDownloadFailed: ", e)
-
     this.stateSetCurrent(Initial)
     this.spineElement.setDownloadStatus(
       PlayerSpineElementDownloadFailed(
@@ -128,7 +139,6 @@ class ExoDownloadTask(
 
   private fun onDownloadCompleted() {
     this.log.debug("onDownloadCompleted")
-
     this.stateSetCurrent(Downloaded)
     this.onBroadcastState()
   }

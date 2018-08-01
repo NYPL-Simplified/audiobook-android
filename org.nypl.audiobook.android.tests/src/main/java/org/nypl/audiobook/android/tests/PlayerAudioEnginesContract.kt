@@ -2,17 +2,12 @@ package org.nypl.audiobook.android.tests
 
 import org.junit.Assert
 import org.junit.Test
-import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
-import org.nypl.audiobook.android.api.PlayerAudioBookType
-import org.nypl.audiobook.android.api.PlayerAudioEngineProviderType
 import org.nypl.audiobook.android.api.PlayerAudioEngineRequest
-import org.nypl.audiobook.android.api.PlayerAudioEngineVersion
 import org.nypl.audiobook.android.api.PlayerAudioEngines
 import org.nypl.audiobook.android.api.PlayerManifest
 import org.nypl.audiobook.android.api.PlayerManifests
 import org.nypl.audiobook.android.api.PlayerResult
 import org.slf4j.Logger
-import java.io.IOException
 import java.io.InputStream
 
 /**

@@ -41,12 +41,12 @@ open class PlayerResultContract {
   @Test
   fun testFlatMapAssociative() {
     val m = PlayerResult.unit<Int, Unit>(23)
-    val f = { y:Int -> unit<Int, Unit>(y * 2) }
-    val g = { y:Int -> unit<Int, Unit>(y * 3) }
+    val f = { y: Int -> unit<Int, Unit>(y * 2) }
+    val g = { y: Int -> unit<Int, Unit>(y * 3) }
 
     Assert.assertEquals(
       m.flatMap(f).flatMap(g),
-      m.flatMap({ x -> f(x).flatMap(g)}))
+      m.flatMap({ x -> f(x).flatMap(g) }))
   }
 
 }

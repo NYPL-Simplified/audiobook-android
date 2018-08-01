@@ -2,14 +2,12 @@ package org.nypl.audiobook.android.tests.open_access
 
 import org.junit.Assert
 import org.junit.Assert.assertTrue
-import org.junit.Ignore
 import org.junit.Test
 import org.nypl.audiobook.android.api.PlayerManifest
 import org.nypl.audiobook.android.api.PlayerManifests
 import org.nypl.audiobook.android.api.PlayerResult
 import org.nypl.audiobook.android.open_access.ExoManifest
 import org.slf4j.Logger
-import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 /**
@@ -18,7 +16,7 @@ import java.io.InputStream
 
 abstract class ExoManifestContract {
 
-  abstract fun log() : Logger
+  abstract fun log(): Logger
 
   @Test
   fun testOkFlatlandGardeur() {
@@ -26,7 +24,7 @@ abstract class ExoManifestContract {
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is PlayerResult.Success)
 
-    val success : PlayerResult.Success<PlayerManifest, Exception> =
+    val success: PlayerResult.Success<PlayerManifest, Exception> =
       result as PlayerResult.Success<PlayerManifest, Exception>
 
     val manifest = success.result
@@ -35,7 +33,7 @@ abstract class ExoManifestContract {
     this.log().debug("exo_result: {}", exo_result)
     assertTrue("Result is success", exo_result is PlayerResult.Success)
 
-    val exo_success : PlayerResult.Success<ExoManifest, Exception> =
+    val exo_success: PlayerResult.Success<ExoManifest, Exception> =
       exo_result as PlayerResult.Success<ExoManifest, Exception>
 
     val exo = exo_success.result

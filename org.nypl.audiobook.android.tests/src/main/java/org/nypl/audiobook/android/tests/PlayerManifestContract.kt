@@ -2,7 +2,6 @@ package org.nypl.audiobook.android.tests
 
 import org.junit.Assert
 import org.junit.Assert.assertTrue
-import org.junit.Ignore
 import org.junit.Test
 import org.nypl.audiobook.android.api.PlayerManifest
 import org.nypl.audiobook.android.api.PlayerManifests
@@ -17,7 +16,7 @@ import java.io.InputStream
 
 abstract class PlayerManifestContract {
 
-  abstract fun log() : Logger
+  abstract fun log(): Logger
 
   @Test
   fun testEmptyManifest() {
@@ -40,7 +39,7 @@ abstract class PlayerManifestContract {
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is PlayerResult.Success)
 
-    val success : PlayerResult.Success<PlayerManifest, Exception> =
+    val success: PlayerResult.Success<PlayerManifest, Exception> =
       result as PlayerResult.Success<PlayerManifest, Exception>
 
     val manifest = success.result
@@ -68,7 +67,7 @@ abstract class PlayerManifestContract {
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is PlayerResult.Success)
 
-    val success : PlayerResult.Success<PlayerManifest, Exception> =
+    val success: PlayerResult.Success<PlayerManifest, Exception> =
       result as PlayerResult.Success<PlayerManifest, Exception>
 
     val manifest = success.result
