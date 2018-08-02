@@ -13,7 +13,7 @@ import rx.subjects.PublishSubject
 import java.io.File
 import java.util.SortedMap
 import java.util.TreeMap
-import java.util.concurrent.ExecutorService
+import java.util.concurrent.ScheduledExecutorService
 
 /**
  * An ExoPlayer audio book.
@@ -49,7 +49,7 @@ class ExoAudioBook private constructor(
     fun create(
       engineProvider: ExoEngineProvider,
       context: Context,
-      engineExecutor: ExecutorService,
+      engineExecutor: ScheduledExecutorService,
       manifest: ExoManifest,
       downloadProvider: PlayerDownloadProviderType): PlayerAudioBookType {
 
@@ -60,8 +60,7 @@ class ExoAudioBook private constructor(
         ExoAudioBookPlayer.create(
           engineProvider = engineProvider,
           context = context,
-          engineExecutor = engineExecutor,
-          id = bookId)
+          engineExecutor = engineExecutor)
 
       /*
        * Set up all the various bits of state required.

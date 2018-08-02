@@ -13,7 +13,6 @@ import com.google.android.exoplayer.upstream.Allocator
 import com.google.android.exoplayer.upstream.DefaultAllocator
 import com.google.android.exoplayer.upstream.DefaultUriDataSource
 import net.jcip.annotations.GuardedBy
-import org.nypl.audiobook.android.api.PlayerBookID
 import org.nypl.audiobook.android.api.PlayerEvent
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventPlaybackStarted
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventPlaybackStopped
@@ -28,11 +27,13 @@ import org.nypl.audiobook.android.api.PlayerType
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateInitial
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStatePlaying
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateStopped
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.subjects.PublishSubject
 import java.util.concurrent.Callable
-import java.util.concurrent.ExecutorService
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
 /**
@@ -41,7 +42,7 @@ import java.util.concurrent.TimeUnit
 
 class ExoAudioBookPlayer private constructor(
   private val engineProvider: ExoEngineProvider,
-  private val engineExecutor: ExecutorService,
+  private val engineExecutor: ScheduledExecutorService,
   private val context: Context,
   private val statusEvents: PublishSubject<PlayerEvent>,
   private val exoPlayer: ExoPlayer)
@@ -59,23 +60,19 @@ class ExoAudioBookPlayer private constructor(
 
   private sealed class ExoPlayerState {
 
-    abstract var rate: PlayerPlaybackRate
-
     /*
      * The initial state; no spine item is selected, the player is not playing.
      */
 
-    data class ExoPlayerStateInitial(
-      override var rate: PlayerPlaybackRate)
-      : ExoPlayerState()
+    object ExoPlayerStateInitial : ExoPlayerState()
 
     /*
      * The player is currently playing the given spine item.
      */
 
     data class ExoPlayerStatePlaying(
-      override var rate: PlayerPlaybackRate,
-      var spineElement: ExoSpineElement)
+      var spineElement: ExoSpineElement,
+      val observerTask: ScheduledFuture<*>)
       : ExoPlayerState()
 
     /*
@@ -83,57 +80,61 @@ class ExoAudioBookPlayer private constructor(
      */
 
     data class ExoPlayerStateStopped(
-      override var rate: PlayerPlaybackRate,
       var spineElement: ExoSpineElement)
       : ExoPlayerState()
 
   }
 
+  @Volatile
+  private var currentPlaybackRate: PlayerPlaybackRate = NORMAL_TIME
   private val stateLock: Any = Object()
   @GuardedBy("stateLock")
-  private var state: ExoPlayerState = ExoPlayerStateInitial(NORMAL_TIME)
+  private var state: ExoPlayerState = ExoPlayerStateInitial
 
   private lateinit var book: ExoAudioBook
   private val allocator: Allocator = DefaultAllocator(this.bufferSegmentSize)
 
+  /*
+   * A listener registered with the underlying ExoPlayer instance to observe state changes.
+   */
+
+  private val exoPlayerEventListener = object : ExoPlayer.Listener {
+    override fun onPlayerError(error: ExoPlaybackException?) {
+      this@ExoAudioBookPlayer.log.error("onPlayerError: ", error)
+    }
+
+    override fun onPlayerStateChanged(playWhenReady: Boolean, stateNow: Int) {
+      val stateName = stateName(stateNow)
+      this@ExoAudioBookPlayer.log.debug(
+        "onPlayerStateChanged: {} {} ({})", playWhenReady, stateName, stateNow)
+    }
+
+    private fun stateName(playbackState: Int): String {
+      return when (playbackState) {
+        ExoPlayer.STATE_BUFFERING -> "buffering"
+        ExoPlayer.STATE_ENDED -> "ended"
+        ExoPlayer.STATE_IDLE -> "idle"
+        ExoPlayer.STATE_PREPARING -> "preparing"
+        ExoPlayer.STATE_READY -> "ready"
+        else -> "unrecognized state"
+      }
+    }
+
+    override fun onPlayWhenReadyCommitted() {
+      this@ExoAudioBookPlayer.log.debug("onPlayWhenReadyCommitted")
+    }
+  }
+
   init {
-    this.exoPlayer.addListener(object : ExoPlayer.Listener {
-      override fun onPlayerError(error: ExoPlaybackException?) {
-        this@ExoAudioBookPlayer.log.error("onPlayerError: ", error)
-      }
-
-      override fun onPlayerStateChanged(playWhenReady: Boolean, stateNow: Int) {
-        val stateName = stateName(stateNow)
-        this@ExoAudioBookPlayer.log.debug(
-          "onPlayerStateChanged: {} {} ({})", playWhenReady, stateName, stateNow)
-      }
-
-      private fun stateName(playbackState: Int): String {
-        return when (playbackState) {
-          ExoPlayer.STATE_BUFFERING -> "buffering"
-          ExoPlayer.STATE_ENDED -> "ended"
-          ExoPlayer.STATE_IDLE -> "idle"
-          ExoPlayer.STATE_PREPARING -> "preparing"
-          ExoPlayer.STATE_READY -> "ready"
-          else -> "unrecognized state"
-        }
-      }
-
-      override fun onPlayWhenReadyCommitted() {
-        this@ExoAudioBookPlayer.log.debug("onPlayWhenReadyCommitted")
-      }
-    })
+    this.exoPlayer.addListener(exoPlayerEventListener)
   }
 
   companion object {
 
-    private val log = LoggerFactory.getLogger(ExoAudioBookPlayer::class.java)
-
     fun create(
       engineProvider: ExoEngineProvider,
       context: Context,
-      engineExecutor: ExecutorService,
-      id: PlayerBookID): ExoAudioBookPlayer {
+      engineExecutor: ScheduledExecutorService): ExoAudioBookPlayer {
 
       val statusEvents = PublishSubject.create<PlayerEvent>()
 
@@ -167,7 +168,7 @@ class ExoAudioBookPlayer private constructor(
   private fun opSetPlaybackRate(new_rate: PlayerPlaybackRate) {
     ExoEngineThread.checkIsExoEngineThread()
 
-    this.state.rate = new_rate
+    this.currentPlaybackRate = new_rate
   }
 
   private fun opPlay() {
@@ -189,6 +190,9 @@ class ExoAudioBookPlayer private constructor(
   }
 
   private fun opPlayInitial(state: ExoPlayerStateInitial) {
+    ExoEngineThread.checkIsExoEngineThread()
+    this.log.debug("opPlayInitial")
+
     val firstElement = this.book.spine.firstOrNull()
     if (firstElement == null) {
       return this.log.debug("no available initial spine element")
@@ -202,19 +206,61 @@ class ExoAudioBookPlayer private constructor(
       }
 
       is PlayerSpineElementDownloaded -> {
-        synchronized(this.stateLock) {
-          this.state = ExoPlayerStatePlaying(
-            rate = state.rate,
-            spineElement = firstElement)
-        }
-        openSpineElement(firstElement)
+        val new_state = ExoPlayerStatePlaying(
+          spineElement = firstElement,
+          observerTask = openSpineElement(firstElement))
+
+        synchronized(this.stateLock) { this.state = new_state }
         this.statusEvents.onNext(PlayerEventPlaybackStarted(firstElement, 0))
       }
     }
   }
 
-  private fun openSpineElement(spineElement: ExoSpineElement) {
+  /**
+   * A playback observer that is called repeatedly to observe the current state of the player.
+   */
+
+  private inner class PlaybackObserver(
+    private val spineElement: ExoSpineElement) : Runnable {
+
+    private var gracePeriod: Int = 1
+
+    override fun run() {
+      val bookPlayer = this@ExoAudioBookPlayer
+      val duration = bookPlayer.exoPlayer.duration
+      val position = bookPlayer.exoPlayer.currentPosition
+      bookPlayer.log.debug("playback: {}/{}", position, duration)
+
+      /*
+       * Report the current playback status.
+       */
+
+      bookPlayer.statusEvents.onNext(
+        PlayerEvent.PlayerEventPlaybackProgressUpdate(this.spineElement, position.toInt()))
+
+      /*
+       * Provide a short grace period before indicating that the current spine element has
+       * finished playing. This avoids a situation where the player indicates that it is at
+       * the end of the audio but the sound hardware has not actually finished playing the last
+       * chunk.
+       */
+
+      if (position >= duration) {
+        if (this.gracePeriod <= 0) {
+          bookPlayer.opCurrentTrackFinished(this.spineElement.duration.millis)
+        }
+        --this.gracePeriod
+      }
+    }
+  }
+
+  private fun openSpineElement(spineElement: ExoSpineElement): ScheduledFuture<*> {
     this.log.debug("openSpineElement: {}", spineElement.index)
+
+    /*
+     * Set up an audio renderer for the spine element and tell ExoPlayer to prepare it and then
+     * play when ready.
+     */
 
     val dataSource =
       DefaultUriDataSource(this.context, null, this.userAgent)
@@ -245,6 +291,37 @@ class ExoAudioBookPlayer private constructor(
 
     this.exoPlayer.prepare(audioRenderer)
     this.exoPlayer.playWhenReady = true
+
+    /*
+     * Schedule a playback observer that will check the current state of playback once per second.
+     */
+
+    return this.engineExecutor.scheduleAtFixedRate(
+      PlaybackObserver(spineElement),
+      1L,
+      1L,
+      TimeUnit.SECONDS)
+  }
+
+  private fun opCurrentTrackFinished(position: Long) {
+    ExoEngineThread.checkIsExoEngineThread()
+    this.log.debug("opCurrentTrackFinished")
+
+    val state = synchronized(this.stateLock) { this.state }
+    return when (state) {
+      is ExoPlayerStateInitial,
+      is ExoPlayerStateStopped -> {
+        return this.log.error("current track is finished but the player thinks it is not playing!")
+      }
+
+      is ExoPlayerStatePlaying -> {
+        state.observerTask.cancel(true)
+        synchronized(this.stateLock) {
+          this.state = ExoPlayerStateStopped(spineElement = state.spineElement)
+        }
+        this.statusEvents.onNext(PlayerEventPlaybackStopped(state.spineElement, position.toInt()))
+      }
+    }
   }
 
   private fun opSkipToNextChapter() {
@@ -273,11 +350,14 @@ class ExoAudioBookPlayer private constructor(
   }
 
   private fun opPausePlaying(state: ExoPlayerStatePlaying) {
+    ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opPausePlaying")
+
+    state.observerTask.cancel(true)
     this.exoPlayer.stop()
 
     synchronized(this.stateLock) {
-      this.state = ExoPlayerStateStopped(rate = state.rate, spineElement = state.spineElement)
+      this.state = ExoPlayerStateStopped(spineElement = state.spineElement)
     }
 
     this.statusEvents.onNext(PlayerEventPlaybackStopped(state.spineElement, 0))
@@ -324,9 +404,7 @@ class ExoAudioBookPlayer private constructor(
 
   override var playbackRate: PlayerPlaybackRate
     get() =
-      synchronized(this.stateLock) {
-        this.state.rate
-      }
+      this.currentPlaybackRate
     set(value) {
       this.engineExecutor.execute { this.opSetPlaybackRate(value) }
     }

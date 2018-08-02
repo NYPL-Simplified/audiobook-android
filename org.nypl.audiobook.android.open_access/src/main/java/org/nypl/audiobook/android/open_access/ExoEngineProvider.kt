@@ -7,8 +7,8 @@ import org.nypl.audiobook.android.api.PlayerAudioEngineVersion
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 import java.util.Properties
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
 
 /**
  * An audio engine provider based on ExoPlayer.
@@ -21,8 +21,8 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
 
   private val version: PlayerAudioEngineVersion = parseVersionFromProperties()
 
-  private val engineExecutor: ExecutorService =
-    Executors.newFixedThreadPool(1, { r -> createEngineThread(r) })
+  private val engineExecutor: ScheduledExecutorService =
+    Executors.newSingleThreadScheduledExecutor({ r -> createEngineThread(r) })
 
   /**
    * Create a thread suitable for use with the ExoPlayer audio engine.

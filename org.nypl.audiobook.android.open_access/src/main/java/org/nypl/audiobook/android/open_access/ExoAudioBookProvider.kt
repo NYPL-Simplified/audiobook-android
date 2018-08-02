@@ -7,14 +7,14 @@ import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerManifest
 import org.nypl.audiobook.android.api.PlayerResult
 import org.nypl.audiobook.android.api.PlayerResult.Failure
-import java.util.concurrent.ExecutorService
+import java.util.concurrent.ScheduledExecutorService
 
 /**
  * The ExoPlayer implementation of the {@link PlayerAudioBookProviderType} interface.
  */
 
 class ExoAudioBookProvider(
-  private val engineExecutor: ExecutorService,
+  private val engineExecutor: ScheduledExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
   private val manifest: PlayerManifest,
   private val engineProvider: ExoEngineProvider)
