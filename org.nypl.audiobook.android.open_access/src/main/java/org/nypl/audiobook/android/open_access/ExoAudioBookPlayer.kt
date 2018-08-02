@@ -107,7 +107,7 @@ class ExoAudioBookPlayer private constructor(
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, stateNow: Int) {
-      val stateName = stateName(stateNow)
+      val stateName = this.stateName(stateNow)
       this@ExoAudioBookPlayer.log.debug(
         "onPlayerStateChanged: {} {} ({})", playWhenReady, stateName, stateNow)
     }
@@ -129,7 +129,7 @@ class ExoAudioBookPlayer private constructor(
   }
 
   init {
-    this.exoPlayer.addListener(exoPlayerEventListener)
+    this.exoPlayer.addListener(this.exoPlayerEventListener)
   }
 
   companion object {
@@ -165,57 +165,6 @@ class ExoAudioBookPlayer private constructor(
           statusEvents = statusEvents)
 
       }).get(5L, TimeUnit.SECONDS)
-    }
-  }
-
-  private fun opSetPlaybackRate(new_rate: PlayerPlaybackRate) {
-    ExoEngineThread.checkIsExoEngineThread()
-
-    this.currentPlaybackRate = new_rate
-  }
-
-  private fun opPlay() {
-    ExoEngineThread.checkIsExoEngineThread()
-    this.log.debug("opPlay")
-
-    val state = synchronized(this.stateLock) { this.state }
-    return when (state) {
-      is ExoPlayerStateInitial -> {
-        opPlayInitial(state)
-      }
-      is ExoPlayerStatePlaying -> {
-        this.log.debug("not playing in the playing state")
-      }
-      is ExoPlayerStateStopped -> {
-        TODO("Playing whilst stopped is not implemented")
-      }
-    }
-  }
-
-  private fun opPlayInitial(state: ExoPlayerStateInitial) {
-    ExoEngineThread.checkIsExoEngineThread()
-    this.log.debug("opPlayInitial")
-
-    val firstElement = this.book.spine.firstOrNull()
-    if (firstElement == null) {
-      return this.log.debug("no available initial spine element")
-    }
-
-    return when (firstElement.downloadStatus) {
-      is PlayerSpineElementNotDownloaded,
-      is PlayerSpineElementDownloading,
-      is PlayerSpineElementDownloadFailed -> {
-        return this.log.debug("spine element is not downloaded")
-      }
-
-      is PlayerSpineElementDownloaded -> {
-        val new_state = ExoPlayerStatePlaying(
-          spineElement = firstElement,
-          observerTask = openSpineElement(firstElement))
-
-        synchronized(this.stateLock) { this.state = new_state }
-        this.statusEvents.onNext(PlayerEventPlaybackStarted(firstElement, 0))
-      }
     }
   }
 
@@ -280,7 +229,7 @@ class ExoAudioBookPlayer private constructor(
         uri,
         dataSource,
         this.allocator,
-        bufferSegmentCount * bufferSegmentSize,
+        this.bufferSegmentCount * this.bufferSegmentSize,
         null,
         null,
         0)
@@ -293,7 +242,7 @@ class ExoAudioBookPlayer private constructor(
         true,
         null,
         null,
-        AudioCapabilities.getCapabilities(context),
+        AudioCapabilities.getCapabilities(this.context),
         AudioManager.STREAM_MUSIC)
 
     this.exoPlayer.prepare(audioRenderer)
@@ -305,10 +254,95 @@ class ExoAudioBookPlayer private constructor(
      */
 
     return this.engineExecutor.scheduleAtFixedRate(
-      PlaybackObserver(spineElement),
+      this.PlaybackObserver(spineElement),
       1L,
       1L,
       TimeUnit.SECONDS)
+  }
+
+  private fun switchToNextSpineElementAndPlayIfAvailable(element: ExoSpineElement): Boolean {
+    this.log.debug("switchToNextSpineElementAndPlayIfAvailable: {}", element.index)
+
+    val next = element.next as ExoSpineElement?
+    if (next == null) {
+      this.log.debug("spine element {} has no next element", element.index)
+      return false
+    }
+
+    val downloadStatus = next.downloadStatus
+    return when (downloadStatus) {
+      is PlayerSpineElementNotDownloaded,
+      is PlayerSpineElementDownloading,
+      is PlayerSpineElementDownloadFailed -> {
+        this.log.debug("spine element {} is not downloaded ({}), cannot continue",
+          next.index, downloadStatus)
+        false
+      }
+
+      is PlayerSpineElementDownloaded -> {
+        this.switchToSpineElementAndPlay(next)
+        true
+      }
+    }
+  }
+
+  private fun switchToSpineElementAndPlay(next: ExoSpineElement) {
+    this.log.debug("switchToSpineElementAndPlay: {}", next.index)
+
+    val new_state = ExoPlayerStatePlaying(
+      spineElement = next,
+      observerTask = this.openSpineElement(next))
+
+    synchronized(this.stateLock) { this.state = new_state }
+    this.statusEvents.onNext(PlayerEventPlaybackStarted(next, 0))
+  }
+
+  private fun opSetPlaybackRate(new_rate: PlayerPlaybackRate) {
+    ExoEngineThread.checkIsExoEngineThread()
+
+    this.currentPlaybackRate = new_rate
+  }
+
+  private fun opPlay() {
+    ExoEngineThread.checkIsExoEngineThread()
+    this.log.debug("opPlay")
+
+    val state = synchronized(this.stateLock) { this.state }
+    return when (state) {
+      is ExoPlayerStateInitial -> {
+        this.opPlayInitial(state)
+      }
+      is ExoPlayerStatePlaying -> {
+        this.log.debug("not playing in the playing state")
+      }
+      is ExoPlayerStateStopped -> {
+        TODO("Playing whilst stopped is not implemented")
+      }
+    }
+  }
+
+  private fun opPlayInitial(state: ExoPlayerStateInitial) {
+    ExoEngineThread.checkIsExoEngineThread()
+    this.log.debug("opPlayInitial")
+
+    val firstElement = this.book.spine.firstOrNull()
+    if (firstElement == null) {
+      return this.log.debug("no available initial spine element")
+    }
+
+    val downloadStatus = firstElement.downloadStatus
+    return when (downloadStatus) {
+      is PlayerSpineElementNotDownloaded,
+      is PlayerSpineElementDownloading,
+      is PlayerSpineElementDownloadFailed -> {
+        this.log.debug("spine element {} is not downloaded ({}), cannot continue",
+          firstElement.index, downloadStatus)
+      }
+
+      is PlayerSpineElementDownloaded -> {
+        this.switchToSpineElementAndPlay(firstElement)
+      }
+    }
   }
 
   private fun opCurrentTrackFinished() {
@@ -324,8 +358,8 @@ class ExoAudioBookPlayer private constructor(
 
       is ExoPlayerStatePlaying -> {
         this.opPausePlaying(state)
-        if (opSkipToNextChapter()) {
-          opPlay()
+        if (this.opSkipToNextChapter()) {
+          this.opPlay()
         } else {
           this.log.debug("next chapter is not available")
         }
@@ -336,7 +370,33 @@ class ExoAudioBookPlayer private constructor(
   private fun opSkipToNextChapter(): Boolean {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToNextChapter")
-    return false
+
+    val state = synchronized(this.stateLock) { this.state }
+    return when (state) {
+      is ExoPlayerStateInitial -> {
+        false
+      }
+
+      is ExoPlayerStatePlaying -> {
+        return this.opSkipToNextChapterPlaying(state)
+      }
+
+      is ExoPlayerStateStopped -> {
+        return this.opSkipToNextChapterStopped(state)
+      }
+    }
+  }
+
+  private fun opSkipToNextChapterStopped(state: ExoPlayerStateStopped): Boolean {
+    ExoEngineThread.checkIsExoEngineThread()
+    this.log.debug("opSkipToNextChapterStopped")
+    return switchToNextSpineElementAndPlayIfAvailable(state.spineElement)
+  }
+
+  private fun opSkipToNextChapterPlaying(state: ExoPlayerStatePlaying): Boolean {
+    ExoEngineThread.checkIsExoEngineThread()
+    this.log.debug("opSkipToNextChapterPlaying")
+    return switchToNextSpineElementAndPlayIfAvailable(state.spineElement)
   }
 
   private fun opPause() {
@@ -350,7 +410,7 @@ class ExoAudioBookPlayer private constructor(
       }
 
       is ExoPlayerStatePlaying -> {
-        opPausePlaying(state)
+        this.opPausePlaying(state)
       }
 
       is ExoPlayerStateStopped -> {
