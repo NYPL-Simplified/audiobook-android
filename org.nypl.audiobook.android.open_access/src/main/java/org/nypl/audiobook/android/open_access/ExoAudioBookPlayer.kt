@@ -27,7 +27,6 @@ import org.nypl.audiobook.android.api.PlayerType
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateInitial
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStatePlaying
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateStopped
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.subjects.PublishSubject
@@ -87,6 +86,10 @@ class ExoAudioBookPlayer private constructor(
 
   @Volatile
   private var currentPlaybackRate: PlayerPlaybackRate = NORMAL_TIME
+
+  @Volatile
+  private var currentPlaybackOffset: Long = 0
+
   private val stateLock: Any = Object()
   @GuardedBy("stateLock")
   private var state: ExoPlayerState = ExoPlayerStateInitial
@@ -235,6 +238,7 @@ class ExoAudioBookPlayer private constructor(
        * Report the current playback status.
        */
 
+      bookPlayer.currentPlaybackOffset = position
       bookPlayer.statusEvents.onNext(
         PlayerEvent.PlayerEventPlaybackProgressUpdate(this.spineElement, position.toInt()))
 
@@ -246,8 +250,11 @@ class ExoAudioBookPlayer private constructor(
        */
 
       if (position >= duration) {
-        if (this.gracePeriod <= 0) {
-          bookPlayer.opCurrentTrackFinished(this.spineElement.duration.millis)
+        if (this.gracePeriod == 0) {
+          bookPlayer.currentPlaybackOffset = this.spineElement.duration.millis
+          bookPlayer.engineExecutor.execute {
+            bookPlayer.opCurrentTrackFinished()
+          }
         }
         --this.gracePeriod
       }
@@ -291,6 +298,7 @@ class ExoAudioBookPlayer private constructor(
 
     this.exoPlayer.prepare(audioRenderer)
     this.exoPlayer.playWhenReady = true
+    this.currentPlaybackOffset = 0L
 
     /*
      * Schedule a playback observer that will check the current state of playback once per second.
@@ -303,7 +311,7 @@ class ExoAudioBookPlayer private constructor(
       TimeUnit.SECONDS)
   }
 
-  private fun opCurrentTrackFinished(position: Long) {
+  private fun opCurrentTrackFinished() {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opCurrentTrackFinished")
 
@@ -311,22 +319,24 @@ class ExoAudioBookPlayer private constructor(
     return when (state) {
       is ExoPlayerStateInitial,
       is ExoPlayerStateStopped -> {
-        return this.log.error("current track is finished but the player thinks it is not playing!")
+        this.log.error("current track is finished but the player thinks it is not playing!")
       }
 
       is ExoPlayerStatePlaying -> {
-        state.observerTask.cancel(true)
-        synchronized(this.stateLock) {
-          this.state = ExoPlayerStateStopped(spineElement = state.spineElement)
+        this.opPausePlaying(state)
+        if (opSkipToNextChapter()) {
+          opPlay()
+        } else {
+          this.log.debug("next chapter is not available")
         }
-        this.statusEvents.onNext(PlayerEventPlaybackStopped(state.spineElement, position.toInt()))
       }
     }
   }
 
-  private fun opSkipToNextChapter() {
+  private fun opSkipToNextChapter(): Boolean {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToNextChapter")
+    return false
   }
 
   private fun opPause() {
@@ -360,12 +370,14 @@ class ExoAudioBookPlayer private constructor(
       this.state = ExoPlayerStateStopped(spineElement = state.spineElement)
     }
 
-    this.statusEvents.onNext(PlayerEventPlaybackStopped(state.spineElement, 0))
+    this.statusEvents.onNext(PlayerEventPlaybackStopped(
+      state.spineElement, this.currentPlaybackOffset.toInt()))
   }
 
-  private fun opSkipToPreviousChapter() {
+  private fun opSkipToPreviousChapter(): Boolean {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToPreviousChapter")
+    return false
   }
 
   private fun opSkipForward() {
