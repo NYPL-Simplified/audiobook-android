@@ -29,7 +29,11 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
    */
 
   private fun createEngineThread(r: Runnable?): Thread {
-    return ExoEngineThread(r ?: Runnable { })
+    val thread = ExoEngineThread(r ?: Runnable { })
+    thread.setUncaughtExceptionHandler { t, e ->
+      log.error("uncaught exception on engine thread {}: ", t, e)
+    }
+    return thread
   }
 
   override fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType? {
