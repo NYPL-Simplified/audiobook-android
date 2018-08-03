@@ -15,6 +15,8 @@ import com.google.android.exoplayer.upstream.DefaultUriDataSource
 import net.jcip.annotations.GuardedBy
 import org.nypl.audiobook.android.api.PlayerEvent
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventChapterCompleted
+import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventChapterWaiting
+import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventPlaybackPaused
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventPlaybackProgressUpdate
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventPlaybackStarted
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventPlaybackStopped
@@ -263,10 +265,15 @@ class ExoAudioBookPlayer private constructor(
     this.exoPlayer.playWhenReady = true
     this.currentPlaybackOffset = 0L
 
-    /*
-     * Schedule a playback observer that will check the current state of playback once per second.
-     */
+    return this.schedulePlaybackObserverForSpineElement(spineElement)
+  }
 
+  /**
+   * Schedule a playback observer that will check the current state of playback once per second.
+   */
+
+  private fun schedulePlaybackObserverForSpineElement(
+    spineElement: ExoSpineElement): ScheduledFuture<*> {
     return this.engineExecutor.scheduleAtFixedRate(
       this.PlaybackObserver(spineElement),
       1L,
@@ -287,17 +294,37 @@ class ExoAudioBookPlayer private constructor(
     return when (currentState) {
       ExoPlayerStateInitial -> Unit
 
+      /*
+       * If the we're playing the current spine element, and the status is anything other
+       * than "downloaded", stop everything.
+       */
+
       is ExoPlayerStatePlaying -> {
         if (currentState.spineElement == status.spineElement) {
-          throw Unimplemented()
+          when (status) {
+            is PlayerSpineElementNotDownloaded,
+            is PlayerSpineElementDownloading,
+            is PlayerSpineElementDownloadFailed -> this.playNothing()
+            is PlayerSpineElementDownloaded -> Unit
+          }
         } else {
 
         }
       }
 
+      /*
+       * If the we're stopped on the current spine element, and the status is anything other
+       * than "downloaded", stop everything.
+       */
+
       is ExoPlayerStateStopped -> {
         if (currentState.spineElement == status.spineElement) {
-          throw Unimplemented()
+          when (status) {
+            is PlayerSpineElementNotDownloaded,
+            is PlayerSpineElementDownloading,
+            is PlayerSpineElementDownloadFailed -> this.playNothing()
+            is PlayerSpineElementDownloaded -> Unit
+          }
         } else {
 
         }
@@ -323,8 +350,48 @@ class ExoAudioBookPlayer private constructor(
     }
   }
 
-  private fun switchToNextSpineElementAndPlayIfAvailable(element: ExoSpineElement): NextChapterStatus {
-    this.log.debug("switchToNextSpineElementAndPlayIfAvailable: {}", element.index)
+  private fun playNothing() {
+    this.log.debug("playNothing")
+
+    val currentState = this.state
+    return when (currentState) {
+      ExoPlayerStateInitial -> Unit
+
+      is ExoPlayerStatePlaying -> {
+        currentState.observerTask.cancel(true)
+        this.exoPlayer.stop()
+        this.exoPlayer.seekTo(0L)
+        this.currentPlaybackOffset = 0
+
+        synchronized(this.stateLock) { this.state = ExoPlayerStateInitial }
+        this.statusEvents.onNext(PlayerEventPlaybackStopped(
+          currentState.spineElement, 0))
+      }
+
+      is ExoPlayerStateWaitingForElement -> {
+        this.exoPlayer.stop()
+        this.exoPlayer.seekTo(0L)
+        this.currentPlaybackOffset = 0
+
+        synchronized(this.stateLock) { this.state = ExoPlayerStateInitial }
+        this.statusEvents.onNext(PlayerEventPlaybackStopped(
+          currentState.spineElement, 0))
+      }
+
+      is ExoPlayerStateStopped -> {
+        this.exoPlayer.stop()
+        this.exoPlayer.seekTo(0L)
+        this.currentPlaybackOffset = 0
+
+        synchronized(this.stateLock) { this.state = ExoPlayerStateInitial }
+        this.statusEvents.onNext(PlayerEventPlaybackStopped(
+          currentState.spineElement, 0))
+      }
+    }
+  }
+
+  private fun playNextSpineElementIfAvailable(element: ExoSpineElement): NextChapterStatus {
+    this.log.debug("playNextSpineElementIfAvailable: {}", element.index)
 
     val next = element.next as ExoSpineElement?
     if (next == null) {
@@ -340,29 +407,29 @@ class ExoAudioBookPlayer private constructor(
         this.log.debug("spine element {} is not downloaded ({}), cannot continue",
           next.index, downloadStatus)
 
-        val new_state = ExoPlayerStateWaitingForElement(spineElement = next)
-        synchronized(this.stateLock) { this.state = new_state }
-        this.statusEvents.onNext(PlayerEvent.PlayerEventChapterWaiting(next))
+        val newState = ExoPlayerStateWaitingForElement(spineElement = next)
+        synchronized(this.stateLock) { this.state = newState }
+        this.statusEvents.onNext(PlayerEventChapterWaiting(next))
 
         NEXT_CHAPTER_NOT_DOWNLOADED
       }
 
       is PlayerSpineElementDownloaded -> {
-        this.switchToSpineElementAndPlay(next)
+        this.playSpineElementFromStart(next)
         NEXT_CHAPTER_READY
       }
     }
   }
 
-  private fun switchToSpineElementAndPlay(next: ExoSpineElement) {
-    this.log.debug("switchToSpineElementAndPlay: {}", next.index)
+  private fun playSpineElementFromStart(element: ExoSpineElement) {
+    this.log.debug("playSpineElementFromStart: {}", element.index)
 
-    val new_state = ExoPlayerStatePlaying(
-      spineElement = next,
-      observerTask = this.openSpineElement(next))
+    val newState = ExoPlayerStatePlaying(
+      spineElement = element,
+      observerTask = this.openSpineElement(element))
 
-    synchronized(this.stateLock) { this.state = new_state }
-    this.statusEvents.onNext(PlayerEventPlaybackStarted(next, 0))
+    synchronized(this.stateLock) { this.state = newState }
+    this.statusEvents.onNext(PlayerEventPlaybackStarted(element, 0))
   }
 
   private fun opSetPlaybackRate(new_rate: PlayerPlaybackRate) {
@@ -384,12 +451,28 @@ class ExoAudioBookPlayer private constructor(
         this.log.debug("not playing in the playing state")
       }
       is ExoPlayerStateStopped -> {
-        throw Unimplemented()
+        this.opPlayStopped(state)
       }
       is ExoPlayerStateWaitingForElement -> {
         this.opPlayWaitingForElement(state)
       }
     }
+  }
+
+  private fun opPlayStopped(state: ExoPlayerStateStopped) {
+    ExoEngineThread.checkIsExoEngineThread()
+    this.log.debug("opPlayStopped")
+
+    this.exoPlayer.playWhenReady = true
+
+    synchronized(this.stateLock) {
+      this.state = ExoPlayerStatePlaying(
+        spineElement = state.spineElement,
+        observerTask = this.schedulePlaybackObserverForSpineElement(spineElement = state.spineElement))
+    }
+
+    this.statusEvents.onNext(PlayerEventPlaybackStarted(
+      state.spineElement, this.currentPlaybackOffset.toInt()))
   }
 
   private fun opPlayWaitingForElement(state: ExoPlayerStateWaitingForElement) {
@@ -406,7 +489,7 @@ class ExoAudioBookPlayer private constructor(
       }
 
       is PlayerSpineElementDownloaded -> {
-        this.switchToSpineElementAndPlay(state.spineElement)
+        this.playSpineElementFromStart(state.spineElement)
       }
     }
   }
@@ -430,7 +513,7 @@ class ExoAudioBookPlayer private constructor(
       }
 
       is PlayerSpineElementDownloaded -> {
-        this.switchToSpineElementAndPlay(firstElement)
+        this.playSpineElementFromStart(firstElement)
       }
     }
   }
@@ -444,6 +527,7 @@ class ExoAudioBookPlayer private constructor(
       is ExoPlayerStateInitial,
       is ExoPlayerStateStopped -> {
         this.log.error("current track is finished but the player thinks it is not playing!")
+        throw Unimplemented()
       }
 
       is ExoPlayerStatePlaying -> {
@@ -475,7 +559,7 @@ class ExoAudioBookPlayer private constructor(
     val state = synchronized(this.stateLock) { this.state }
     return when (state) {
       is ExoPlayerStateInitial ->
-        throw IllegalStateException("Unimplemented code!")
+        throw Unimplemented()
       is ExoPlayerStatePlaying ->
         this.opSkipToNextChapterPlaying(state)
       is ExoPlayerStateStopped ->
@@ -488,13 +572,13 @@ class ExoAudioBookPlayer private constructor(
   private fun opSkipToNextChapterStopped(state: ExoPlayerStateStopped): NextChapterStatus {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToNextChapterStopped")
-    return switchToNextSpineElementAndPlayIfAvailable(state.spineElement)
+    return this.playNextSpineElementIfAvailable(state.spineElement)
   }
 
   private fun opSkipToNextChapterPlaying(state: ExoPlayerStatePlaying): NextChapterStatus {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToNextChapterPlaying")
-    return switchToNextSpineElementAndPlayIfAvailable(state.spineElement)
+    return this.playNextSpineElementIfAvailable(state.spineElement)
   }
 
   private fun opPause() {
@@ -510,7 +594,7 @@ class ExoAudioBookPlayer private constructor(
       is ExoPlayerStateStopped ->
         this.log.debug("not pausing in the stopped state")
       is ExoPlayerStateWaitingForElement ->
-        throw Unimplemented()
+        this.log.debug("not pausing in the waiting state")
     }
   }
 
@@ -519,13 +603,13 @@ class ExoAudioBookPlayer private constructor(
     this.log.debug("opPausePlaying")
 
     state.observerTask.cancel(true)
-    this.exoPlayer.stop()
+    this.exoPlayer.playWhenReady = false
 
     synchronized(this.stateLock) {
       this.state = ExoPlayerStateStopped(spineElement = state.spineElement)
     }
 
-    this.statusEvents.onNext(PlayerEventPlaybackStopped(
+    this.statusEvents.onNext(PlayerEventPlaybackPaused(
       state.spineElement, this.currentPlaybackOffset.toInt()))
   }
 
