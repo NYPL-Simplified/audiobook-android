@@ -41,8 +41,16 @@ sealed class PlayerEvent {
    */
 
   data class PlayerEventChapterCompleted(
-    val spineElement: PlayerSpineElementType,
-    val offsetMilliseconds: Int)
+    val spineElement: PlayerSpineElementType)
+    : PlayerEvent()
+
+  /**
+   * The player is currently waiting for the given spine element to become available before
+   * playback can continue.
+   */
+
+  data class PlayerEventChapterWaiting(
+    val spineElement: PlayerSpineElementType)
     : PlayerEvent()
 
   /**
