@@ -43,7 +43,7 @@ import rx.subjects.PublishSubject
 import java.util.concurrent.Callable
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.SECONDS
 
 /**
  * An ExoPlayer player.
@@ -115,6 +115,13 @@ class ExoAudioBookPlayer private constructor(
   private lateinit var downloadEventSubscription: Subscription
   private val allocator: Allocator = DefaultAllocator(this.bufferSegmentSize)
 
+  private fun stateSet(state: ExoPlayerState) {
+    synchronized(this.stateLock) { this.state = state }
+  }
+
+  private fun stateGet(): ExoPlayerState =
+    synchronized(this.stateLock) { this.state }
+
   /*
    * A listener registered with the underlying ExoPlayer instance to observe state changes.
    */
@@ -182,7 +189,7 @@ class ExoAudioBookPlayer private constructor(
           exoPlayer = player,
           statusEvents = statusEvents)
 
-      }).get(5L, TimeUnit.SECONDS)
+      }).get(5L, SECONDS)
     }
   }
 
@@ -225,6 +232,8 @@ class ExoAudioBookPlayer private constructor(
       }
     }
   }
+
+
 
   private fun openSpineElement(spineElement: ExoSpineElement): ScheduledFuture<*> {
     this.log.debug("openSpineElement: {}", spineElement.index)
@@ -275,10 +284,7 @@ class ExoAudioBookPlayer private constructor(
   private fun schedulePlaybackObserverForSpineElement(
     spineElement: ExoSpineElement): ScheduledFuture<*> {
     return this.engineExecutor.scheduleAtFixedRate(
-      this.PlaybackObserver(spineElement),
-      1L,
-      1L,
-      TimeUnit.SECONDS)
+      this.PlaybackObserver(spineElement), 1L, 1L, SECONDS)
   }
 
   /**
@@ -290,7 +296,7 @@ class ExoAudioBookPlayer private constructor(
   private fun onDownloadStatusChanged(status: PlayerSpineElementDownloadStatus) {
     ExoEngineThread.checkIsExoEngineThread()
 
-    val currentState = this.state
+    val currentState = this.stateGet()
     return when (currentState) {
       ExoPlayerStateInitial -> Unit
 
@@ -353,7 +359,7 @@ class ExoAudioBookPlayer private constructor(
   private fun playNothing() {
     this.log.debug("playNothing")
 
-    val currentState = this.state
+    val currentState = this.stateGet()
     return when (currentState) {
       ExoPlayerStateInitial -> Unit
 
@@ -363,7 +369,7 @@ class ExoAudioBookPlayer private constructor(
         this.exoPlayer.seekTo(0L)
         this.currentPlaybackOffset = 0
 
-        synchronized(this.stateLock) { this.state = ExoPlayerStateInitial }
+        this.stateSet(ExoPlayerStateInitial)
         this.statusEvents.onNext(PlayerEventPlaybackStopped(
           currentState.spineElement, 0))
       }
@@ -373,7 +379,7 @@ class ExoAudioBookPlayer private constructor(
         this.exoPlayer.seekTo(0L)
         this.currentPlaybackOffset = 0
 
-        synchronized(this.stateLock) { this.state = ExoPlayerStateInitial }
+        this.stateSet(ExoPlayerStateInitial)
         this.statusEvents.onNext(PlayerEventPlaybackStopped(
           currentState.spineElement, 0))
       }
@@ -383,7 +389,7 @@ class ExoAudioBookPlayer private constructor(
         this.exoPlayer.seekTo(0L)
         this.currentPlaybackOffset = 0
 
-        synchronized(this.stateLock) { this.state = ExoPlayerStateInitial }
+        this.stateSet(ExoPlayerStateInitial)
         this.statusEvents.onNext(PlayerEventPlaybackStopped(
           currentState.spineElement, 0))
       }
@@ -407,10 +413,8 @@ class ExoAudioBookPlayer private constructor(
         this.log.debug("spine element {} is not downloaded ({}), cannot continue",
           next.index, downloadStatus)
 
-        val newState = ExoPlayerStateWaitingForElement(spineElement = next)
-        synchronized(this.stateLock) { this.state = newState }
+        this.stateSet(ExoPlayerStateWaitingForElement(spineElement = next))
         this.statusEvents.onNext(PlayerEventChapterWaiting(next))
-
         NEXT_CHAPTER_NOT_DOWNLOADED
       }
 
@@ -424,11 +428,9 @@ class ExoAudioBookPlayer private constructor(
   private fun playSpineElementFromStart(element: ExoSpineElement) {
     this.log.debug("playSpineElementFromStart: {}", element.index)
 
-    val newState = ExoPlayerStatePlaying(
+    this.stateSet(ExoPlayerStatePlaying(
       spineElement = element,
-      observerTask = this.openSpineElement(element))
-
-    synchronized(this.stateLock) { this.state = newState }
+      observerTask = this.openSpineElement(element)))
     this.statusEvents.onNext(PlayerEventPlaybackStarted(element, 0))
   }
 
@@ -442,7 +444,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opPlay")
 
-    val state = synchronized(this.stateLock) { this.state }
+    val state = this.stateGet()
     return when (state) {
       is ExoPlayerStateInitial -> {
         this.opPlayInitial()
@@ -465,11 +467,9 @@ class ExoAudioBookPlayer private constructor(
 
     this.exoPlayer.playWhenReady = true
 
-    synchronized(this.stateLock) {
-      this.state = ExoPlayerStatePlaying(
-        spineElement = state.spineElement,
-        observerTask = this.schedulePlaybackObserverForSpineElement(spineElement = state.spineElement))
-    }
+    this.stateSet(ExoPlayerStatePlaying(
+      spineElement = state.spineElement,
+      observerTask = this.schedulePlaybackObserverForSpineElement(spineElement = state.spineElement)))
 
     this.statusEvents.onNext(PlayerEventPlaybackStarted(
       state.spineElement, this.currentPlaybackOffset.toInt()))
@@ -522,7 +522,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opCurrentTrackFinished")
 
-    val state = synchronized(this.stateLock) { this.state }
+    val state = this.stateGet()
     return when (state) {
       is ExoPlayerStateInitial,
       is ExoPlayerStateStopped -> {
@@ -556,7 +556,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToNextChapter")
 
-    val state = synchronized(this.stateLock) { this.state }
+    val state = this.stateGet()
     return when (state) {
       is ExoPlayerStateInitial ->
         throw Unimplemented()
@@ -585,7 +585,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opPause")
 
-    val state = synchronized(this.stateLock) { this.state }
+    val state = this.stateGet()
     return when (state) {
       is ExoPlayerStateInitial ->
         this.log.debug("not pausing in the initial state")
@@ -605,10 +605,7 @@ class ExoAudioBookPlayer private constructor(
     state.observerTask.cancel(true)
     this.exoPlayer.playWhenReady = false
 
-    synchronized(this.stateLock) {
-      this.state = ExoPlayerStateStopped(spineElement = state.spineElement)
-    }
-
+    this.stateSet(ExoPlayerStateStopped(spineElement = state.spineElement))
     this.statusEvents.onNext(PlayerEventPlaybackPaused(
       state.spineElement, this.currentPlaybackOffset.toInt()))
   }
@@ -658,7 +655,7 @@ class ExoAudioBookPlayer private constructor(
 
   override val isPlaying: Boolean
     get() =
-      when (synchronized(this.stateLock) { this.state }) {
+      when (this.stateGet()) {
         is ExoPlayerStateInitial -> false
         is ExoPlayerStatePlaying -> true
         is ExoPlayerStateStopped -> false
