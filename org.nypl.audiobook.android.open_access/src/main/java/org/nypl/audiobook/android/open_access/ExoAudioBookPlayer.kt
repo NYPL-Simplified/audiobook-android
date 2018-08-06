@@ -771,10 +771,7 @@ class ExoAudioBookPlayer private constructor(
   }
 
   override val isClosed: Boolean
-    get() {
-      this.checkNotClosed()
-      return this.closed.get()
-    }
+    get() = this.closed.get()
 
   override fun close() {
     if (this.closed.compareAndSet(false, true)) {
