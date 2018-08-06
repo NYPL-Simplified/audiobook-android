@@ -6,7 +6,15 @@ import rx.Observable
  * A player for a book.
  */
 
-interface PlayerType {
+interface PlayerType : AutoCloseable {
+
+  /**
+   * Close this audio book player. All subsequent method calls on this player will throw
+   * {@link java.lang.IllegalStateException} indicating that the player is closed.
+   */
+
+  @Throws(java.lang.IllegalStateException::class)
+  override fun close()
 
   /**
    * True if the player is currently playing.
@@ -19,6 +27,12 @@ interface PlayerType {
    */
 
   var playbackRate: PlayerPlaybackRate
+
+  /**
+   * @return `true` if and only if {@link #close()} has been called on this player
+   */
+
+  val isClosed: Boolean
 
   /**
    * An observable that publishes player status updates.

@@ -21,20 +21,26 @@ import java.util.concurrent.ScheduledExecutorService
 
 class ExoAudioBook private constructor(
   private val manifest: ExoManifest,
-  private val exoPlayer: ExoAudioBookPlayer,
+  private val context: Context,
+  private val engineExecutor: ScheduledExecutorService,
   override val spine: List<ExoSpineElement>,
   override val spineByID: Map<String, ExoSpineElement>,
   override val spineByPartAndChapter: SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>,
   override val spineElementDownloadStatus: PublishSubject<PlayerSpineElementDownloadStatus>,
   override val id: PlayerBookID,
-  engineProvider: ExoEngineProvider)
+  private val engineProvider: ExoEngineProvider)
   : PlayerAudioBookType {
+
+  override fun createPlayer(): PlayerType {
+    return ExoAudioBookPlayer.create(
+      book = this,
+      engineProvider = this.engineProvider,
+      context = this.context,
+      engineExecutor = this.engineExecutor)
+  }
 
   override val supportsStreaming: Boolean
     get() = false
-
-  override val player: PlayerType
-    get() = this.exoPlayer
 
   companion object {
 
@@ -56,11 +62,6 @@ class ExoAudioBook private constructor(
       val bookId = PlayerBookID.transform(manifest.id)
       val directory = findDirectoryFor(context, bookId)
       this.log.debug("book directory: {}", directory)
-      val player =
-        ExoAudioBookPlayer.create(
-          engineProvider = engineProvider,
-          context = context,
-          engineExecutor = engineExecutor)
 
       /*
        * Set up all the various bits of state required.
@@ -112,9 +113,10 @@ class ExoAudioBook private constructor(
 
       val book = ExoAudioBook(
         engineProvider = engineProvider,
+        context = context,
+        engineExecutor = engineExecutor,
         id = bookId,
         manifest = manifest,
-        exoPlayer = player,
         spine = elements,
         spineByID = elementsById,
         spineByPartAndChapter = elementsByPart as SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>,
@@ -124,7 +126,6 @@ class ExoAudioBook private constructor(
         e.setBook(book)
       }
 
-      player.setBook(book)
       return book
     }
 
