@@ -33,9 +33,9 @@ import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStatePlaying
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateStopped
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateWaitingForElement
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.NextChapterStatus.NEXT_CHAPTER_NEVER
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.NextChapterStatus.NEXT_CHAPTER_NOT_DOWNLOADED
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.NextChapterStatus.NEXT_CHAPTER_READY
+import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_NONEXISTENT
+import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_NOT_DOWNLOADED
+import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_READY
 import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.Subscription
@@ -234,7 +234,6 @@ class ExoAudioBookPlayer private constructor(
   }
 
 
-
   private fun openSpineElement(spineElement: ExoSpineElement): ScheduledFuture<*> {
     this.log.debug("openSpineElement: {}", spineElement.index)
 
@@ -300,10 +299,10 @@ class ExoAudioBookPlayer private constructor(
     return when (currentState) {
       ExoPlayerStateInitial -> Unit
 
-      /*
-       * If the we're playing the current spine element, and the status is anything other
-       * than "downloaded", stop everything.
-       */
+    /*
+     * If the we're playing the current spine element, and the status is anything other
+     * than "downloaded", stop everything.
+     */
 
       is ExoPlayerStatePlaying -> {
         if (currentState.spineElement == status.spineElement) {
@@ -318,10 +317,10 @@ class ExoAudioBookPlayer private constructor(
         }
       }
 
-      /*
-       * If the we're stopped on the current spine element, and the status is anything other
-       * than "downloaded", stop everything.
-       */
+    /*
+     * If the we're stopped on the current spine element, and the status is anything other
+     * than "downloaded", stop everything.
+     */
 
       is ExoPlayerStateStopped -> {
         if (currentState.spineElement == status.spineElement) {
@@ -336,10 +335,10 @@ class ExoAudioBookPlayer private constructor(
         }
       }
 
-      /*
-       * If we're waiting for the spine element in question, and the status is now "downloaded",
-       * then start playing.
-       */
+    /*
+     * If we're waiting for the spine element in question, and the status is now "downloaded",
+     * then start playing.
+     */
 
       is ExoPlayerStateWaitingForElement -> {
         if (currentState.spineElement == status.spineElement) {
@@ -396,37 +395,80 @@ class ExoAudioBookPlayer private constructor(
     }
   }
 
-  private fun playNextSpineElementIfAvailable(element: ExoSpineElement): NextChapterStatus {
+  private fun playFirstSpineElementIfAvailable(): SkipChapterStatus {
+    this.log.debug("playFirstSpineElementIfAvailable")
+
+    val firstElement = this.book.spine.firstOrNull()
+    if (firstElement == null) {
+      this.log.debug("no available initial spine element")
+      return SKIP_TO_CHAPTER_NONEXISTENT
+    }
+
+    return playSpineElementIfAvailable(firstElement)
+  }
+
+  private fun playLastSpineElementIfAvailable(): SkipChapterStatus {
+    this.log.debug("playLastSpineElementIfAvailable")
+
+    val lastElement = this.book.spine.lastOrNull()
+    if (lastElement == null) {
+      this.log.debug("no available final spine element")
+      return SKIP_TO_CHAPTER_NONEXISTENT
+    }
+
+    return playSpineElementIfAvailable(lastElement)
+  }
+
+  private fun playNextSpineElementIfAvailable(element: ExoSpineElement): SkipChapterStatus {
     this.log.debug("playNextSpineElementIfAvailable: {}", element.index)
 
     val next = element.next as ExoSpineElement?
     if (next == null) {
       this.log.debug("spine element {} has no next element", element.index)
-      return NEXT_CHAPTER_NEVER
+      return SKIP_TO_CHAPTER_NONEXISTENT
     }
 
-    val downloadStatus = next.downloadStatus
+    return playSpineElementIfAvailable(next)
+  }
+
+  private fun playPreviousSpineElementIfAvailable(element: ExoSpineElement): SkipChapterStatus {
+    this.log.debug("playPreviousSpineElementIfAvailable: {}", element.index)
+
+    val previous = element.previous as ExoSpineElement?
+    if (previous == null) {
+      this.log.debug("spine element {} has no previous element", element.index)
+      return SKIP_TO_CHAPTER_NONEXISTENT
+    }
+
+    return playSpineElementIfAvailable(previous)
+  }
+
+  private fun playSpineElementIfAvailable(element: ExoSpineElement): SkipChapterStatus {
+    this.log.debug("playSpineElementIfAvailable: {}", element.index)
+    this.playNothing()
+
+    val downloadStatus = element.downloadStatus
     return when (downloadStatus) {
       is PlayerSpineElementNotDownloaded,
       is PlayerSpineElementDownloading,
       is PlayerSpineElementDownloadFailed -> {
-        this.log.debug("spine element {} is not downloaded ({}), cannot continue",
-          next.index, downloadStatus)
+        this.log.debug("playSpineElementIfAvailable: spine element {} is not downloaded ({}), cannot continue",
+          element.index, downloadStatus)
 
-        this.stateSet(ExoPlayerStateWaitingForElement(spineElement = next))
-        this.statusEvents.onNext(PlayerEventChapterWaiting(next))
-        NEXT_CHAPTER_NOT_DOWNLOADED
+        this.stateSet(ExoPlayerStateWaitingForElement(spineElement = element))
+        this.statusEvents.onNext(PlayerEventChapterWaiting(element))
+        SKIP_TO_CHAPTER_NOT_DOWNLOADED
       }
 
       is PlayerSpineElementDownloaded -> {
-        this.playSpineElementFromStart(next)
-        NEXT_CHAPTER_READY
+        this.playSpineElementUnconditionally(element)
+        SKIP_TO_CHAPTER_READY
       }
     }
   }
 
-  private fun playSpineElementFromStart(element: ExoSpineElement) {
-    this.log.debug("playSpineElementFromStart: {}", element.index)
+  private fun playSpineElementUnconditionally(element: ExoSpineElement) {
+    this.log.debug("playSpineElementUnconditionally: {}", element.index)
 
     this.stateSet(ExoPlayerStatePlaying(
       spineElement = element,
@@ -447,16 +489,19 @@ class ExoAudioBookPlayer private constructor(
     val state = this.stateGet()
     return when (state) {
       is ExoPlayerStateInitial -> {
-        this.opPlayInitial()
+        this.playFirstSpineElementIfAvailable()
+        Unit
       }
-      is ExoPlayerStatePlaying -> {
-        this.log.debug("not playing in the playing state")
-      }
-      is ExoPlayerStateStopped -> {
+
+      is ExoPlayerStatePlaying ->
+        this.log.debug("opPlay: already playing")
+
+      is ExoPlayerStateStopped ->
         this.opPlayStopped(state)
-      }
+
       is ExoPlayerStateWaitingForElement -> {
-        this.opPlayWaitingForElement(state)
+        this.playSpineElementIfAvailable(state.spineElement)
+        Unit
       }
     }
   }
@@ -475,49 +520,6 @@ class ExoAudioBookPlayer private constructor(
       state.spineElement, this.currentPlaybackOffset.toInt()))
   }
 
-  private fun opPlayWaitingForElement(state: ExoPlayerStateWaitingForElement) {
-    ExoEngineThread.checkIsExoEngineThread()
-    this.log.debug("opPlayWaitingForElement")
-
-    val downloadStatus = state.spineElement.downloadStatus
-    return when (downloadStatus) {
-      is PlayerSpineElementNotDownloaded,
-      is PlayerSpineElementDownloading,
-      is PlayerSpineElementDownloadFailed -> {
-        this.log.debug("spine element {} is not downloaded ({}), cannot continue",
-          state.spineElement.index, downloadStatus)
-      }
-
-      is PlayerSpineElementDownloaded -> {
-        this.playSpineElementFromStart(state.spineElement)
-      }
-    }
-  }
-
-  private fun opPlayInitial() {
-    ExoEngineThread.checkIsExoEngineThread()
-    this.log.debug("opPlayInitial")
-
-    val firstElement = this.book.spine.firstOrNull()
-    if (firstElement == null) {
-      return this.log.debug("no available initial spine element")
-    }
-
-    val downloadStatus = firstElement.downloadStatus
-    return when (downloadStatus) {
-      is PlayerSpineElementNotDownloaded,
-      is PlayerSpineElementDownloading,
-      is PlayerSpineElementDownloadFailed -> {
-        this.log.debug("spine element {} is not downloaded ({}), cannot continue",
-          firstElement.index, downloadStatus)
-      }
-
-      is PlayerSpineElementDownloaded -> {
-        this.playSpineElementFromStart(firstElement)
-      }
-    }
-  }
-
   private fun opCurrentTrackFinished() {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opCurrentTrackFinished")
@@ -532,13 +534,8 @@ class ExoAudioBookPlayer private constructor(
 
       is ExoPlayerStatePlaying -> {
         this.statusEvents.onNext(PlayerEventChapterCompleted(state.spineElement))
-
-        this.opPausePlaying(state)
-        when (this.opSkipToNextChapter()) {
-          NEXT_CHAPTER_NOT_DOWNLOADED -> throw Unimplemented()
-          NEXT_CHAPTER_NEVER -> throw Unimplemented()
-          NEXT_CHAPTER_READY -> this.opPlay()
-        }
+        this.playNextSpineElementIfAvailable(state.spineElement)
+        Unit
       }
 
       is ExoPlayerStateWaitingForElement ->
@@ -546,39 +543,44 @@ class ExoAudioBookPlayer private constructor(
     }
   }
 
-  private enum class NextChapterStatus {
-    NEXT_CHAPTER_NOT_DOWNLOADED,
-    NEXT_CHAPTER_NEVER,
-    NEXT_CHAPTER_READY
+  private enum class SkipChapterStatus {
+    SKIP_TO_CHAPTER_NOT_DOWNLOADED,
+    SKIP_TO_CHAPTER_NONEXISTENT,
+    SKIP_TO_CHAPTER_READY
   }
 
-  private fun opSkipToNextChapter(): NextChapterStatus {
+  private fun opSkipToNextChapter(): SkipChapterStatus {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToNextChapter")
 
     val state = this.stateGet()
     return when (state) {
       is ExoPlayerStateInitial ->
-        throw Unimplemented()
+        this.playFirstSpineElementIfAvailable()
       is ExoPlayerStatePlaying ->
-        this.opSkipToNextChapterPlaying(state)
+        this.playNextSpineElementIfAvailable(state.spineElement)
       is ExoPlayerStateStopped ->
-        this.opSkipToNextChapterStopped(state)
+        this.playNextSpineElementIfAvailable(state.spineElement)
       is ExoPlayerStateWaitingForElement ->
-        throw Unimplemented()
+        this.playNextSpineElementIfAvailable(state.spineElement)
     }
   }
 
-  private fun opSkipToNextChapterStopped(state: ExoPlayerStateStopped): NextChapterStatus {
+  private fun opSkipToPreviousChapter(): SkipChapterStatus {
     ExoEngineThread.checkIsExoEngineThread()
-    this.log.debug("opSkipToNextChapterStopped")
-    return this.playNextSpineElementIfAvailable(state.spineElement)
-  }
+    this.log.debug("opSkipToPreviousChapter")
 
-  private fun opSkipToNextChapterPlaying(state: ExoPlayerStatePlaying): NextChapterStatus {
-    ExoEngineThread.checkIsExoEngineThread()
-    this.log.debug("opSkipToNextChapterPlaying")
-    return this.playNextSpineElementIfAvailable(state.spineElement)
+    val state = this.stateGet()
+    return when (state) {
+      ExoPlayerStateInitial ->
+        this.playLastSpineElementIfAvailable()
+      is ExoPlayerStatePlaying ->
+        this.playPreviousSpineElementIfAvailable(state.spineElement)
+      is ExoPlayerStateWaitingForElement ->
+        this.playPreviousSpineElementIfAvailable(state.spineElement)
+      is ExoPlayerStateStopped ->
+        this.playPreviousSpineElementIfAvailable(state.spineElement)
+    }
   }
 
   private fun opPause() {
@@ -608,12 +610,6 @@ class ExoAudioBookPlayer private constructor(
     this.stateSet(ExoPlayerStateStopped(spineElement = state.spineElement))
     this.statusEvents.onNext(PlayerEventPlaybackPaused(
       state.spineElement, this.currentPlaybackOffset.toInt()))
-  }
-
-  private fun opSkipToPreviousChapter(): Boolean {
-    ExoEngineThread.checkIsExoEngineThread()
-    this.log.debug("opSkipToPreviousChapter")
-    return false
   }
 
   private fun opSkipForward() {

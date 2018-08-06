@@ -5,5 +5,5 @@ package org.nypl.audiobook.android.api
  */
 
 data class PlayerEngineAndBookProvider(
-  val engineProvider : PlayerAudioEngineProviderType,
-  val bookProvider : PlayerAudioBookProviderType)
+  val engineProvider: PlayerAudioEngineProviderType,
+  val bookProvider: PlayerAudioBookProviderType)

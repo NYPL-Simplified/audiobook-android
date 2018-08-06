@@ -8,9 +8,9 @@ import java.net.URI
  */
 
 data class PlayerDownloadRequest(
-  val uri : URI,
-  val outputFile : File,
-  val credentials : PlayerDownloadRequestCredentials?,
+  val uri: URI,
+  val outputFile: File,
+  val credentials: PlayerDownloadRequestCredentials?,
   val onProgress: (Int) -> Unit)
 
 /**

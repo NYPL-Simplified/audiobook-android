@@ -27,6 +27,7 @@ class ExoSpineElement(
   private val downloadProvider: PlayerDownloadProviderType,
   override val index: Int,
   internal var nextElement: PlayerSpineElementType?,
+  internal var previousElement: PlayerSpineElementType?,
   override val duration: Duration,
   val engineExecutor: ExecutorService)
   : PlayerSpineElementType {
@@ -47,6 +48,9 @@ class ExoSpineElement(
 
   override val next: PlayerSpineElementType?
     get() = this.nextElement
+
+  override val previous: PlayerSpineElementType?
+    get() = this.previousElement
 
   override val position: PlayerPosition
     get() = PlayerPosition(

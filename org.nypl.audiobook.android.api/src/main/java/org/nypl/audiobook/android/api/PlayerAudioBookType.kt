@@ -69,7 +69,7 @@ interface PlayerAudioBookType {
    * An observable publishing changes to the current download status of the part.
    */
 
-  val spineElementDownloadStatus : Observable<PlayerSpineElementDownloadStatus>
+  val spineElementDownloadStatus: Observable<PlayerSpineElementDownloadStatus>
 
   /**
    * A player for the part.

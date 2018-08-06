@@ -90,6 +90,7 @@ class ExoAudioBook private constructor(
             downloadProvider = downloadProvider,
             index = index,
             nextElement = null,
+            previousElement = spineItemPrevious,
             duration = duration,
             engineExecutor = engineExecutor)
 

@@ -11,7 +11,7 @@ import java.security.MessageDigest
 data class PlayerBookID private constructor(val value: String) {
 
   companion object {
-    fun transform(id : String) : PlayerBookID {
+    fun transform(id: String): PlayerBookID {
       val digest = MessageDigest.getInstance("SHA-256")
       val bytes = digest.digest(id.toByteArray(Charset.forName("UTF-8")))
       val sb = StringBuilder(32)

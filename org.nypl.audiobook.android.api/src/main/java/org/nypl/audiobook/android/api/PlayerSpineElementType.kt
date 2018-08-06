@@ -28,13 +28,20 @@ interface PlayerSpineElementType {
    * is the last one in the book.
    */
 
-  val next : PlayerSpineElementType?
+  val next: PlayerSpineElementType?
+
+  /**
+   * The previous spine item, if one exists. This is null if and only if the current spine element
+   * is the first one in the book.
+   */
+
+  val previous: PlayerSpineElementType?
 
   /**
    * The length of the spine item.
    */
 
-  val duration : Duration
+  val duration: Duration
 
   /**
    * The unique identifier for the spine item.
