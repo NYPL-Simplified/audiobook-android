@@ -3,13 +3,13 @@ audiobook-android
 
 ![Travis (.org)](https://img.shields.io/travis/NYPL-Simplified/audiobook-android.svg?style=flat-square)
 
-#### Compilation
+### Compilation
 
 ```
 $ ./gradlew clean assembleDebug test publishToMavenLocal
 ```
 
-#### Project Structure
+### Project Structure
 
 The project is divided into separate modules. Programmers wishing to use the API will primarily be
 concerned with the [Core API](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.api),
@@ -24,7 +24,7 @@ to actually do useful work.
 | [org.nypl.audiobook.android.tests](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.tests) | Unit tests that can execute without needing a real or emulated device
 | [org.nypl.audiobook.android.tests.device](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.tests.device) | Unit tests that execute on real or emulated devices
 
-#### Usage
+### Usage
 
 1. Download (or synthesize) an [audio book manifest](#manifest_parsers). [Hadrien Gardeur](https://github.com/HadrienGardeur/audiobook-manifest/) publishes many example manifests in formats supported by the API.
 2. Ask the API to [parse the manifest](#using_manifest_parsers).
@@ -34,7 +34,7 @@ to actually do useful work.
 See the provided [example project](https://github.com/NYPL-Simplified/audiobook-demo-android) for a
 complete example that is capable of downloading and playing audio books.
 
-#### Providers
+### Providers
 
 The API uses a _service provider_ model in order to provide strong _modularity_ and to decouple
 consumers of the API from specific implementations of the API. To this end, the API uses
@@ -43,16 +43,16 @@ internally in order to allow new implementations of both [manifest parsers](#man
 [audio engines](#audio_engines) to be registered and made available to client applications without
 requiring any changes to the application code.
 
-#### Manifest Parsers <a id="manifest_parsers"/>
+### Manifest Parsers <a id="manifest_parsers"/>
 
-##### Overview
+#### Overview
 
 An audio book is typically delivered to the client via a _manifest_. A manifest is normally a
 JSON description of the audio book that includes links to audio files, and other metadata. It is the
 responsibility of a _manifest parser_ to turn a JSON AST into a typed manifest data structure
 defined in the Core API.
 
-##### Using Manifest Parsers <a id="using_manifest_parsers"/>
+#### Using Manifest Parsers <a id="using_manifest_parsers"/>
 
 Programmers should make calls to the [PlayerManifests](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.nypl.audiobook.android.api/src/main/java/org/nypl/audiobook/android/api/PlayerManifests.kt)
 class, passing in an input stream representing the raw bytes of a manifest. The methods return a
@@ -62,7 +62,7 @@ whether or not it can parse the given raw data and picks the first one that clai
 Programmers are not intended to have to use instances of the [PlayerManifestParserType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.nypl.audiobook.android.api/src/main/java/org/nypl/audiobook/android/api/PlayerManifestParserType.kt)
 directly.
 
-##### Creating Manifest Parsers <a id="creating_manifest_parsers"/>
+#### Creating Manifest Parsers <a id="creating_manifest_parsers"/>
 
 Programmers will generally not need to create new manifest parsers, but will instead use one or
 more of the [provided implementations](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.manifest.nypl).
@@ -89,13 +89,13 @@ affirmative will be used. Implementations should take care to be honest; an impl
 always claimed to be able to parse the given JSON would prevent other (possibly more suitable)
 implementations from being considered.
 
-#### Audio Engines <a id="audio_engines"/>
+### Audio Engines <a id="audio_engines"/>
 
-##### Overview
+#### Overview
 
 An _audio engine_ is a component that actually downloads and plays a given audio book.
 
-##### Using Audio Engines <a id="using_audio_engines"/>
+#### Using Audio Engines <a id="using_audio_engines"/>
 
 Given a parsed [manifest](#using_manifest_parsers), programmers should make calls to the methods
 defined on the [PlayerAudioEngines](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.nypl.audiobook.android.api/src/main/java/org/nypl/audiobook/android/api/PlayerAudioEngines.kt)
@@ -106,7 +106,7 @@ class for information on how to filter and/or prefer particular implementations.
 (somewhat arbitrary) default behaviour is to select all implementations that claim to be able to
 support the given book, and then select the implementation that advertises the highest version number.
 
-##### Creating Audio Engines <a id="creating_audio_engines"/>
+#### Creating Audio Engines <a id="creating_audio_engines"/>
 
 Implementations must implement the [PlayerAudioEngineProviderType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.nypl.audiobook.android.api/src/main/java/org/nypl/audiobook/android/api/PlayerAudioEngineProviderType.kt)
 interface and register themselves in the same manner as [manifest parsers](#creating_manifest_parsers).
