@@ -66,8 +66,8 @@ directly.
 
 Programmers will generally not need to create new manifest parsers, but will instead use one or
 more of the [provided implementations](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.manifest.nypl).
-However, if a new and unsupported manifest format is required, then it will be necessary to
-write and register a new manifest parser implementation.
+However, applications needing to use a new and unsupported manifest format will need to
+provide and register new manifest parser implementations.
 
 In order to add a new manifest parser, it's necessary to define a new class that implements
 the [PlayerManifestParserType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.nypl.audiobook.android.api/src/main/java/org/nypl/audiobook/android/api/PlayerManifestParserType.kt)
