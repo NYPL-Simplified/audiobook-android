@@ -148,7 +148,7 @@ class ExoDownloadTask(
 
     val current = stateGetCurrent()
     when (current) {
-      Initial -> Unit
+      Initial -> this.onBroadcastState()
       Downloaded -> onDeleteDownloaded()
       is Downloading -> onDeleteDownloading(current)
     }
