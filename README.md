@@ -48,7 +48,7 @@ requiring any changes to the application code.
 ##### Overview
 
 An audio book is typically delivered to the client via a _manifest_. A manifest is normally a
-JSON description of the audio book that includes links to audio files and other metadata. It is the
+JSON description of the audio book that includes links to audio files, and other metadata. It is the
 responsibility of a _manifest parser_ to turn a JSON AST into a typed manifest data structure
 defined in the Core API.
 
