@@ -38,8 +38,8 @@ complete example that is capable of downloading and playing audio books.
 
 The API uses a _service provider_ model in order to provide strong _modularity_ and to decouple
 consumers of the API from specific implementations of the API. To this end, the API uses
-[ServiceLoader](https://docs.oracle.com/javase/10/docs/api/java/util/ServiceLoader.html) in order
-to allow new implementations of both [manifest parsers](#manifest_parsers) and
+[ServiceLoader](https://docs.oracle.com/javase/10/docs/api/java/util/ServiceLoader.html)
+internally in order to allow new implementations of both [manifest parsers](#manifest_parsers) and
 [audio engines](#audio_engines) to be registered and made available to client applications without
 requiring any changes to the application code.
 
