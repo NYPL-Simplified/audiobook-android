@@ -2,7 +2,9 @@ package org.nypl.audiobook.android.open_access
 
 import android.content.Context
 import android.media.AudioManager
+import android.media.PlaybackParams
 import android.net.Uri
+import android.os.Build
 import com.google.android.exoplayer.ExoPlaybackException
 import com.google.android.exoplayer.ExoPlayer
 import com.google.android.exoplayer.MediaCodecAudioTrackRenderer
@@ -116,6 +118,7 @@ class ExoAudioBookPlayer private constructor(
 
   private val downloadEventSubscription: Subscription
   private val allocator: Allocator = DefaultAllocator(this.bufferSegmentSize)
+  private lateinit var exoAudioRenderer: MediaCodecAudioTrackRenderer
 
   private fun stateSet(state: ExoPlayerState) {
     synchronized(this.stateLock) { this.state = state }
@@ -274,7 +277,7 @@ class ExoAudioBookPlayer private constructor(
         null,
         0)
 
-    val audioRenderer =
+    this.exoAudioRenderer =
       MediaCodecAudioTrackRenderer(
         sampleSource,
         MediaCodecSelector.DEFAULT,
@@ -286,11 +289,11 @@ class ExoAudioBookPlayer private constructor(
         AudioManager.STREAM_MUSIC)
 
     val offsetMs = offset.toLong()
-    this.exoPlayer.prepare(audioRenderer)
+    this.exoPlayer.prepare(this.exoAudioRenderer)
     this.exoPlayer.playWhenReady = true
     this.exoPlayer.seekTo(offsetMs)
     this.currentPlaybackOffset = offsetMs
-
+    this.setPlayerPlaybackRate(this.currentPlaybackRate)
     return this.schedulePlaybackObserverForSpineElement(spineElement)
   }
 
@@ -373,6 +376,18 @@ class ExoAudioBookPlayer private constructor(
 
         }
       }
+    }
+  }
+
+  /**
+   * Configure the current player to use the given playback rate.
+   */
+
+  private fun setPlayerPlaybackRate(newRate: PlayerPlaybackRate) {
+    if (Build.VERSION.SDK_INT >= 23) {
+      val params = PlaybackParams()
+      params.speed = newRate.speed.toFloat()
+      this.exoPlayer.sendMessage(this.exoAudioRenderer, 2, params)
     }
   }
 
@@ -496,10 +511,12 @@ class ExoAudioBookPlayer private constructor(
     this.statusEvents.onNext(PlayerEventPlaybackStarted(element, offset))
   }
 
-  private fun opSetPlaybackRate(new_rate: PlayerPlaybackRate) {
+  private fun opSetPlaybackRate(newRate: PlayerPlaybackRate) {
     ExoEngineThread.checkIsExoEngineThread()
+    this.log.debug("opSetPlaybackRate: {}", newRate)
 
-    this.currentPlaybackRate = new_rate
+    this.currentPlaybackRate = newRate
+    this.setPlayerPlaybackRate(newRate)
   }
 
   private fun opPlay() {
