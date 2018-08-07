@@ -572,8 +572,13 @@ class ExoAudioBookPlayer private constructor(
 
       is ExoPlayerStatePlaying -> {
         this.statusEvents.onNext(PlayerEventChapterCompleted(state.spineElement))
-        this.playNextSpineElementIfAvailable(state.spineElement)
-        Unit
+
+        when (this.playNextSpineElementIfAvailable(state.spineElement)) {
+          SKIP_TO_CHAPTER_NOT_DOWNLOADED,
+          SKIP_TO_CHAPTER_READY -> Unit
+          SKIP_TO_CHAPTER_NONEXISTENT ->
+            this.playNothing()
+        }
       }
     }
   }
