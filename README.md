@@ -34,6 +34,25 @@ to actually do useful work.
 See the provided [example project](https://github.com/NYPL-Simplified/audiobook-demo-android) for a
 complete example that is capable of downloading and playing audio books.
 
+### Dependencies
+
+At a minimum, applications will need the Core API, one or more [manifest parser](#manifest_parsers)
+implementations, and one or more [audio engine](#audio_engines) implementations. Use the following
+Gradle dependencies to get a manifest parser that can parse the NYPL manifest format, and an audio
+engine that can play non-encrypted audio books:
+
+```
+ext {
+  nypl_audiobook_api_version = "0.0.29"
+}
+
+dependencies {
+  implementation "org.nypl.audiobook:org.nypl.audiobook.android.manifest.nypl:${nypl_audiobook_api_version}"
+  implementation "org.nypl.audiobook:org.nypl.audiobook.android.api:${nypl_audiobook_api_version}"
+  implementation "org.nypl.audiobook:org.nypl.audiobook.android.open_access:${nypl_audiobook_api_version}"
+}
+```
+
 ### Providers
 
 The API uses a _service provider_ model in order to provide strong _modularity_ and to decouple
