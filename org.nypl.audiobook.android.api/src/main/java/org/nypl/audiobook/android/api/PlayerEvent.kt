@@ -7,11 +7,17 @@ package org.nypl.audiobook.android.api
 sealed class PlayerEvent {
 
   /**
+   * The spine element to which this event refers.
+   */
+
+  abstract val spineElement: PlayerSpineElementType
+
+  /**
    * Playback of the given spine element has started.
    */
 
   data class PlayerEventPlaybackStarted(
-    val spineElement: PlayerSpineElementType,
+    override val spineElement: PlayerSpineElementType,
     val offsetMilliseconds: Int)
     : PlayerEvent()
 
@@ -21,7 +27,7 @@ sealed class PlayerEvent {
    */
 
   data class PlayerEventPlaybackBuffering(
-    val spineElement: PlayerSpineElementType,
+    override val spineElement: PlayerSpineElementType,
     val offsetMilliseconds: Int)
     : PlayerEvent()
 
@@ -31,7 +37,7 @@ sealed class PlayerEvent {
    */
 
   data class PlayerEventPlaybackProgressUpdate(
-    val spineElement: PlayerSpineElementType,
+    override val spineElement: PlayerSpineElementType,
     val offsetMilliseconds: Int)
     : PlayerEvent()
 
@@ -41,7 +47,7 @@ sealed class PlayerEvent {
    */
 
   data class PlayerEventChapterCompleted(
-    val spineElement: PlayerSpineElementType)
+    override val spineElement: PlayerSpineElementType)
     : PlayerEvent()
 
   /**
@@ -50,7 +56,7 @@ sealed class PlayerEvent {
    */
 
   data class PlayerEventChapterWaiting(
-    val spineElement: PlayerSpineElementType)
+    override val spineElement: PlayerSpineElementType)
     : PlayerEvent()
 
   /**
@@ -58,7 +64,7 @@ sealed class PlayerEvent {
    */
 
   data class PlayerEventPlaybackPaused(
-    val spineElement: PlayerSpineElementType,
+    override val spineElement: PlayerSpineElementType,
     val offsetMilliseconds: Int)
     : PlayerEvent()
 
@@ -67,7 +73,7 @@ sealed class PlayerEvent {
    */
 
   data class PlayerEventPlaybackStopped(
-    val spineElement: PlayerSpineElementType,
+    override val spineElement: PlayerSpineElementType,
     val offsetMilliseconds: Int)
     : PlayerEvent()
 
