@@ -118,7 +118,7 @@ class ExoAudioBookPlayer private constructor(
 
   private val downloadEventSubscription: Subscription
   private val allocator: Allocator = DefaultAllocator(this.bufferSegmentSize)
-  private lateinit var exoAudioRenderer: MediaCodecAudioTrackRenderer
+  private var exoAudioRenderer: MediaCodecAudioTrackRenderer? = null
 
   private fun stateSet(state: ExoPlayerState) {
     synchronized(this.stateLock) { this.state = state }
@@ -384,13 +384,22 @@ class ExoAudioBookPlayer private constructor(
    */
 
   private fun setPlayerPlaybackRate(newRate: PlayerPlaybackRate) {
-    if (Build.VERSION.SDK_INT >= 23) {
-      val params = PlaybackParams()
-      params.speed = newRate.speed.toFloat()
-      this.exoPlayer.sendMessage(this.exoAudioRenderer, 2, params)
-    }
+    this.log.debug("setPlayerPlaybackRate: {}", newRate)
 
     this.statusEvents.onNext(PlayerEvent.PlayerEventPlaybackRateChanged(newRate))
+
+    /*
+     * If the player has not started playing a track, then attempting to set the playback
+     * rate on the player will actually end up blocking until another track is loaded.
+     */
+
+    if (this.exoAudioRenderer != null) {
+      if (Build.VERSION.SDK_INT >= 23) {
+        val params = PlaybackParams()
+        params.speed = newRate.speed.toFloat()
+        this.exoPlayer.sendMessage(this.exoAudioRenderer, 2, params)
+      }
+    }
   }
 
   /**
