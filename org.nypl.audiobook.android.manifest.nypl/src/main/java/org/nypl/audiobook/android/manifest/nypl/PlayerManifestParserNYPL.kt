@@ -76,7 +76,7 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
   }
 
   private fun parseSpine(node: ObjectNode): List<PlayerManifestSpineItem> {
-    val spine_array = PlayerJSONParserUtilities.getArray(node, "spine")
+    val spine_array = PlayerJSONParserUtilities.getArray(node, "readingOrder")
     val spines = ArrayList<PlayerManifestSpineItem>()
 
     for (index in 0..spine_array.size() - 1) {

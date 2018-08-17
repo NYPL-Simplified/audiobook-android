@@ -3,7 +3,7 @@
     "http://readium.org/webpub/default.jsonld"
   ],
 
-  "spine": [
+  "readingOrder": [
     {
       "title": "Track 0",
       "href": "http://ataxia.io7m.com/2017/11/12/01.mp3",
