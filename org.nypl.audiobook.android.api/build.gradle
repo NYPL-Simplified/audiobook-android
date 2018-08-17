@@ -20,12 +20,18 @@ android {
   }
 }
 
+task sourceJar(type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier "sources"
+}
+
 publishing {
   publications {
     debugAAR(MavenPublication) {
       groupId group
       artifactId 'org.nypl.audiobook.android.api'
       version version
+      artifact(sourceJar)
       artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.api-debug.aar")
 
       pom.withXml {
