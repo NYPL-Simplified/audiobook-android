@@ -31,6 +31,7 @@ import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpi
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.nypl.audiobook.android.api.PlayerType
+import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateInitial
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStatePlaying
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateStopped
@@ -689,6 +690,16 @@ class ExoAudioBookPlayer private constructor(
     val offset = Math.min(this.exoPlayer.duration, this.exoPlayer.currentPosition + 15_000L)
     this.exoPlayer.seekTo(offset)
     this.currentPlaybackOffset = offset
+
+    val state = this.stateGet()
+    return when (state) {
+      ExoPlayerStateInitial,
+      is ExoPlayerStatePlaying,
+      is ExoPlayerStateWaitingForElement -> Unit
+      is ExoPlayerStateStopped ->
+        this.statusEvents.onNext(PlayerEventPlaybackPaused(
+          state.spineElement, this.currentPlaybackOffset.toInt()))
+    }
   }
 
   private fun opSkipBack() {
@@ -698,6 +709,16 @@ class ExoAudioBookPlayer private constructor(
     val offset = Math.max(0L, this.exoPlayer.currentPosition - 15_000L)
     this.exoPlayer.seekTo(offset)
     this.currentPlaybackOffset = offset
+
+    val state = this.stateGet()
+    return when (state) {
+      ExoPlayerStateInitial,
+      is ExoPlayerStatePlaying,
+      is ExoPlayerStateWaitingForElement -> Unit
+      is ExoPlayerStateStopped ->
+        this.statusEvents.onNext(PlayerEventPlaybackPaused(
+          state.spineElement, this.currentPlaybackOffset.toInt()))
+    }
   }
 
   private fun opPlayAtLocation(location: PlayerPosition) {
