@@ -292,8 +292,7 @@ class ExoAudioBookPlayer private constructor(
     val offsetMs = offset.toLong()
     this.exoPlayer.prepare(this.exoAudioRenderer)
     this.exoPlayer.playWhenReady = true
-    this.exoPlayer.seekTo(offsetMs)
-    this.currentPlaybackOffset = offsetMs
+    this.seek(offsetMs)
     this.setPlayerPlaybackRate(this.currentPlaybackRate)
     return this.schedulePlaybackObserverForSpineElement(spineElement)
   }
@@ -449,7 +448,7 @@ class ExoAudioBookPlayer private constructor(
       return SKIP_TO_CHAPTER_NONEXISTENT
     }
 
-    return playSpineElementIfAvailable(firstElement)
+    return this.playSpineElementIfAvailable(firstElement)
   }
 
   private fun playLastSpineElementIfAvailable(): SkipChapterStatus {
@@ -461,7 +460,7 @@ class ExoAudioBookPlayer private constructor(
       return SKIP_TO_CHAPTER_NONEXISTENT
     }
 
-    return playSpineElementIfAvailable(lastElement)
+    return this.playSpineElementIfAvailable(lastElement)
   }
 
   private fun playNextSpineElementIfAvailable(element: ExoSpineElement): SkipChapterStatus {
@@ -473,7 +472,7 @@ class ExoAudioBookPlayer private constructor(
       return SKIP_TO_CHAPTER_NONEXISTENT
     }
 
-    return playSpineElementIfAvailable(next)
+    return this.playSpineElementIfAvailable(next)
   }
 
   private fun playPreviousSpineElementIfAvailable(element: ExoSpineElement): SkipChapterStatus {
@@ -485,7 +484,7 @@ class ExoAudioBookPlayer private constructor(
       return SKIP_TO_CHAPTER_NONEXISTENT
     }
 
-    return playSpineElementIfAvailable(previous)
+    return this.playSpineElementIfAvailable(previous)
   }
 
   private fun playSpineElementIfAvailable(
@@ -521,6 +520,12 @@ class ExoAudioBookPlayer private constructor(
       spineElement = element,
       observerTask = this.openSpineElement(element, offset)))
     this.statusEvents.onNext(PlayerEventPlaybackStarted(element, offset))
+  }
+
+  private fun seek(offsetMs: Long) {
+    this.log.debug("seek: {}", offsetMs)
+    this.exoPlayer.seekTo(offsetMs)
+    this.currentPlaybackOffset = offsetMs
   }
 
   private fun opSetPlaybackRate(newRate: PlayerPlaybackRate) {
@@ -688,8 +693,7 @@ class ExoAudioBookPlayer private constructor(
     this.log.debug("opSkipForward")
 
     val offset = Math.min(this.exoPlayer.duration, this.exoPlayer.currentPosition + 15_000L)
-    this.exoPlayer.seekTo(offset)
-    this.currentPlaybackOffset = offset
+    this.seek(offset)
 
     val state = this.stateGet()
     return when (state) {
@@ -707,8 +711,7 @@ class ExoAudioBookPlayer private constructor(
     this.log.debug("opSkipBack")
 
     val offset = Math.max(0L, this.exoPlayer.currentPosition - 15_000L)
-    this.exoPlayer.seekTo(offset)
-    this.currentPlaybackOffset = offset
+    this.seek(offset)
 
     val state = this.stateGet()
     return when (state) {
@@ -725,15 +728,38 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opPlayAtLocation: {}", location)
 
-    val spineElement =
+    val currentSpineElement =
+      this.currentSpineElement()
+
+    val requestedSpineElement =
       this.book.spineElementForPartAndChapter(location.part, location.chapter)
         as ExoSpineElement?
 
-    if (spineElement == null) {
+    if (requestedSpineElement == null) {
       return this.log.debug("spine element does not exist")
     }
 
-    this.playSpineElementIfAvailable(spineElement, location.offsetMilliseconds)
+    /*
+     * If the current spine element is the same as the requested spine element, then it's more
+     * efficient to simply seek to the right offset and start playing.
+     */
+
+    if (requestedSpineElement == currentSpineElement) {
+      this.seek(location.offsetMilliseconds.toLong())
+      this.opPlay()
+    } else {
+      this.playSpineElementIfAvailable(requestedSpineElement, location.offsetMilliseconds)
+    }
+  }
+
+  private fun currentSpineElement(): ExoSpineElement? {
+    val state = this.stateGet()
+    return when (state) {
+      ExoPlayerStateInitial -> null
+      is ExoPlayerStatePlaying -> state.spineElement
+      is ExoPlayerStateWaitingForElement -> null
+      is ExoPlayerStateStopped -> state.spineElement
+    }
   }
 
   private fun opMovePlayheadToLocation(location: PlayerPosition) {
