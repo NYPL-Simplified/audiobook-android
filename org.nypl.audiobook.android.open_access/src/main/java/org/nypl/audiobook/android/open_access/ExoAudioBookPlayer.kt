@@ -775,6 +775,7 @@ class ExoAudioBookPlayer private constructor(
     this.downloadEventSubscription.unsubscribe()
     this.playNothing()
     this.exoPlayer.release()
+    this.statusEvents.onCompleted()
   }
 
   override val isPlaying: Boolean
