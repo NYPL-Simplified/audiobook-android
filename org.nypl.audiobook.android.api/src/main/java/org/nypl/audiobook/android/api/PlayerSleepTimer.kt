@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.util.concurrent.ArrayBlockingQueue
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -62,12 +63,15 @@ class PlayerSleepTimer private constructor(
 
   private val log: Logger = LoggerFactory.getLogger(PlayerSleepTimer::class.java)
   private val closed: AtomicBoolean = AtomicBoolean(false)
-  private var task: Future<*>
+  private val task: Future<*>
   private val requests: ArrayBlockingQueue<PlayerTimerRequest> = ArrayBlockingQueue(16)
 
   init {
     this.log.debug("starting initial task")
-    this.task = this.executor.submit(PlayerSleepTimerTask(this))
+    val timerTask = PlayerSleepTimerTask(this)
+    this.task = this.executor.submit(timerTask)
+    this.log.debug("waiting for task to start")
+    timerTask.latch.await()
   }
 
   /**
@@ -75,7 +79,10 @@ class PlayerSleepTimer private constructor(
    * terminated when the sleep timer is closed.
    */
 
-  private class PlayerSleepTimerTask(private val timer: PlayerSleepTimer) : Runnable {
+  private class PlayerSleepTimerTask(
+    private val timer: PlayerSleepTimer) : Runnable {
+
+    internal val latch: CountDownLatch = CountDownLatch(1)
 
     private val log: Logger = LoggerFactory.getLogger(PlayerSleepTimerTask::class.java)
     private var remaining: Duration = Duration.ZERO
@@ -87,114 +94,103 @@ class PlayerSleepTimer private constructor(
 
     override fun run() {
       this.log.debug("starting main task")
-
+      this.latch.countDown()
 
       try {
-
-        /*
-         * Wait indefinitely (or at least until the thread is interrupted) for an initial
-         * request.
-         */
-
         initialRequestWaiting@ while (true) {
-          this.log.debug("waiting for timer requests")
-          this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
-
-          var initialRequest: PlayerTimerRequest?
           try {
-            initialRequest = this.timer.requests.take()
-          } catch (e: InterruptedException) {
-            initialRequest = null
-          }
+            this.log.debug("waiting for timer requests")
+            this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
 
-          if (this.timer.isClosed) {
-            this.onCloseNoticed()
-            return
-          }
+            /*
+             * Wait indefinitely (or at least until the thread is interrupted) for an initial
+             * request.
+             */
 
-          when (initialRequest) {
-            null, PlayerTimerRequestClose -> {
-              if (this.onCloseNoticed()) {
-                return
-              }
-            }
-
-            is PlayerTimerRequestStart -> {
-              this.log.debug("received start request: {}", initialRequest.duration)
-              this.remaining = initialRequest.duration
-              this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
-            }
-
-            PlayerTimerRequestStop -> {
-              this.log.debug("received (redundant) stop request")
-              this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
-              break@initialRequestWaiting
-            }
-          }
-
-          /*
-           * The timer is now running. Wait in a loop for requests. Time out waiting after a second
-           * each time in order to decrement the remaining time.
-           */
-
-          processingTimerRequests@ while (true) {
-
-            var request: PlayerTimerRequest?
+            var initialRequest: PlayerTimerRequest?
             try {
-              request = this.timer.requests.poll(1L, TimeUnit.SECONDS)
+              initialRequest = this.timer.requests.take()
             } catch (e: InterruptedException) {
-              request = null
+              initialRequest = null
             }
 
-            when (request) {
-              null -> {
-                this.remaining = this.remaining.minus(this.oneSecond)
-                this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
+            if (this.timer.isClosed) {
+              return
+            }
 
-                if (this.remaining.isShorterThan(this.oneSecond)) {
-                  this.log.debug("timer finished")
-                  this.timer.statusEvents.onNext(PlayerSleepTimerFinished)
-                  break@initialRequestWaiting
-                }
-              }
-
-              PlayerTimerRequestClose -> {
-                if (this.onCloseNoticed()) {
-                  return
-                }
+            when (initialRequest) {
+              null, PlayerTimerRequestClose -> {
+                return
               }
 
               is PlayerTimerRequestStart -> {
-                this.log.debug("restarting timer")
-                this.remaining = request.duration
+                this.log.debug("received start request: {}", initialRequest.duration)
+                this.remaining = initialRequest.duration
                 this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
-                continue@processingTimerRequests
               }
 
               PlayerTimerRequestStop -> {
-                this.log.debug("stopping timer")
-                this.timer.statusEvents.onNext(PlayerSleepTimerCancelled(this.remaining))
+                this.log.debug("received (redundant) stop request")
                 this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
                 break@initialRequestWaiting
               }
             }
+
+            /*
+             * The timer is now running. Wait in a loop for requests. Time out waiting after a second
+             * each time in order to decrement the remaining time.
+             */
+
+            processingTimerRequests@ while (true) {
+
+              var request: PlayerTimerRequest?
+              try {
+                request = this.timer.requests.poll(1L, TimeUnit.SECONDS)
+              } catch (e: InterruptedException) {
+                request = null
+              }
+
+              when (request) {
+                null -> {
+                  this.remaining = this.remaining.minus(this.oneSecond)
+                  this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
+
+                  if (this.remaining.isShorterThan(this.oneSecond)) {
+                    this.log.debug("timer finished")
+                    this.timer.statusEvents.onNext(PlayerSleepTimerFinished)
+                    break@initialRequestWaiting
+                  }
+                }
+
+                PlayerTimerRequestClose -> {
+                  return
+                }
+
+                is PlayerTimerRequestStart -> {
+                  this.log.debug("restarting timer")
+                  this.remaining = request.duration
+                  this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
+                  continue@processingTimerRequests
+                }
+
+                PlayerTimerRequestStop -> {
+                  this.log.debug("stopping timer")
+                  this.timer.statusEvents.onNext(PlayerSleepTimerCancelled(this.remaining))
+                  this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
+                  break@initialRequestWaiting
+                }
+              }
+            }
+          } catch (e: Exception) {
+            this.log.error("error processing request: ", e)
           }
         }
       } finally {
         this.log.debug("stopping main task")
-
-        if (!this.timer.isClosed) {
-          this.log.debug("resubmitting main task")
-          this.timer.task = this.timer.executor.submit(PlayerSleepTimerTask(this.timer))
-        }
+        this.log.debug("completing status events")
+        this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
+        this.timer.statusEvents.onCompleted()
       }
-    }
-
-    private fun onCloseNoticed(): Boolean {
-      this.log.debug("received close request")
-      this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
-      this.timer.statusEvents.onCompleted()
-      return true
     }
   }
 
@@ -253,7 +249,7 @@ class PlayerSleepTimer private constructor(
   override val isClosed: Boolean
     get() = this.closed.get()
 
-  override val status: Observable<PlayerSleepTimerEvent>
-    get() = this.statusEvents.distinctUntilChanged()
+  override val status: Observable<PlayerSleepTimerEvent> =
+    this.statusEvents.distinctUntilChanged()
 
 }

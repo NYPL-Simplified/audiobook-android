@@ -9,6 +9,7 @@ import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerRunn
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerStopped
 import org.nypl.audiobook.android.api.PlayerSleepTimerType
 import org.slf4j.Logger
+import java.util.concurrent.CountDownLatch
 
 /**
  * Test contract for the {@link org.nypl.audiobook.android.api.PlayerSleepTimerType} interface.
@@ -40,21 +41,23 @@ abstract class PlayerSleepTimerContract {
 
   @Test(timeout = 10_000L)
   fun testCountdown() {
-    val events = ArrayList<String>()
-
     val logger = this.logger()
     val timer = this.create()
 
-    timer.status.subscribe { event ->
-      logger.debug("event: {}", event)
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
 
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
       events.add(when (event) {
         PlayerSleepTimerStopped -> "stopped"
         is PlayerSleepTimerRunning -> "running"
         is PlayerSleepTimerCancelled -> "cancelled"
         PlayerSleepTimerFinished -> "finished"
       })
-    }
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
@@ -64,6 +67,8 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("closing timer")
     timer.close()
+
+    waitLatch.await()
 
     logger.debug("events: {}", events)
     Assert.assertEquals(7, events.size)
@@ -82,21 +87,24 @@ abstract class PlayerSleepTimerContract {
 
   @Test(timeout = 10_000L)
   fun testCancel() {
-    val events = ArrayList<String>()
 
     val logger = this.logger()
     val timer = this.create()
 
-    timer.status.subscribe { event ->
-      logger.debug("event: {}", event)
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
 
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
       events.add(when (event) {
         PlayerSleepTimerStopped -> "stopped"
         is PlayerSleepTimerRunning -> "running"
         is PlayerSleepTimerCancelled -> "cancelled"
         PlayerSleepTimerFinished -> "finished"
       })
-    }
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
@@ -113,11 +121,13 @@ abstract class PlayerSleepTimerContract {
     logger.debug("closing timer")
     timer.close()
 
+    waitLatch.await()
+
     logger.debug("events: {}", events)
     Assert.assertTrue("Must receive at least 4 events", events.size >= 4)
     Assert.assertEquals("stopped", events.first())
-    Assert.assertTrue("Received at least cancelled event", events.contains("cancelled"))
-    Assert.assertTrue("Received at least running event", events.contains("running"))
+    Assert.assertTrue("Received at least a cancelled event", events.contains("cancelled"))
+    Assert.assertTrue("Received at least a running event", events.contains("running"))
     Assert.assertEquals("stopped", events.last())
   }
 
@@ -127,21 +137,23 @@ abstract class PlayerSleepTimerContract {
 
   @Test(timeout = 10_000L)
   fun testCancelImmediate() {
-    val events = ArrayList<String>()
-
     val logger = this.logger()
     val timer = this.create()
 
-    timer.status.subscribe { event ->
-      logger.debug("event: {}", event)
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
 
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
       events.add(when (event) {
         PlayerSleepTimerStopped -> "stopped"
         is PlayerSleepTimerRunning -> "running"
         is PlayerSleepTimerCancelled -> "cancelled"
         PlayerSleepTimerFinished -> "finished"
       })
-    }
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
@@ -151,12 +163,25 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("closing timer")
     timer.close()
-    Thread.sleep(1000L)
+
+    waitLatch.await()
 
     logger.debug("events: {}", events)
     Assert.assertTrue("Must have received at least one events", events.size >= 1)
     Assert.assertEquals("stopped", events.first())
-    Assert.assertTrue("Received at least cancelled event", events.contains("cancelled"))
+
+    /*
+     * This is timing sensitive. We may not receive a cancelled event if the timer doesn't even
+     * have time to start.
+     */
+
+    if (events.size >= 4) {
+      Assert.assertTrue("Received at least a running event", events.contains("running"))
+    }
+    if (events.size >= 3) {
+      Assert.assertTrue("Received at least a cancelled event", events.contains("cancelled"))
+    }
+
     Assert.assertEquals("stopped", events.last())
   }
 
