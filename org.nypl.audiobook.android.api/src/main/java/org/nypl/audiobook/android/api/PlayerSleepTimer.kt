@@ -132,7 +132,7 @@ class PlayerSleepTimer private constructor(
               PlayerTimerRequestStop -> {
                 this.log.debug("received (redundant) stop request")
                 this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
-                break@initialRequestWaiting
+                continue@initialRequestWaiting
               }
             }
 
@@ -158,7 +158,7 @@ class PlayerSleepTimer private constructor(
                   if (this.remaining.isShorterThan(this.oneSecond)) {
                     this.log.debug("timer finished")
                     this.timer.statusEvents.onNext(PlayerSleepTimerFinished)
-                    break@initialRequestWaiting
+                    continue@initialRequestWaiting
                   }
                 }
 
@@ -177,7 +177,7 @@ class PlayerSleepTimer private constructor(
                   this.log.debug("stopping timer")
                   this.timer.statusEvents.onNext(PlayerSleepTimerCancelled(this.remaining))
                   this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
-                  break@initialRequestWaiting
+                  continue@initialRequestWaiting
                 }
               }
             }

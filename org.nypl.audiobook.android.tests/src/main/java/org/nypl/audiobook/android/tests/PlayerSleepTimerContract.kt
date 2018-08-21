@@ -230,4 +230,58 @@ abstract class PlayerSleepTimerContract {
     Assert.assertTrue(events.contains("running PT6S"))
     Assert.assertEquals("stopped", events.last())
   }
+
+  /**
+   * Running the timer to completion repeatedly, works.
+   */
+
+  @Test(timeout = 10_000L)
+  fun testCompletionRepeated() {
+    val logger = this.logger()
+    val timer = this.create()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
+      events.add(when (event) {
+        PlayerSleepTimerStopped -> "stopped"
+        is PlayerSleepTimerRunning -> "running " + event.remaining
+        is PlayerSleepTimerCancelled -> "cancelled"
+        PlayerSleepTimerFinished -> "finished"
+      })
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
+
+    logger.debug("starting timer")
+    timer.start(Duration.millis(1000L))
+
+    logger.debug("waiting for timer")
+    Thread.sleep(2000L)
+
+    logger.debug("restarting timer")
+    timer.start(Duration.millis(1000L))
+
+    logger.debug("waiting for timer")
+    Thread.sleep(2000L)
+
+    logger.debug("closing timer")
+    timer.close()
+
+    waitLatch.await()
+
+    logger.debug("events: {}", events)
+    Assert.assertEquals("Must have received 9 events", 9, events.size)
+    Assert.assertEquals("stopped", events[0])
+    Assert.assertEquals("running PT1S", events[1])
+    Assert.assertEquals("running PT0S", events[2])
+    Assert.assertEquals("finished", events[3])
+    Assert.assertEquals("stopped", events[4])
+    Assert.assertEquals("running PT1S", events[5])
+    Assert.assertEquals("running PT0S", events[6])
+    Assert.assertEquals("finished", events[7])
+    Assert.assertEquals("stopped", events[8])
+  }
 }
