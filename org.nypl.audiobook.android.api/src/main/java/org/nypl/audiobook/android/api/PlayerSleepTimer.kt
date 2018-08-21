@@ -4,6 +4,7 @@ import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestClose
 import org.nypl.audiobook.android.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestStart
 import org.nypl.audiobook.android.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestStop
+import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerCancelled
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerFinished
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerRunning
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerStopped
@@ -172,6 +173,7 @@ class PlayerSleepTimer private constructor(
 
               PlayerTimerRequestStop -> {
                 this.log.debug("stopping timer")
+                this.timer.statusEvents.onNext(PlayerSleepTimerCancelled(this.remaining))
                 this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
                 break@initialRequestWaiting
               }

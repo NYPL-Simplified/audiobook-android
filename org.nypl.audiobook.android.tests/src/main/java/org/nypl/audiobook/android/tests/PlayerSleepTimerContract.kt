@@ -114,8 +114,9 @@ abstract class PlayerSleepTimerContract {
     timer.close()
 
     logger.debug("events: {}", events)
-    Assert.assertTrue("Must receive at least three events", events.size >= 3)
+    Assert.assertTrue("Must receive at least 4 events", events.size >= 4)
     Assert.assertEquals("stopped", events.first())
+    Assert.assertTrue("Received at least cancelled event", events.contains("cancelled"))
     Assert.assertTrue("Received at least running event", events.contains("running"))
     Assert.assertEquals("stopped", events.last())
   }
@@ -155,6 +156,7 @@ abstract class PlayerSleepTimerContract {
     logger.debug("events: {}", events)
     Assert.assertTrue("Must have received at least one events", events.size >= 1)
     Assert.assertEquals("stopped", events.first())
+    Assert.assertTrue("Received at least cancelled event", events.contains("cancelled"))
     Assert.assertEquals("stopped", events.last())
   }
 
