@@ -167,7 +167,7 @@ class PlayerSleepTimer private constructor(
                 this.log.debug("restarting timer")
                 this.remaining = request.duration
                 this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
-                break@processingTimerRequests
+                continue@processingTimerRequests
               }
 
               PlayerTimerRequestStop -> {

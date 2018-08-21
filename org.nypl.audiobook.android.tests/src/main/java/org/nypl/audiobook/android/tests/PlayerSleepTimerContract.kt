@@ -150,6 +150,7 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("closing timer")
     timer.close()
+    Thread.sleep(1000L)
 
     logger.debug("events: {}", events)
     Assert.assertTrue("Must have received at least one events", events.size >= 1)
@@ -180,7 +181,7 @@ abstract class PlayerSleepTimerContract {
     }
 
     logger.debug("starting timer")
-    timer.start(Duration.millis(5000L))
+    timer.start(Duration.millis(4000L))
 
     logger.debug("waiting for timer")
     Thread.sleep(1000L)
@@ -193,12 +194,13 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("closing timer")
     timer.close()
+    Thread.sleep(1000L)
 
     logger.debug("events: {}", events)
-    Assert.assertEquals(4, events.size)
-    Assert.assertEquals("stopped", events[0])
-    Assert.assertEquals("running PT5S", events[1])
-    Assert.assertEquals("running PT6S", events[2])
-    Assert.assertEquals("stopped", events[3])
+    Assert.assertTrue("Must have received at least 4 events", events.size >= 4)
+    Assert.assertEquals("stopped", events.first())
+    Assert.assertTrue(events.contains("running PT4S"))
+    Assert.assertTrue(events.contains("running PT6S"))
+    Assert.assertEquals("stopped", events.last())
   }
 }
