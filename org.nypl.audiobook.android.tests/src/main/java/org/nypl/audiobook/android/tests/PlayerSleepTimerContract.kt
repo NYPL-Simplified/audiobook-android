@@ -156,4 +156,49 @@ abstract class PlayerSleepTimerContract {
     Assert.assertEquals("stopped", events.first())
     Assert.assertEquals("stopped", events.last())
   }
+
+  /**
+   * Opening a timer, starting it, and then restarting it with a new time, works.
+   */
+
+  @Test(timeout = 10_000L)
+  fun testRestart() {
+    val events = ArrayList<String>()
+
+    val logger = this.logger()
+    val timer = this.create()
+
+    timer.status.subscribe { event ->
+      logger.debug("event: {}", event)
+
+      events.add(when (event) {
+        PlayerSleepTimerStopped -> "stopped"
+        is PlayerSleepTimerRunning -> "running " + event.remaining
+        is PlayerSleepTimerCancelled -> "cancelled"
+        PlayerSleepTimerFinished -> "finished"
+      })
+    }
+
+    logger.debug("starting timer")
+    timer.start(Duration.millis(5000L))
+
+    logger.debug("waiting for timer")
+    Thread.sleep(1000L)
+
+    logger.debug("restarting timer")
+    timer.start(Duration.millis(6000L))
+
+    logger.debug("waiting for timer")
+    Thread.sleep(1000L)
+
+    logger.debug("closing timer")
+    timer.close()
+
+    logger.debug("events: {}", events)
+    Assert.assertEquals(4, events.size)
+    Assert.assertEquals("stopped", events[0])
+    Assert.assertEquals("running PT5S", events[1])
+    Assert.assertEquals("running PT6S", events[2])
+    Assert.assertEquals("stopped", events[3])
+  }
 }
