@@ -63,7 +63,11 @@ abstract class PlayerSleepTimerContract {
     timer.start(Duration.millis(3000L))
 
     logger.debug("waiting for timer")
-    Thread.sleep(4000L)
+    Thread.sleep(1000L)
+    Assert.assertNotNull(timer.isRunning)
+    Thread.sleep(1000L)
+    Thread.sleep(1000L)
+    Thread.sleep(1000L)
 
     logger.debug("closing timer")
     timer.close()
@@ -111,12 +115,14 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("waiting for timer")
     Thread.sleep(1000L)
+    Assert.assertNotNull(timer.isRunning)
 
     logger.debug("cancelling timer")
     timer.cancel()
 
     logger.debug("waiting for timer")
     Thread.sleep(1000L)
+    Assert.assertNull(timer.isRunning)
 
     logger.debug("closing timer")
     timer.close()
@@ -160,6 +166,7 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("cancelling timer")
     timer.cancel()
+    Assert.assertNull(timer.isRunning)
 
     logger.debug("closing timer")
     timer.close()
@@ -218,6 +225,7 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("waiting for timer")
     Thread.sleep(1000L)
+    Assert.assertNotNull(timer.isRunning)
 
     logger.debug("closing timer")
     timer.close()
@@ -325,6 +333,7 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("waiting for timer")
     Thread.sleep(1000L)
+    Assert.assertNull(timer.isRunning)
 
     timer.close()
 

@@ -9,6 +9,7 @@ import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerCanc
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerFinished
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerRunning
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerStopped
+import org.nypl.audiobook.android.api.PlayerSleepTimerType.Running
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import rx.Observable
@@ -70,15 +71,16 @@ class PlayerSleepTimer private constructor(
 
   private val log: Logger = LoggerFactory.getLogger(PlayerSleepTimer::class.java)
   private val closed: AtomicBoolean = AtomicBoolean(false)
-  private val task: Future<*>
+  private val taskFuture: Future<*>
+  private val task: PlayerSleepTimerTask
   private val requests: ArrayBlockingQueue<PlayerTimerRequest> = ArrayBlockingQueue(16)
 
   init {
     this.log.debug("starting initial task")
-    val timerTask = PlayerSleepTimerTask(this)
-    this.task = this.executor.submit(timerTask)
+    this.task = PlayerSleepTimerTask(this)
+    this.taskFuture = this.executor.submit(this.task)
     this.log.debug("waiting for task to start")
-    timerTask.latch.await()
+    this.task.latch.await()
   }
 
   /**
@@ -92,7 +94,9 @@ class PlayerSleepTimer private constructor(
     internal val latch: CountDownLatch = CountDownLatch(1)
 
     private val log: Logger = LoggerFactory.getLogger(PlayerSleepTimerTask::class.java)
-    private var remaining: Duration? = null
+
+    @Volatile
+    internal var running: Running? = null
     private val oneSecond = Duration.standardSeconds(1L)
 
     init {
@@ -108,6 +112,7 @@ class PlayerSleepTimer private constructor(
 
         initialRequestWaiting@ while (true) {
           try {
+            this.running = null
             this.log.debug("waiting for timer requests")
 
             /*
@@ -133,8 +138,8 @@ class PlayerSleepTimer private constructor(
 
               is PlayerTimerRequestStart -> {
                 this.log.debug("received start request: {}", initialRequest.duration)
-                this.remaining = initialRequest.duration
-                this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
+                this.running = Running(initialRequest.duration)
+                this.timer.statusEvents.onNext(PlayerSleepTimerRunning(initialRequest.duration))
               }
 
               PlayerTimerRequestStop -> {
@@ -166,10 +171,10 @@ class PlayerSleepTimer private constructor(
 
               when (request) {
                 null -> {
-                  val currentRemaining = this.remaining
+                  val currentRemaining = this.running?.duration
                   if (currentRemaining != null) {
                     val newRemaining = currentRemaining.minus(this.oneSecond)
-                    this.remaining = newRemaining
+                    this.running = Running(newRemaining)
                     this.timer.statusEvents.onNext(PlayerSleepTimerRunning(newRemaining))
 
                     if (newRemaining.isShorterThan(this.oneSecond)) {
@@ -186,14 +191,14 @@ class PlayerSleepTimer private constructor(
 
                 is PlayerTimerRequestStart -> {
                   this.log.debug("restarting timer")
-                  this.remaining = request.duration
-                  this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
+                  this.running = Running(request.duration)
+                  this.timer.statusEvents.onNext(PlayerSleepTimerRunning(request.duration))
                   continue@processingTimerRequests
                 }
 
                 PlayerTimerRequestStop -> {
                   this.log.debug("stopping timer")
-                  this.timer.statusEvents.onNext(PlayerSleepTimerCancelled(this.remaining))
+                  this.timer.statusEvents.onNext(PlayerSleepTimerCancelled(this.running?.duration))
                   this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
                   continue@initialRequestWaiting
                 }
@@ -269,7 +274,7 @@ class PlayerSleepTimer private constructor(
 
   override fun close() {
     if (this.closed.compareAndSet(false, true)) {
-      this.task.cancel(true)
+      this.taskFuture.cancel(true)
       this.executor.shutdown()
       this.requests.offer(PlayerTimerRequestClose, 10L, TimeUnit.MILLISECONDS)
     }
@@ -280,5 +285,8 @@ class PlayerSleepTimer private constructor(
 
   override val status: Observable<PlayerSleepTimerEvent> =
     this.statusEvents.distinctUntilChanged()
+
+  override val isRunning: Running?
+    get() = this.task.running
 
 }
