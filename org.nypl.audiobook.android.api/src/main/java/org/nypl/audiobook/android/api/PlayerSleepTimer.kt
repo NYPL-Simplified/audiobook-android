@@ -2,6 +2,7 @@ package org.nypl.audiobook.android.api
 
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestClose
+import org.nypl.audiobook.android.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestFinish
 import org.nypl.audiobook.android.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestStart
 import org.nypl.audiobook.android.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestStop
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerCancelled
@@ -46,12 +47,18 @@ class PlayerSleepTimer private constructor(
     object PlayerTimerRequestClose : PlayerTimerRequest()
 
     /**
+     * Request that the timer finish (as if the duration had elapsed).
+     */
+
+    object PlayerTimerRequestFinish : PlayerTimerRequest()
+
+    /**
      * Request that the timer start now and count down over the given duration. If the timer
      * is already running, the timer is restarted.
      */
 
     class PlayerTimerRequestStart(
-      val duration: Duration)
+      val duration: Duration?)
       : PlayerTimerRequest()
 
     /**
@@ -85,7 +92,7 @@ class PlayerSleepTimer private constructor(
     internal val latch: CountDownLatch = CountDownLatch(1)
 
     private val log: Logger = LoggerFactory.getLogger(PlayerSleepTimerTask::class.java)
-    private var remaining: Duration = Duration.ZERO
+    private var remaining: Duration? = null
     private val oneSecond = Duration.standardSeconds(1L)
 
     init {
@@ -97,10 +104,11 @@ class PlayerSleepTimer private constructor(
       this.latch.countDown()
 
       try {
+        this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
+
         initialRequestWaiting@ while (true) {
           try {
             this.log.debug("waiting for timer requests")
-            this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
 
             /*
              * Wait indefinitely (or at least until the thread is interrupted) for an initial
@@ -134,6 +142,12 @@ class PlayerSleepTimer private constructor(
                 this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
                 continue@initialRequestWaiting
               }
+
+              PlayerTimerRequestFinish -> {
+                this.log.debug("received finish request")
+                this.timer.statusEvents.onNext(PlayerSleepTimerFinished)
+                continue@initialRequestWaiting
+              }
             }
 
             /*
@@ -152,13 +166,17 @@ class PlayerSleepTimer private constructor(
 
               when (request) {
                 null -> {
-                  this.remaining = this.remaining.minus(this.oneSecond)
-                  this.timer.statusEvents.onNext(PlayerSleepTimerRunning(this.remaining))
+                  val currentRemaining = this.remaining
+                  if (currentRemaining != null) {
+                    val newRemaining = currentRemaining.minus(this.oneSecond)
+                    this.remaining = newRemaining
+                    this.timer.statusEvents.onNext(PlayerSleepTimerRunning(newRemaining))
 
-                  if (this.remaining.isShorterThan(this.oneSecond)) {
-                    this.log.debug("timer finished")
-                    this.timer.statusEvents.onNext(PlayerSleepTimerFinished)
-                    continue@initialRequestWaiting
+                    if (newRemaining.isShorterThan(this.oneSecond)) {
+                      this.log.debug("timer finished")
+                      this.timer.statusEvents.onNext(PlayerSleepTimerFinished)
+                      continue@initialRequestWaiting
+                    }
                   }
                 }
 
@@ -177,6 +195,12 @@ class PlayerSleepTimer private constructor(
                   this.log.debug("stopping timer")
                   this.timer.statusEvents.onNext(PlayerSleepTimerCancelled(this.remaining))
                   this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
+                  continue@initialRequestWaiting
+                }
+
+                PlayerTimerRequestFinish -> {
+                  this.log.debug("received finish request")
+                  this.timer.statusEvents.onNext(PlayerSleepTimerFinished)
                   continue@initialRequestWaiting
                 }
               }
@@ -228,7 +252,7 @@ class PlayerSleepTimer private constructor(
     }
   }
 
-  override fun start(time: Duration) {
+  override fun start(time: Duration?) {
     this.checkIsNotClosed()
     this.requests.offer(PlayerTimerRequestStart(time), 10L, TimeUnit.MILLISECONDS)
   }
@@ -236,6 +260,11 @@ class PlayerSleepTimer private constructor(
   override fun cancel() {
     this.checkIsNotClosed()
     this.requests.offer(PlayerTimerRequestStop, 10L, TimeUnit.MILLISECONDS)
+  }
+
+  override fun finish() {
+    this.checkIsNotClosed()
+    this.requests.offer(PlayerTimerRequestFinish, 10L, TimeUnit.MILLISECONDS)
   }
 
   override fun close() {

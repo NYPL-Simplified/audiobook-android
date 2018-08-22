@@ -273,15 +273,116 @@ abstract class PlayerSleepTimerContract {
     waitLatch.await()
 
     logger.debug("events: {}", events)
-    Assert.assertEquals("Must have received 9 events", 9, events.size)
+    Assert.assertEquals("Must have received 8 events", 8, events.size)
     Assert.assertEquals("stopped", events[0])
     Assert.assertEquals("running PT1S", events[1])
     Assert.assertEquals("running PT0S", events[2])
     Assert.assertEquals("finished", events[3])
-    Assert.assertEquals("stopped", events[4])
-    Assert.assertEquals("running PT1S", events[5])
-    Assert.assertEquals("running PT0S", events[6])
-    Assert.assertEquals("finished", events[7])
-    Assert.assertEquals("stopped", events[8])
+    Assert.assertEquals("running PT1S", events[4])
+    Assert.assertEquals("running PT0S", events[5])
+    Assert.assertEquals("finished", events[6])
+    Assert.assertEquals("stopped", events[7])
+  }
+
+  /**
+   * Explicit completion works.
+   */
+
+  @Test(timeout = 10_000L)
+  fun testCompletionIndefinite() {
+    val logger = this.logger()
+    val timer = this.create()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
+      events.add(when (event) {
+        PlayerSleepTimerStopped -> "stopped"
+        is PlayerSleepTimerRunning -> "running " + event.remaining
+        is PlayerSleepTimerCancelled -> "cancelled"
+        PlayerSleepTimerFinished -> "finished"
+      })
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
+
+    logger.debug("starting timer")
+    timer.start(null)
+
+    logger.debug("waiting for timer")
+    Thread.sleep(1000L)
+
+    logger.debug("finishing timer")
+    timer.finish()
+
+    logger.debug("waiting for timer")
+    Thread.sleep(1000L)
+
+    logger.debug("finishing timer")
+    timer.finish()
+
+    logger.debug("waiting for timer")
+    Thread.sleep(1000L)
+
+    timer.close()
+
+    waitLatch.await()
+
+    logger.debug("events: {}", events)
+    Assert.assertEquals("Must have received 4 events", 4, events.size)
+    Assert.assertEquals("stopped", events[0])
+    Assert.assertEquals("running null", events[1])
+    Assert.assertEquals("finished", events[2])
+    Assert.assertEquals("stopped", events[3])
+  }
+
+  /**
+   * Explicit completion works.
+   */
+
+  @Test(timeout = 10_000L)
+  fun testCompletionTimed() {
+    val logger = this.logger()
+    val timer = this.create()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
+      events.add(when (event) {
+        PlayerSleepTimerStopped -> "stopped"
+        is PlayerSleepTimerRunning -> "running " + event.remaining
+        is PlayerSleepTimerCancelled -> "cancelled"
+        PlayerSleepTimerFinished -> "finished"
+      })
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
+
+    logger.debug("starting timer")
+    timer.start(Duration.standardSeconds(2L))
+
+    logger.debug("waiting for timer")
+    Thread.sleep(500L)
+
+    logger.debug("finishing timer")
+    timer.finish()
+
+    logger.debug("waiting for timer")
+    Thread.sleep(1000L)
+
+    timer.close()
+
+    waitLatch.await()
+
+    logger.debug("events: {}", events)
+    Assert.assertEquals("Must have received 4 events", 4, events.size)
+    Assert.assertEquals("stopped", events[0])
+    Assert.assertEquals("running PT2S", events[1])
+    Assert.assertEquals("finished", events[2])
+    Assert.assertEquals("stopped", events[3])
   }
 }

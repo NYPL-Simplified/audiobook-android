@@ -16,19 +16,21 @@ sealed class PlayerSleepTimerEvent {
 
   /**
    * The sleep timer is currently running. This state will be published frequently while the sleep
-   * timer is counting down.
+   * timer is counting down. If a duration was specified when the timer was started, the given
+   * duration indicates the amount of time remaining.
    */
 
   data class PlayerSleepTimerRunning(
-    val remaining: Duration)
+    val remaining: Duration?)
     : PlayerSleepTimerEvent()
 
   /**
-   * The user cancelled the sleep timer countdown.
+   * The user cancelled the sleep timer countdown. If a duration was specified when the timer was
+   * started, the given duration indicates the amount of time remaining.
    */
 
   data class PlayerSleepTimerCancelled(
-    val remaining: Duration)
+    val remaining: Duration?)
     : PlayerSleepTimerEvent()
 
   /**

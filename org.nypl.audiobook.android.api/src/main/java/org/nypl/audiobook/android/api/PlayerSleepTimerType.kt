@@ -15,8 +15,9 @@ import javax.annotation.concurrent.ThreadSafe
 interface PlayerSleepTimerType : AutoCloseable {
 
   /**
-   * Start the timer. The timer will count down over the given duration and will periodically
-   * publish events giving the remaining time.
+   * Start the timer. If a duration is given, the timer will count down over the given duration
+   * and will periodically publish events giving the remaining time. If no duration is given, the
+   * timer will wait indefinitely for a call to {@link #finish()}.
    *
    * @param time The total duration for which the timer will run
    *
@@ -24,7 +25,7 @@ interface PlayerSleepTimerType : AutoCloseable {
    */
 
   @Throws(java.lang.IllegalStateException::class)
-  fun start(time: Duration)
+  fun start(time: Duration?)
 
   /**
    * Cancel the timer. The timer will stop and will publish an event indicating the current
@@ -35,6 +36,16 @@ interface PlayerSleepTimerType : AutoCloseable {
 
   @Throws(java.lang.IllegalStateException::class)
   fun cancel()
+
+  /**
+   * Finish the timer. This makes the timer behave exactly as if a duration had been given to
+   * start and the duration has elapsed.
+   *
+   * @throws java.lang.IllegalStateException If and only if the player is closed
+   */
+
+  @Throws(java.lang.IllegalStateException::class)
+  fun finish()
 
   /**
    * An observable indicating the current state of the timer. The observable is buffered such
