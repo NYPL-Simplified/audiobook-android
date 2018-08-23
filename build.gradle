@@ -29,6 +29,7 @@ ext {
   dependency_junit_version = "4.12"
   dependency_android_test_support_version = "1.0.1"
   dependency_guava_version = "23.6.1-android"
+  dependency_okhttp3_version = "3.6.0"
 }
 
 allprojects {
