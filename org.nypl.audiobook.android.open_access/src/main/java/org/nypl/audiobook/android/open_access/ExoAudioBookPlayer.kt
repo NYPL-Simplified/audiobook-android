@@ -42,6 +42,7 @@ import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.SkipChapterStat
 import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.Subscription
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.concurrent.Callable
 import java.util.concurrent.ScheduledExecutorService
@@ -57,7 +58,7 @@ class ExoAudioBookPlayer private constructor(
   private val engineProvider: ExoEngineProvider,
   private val engineExecutor: ScheduledExecutorService,
   private val context: Context,
-  private val statusEvents: PublishSubject<PlayerEvent>,
+  private val statusEvents: BehaviorSubject<PlayerEvent>,
   private val book: ExoAudioBook,
   private val exoPlayer: ExoPlayer)
   : PlayerType {
@@ -182,7 +183,7 @@ class ExoAudioBookPlayer private constructor(
       context: Context,
       engineExecutor: ScheduledExecutorService): ExoAudioBookPlayer {
 
-      val statusEvents = PublishSubject.create<PlayerEvent>()
+      val statusEvents = BehaviorSubject.create<PlayerEvent>()
 
       /*
        * Initialize the audio player on the engine thread.
