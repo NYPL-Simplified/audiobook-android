@@ -5,6 +5,6 @@
   <!-- If true, enable a "Now" setting in the sleep timer to make it quicker to verify
        that the sleep timer works correctly. -->
 
-  <bool name="audiobook_player_debug_sleep_timer_now_enabled">true</bool>
+  <bool name="audiobook_player_debug_sleep_timer_now_enabled">false</bool>
 
 </resources>
