@@ -34,7 +34,7 @@
     android:layout_alignParentRight="true"
     android:layout_centerVertical="true"
     android:layout_marginRight="16dp">
-    <org.nypl.audiobook.demo.android.with_fragments.PlayerCircularProgressView
+    <org.nypl.audiobook.android.views.PlayerCircularProgressView
       android:id="@+id/player_toc_item_view_progress"
       android:layout_width="48dp"
       android:layout_height="48dp"
