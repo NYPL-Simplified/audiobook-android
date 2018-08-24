@@ -225,7 +225,9 @@ class PlayerTOCAdapter(
 
     init {
       this.downloadProgress.thickness = 8.0f
-      this.downloadProgress.color = context.resources.getColor(R.color.audiobook_player_progress_color)
+      this.downloadProgress.color =
+        this@PlayerTOCAdapter.context.resources.getColor(
+          R.color.audiobook_player_toc_spine_element_progress_color)
     }
   }
 }
