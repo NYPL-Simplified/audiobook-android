@@ -14,15 +14,23 @@ $ ./gradlew clean assembleDebug test publishToMavenLocal
 The project is divided into separate modules. Programmers wishing to use the API will primarily be
 concerned with the [Core API](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.api),
 but will also need to add [providers](#providers) to the classpaths of their projects in order
-to actually do useful work.
+to actually do useful work. The API is designed to make it easy to develop an event-driven user
+interface, but this project also includes a ready-made [player UI](#player_ui) that can be embedded
+into applications. Additionally, audio engine providers that do not, by themselves, handle downloads
+require callers to provide a _download provider_. Normally, this code would be provided directly
+by applications (as applications tend to have centralized code to handle downloads), but a
+[simple implementation](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.downloads)
+is available to ease integration.
 
 |Module|Description|
 |------|-----------|
 | [org.nypl.audiobook.android.api](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.api) | Core API
+| [org.nypl.audiobook.android.downloads](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.downloads) | A generic download provider for non-encrypted audio books
 | [org.nypl.audiobook.android.manifest.nypl](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.manifest.nypl) | NYPL manifest parser
 | [org.nypl.audiobook.android.open_access](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.open_access) | ExoPlayer-based audio player provider for non-encrypted audio books
 | [org.nypl.audiobook.android.tests](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.tests) | Unit tests that can execute without needing a real or emulated device
 | [org.nypl.audiobook.android.tests.device](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.tests.device) | Unit tests that execute on real or emulated devices
+| [org.nypl.audiobook.android.views](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.views) | UI components
 
 ### Usage
 
@@ -139,3 +147,18 @@ abstracted out into a [PlayerDownloadProviderType](https://github.com/NYPL-Simpl
 interface that audio engine implementations can call in order to perform the work of actually
 downloading books. Implementations of this interface are actually provided by the calling programmer
 as this kind of code is generally provided by the application using the audio engine.
+
+### Player UI <a id="player_ui"/>
+
+#### Overview
+
+The API comes with a set of Android views and fragments that can be embedded into an application
+to provide a simple user interface for the player API.
+
+#### Using the UI
+
+1. Declare an `Activity` that implements the [PlayerFragmentListenerType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.nypl.audiobook.android.views/src/main/java/org/nypl/audiobook/android/views/PlayerFragmentListenerType.kt).
+2. Load a `PlayerFragment` instance into the activity.
+
+Please consult the provided [example project](https://github.com/NYPL-Simplified/audiobook-demo-android)
+and the documentation comments on the `PlayerFragmentListenerType` for details.
