@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<resources>
+
+  <!-- If true, enable a "Now" setting in the sleep timer to make it quicker to verify
+       that the sleep timer works correctly. -->
+
+  <bool name="audiobook_player_debug_sleep_timer_now_enabled">true</bool>
+
+</resources>

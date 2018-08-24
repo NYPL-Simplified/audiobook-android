@@ -61,6 +61,11 @@ publishing {
         d4.appendNode('groupId', 'com.google.guava')
         d4.appendNode('artifactId', 'guava')
         d4.appendNode('version', "${dependency_guava_version}")
+
+        final d5 = dependencies.appendNode('dependency')
+        d5.appendNode('groupId', 'org.jetbrains.kotlin')
+        d5.appendNode('artifactId', 'kotlin-stdlib-jdk7')
+        d5.appendNode('version', "$kotlin_version")
       }
     }
   }

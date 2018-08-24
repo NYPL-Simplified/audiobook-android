@@ -188,6 +188,7 @@ class DownloadProvider private constructor(
     var progressCurrent = 0.0
     var received = 0L
     val buffer = ByteArray(1024)
+
     while (true) {
 
       /*

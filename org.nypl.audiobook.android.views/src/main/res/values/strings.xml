@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<resources>
+
+  <string name="audiobook_player_play">Play</string>
+  <string name="audiobook_player_pause">Pause</string>
+
+  <string name="audiobook_part_delete_confirm">Delete this book part?</string>
+  <string name="audiobook_part_delete">Delete</string>
+  <string name="audiobook_part_delete_keep">Keep</string>
+
+  <string name="audiobook_part_download_stop_confirm">Stop downloading this book part?</string>
+  <string name="audiobook_part_download_stop">Stop</string>
+  <string name="audiobook_part_download_continue">Continue</string>
+
+  <string name="audiobook_player_menu_playback_rate_title">Playback Rate</string>
+  <string name="audiobook_player_menu_sleep_title">Sleep</string>
+  <string name="audiobook_player_menu_toc_title">Contents</string>
+
+  <string name="audiobook_player_toc_title">Table Of Contents</string>
+  <string name="audiobook_player_title">Audio Book Player</string>
+
+  <string name="audiobook_player_spine_element">Chapter %1$d of %2$d</string>
+
+  <string name="audiobook_player_sleep_end_of_chapter">End of chapter</string>
+  <string name="audiobook_player_sleep_60">60:00</string>
+  <string name="audiobook_player_sleep_45">45:00</string>
+  <string name="audiobook_player_sleep_30">30:00</string>
+  <string name="audiobook_player_sleep_15">15:00</string>
+  <string name="audiobook_player_sleep_now">Now</string>
+  <string name="audiobook_player_sleep_never">Never</string>
+
+  <string name="audiobook_player_buffering">Buffering…</string>
+  <string name="audiobook_player_waiting">Chapter %1$d must be downloaded to continue playback.</string>
+
+</resources>

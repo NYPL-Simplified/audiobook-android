@@ -2,7 +2,15 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 dependencies {
+  api project(':org.nypl.audiobook.android.api')
+
+  annotationProcessor "com.google.auto.value:auto-value:${dependency_autovalue_version}"
+
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+
+  implementation "com.android.support:support-v4:${dependency_support_v4_version}"
+  implementation "com.android.support:recyclerview-v7:${dependency_recyclerview_version}"
 }
 
 android {
@@ -30,6 +38,32 @@ publishing {
 
       pom.withXml {
         def dependencies = asNode().appendNode('dependencies')
+
+        final d0 = dependencies.appendNode('dependency')
+        d0.appendNode('groupId', 'org.nypl.audiobook')
+        d0.appendNode('artifactId', 'org.nypl.audiobook.android.api')
+        d0.appendNode('version', version)
+        d0.appendNode('type', 'aar')
+
+        final d1 = dependencies.appendNode('dependency')
+        d1.appendNode('groupId', 'org.slf4j')
+        d1.appendNode('artifactId', 'slf4j-api')
+        d1.appendNode('version', "${dependency_slf4j_version}")
+
+        final d2 = dependencies.appendNode('dependency')
+        d2.appendNode('groupId', 'org.jetbrains.kotlin')
+        d2.appendNode('artifactId', 'kotlin-stdlib-jdk7')
+        d2.appendNode('version', "$kotlin_version")
+
+        final d3 = dependencies.appendNode('dependency')
+        d3.appendNode('groupId', 'com.android.support')
+        d3.appendNode('artifactId', 'support-v4')
+        d3.appendNode('version', "${dependency_support_v4_version}")
+
+        final d4 = dependencies.appendNode('dependency')
+        d4.appendNode('groupId', 'com.android.support')
+        d4.appendNode('artifactId', 'recyclerview-v7')
+        d4.appendNode('version', "${dependency_recyclerview_version}")
       }
     }
   }

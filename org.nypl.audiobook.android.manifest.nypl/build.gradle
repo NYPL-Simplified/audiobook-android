@@ -67,6 +67,11 @@ publishing {
         d1.appendNode('groupId', 'org.slf4j')
         d1.appendNode('artifactId', 'slf4j-api')
         d1.appendNode('version', "${dependency_slf4j_version}")
+
+        final d2 = dependencies.appendNode('dependency')
+        d2.appendNode('groupId', 'org.jetbrains.kotlin')
+        d2.appendNode('artifactId', 'kotlin-stdlib-jdk7')
+        d2.appendNode('version', "$kotlin_version")
       }
     }
   }

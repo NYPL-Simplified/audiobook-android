@@ -19,17 +19,20 @@ ext {
    * declarations in subprojects.
    */
 
-  dependency_jackson_version = "2.9.5"
-  dependency_rxjava_version = "1.2.3"
-  dependency_joda_time_version = "2.9.9"
-  dependency_slf4j_version = "1.7.25"
-  dependency_exoplayer_version = "r1.5.15"
-  dependency_jcip_version = "1.0-1"
-  dependency_logback_classic_version = "1.2.3"
-  dependency_junit_version = "4.12"
   dependency_android_test_support_version = "1.0.1"
+  dependency_autovalue_version = "1.3"
+  dependency_exoplayer_version = "r1.5.15"
   dependency_guava_version = "23.6.1-android"
+  dependency_jackson_version = "2.9.5"
+  dependency_jcip_version = "1.0-1"
+  dependency_joda_time_version = "2.9.9"
+  dependency_junit_version = "4.12"
+  dependency_logback_classic_version = "1.2.3"
   dependency_okhttp3_version = "3.6.0"
+  dependency_recyclerview_version = "27.1.1"
+  dependency_rxjava_version = "1.2.3"
+  dependency_slf4j_version = "1.7.25"
+  dependency_support_v4_version = "27.1.1"
 }
 
 allprojects {
