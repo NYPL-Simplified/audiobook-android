@@ -51,7 +51,7 @@ engine that can play non-encrypted audio books:
 
 ```
 ext {
-  nypl_audiobook_api_version = "0.0.29"
+  nypl_audiobook_api_version = "0.0.44"
 }
 
 dependencies {
