@@ -45,7 +45,6 @@ publishing {
         d1.appendNode('groupId', 'com.squareup.okhttp3')
         d1.appendNode('artifactId', 'okhttp')
         d1.appendNode('version', dependency_okhttp3_version)
-        d1.appendNode('type', 'aar')
 
         final d2 = dependencies.appendNode('dependency')
         d2.appendNode('groupId', 'org.slf4j')
