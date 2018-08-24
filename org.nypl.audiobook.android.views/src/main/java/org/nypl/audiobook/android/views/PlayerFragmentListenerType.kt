@@ -64,14 +64,7 @@ interface PlayerFragmentListenerType {
   fun onPlayerTOCWantsBook(): PlayerAudioBookType
 
   /**
-   * The user has closed the table of contents. The caller should remove the TOC fragment from
-   * the hosting activity.
-   */
-
-  fun onPlayerTOCClosed()
-
-  /**
-   * The used has closed the table of contents. The caller should remove the TOC fragment from
+   * The user has closed the table of contents. The callee should remove the TOC fragment from
    * the hosting activity.
    */
 

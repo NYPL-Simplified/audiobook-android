@@ -70,8 +70,6 @@ class PlayerTOCFragment : Fragment() {
 
     this.bookSubscription?.unsubscribe()
     this.playerSubscription?.unsubscribe()
-
-    this.listener.onPlayerTOCClosed()
   }
 
   override fun onAttach(context: Context) {
