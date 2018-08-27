@@ -15,18 +15,6 @@
     android:clickable="false"
     android:src="@drawable/player_toc_item_separator" />
 
-  <TextView
-    android:id="@+id/player_toc_item_view_title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="144dp"
-    android:ellipsize="end"
-    android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"
-    android:text="Placeholder"
-    android:textSize="24sp" />
-
   <RelativeLayout
     android:id="@+id/player_toc_item_view_progress_container"
     android:layout_width="48dp"
@@ -81,5 +69,20 @@
     android:focusable="false"
     android:clickable="false"
     android:src="@drawable/player_toc_item_border" />
+
+  <TextView
+    android:id="@+id/player_toc_item_view_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_toLeftOf="@id/player_toc_item_view_duration"
+    android:layout_alignParentLeft="true"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:lines="1"
+    android:ellipsize="end"
+    android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"
+    android:text="Very long placeholder text that should never be seen in practice."
+    android:textSize="24sp" />
 
 </RelativeLayout>
