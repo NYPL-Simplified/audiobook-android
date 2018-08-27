@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SimpleItemAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,18 @@ class PlayerTOCFragment : Fragment() {
     view.layoutManager = LinearLayoutManager(view.context)
     view.setHasFixedSize(true)
     view.adapter = this.adapter
+
+    /*
+     * https://jira.nypl.org/browse/SIMPLY-1152
+     *
+     * By default, the RecyclerView will animate cells each time the underlying adapter is
+     * notified that a cell has changed. This appears to be a completely broken "feature", because
+     * all it actually does is screw up list rendering to the point that that cells bounce and
+     * jiggle about more or less at random when the list scrolls. This gruesome line of code
+     * turns the animation off.
+     */
+
+    (view.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     return view
   }
 
