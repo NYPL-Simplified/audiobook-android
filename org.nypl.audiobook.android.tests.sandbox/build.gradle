@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation "junit:junit:${dependency_junit_version}"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+
+  implementation project(':org.nypl.audiobook.android.api')
+  implementation project(':org.nypl.audiobook.android.manifest.nypl')
+  implementation project(':org.nypl.audiobook.android.open_access')
+  implementation project(':org.nypl.audiobook.android.views')
+
+  implementation "com.android.support:support-v4:${dependency_support_v4_version}"
+  implementation "com.android.support:recyclerview-v7:${dependency_recyclerview_version}"
+
+  implementation "com.github.tony19:logback-android-core:${dependency_logback_android_version}"
+  implementation("com.github.tony19:logback-android-classic:${dependency_logback_android_version}") {
+    // https://github.com/tony19/logback-android/issues/73
+    exclude group: 'com.google.android', module: 'android'
+  }
+}
+
+android {
+  compileSdkVersion 27
+  buildToolsVersion "27.0.3"
+
+  defaultConfig {
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  testOptions {
+    execution 'ANDROID_TEST_ORCHESTRATOR'
+  }
+
+  packagingOptions {
+
+  }
+
+  /*
+   * We don't care about lint-related failures in the test suite.
+   */
+
+  lintOptions {
+    abortOnError false
+  }
+}
+
+publishing {
+  publications {
+    debugAAR(MavenPublication) {
+      groupId group
+      artifactId 'org.nypl.audiobook.android.tests.sandbox'
+      version version
+      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.tests.sandbox-debug.aar")
+    }
+  }
+  repositories {
+    maven {
+      url "$buildDir/repo"
+    }
+  }
+}
