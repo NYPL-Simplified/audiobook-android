@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/player_view"
+  android:layout_margin="16dp"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
@@ -12,8 +12,10 @@
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="16dp"
-    android:text="A Placeholder Title"
+    android:gravity="center"
+    android:lines="1"
+    android:ellipsize="end"
+    android:text="Very, very, very long placeholder text that should never be seen in practice."
     android:textSize="24sp"
     android:textStyle="bold" />
 
@@ -24,7 +26,10 @@
     android:layout_below="@+id/player_title"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="8dp"
-    android:text="An Author"
+    android:gravity="center"
+    android:lines="1"
+    android:ellipsize="end"
+    android:text="Very, very, very long placeholder text that should never be seen in practice."
     android:textSize="18sp" />
 
   <SeekBar
@@ -33,8 +38,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@id/player_author"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     android:layout_marginTop="16dp"
     android:thumbTint="@color/audiobook_player_progress_color"
     android:progressTint="@color/audiobook_player_progress_color"
@@ -48,7 +51,6 @@
     android:layout_height="wrap_content"
     android:layout_alignParentLeft="true"
     android:layout_below="@+id/player_progress"
-    android:layout_marginLeft="16dp"
     android:layout_marginTop="8dp"
     android:text="00:00:00"
     android:textSize="16sp" />
@@ -59,7 +61,6 @@
     android:layout_height="wrap_content"
     android:layout_alignParentRight="true"
     android:layout_below="@+id/player_progress"
-    android:layout_marginRight="16dp"
     android:layout_marginTop="8dp"
     android:text="00:00:00"
     android:textSize="16sp" />
@@ -81,14 +82,12 @@
     android:layout_height="64dp"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
-    android:layout_marginBottom="32dp"
     android:src="@drawable/play_icon" />
 
   <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:layout_marginBottom="32dp"
     android:layout_marginRight="32dp"
     android:layout_toLeftOf="@+id/player_play_button">
 
@@ -115,7 +114,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:layout_marginBottom="32dp"
     android:layout_marginLeft="32dp"
     android:layout_toRightOf="@+id/player_play_button">
 
@@ -138,18 +136,6 @@
       android:textStyle="bold" />
   </RelativeLayout>
 
-  <ImageView
-    android:id="@+id/player_cover"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/player_spine_element"
-    android:layout_above="@id/player_play_button"
-    android:layout_marginTop="32dp"
-    android:layout_marginBottom="128dp"
-    android:layout_marginLeft="32dp"
-    android:layout_marginRight="32dp"
-    android:src="@drawable/icon" />
-
   <TextView
     android:id="@+id/player_waiting_buffering"
     android:layout_width="wrap_content"
@@ -160,5 +146,15 @@
     android:text="@string/audiobook_player_waiting"
     android:textStyle="bold"
     android:textSize="14sp" />
+
+  <ImageView
+    android:id="@+id/player_cover"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/player_spine_element"
+    android:layout_above="@id/player_waiting_buffering"
+    android:layout_marginTop="32dp"
+    android:layout_marginBottom="16dp"
+    android:src="@drawable/icon" />
 
 </RelativeLayout>
