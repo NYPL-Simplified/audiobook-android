@@ -48,11 +48,11 @@ android {
 
 publishing {
   publications {
-    debugAAR(MavenPublication) {
+    debugAPK(MavenPublication) {
       groupId group
       artifactId 'org.nypl.audiobook.android.tests.sandbox'
       version version
-      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.tests.sandbox-debug.aar")
+      artifact("$buildDir/outputs/apk/debug/org.nypl.audiobook.android.tests.sandbox-debug.apk")
     }
   }
   repositories {
