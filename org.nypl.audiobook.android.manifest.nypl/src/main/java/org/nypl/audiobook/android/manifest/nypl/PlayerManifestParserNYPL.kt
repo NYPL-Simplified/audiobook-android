@@ -11,6 +11,7 @@ import org.nypl.audiobook.android.api.PlayerManifestParserType
 import org.nypl.audiobook.android.api.PlayerManifestScalar
 import org.nypl.audiobook.android.api.PlayerManifestSpineItem
 import org.nypl.audiobook.android.api.PlayerResult
+import org.slf4j.LoggerFactory
 
 /**
  * A manifest parser that can parse manifests in the NYPL format.
@@ -20,6 +21,8 @@ import org.nypl.audiobook.android.api.PlayerResult
  */
 
 class PlayerManifestParserNYPL : PlayerManifestParserType {
+
+  private val log = LoggerFactory.getLogger(PlayerManifestParserNYPL::class.java)
 
   override fun canParse(node: ObjectNode): Boolean {
     if (node.has("@context")) {
@@ -38,6 +41,8 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
         return context.textValue() == "http://readium.org/webpub/default.jsonld"
       }
     }
+
+    this.log.debug("could not find an acceptable @context value")
     return false
   }
 
