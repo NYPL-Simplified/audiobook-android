@@ -48,14 +48,17 @@ abstract class PlayerManifestContract {
     Assert.assertEquals("Track 0", manifest.spine[0].values["title"].toString())
     Assert.assertEquals("100.0", manifest.spine[0].values["duration"].toString())
     Assert.assertEquals("audio/mpeg", manifest.spine[0].values["type"].toString())
+    Assert.assertEquals("http://www.example.com/0.mp3", manifest.spine[0].values["href"].toString())
 
     Assert.assertEquals("Track 1", manifest.spine[1].values["title"].toString())
     Assert.assertEquals("200.0", manifest.spine[1].values["duration"].toString())
     Assert.assertEquals("audio/mpeg", manifest.spine[1].values["type"].toString())
+    Assert.assertEquals("http://www.example.com/1.mp3", manifest.spine[1].values["href"].toString())
 
     Assert.assertEquals("Track 2", manifest.spine[2].values["title"].toString())
     Assert.assertEquals("300.0", manifest.spine[2].values["duration"].toString())
     Assert.assertEquals("audio/mpeg", manifest.spine[2].values["type"].toString())
+    Assert.assertEquals("http://www.example.com/2.mp3", manifest.spine[2].values["href"].toString())
 
     Assert.assertEquals("title", manifest.metadata.title)
     Assert.assertEquals("urn:id", manifest.metadata.identifier)

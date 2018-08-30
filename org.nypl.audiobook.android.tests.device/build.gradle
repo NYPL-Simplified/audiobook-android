@@ -6,13 +6,22 @@ dependencies {
   implementation "junit:junit:${dependency_junit_version}"
   implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
 
+  implementation "com.github.tony19:logback-android-core:${dependency_logback_android_version}"
+  implementation("com.github.tony19:logback-android-classic:${dependency_logback_android_version}") {
+    // https://github.com/tony19/logback-android/issues/73
+    exclude group: 'com.google.android', module: 'android'
+  }
+
   androidTestImplementation "com.android.support.test:runner:${dependency_android_test_support_version}"
   androidTestUtil "com.android.support.test:orchestrator:${dependency_android_test_support_version}"
 
   implementation project(':org.nypl.audiobook.android.api')
   implementation project(':org.nypl.audiobook.android.manifest.nypl')
   implementation project(':org.nypl.audiobook.android.open_access')
-  implementation project(':org.nypl.audiobook.android.tests')
+
+  implementation (project(':org.nypl.audiobook.android.tests')) {
+    exclude group: 'ch.qos.logback', module: 'logback-classic'
+  }
 }
 
 android {

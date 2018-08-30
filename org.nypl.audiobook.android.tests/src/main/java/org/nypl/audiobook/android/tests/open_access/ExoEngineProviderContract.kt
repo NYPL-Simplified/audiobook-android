@@ -31,12 +31,13 @@ abstract class ExoEngineProviderContract {
     Assert.assertNotNull("Engine must handle manifest", book_provider)
     val book_provider_nn = book_provider!!
     val result = book_provider_nn.create(context())
+    this.log().debug("testAudioEnginesTrivial:result: {}", result)
     Assert.assertTrue("Engine accepts book", result is PlayerResult.Success)
   }
 
   private fun parseManifest(file: String): PlayerManifest {
     val result = PlayerManifests.parse(resource(file))
-    this.log().debug("result: {}", result)
+    this.log().debug("parseManifest: result: {}", result)
     Assert.assertTrue("Result is success", result is PlayerResult.Success)
     val manifest = (result as PlayerResult.Success).result
     return manifest
