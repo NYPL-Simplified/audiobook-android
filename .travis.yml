@@ -24,7 +24,9 @@ before_install:
   - yes | sdkmanager "platforms;android-27"
   - chmod +x gradlew
 
-script: ./gradlew clean assembleDebug test connectedAndroidTest
+script:
+  - ./gradlew clean assembleDebug test connectedAndroidTest
+  - adb logcat -d
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
