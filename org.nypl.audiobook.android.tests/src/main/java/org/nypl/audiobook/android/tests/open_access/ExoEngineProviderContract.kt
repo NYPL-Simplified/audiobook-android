@@ -25,12 +25,14 @@ import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.Pl
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStopped
 import org.nypl.audiobook.android.api.PlayerManifest
 import org.nypl.audiobook.android.api.PlayerManifests
+import org.nypl.audiobook.android.api.PlayerPlaybackRate
 import org.nypl.audiobook.android.api.PlayerResult
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementType
+import org.nypl.audiobook.android.api.PlayerType
 import org.nypl.audiobook.android.open_access.ExoEngineProvider
 import org.nypl.audiobook.android.tests.DishonestDownloadProvider
 import org.nypl.audiobook.android.tests.ResourceDownloadProvider
@@ -159,11 +161,7 @@ abstract class ExoEngineProviderContract {
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
-
-    player.events.subscribe(
-      { event -> events.add(this.eventToString(event)) },
-      { waitLatch.countDown() },
-      { waitLatch.countDown() })
+    this.subscribeToEvents(player, events, waitLatch)
 
     player.play()
     player.close()
@@ -192,11 +190,7 @@ abstract class ExoEngineProviderContract {
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
-
-    player.events.subscribe(
-      { event -> events.add(this.eventToString(event)) },
-      { waitLatch.countDown() },
-      { waitLatch.countDown() })
+    this.subscribeToEvents(player, events, waitLatch)
 
     book.spine[0].downloadTask.delete()
     Thread.sleep(1000L)
@@ -219,6 +213,13 @@ abstract class ExoEngineProviderContract {
     Assert.assertEquals("playbackStopped 0 0", events[6])
   }
 
+  private fun subscribeToEvents(player: PlayerType, events: ArrayList<String>, waitLatch: CountDownLatch) {
+    player.events.subscribe(
+      { event -> events.add(this.eventToString(event)) },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
+  }
+
   /**
    * Test that the player can play downloaded spine elements.
    */
@@ -235,11 +236,7 @@ abstract class ExoEngineProviderContract {
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
-
-    player.events.subscribe(
-      { event -> events.add(this.eventToString(event)) },
-      { waitLatch.countDown() },
-      { waitLatch.countDown() })
+    this.subscribeToEvents(player, events, waitLatch)
 
     book.spine[0].downloadTask.delete()
     Thread.sleep(1000L)
@@ -261,6 +258,107 @@ abstract class ExoEngineProviderContract {
   }
 
   /**
+   * Test that the player can play and pause.
+   */
+
+  @Test(timeout = 20_000L)
+  fun testPlayerPlayPausePlay() {
+    val book =
+      this.createBook("flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(this.exec,
+          mapOf(
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { resource("flatland_0.mp3") }))))
+
+    val player = book.createPlayer()
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    book.spine[0].downloadTask.delete()
+    Thread.sleep(1000L)
+
+    this.downloadSpineItemAndWait(book.spine[0])
+    Thread.sleep(1000L)
+
+    player.play()
+    Thread.sleep(250L)
+
+    player.pause()
+    Thread.sleep(250L)
+
+    player.play()
+    Thread.sleep(250L)
+
+    player.close()
+    waitLatch.await()
+
+    this.log().debug("events: {}", events)
+    Assert.assertEquals(5, events.size)
+    Assert.assertEquals("rateChanged NORMAL_TIME", events[0])
+    Assert.assertEquals("playbackStarted 0 0", events[1])
+    Assert.assertEquals("playbackPaused 0 0", events[2])
+    Assert.assertEquals("playbackStarted 0 0", events[3])
+    Assert.assertEquals("playbackStopped 0 0", events[4])
+  }
+
+  /**
+   * Test that the player can play and pause.
+   */
+
+  @Test(timeout = 40_000L)
+  fun testPlayerPlayNextChapter() {
+    val book =
+      this.createBook("flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(this.exec,
+          mapOf(
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { resource("flatland_0.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { resource("flatland_0.mp3") }))))
+
+    val player = book.createPlayer()
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    book.spine[0].downloadTask.delete()
+    book.spine[1].downloadTask.delete()
+    Thread.sleep(1000L)
+
+    this.downloadSpineItemAndWait(book.spine[0])
+    this.downloadSpineItemAndWait(book.spine[1])
+    Thread.sleep(1000L)
+
+    player.play()
+    player.playbackRate = PlayerPlaybackRate.DOUBLE_TIME
+    Thread.sleep(15_000L)
+
+    player.close()
+    waitLatch.await()
+
+    this.log().debug("events: {}", events)
+    Assert.assertTrue("At least 23 events must be logged (${events.size})", events.size >= 23)
+    Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 0 0", events.removeAt(0))
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    while (events[0].startsWith("playbackProgressUpdate 0")) {
+      events.removeAt(0)
+    }
+    Assert.assertEquals("playbackChapterCompleted 0", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 0 0", events.removeAt(0))
+
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 1 0", events.removeAt(0))
+    while (events[0].startsWith("playbackProgressUpdate 1")) {
+      events.removeAt(0)
+    }
+    Assert.assertEquals("playbackChapterCompleted 1", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 1 0", events.removeAt(0))
+
+    Assert.assertEquals("playbackChapterWaiting 2", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 2 0", events.removeAt(0))
+  }
+
+  /**
    * Test that deleting a spine element in the middle of playback stops playback.
    */
 
@@ -276,11 +374,7 @@ abstract class ExoEngineProviderContract {
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
-
-    player.events.subscribe(
-      { event -> events.add(this.eventToString(event)) },
-      { waitLatch.countDown() },
-      { waitLatch.countDown() })
+    this.subscribeToEvents(player, events, waitLatch)
 
     book.spine[0].downloadTask.delete()
     Thread.sleep(1000L)
@@ -301,6 +395,168 @@ abstract class ExoEngineProviderContract {
     Assert.assertEquals("rateChanged NORMAL_TIME", events[0])
     Assert.assertEquals("playbackStarted 0 0", events[1])
     Assert.assertEquals("playbackStopped 0 0", events[2])
+  }
+
+  /**
+   * Test that the skipping to the next chapter works.
+   */
+
+  @Test(timeout = 40_000L)
+  fun testPlayerSkipNext() {
+    val book =
+      this.createBook("flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(this.exec,
+          mapOf(
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { resource("flatland_0.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { resource("flatland_0.mp3") }))))
+
+    val player = book.createPlayer()
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    book.spine[0].downloadTask.delete()
+    book.spine[1].downloadTask.delete()
+    Thread.sleep(1000L)
+
+    this.downloadSpineItemAndWait(book.spine[0])
+    this.downloadSpineItemAndWait(book.spine[1])
+    Thread.sleep(1000L)
+
+    player.play()
+    player.playbackRate = PlayerPlaybackRate.DOUBLE_TIME
+    player.skipToNextChapter()
+    Thread.sleep(8_000L)
+
+    player.close()
+    waitLatch.await()
+
+    this.log().debug("events: {}", events)
+    Assert.assertTrue("At least 16 events must be logged (${events.size})", events.size >= 16)
+    Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 0 0", events.removeAt(0))
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 0 0", events.removeAt(0))
+
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 1 0", events.removeAt(0))
+    while (events[0].startsWith("playbackProgressUpdate 1")) {
+      events.removeAt(0)
+    }
+    Assert.assertEquals("playbackChapterCompleted 1", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 1 0", events.removeAt(0))
+
+    Assert.assertEquals("playbackChapterWaiting 2", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 2 0", events.removeAt(0))
+  }
+
+  /**
+   * Test that the skipping to the previous chapter works.
+   */
+
+  @Test(timeout = 40_000L)
+  fun testPlayerSkipPrevious() {
+    val book =
+      this.createBook("flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(this.exec,
+          mapOf(
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { resource("flatland_0.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { resource("flatland_0.mp3") }))))
+
+    val player = book.createPlayer()
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    book.spine[0].downloadTask.delete()
+    book.spine[1].downloadTask.delete()
+    Thread.sleep(1000L)
+
+    this.downloadSpineItemAndWait(book.spine[0])
+    this.downloadSpineItemAndWait(book.spine[1])
+    Thread.sleep(1000L)
+
+    player.playbackRate = PlayerPlaybackRate.DOUBLE_TIME
+    player.playAtLocation(book.spine[1].position)
+    player.skipToPreviousChapter()
+    Thread.sleep(15_000L)
+
+    player.close()
+    waitLatch.await()
+
+    this.log().debug("events: {}", events)
+    Assert.assertTrue("At least 25 events must be logged (${events.size})", events.size >= 25)
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 1 0", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 1 0", events.removeAt(0))
+
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 0 0", events.removeAt(0))
+    while (events[0].startsWith("playbackProgressUpdate 0")) {
+      events.removeAt(0)
+    }
+    Assert.assertEquals("playbackChapterCompleted 0", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 0 0", events.removeAt(0))
+
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 1 0", events.removeAt(0))
+    while (events[0].startsWith("playbackProgressUpdate 1")) {
+      events.removeAt(0)
+    }
+    Assert.assertEquals("playbackChapterCompleted 1", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 1 0", events.removeAt(0))
+
+    Assert.assertEquals("playbackChapterWaiting 2", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 2 0", events.removeAt(0))
+  }
+
+  /**
+   * Test that playing a specific chapter works.
+   */
+
+  @Test(timeout = 20_000L)
+  fun testPlayerPlayAtLocation() {
+    val book =
+      this.createBook("flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(this.exec,
+          mapOf(
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { resource("flatland_0.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { resource("flatland_0.mp3") }))))
+
+    val player = book.createPlayer()
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    book.spine[0].downloadTask.delete()
+    book.spine[1].downloadTask.delete()
+    Thread.sleep(1000L)
+
+    this.downloadSpineItemAndWait(book.spine[0])
+    this.downloadSpineItemAndWait(book.spine[1])
+    Thread.sleep(1000L)
+
+    player.playAtLocation(book.spine[1].position)
+    player.playbackRate = PlayerPlaybackRate.DOUBLE_TIME
+    Thread.sleep(8_000L)
+
+    player.close()
+    waitLatch.await()
+
+    this.log().debug("events: {}", events)
+    Assert.assertTrue("At least 12 events must be logged (${events.size})", events.size >= 12)
+    Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 1 0", events.removeAt(0))
+    Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
+    while (events[0].startsWith("playbackProgressUpdate 1")) {
+      events.removeAt(0)
+    }
+    Assert.assertEquals("playbackChapterCompleted 1", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 1 0", events.removeAt(0))
+
+    Assert.assertEquals("playbackChapterWaiting 2", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 2 0", events.removeAt(0))
   }
 
   private fun downloadSpineItemAndWait(spineItem: PlayerSpineElementType) {
