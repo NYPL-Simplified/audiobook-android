@@ -7,7 +7,7 @@ android:
     - build-tools-27.0.3
     - android-27
     - android-21
-    - sys-img-armeabi-v7a-android-21
+    - sys-img-x86-android-21
   licenses:
     - android-sdk-preview-license-.+
     - android-sdk-license-.+
@@ -15,7 +15,7 @@ android:
 
 before_script:
   - android list targets
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-21 --abi x86
   - emulator -avd test -no-audio -no-window &
 
 before_install: 
