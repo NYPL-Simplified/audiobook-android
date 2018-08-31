@@ -331,7 +331,10 @@ class ExoAudioBookPlayer private constructor(
           when (status) {
             is PlayerSpineElementNotDownloaded,
             is PlayerSpineElementDownloading,
-            is PlayerSpineElementDownloadFailed -> this.playNothing()
+            is PlayerSpineElementDownloadFailed -> {
+              this.log.debug("spine element status changed, stopping playback")
+              this.playNothing()
+            }
             is PlayerSpineElementDownloaded -> Unit
           }
         } else {
@@ -349,7 +352,10 @@ class ExoAudioBookPlayer private constructor(
           when (status) {
             is PlayerSpineElementNotDownloaded,
             is PlayerSpineElementDownloading,
-            is PlayerSpineElementDownloadFailed -> this.playNothing()
+            is PlayerSpineElementDownloadFailed -> {
+              this.log.debug("spine element status changed, stopping playback")
+              this.playNothing()
+            }
             is PlayerSpineElementDownloaded -> Unit
           }
         } else {
@@ -369,6 +375,7 @@ class ExoAudioBookPlayer private constructor(
             is PlayerSpineElementDownloading,
             is PlayerSpineElementDownloadFailed -> Unit
             is PlayerSpineElementDownloaded -> {
+              this.log.debug("spine element status changed, trying to start playback")
               this.playSpineElementIfAvailable(currentState.spineElement)
               Unit
             }

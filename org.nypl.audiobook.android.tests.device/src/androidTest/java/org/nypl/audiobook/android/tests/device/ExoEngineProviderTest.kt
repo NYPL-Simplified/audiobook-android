@@ -17,7 +17,8 @@ class ExoEngineProviderTest : ExoEngineProviderContract() {
   private var instrumentationContext: Context? = null
 
   @Before
-  fun setup() {
+  override fun setup() {
+    super.setup()
     this.instrumentationContext = InstrumentationRegistry.getContext()
   }
 
