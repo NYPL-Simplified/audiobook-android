@@ -336,7 +336,7 @@ abstract class ExoEngineProviderContract {
     waitLatch.await()
 
     this.log().debug("events: {}", events)
-    Assert.assertTrue("At least 23 events must be logged (${events.size})", events.size >= 23)
+    Assert.assertTrue("At least 14 events must be logged (${events.size})", events.size >= 14)
     Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
     Assert.assertEquals("playbackStarted 0 0", events.removeAt(0))
     Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
@@ -432,7 +432,7 @@ abstract class ExoEngineProviderContract {
     waitLatch.await()
 
     this.log().debug("events: {}", events)
-    Assert.assertTrue("At least 14 events must be logged (${events.size})", events.size >= 14)
+    Assert.assertTrue("At least 12 events must be logged (${events.size})", events.size >= 12)
     Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
     Assert.assertEquals("playbackStarted 0 0", events.removeAt(0))
     Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
@@ -485,7 +485,7 @@ abstract class ExoEngineProviderContract {
     waitLatch.await()
 
     this.log().debug("events: {}", events)
-    Assert.assertTrue("At least 25 events must be logged (${events.size})", events.size >= 25)
+    Assert.assertTrue("At least 17 events must be logged (${events.size})", events.size >= 17)
     Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
     Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
     Assert.assertEquals("playbackStarted 1 0", events.removeAt(0))
@@ -545,7 +545,7 @@ abstract class ExoEngineProviderContract {
     waitLatch.await()
 
     this.log().debug("events: {}", events)
-    Assert.assertTrue("At least 12 events must be logged (${events.size})", events.size >= 12)
+    Assert.assertTrue("At least 9 events must be logged (${events.size})", events.size >= 9)
     Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
     Assert.assertEquals("playbackStarted 1 0", events.removeAt(0))
     Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
