@@ -1,6 +1,7 @@
 package org.nypl.audiobook.android.views
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -165,6 +166,15 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     this.menuPlaybackRate.actionView.setOnClickListener { this.onMenuPlaybackRateSelected() }
     this.menuPlaybackRateText = this.menuPlaybackRate.actionView.findViewById(R.id.player_menu_playback_rate_text)
     this.menuPlaybackRateText.text = PlayerPlaybackRateAdapter.textOfRate(this.player.playbackRate)
+
+    /*
+     * On API versions older than 23, playback rate changes will have no effect. There is no
+     * point showing the menu.
+     */
+
+    if (Build.VERSION.SDK_INT < 23) {
+      this.menuPlaybackRate.setVisible(false)
+    }
 
     this.menuSleep = menu.findItem(R.id.player_menu_sleep)
     this.menuSleep.actionView.setOnClickListener { this.onMenuSleepSelected() }
