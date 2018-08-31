@@ -426,7 +426,7 @@ abstract class ExoEngineProviderContract {
     player.play()
     player.playbackRate = PlayerPlaybackRate.DOUBLE_TIME
     player.skipToNextChapter()
-    Thread.sleep(8_000L)
+    Thread.sleep(14_000L)
 
     player.close()
     waitLatch.await()
@@ -443,6 +443,7 @@ abstract class ExoEngineProviderContract {
     while (events[0].startsWith("playbackProgressUpdate 1")) {
       events.removeAt(0)
     }
+
     Assert.assertEquals("playbackChapterCompleted 1", events.removeAt(0))
     Assert.assertEquals("playbackStopped 1 0", events.removeAt(0))
 
@@ -479,7 +480,7 @@ abstract class ExoEngineProviderContract {
     player.playbackRate = PlayerPlaybackRate.DOUBLE_TIME
     player.playAtLocation(book.spine[1].position)
     player.skipToPreviousChapter()
-    Thread.sleep(15_000L)
+    Thread.sleep(14_000L)
 
     player.close()
     waitLatch.await()
@@ -539,7 +540,7 @@ abstract class ExoEngineProviderContract {
 
     player.playAtLocation(book.spine[1].position)
     player.playbackRate = PlayerPlaybackRate.DOUBLE_TIME
-    Thread.sleep(8_000L)
+    Thread.sleep(10_000L)
 
     player.close()
     waitLatch.await()
