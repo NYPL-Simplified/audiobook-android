@@ -72,7 +72,7 @@ abstract class ExoEngineProviderContract {
     this.log().debug("tearDown")
     this.exec.shutdown()
     this.timeNow = Instant.now()
-    this.log().debug("time: {}", Duration(timeThen, timeNow).standardSeconds)
+    this.log().debug("time: {}", Duration(this.timeThen, this.timeNow).standardSeconds)
   }
 
   /**
@@ -167,7 +167,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertEquals(2, events.size)
     Assert.assertEquals("playbackChapterWaiting 0", events[0])
     Assert.assertEquals("playbackStopped 0 0", events[1])
@@ -185,7 +185,7 @@ abstract class ExoEngineProviderContract {
         ResourceDownloadProvider.create(this.exec,
           mapOf(
             Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { resource("flatland_0.mp3") }))))
+              { this.resource("flatland_0.mp3") }))))
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -202,7 +202,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertEquals(7, events.size)
     Assert.assertEquals("playbackChapterWaiting 0", events[0])
     Assert.assertEquals("playbackStopped 0 0", events[1])
@@ -231,7 +231,7 @@ abstract class ExoEngineProviderContract {
         ResourceDownloadProvider.create(this.exec,
           mapOf(
             Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { resource("flatland_0.mp3") }))))
+              { this.resource("flatland_0.mp3") }))))
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -250,7 +250,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertEquals(3, events.size)
     Assert.assertEquals("rateChanged NORMAL_TIME", events[0])
     Assert.assertEquals("playbackStarted 0 0", events[1])
@@ -268,7 +268,7 @@ abstract class ExoEngineProviderContract {
         ResourceDownloadProvider.create(this.exec,
           mapOf(
             Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { resource("flatland_0.mp3") }))))
+              { this.resource("flatland_0.mp3") }))))
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -293,7 +293,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertEquals(5, events.size)
     Assert.assertEquals("rateChanged NORMAL_TIME", events[0])
     Assert.assertEquals("playbackStarted 0 0", events[1])
@@ -312,8 +312,8 @@ abstract class ExoEngineProviderContract {
       this.createBook("flatland.audiobook-manifest.json",
         ResourceDownloadProvider.create(this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { resource("flatland_0.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { resource("flatland_0.mp3") }))))
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("flatland_0.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("flatland_0.mp3") }))))
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -335,7 +335,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertTrue("At least 14 events must be logged (${events.size})", events.size >= 14)
     Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
     Assert.assertEquals("playbackStarted 0 0", events.removeAt(0))
@@ -369,7 +369,7 @@ abstract class ExoEngineProviderContract {
         ResourceDownloadProvider.create(this.exec,
           mapOf(
             Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { resource("flatland_0.mp3") }))))
+              { this.resource("flatland_0.mp3") }))))
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -390,7 +390,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertEquals(3, events.size)
     Assert.assertEquals("rateChanged NORMAL_TIME", events[0])
     Assert.assertEquals("playbackStarted 0 0", events[1])
@@ -407,8 +407,8 @@ abstract class ExoEngineProviderContract {
       this.createBook("flatland.audiobook-manifest.json",
         ResourceDownloadProvider.create(this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { resource("flatland_0.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { resource("flatland_0.mp3") }))))
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("flatland_0.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("flatland_0.mp3") }))))
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -431,7 +431,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertTrue("At least 12 events must be logged (${events.size})", events.size >= 12)
     Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
     Assert.assertEquals("playbackStarted 0 0", events.removeAt(0))
@@ -460,8 +460,8 @@ abstract class ExoEngineProviderContract {
       this.createBook("flatland.audiobook-manifest.json",
         ResourceDownloadProvider.create(this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { resource("flatland_0.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { resource("flatland_0.mp3") }))))
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("flatland_0.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("flatland_0.mp3") }))))
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -484,7 +484,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertTrue("At least 17 events must be logged (${events.size})", events.size >= 17)
     Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
     Assert.assertEquals("rateChanged DOUBLE_TIME", events.removeAt(0))
@@ -521,8 +521,8 @@ abstract class ExoEngineProviderContract {
       this.createBook("flatland.audiobook-manifest.json",
         ResourceDownloadProvider.create(this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { resource("flatland_0.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { resource("flatland_0.mp3") }))))
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("flatland_0.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("flatland_0.mp3") }))))
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -544,7 +544,7 @@ abstract class ExoEngineProviderContract {
     player.close()
     waitLatch.await()
 
-    this.log().debug("events: {}", events)
+    this.showEvents(events)
     Assert.assertTrue("At least 9 events must be logged (${events.size})", events.size >= 9)
     Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
     Assert.assertEquals("playbackStarted 1 0", events.removeAt(0))
@@ -557,6 +557,14 @@ abstract class ExoEngineProviderContract {
 
     Assert.assertEquals("playbackChapterWaiting 2", events.removeAt(0))
     Assert.assertEquals("playbackStopped 2 0", events.removeAt(0))
+  }
+
+  private fun showEvents(events: ArrayList<String>) {
+    val log = this.log()
+    log.debug("event count: {}", events.size)
+    for (i in 0 until events.size) {
+      log.debug("events[{}]: {}", i, events[i])
+    }
   }
 
   private fun downloadSpineItemAndWait(spineItem: PlayerSpineElementType) {
