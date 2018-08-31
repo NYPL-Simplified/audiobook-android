@@ -166,6 +166,7 @@ abstract class PlayerSleepTimerContract {
 
     logger.debug("cancelling timer")
     timer.cancel()
+    Thread.sleep(250L)
     Assert.assertNull(timer.isRunning)
 
     logger.debug("closing timer")
