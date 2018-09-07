@@ -199,7 +199,7 @@ corresponding abstract base classes.
 
 The test suite contains tests that will exercise user interface code
 with [Espresso](https://developer.android.com/training/testing/espresso).
-Unfortunately, Expresso appears to be rather fragile, and the following
+Unfortunately, Espresso appears to be rather fragile, and the following
 points _must_ be observed if the test suite is to run correctly:
 
 1. Device animations must be switched off. This can be achieved manually
