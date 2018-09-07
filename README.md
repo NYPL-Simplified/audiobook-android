@@ -171,7 +171,7 @@ and the documentation comments on the `PlayerFragmentListenerType` for details.
 
 The project contains numerous unit tests, many of which are designed
 to run _both_ locally and on real or emulated devices. The reason for
-this is that during development, it's desirable to be able to run the
+this is that, during development, it's desirable to be able to run the
 tests locally to quickly experiment with changes; running the entire
 suite on the local machine takes just a few seconds. However, prior
 to deployment, it's both desirable and necessary to run those same
