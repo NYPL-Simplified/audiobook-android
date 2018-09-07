@@ -162,3 +162,56 @@ to provide a simple user interface for the player API.
 
 Please consult the provided [example project](https://github.com/NYPL-Simplified/audiobook-demo-android)
 and the documentation comments on the `PlayerFragmentListenerType` for details.
+
+### Testing <a id="testing"/>
+
+#### Overview
+
+The project contains numerous unit tests, many of which are designed
+to run _both_ locally and on real or emulated devices. The reason for
+this is that during development, it's desirable to be able to run the
+tests locally to quickly experiment with changes - running the entire
+suite on the local machine takes just a few seconds. However, prior
+to deployment, it's both desirable and necessary to run those same
+tests on a real device in order to shake out platform-specific bugs.
+Running tests on a real device is slow; it typically takes minutes to
+run the entire test suite.
+
+In order to implement this, the project implements tests that must
+run locally *and* on devices as abstract classes ("contracts")
+in `src/main/java` in the `org.nypl.audiobook.android.tests`
+module. It then defines a set of classes that extend
+the abstract test classes in `src/test/java` in the
+`org.nypl.audiobook.android.tests` module, and a set of classes that
+extend the abstract test classes in `src/androidTest/java` in the
+`org.nypl.audiobook.android.tests.device`. The latter are _instrumented
+device tests_ and will run on real or emulated devices. The former
+classes will run the tests locally.
+
+Some tests will _only_ run on real devices because they have
+hard dependencies on the Android API. These tests do not have any
+corresponding abstract base classes.
+
+#### Espresso
+
+The test suite contains tests that will exercise user interface code
+with [Espresso](https://developer.android.com/training/testing/espresso).
+Unfortunately, Expresso appears to be rather fragile, and the following
+points _must_ be observed if the test suite is to run correctly:
+
+1. Device animations must be switched off. This can be achieved manually
+   by changing all of the _animation scale_ settings in the device's
+   developer options menu to 0. Alternatively, the following `adb`
+   invocations achieve the same thing:
+
+```
+  adb shell settings put global window_animation_scale 0 &
+  adb shell settings put global transition_animation_scale 0 &
+  adb shell settings put global animator_duration_scale 0 &
+```
+
+2. The device must not be locked/sleeping during the test execution.
+   This is not mentioned in the Espresso documentation. If the device
+   is locked, many activities will not correctly go into the `RESUMED`
+   state and the test code will not execute properly.
+
