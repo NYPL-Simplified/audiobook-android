@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.sandbox
+package org.nypl.audiobook.android.mocking
 
 import com.google.common.util.concurrent.FutureCallback
 import com.google.common.util.concurrent.Futures
@@ -20,13 +20,13 @@ import java.util.concurrent.ExecutorService
  * A fake download task.
  */
 
-class NullDownloadTask(
+class MockingDownloadTask(
   private val downloadStatusExecutor: ExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
-  private val spineElement: NullSpineElement)
+  private val spineElement: MockingSpineElement)
   : PlayerDownloadTaskType {
 
-  private val log = LoggerFactory.getLogger(NullDownloadTask::class.java)
+  private val log = LoggerFactory.getLogger(MockingDownloadTask::class.java)
 
   private var percent: Int = 0
   private val stateLock: Any = Object()
@@ -99,15 +99,15 @@ class NullDownloadTask(
 
     Futures.addCallback(future, object : FutureCallback<Unit> {
       override fun onSuccess(result: Unit?) {
-        this@NullDownloadTask.onDownloadCompleted()
+        this@MockingDownloadTask.onDownloadCompleted()
       }
 
       override fun onFailure(exception: Throwable?) {
         when (exception) {
           is CancellationException ->
-            this@NullDownloadTask.onDownloadCancelled()
+            this@MockingDownloadTask.onDownloadCancelled()
           else ->
-            this@NullDownloadTask.onDownloadFailed(kotlin.Exception(exception))
+            this@MockingDownloadTask.onDownloadFailed(kotlin.Exception(exception))
         }
       }
     }, this.downloadStatusExecutor)

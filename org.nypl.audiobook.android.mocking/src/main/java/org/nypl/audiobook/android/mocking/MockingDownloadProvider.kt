@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.sandbox
+package org.nypl.audiobook.android.mocking
 
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.ListeningExecutorService
@@ -12,7 +12,7 @@ import java.util.concurrent.CancellationException
  * and appears to download for "n" seconds.
  */
 
-class NullDownloadProvider(
+class MockingDownloadProvider(
   private val executorService: ListeningExecutorService)
   : PlayerDownloadProviderType {
 

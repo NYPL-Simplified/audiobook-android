@@ -4,9 +4,13 @@
   package="org.nypl.audiobook.android.tests.device">
 
   <uses-sdk
-    android:minSdkVersion="19"
+    android:minSdkVersion="21"
     android:targetSdkVersion="27" />
 
   <uses-permission android:name="android.permission.INTERNET" />
+
+  <application android:allowBackup="false">
+    <activity android:name="org.nypl.audiobook.android.tests.device.MockPlayerActivity" android:exported="true"/>
+  </application>
 
 </manifest>

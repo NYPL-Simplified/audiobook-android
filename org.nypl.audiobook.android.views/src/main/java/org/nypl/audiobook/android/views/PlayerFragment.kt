@@ -58,7 +58,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     @JvmStatic
     fun newInstance(parameters: PlayerFragmentParameters): PlayerFragment {
       val args = Bundle()
-      args.putSerializable(parametersKey, parameters)
+      args.putSerializable(this.parametersKey, parameters)
       val fragment = PlayerFragment()
       fragment.arguments = args
       return fragment
@@ -122,7 +122,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     super.onCreate(state)
 
     this.parameters =
-      this.arguments!!.getSerializable(parametersKey)
+      this.arguments!!.getSerializable(org.nypl.audiobook.android.views.PlayerFragment.Companion.parametersKey)
         as PlayerFragmentParameters
 
     /*
@@ -230,7 +230,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   }
 
   private fun onPlayerSleepTimerEventFinished(event: PlayerSleepTimerEvent) {
-    this.player.pause()
+    this.onPressedPause()
 
     UIThread.runOnUIThread(Runnable {
       this.menuSleepText.text = ""
@@ -309,12 +309,12 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     this.playerAuthorView = view.findViewById(R.id.player_author)
 
     this.playPauseButton = view.findViewById(R.id.player_play_button)!!
-    this.playPauseButton.setOnClickListener({ this.player.play() })
+    this.playPauseButton.setOnClickListener { this.onPressedPlay() }
 
     this.playerSkipForwardButton = view.findViewById(R.id.player_jump_forwards)
-    this.playerSkipForwardButton.setOnClickListener({ this.player.skipForward() })
+    this.playerSkipForwardButton.setOnClickListener { this.player.skipForward() }
     this.playerSkipBackwardButton = view.findViewById(R.id.player_jump_backwards)
-    this.playerSkipBackwardButton.setOnClickListener({ this.player.skipBack() })
+    this.playerSkipBackwardButton.setOnClickListener { this.player.skipBack() }
 
     this.playerWaiting = view.findViewById(R.id.player_waiting_buffering)
     this.playerWaiting.text = ""
@@ -455,7 +455,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun onPlayerEventPlaybackStopped(event: PlayerEventPlaybackStopped) {
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.play_icon)
-      this.playPauseButton.setOnClickListener({ this.player.play() })
+      this.playPauseButton.setOnClickListener { this.onPressedPlay() }
       this.playerSpineElement.text = this.spineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
@@ -471,16 +471,24 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun onPlayerEventPlaybackPaused(event: PlayerEventPlaybackPaused) {
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.play_icon)
-      this.playPauseButton.setOnClickListener({ this.player.play() })
+      this.playPauseButton.setOnClickListener { this.onPressedPlay() }
       this.playerSpineElement.text = this.spineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
   }
 
+  private fun onPressedPlay() {
+    this.player.play()
+  }
+
+  private fun onPressedPause() {
+    this.player.pause()
+  }
+
   private fun onPlayerEventPlaybackProgressUpdate(event: PlayerEventPlaybackProgressUpdate) {
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.pause_icon)
-      this.playPauseButton.setOnClickListener({ this.player.pause() })
+      this.playPauseButton.setOnClickListener { this.onPressedPause() }
       this.playerWaiting.text = ""
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
@@ -489,7 +497,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun onPlayerEventPlaybackStarted(event: PlayerEventPlaybackStarted) {
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.pause_icon)
-      this.playPauseButton.setOnClickListener({ this.player.pause() })
+      this.playPauseButton.setOnClickListener { this.onPressedPause() }
       this.playerSpineElement.text = this.spineElementText(event.spineElement)
       this.playerPosition.isEnabled = true
       this.playerWaiting.text = ""

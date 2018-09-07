@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.sandbox
+package org.nypl.audiobook.android.tests.device
 
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -11,6 +11,10 @@ import org.nypl.audiobook.android.api.PlayerBookID
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerSleepTimerType
 import org.nypl.audiobook.android.api.PlayerType
+import org.nypl.audiobook.android.mocking.MockingAudioBook
+import org.nypl.audiobook.android.mocking.MockingDownloadProvider
+import org.nypl.audiobook.android.mocking.MockingPlayer
+import org.nypl.audiobook.android.mocking.MockingSleepTimer
 import org.nypl.audiobook.android.views.PlayerFragment
 import org.nypl.audiobook.android.views.PlayerFragmentListenerType
 import org.nypl.audiobook.android.views.PlayerFragmentParameters
@@ -19,51 +23,50 @@ import org.nypl.audiobook.android.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class TOCExample : FragmentActivity(), PlayerFragmentListenerType {
+class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
-  private val timer: NullSleepTimer = NullSleepTimer()
-  private val player: NullPlayer = NullPlayer()
+  val timer: MockingSleepTimer = MockingSleepTimer()
+  val player: MockingPlayer = MockingPlayer()
 
-  private val downloadExecutor: ListeningExecutorService =
+  val downloadExecutor: ListeningExecutorService =
     MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(4))
-  private val downloadStatusExecutor: ExecutorService =
+  val downloadStatusExecutor: ExecutorService =
     Executors.newFixedThreadPool(1)
 
-  private val downloadProvider: PlayerDownloadProviderType =
-    NullDownloadProvider(executorService = downloadExecutor)
+  val downloadProvider: PlayerDownloadProviderType =
+    MockingDownloadProvider(executorService = downloadExecutor)
 
-  private val book: NullAudioBook =
-    NullAudioBook(
+  val book: MockingAudioBook =
+    MockingAudioBook(
       id = PlayerBookID.transform("abc"),
-      player =  this.player,
+      player = this.player,
       downloadStatusExecutor = this.downloadStatusExecutor,
       downloadProvider = this.downloadProvider)
 
-  private lateinit var playerFragment: PlayerFragment
+  lateinit var playerFragment: PlayerFragment
 
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
-    for (i in 0 .. 100) {
+    for (i in 0..100) {
       val e = this.book.createSpineElement(
         "id$i",
         "P$i",
         Duration.standardSeconds(20))
-      e.downloadTask.fetch()
     }
 
-    this.setContentView(R.layout.example_player_activity)
+    this.setContentView(R.layout.mocking_player_activity)
 
     this.playerFragment = PlayerFragment.newInstance(PlayerFragmentParameters())
 
     this.supportFragmentManager
       .beginTransaction()
-      .replace(R.id.example_player_fragment_holder, this.playerFragment, "PLAYER")
+      .replace(R.id.mocking_player_fragment_holder, this.playerFragment, "PLAYER")
       .commit()
   }
 
   override fun onPlayerWantsPlayer(): PlayerType {
-    return NullPlayer()
+    return this.player
   }
 
   override fun onPlayerWantsCoverImage(view: ImageView) {
@@ -88,7 +91,7 @@ class TOCExample : FragmentActivity(), PlayerFragmentListenerType {
 
     this.supportFragmentManager
       .beginTransaction()
-      .replace(R.id.example_player_fragment_holder, fragment, "PLAYER_TOC")
+      .replace(R.id.mocking_player_fragment_holder, fragment, "PLAYER_TOC")
       .addToBackStack(null)
       .commit()
   }

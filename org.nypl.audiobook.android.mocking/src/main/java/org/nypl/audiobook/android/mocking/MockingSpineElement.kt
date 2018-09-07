@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.sandbox
+package org.nypl.audiobook.android.mocking
 
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerAudioBookType
@@ -14,8 +14,8 @@ import java.util.concurrent.ExecutorService
  * A fake spine element in a fake audio book.
  */
 
-class NullSpineElement(
-  val bookNull: NullAudioBook,
+class MockingSpineElement(
+  val bookMocking: MockingAudioBook,
   val downloadStatusExecutor: ExecutorService,
   val downloadProvider: PlayerDownloadProviderType,
   val downloadStatusEvents: BehaviorSubject<PlayerSpineElementDownloadStatus>,
@@ -25,12 +25,12 @@ class NullSpineElement(
   override val title: String) : PlayerSpineElementType {
 
   override val book: PlayerAudioBookType
-    get() = this.bookNull
+    get() = this.bookMocking
 
   override val next: PlayerSpineElementType?
     get() =
-      if (this.index + 1 < this.bookNull.spineItems.size) {
-        this.bookNull.spineItems[this.index + 1]
+      if (this.index + 1 < this.bookMocking.spineItems.size) {
+        this.bookMocking.spineItems[this.index + 1]
       } else {
         null
       }
@@ -38,7 +38,7 @@ class NullSpineElement(
   override val previous: PlayerSpineElementType?
     get() =
       if (this.index > 0) {
-        this.bookNull.spineItems[this.index - 1]
+        this.bookMocking.spineItems[this.index - 1]
       } else {
         null
       }
@@ -58,7 +58,7 @@ class NullSpineElement(
     get() = this.downloadStatusValue
 
   private val downloadTaskValue =
-    NullDownloadTask(
+    MockingDownloadTask(
       downloadStatusExecutor = this.downloadStatusExecutor,
       downloadProvider = this.downloadProvider,
       spineElement = this)

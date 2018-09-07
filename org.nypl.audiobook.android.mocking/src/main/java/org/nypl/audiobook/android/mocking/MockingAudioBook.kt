@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.sandbox
+package org.nypl.audiobook.android.mocking
 
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerAudioBookType
@@ -9,7 +9,6 @@ import org.nypl.audiobook.android.api.PlayerSpineElementType
 import org.nypl.audiobook.android.api.PlayerType
 import rx.Observable
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.util.SortedMap
 import java.util.concurrent.ExecutorService
 
@@ -17,18 +16,18 @@ import java.util.concurrent.ExecutorService
  * A fake audio book.
  */
 
-class NullAudioBook(
+class MockingAudioBook(
   override val id: PlayerBookID,
   val downloadStatusExecutor: ExecutorService,
   val downloadProvider: PlayerDownloadProviderType,
-  val player: NullPlayer) : PlayerAudioBookType {
+  val player: MockingPlayer) : PlayerAudioBookType {
 
   val statusEvents: BehaviorSubject<PlayerSpineElementDownloadStatus> = BehaviorSubject.create()
-  val spineItems: MutableList<NullSpineElement> = mutableListOf()
+  val spineItems: MutableList<MockingSpineElement> = mutableListOf()
 
-  fun createSpineElement(id: String, title: String, duration: Duration): NullSpineElement {
-    val element = NullSpineElement(
-      bookNull = this,
+  fun createSpineElement(id: String, title: String, duration: Duration): MockingSpineElement {
+    val element = MockingSpineElement(
+      bookMocking = this,
       downloadProvider = this.downloadProvider,
       downloadStatusExecutor = this.downloadStatusExecutor,
       downloadStatusEvents = this.statusEvents,

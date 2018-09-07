@@ -8,7 +8,7 @@
     android:targetSdkVersion="27" />
 
   <application android:allowBackup="false">
-    <activity android:name=".TOCExample" android:exported="true"/>
+    <activity android:name=".NullPlayerActivity" android:exported="true"/>
   </application>
 
 </manifest>

@@ -19,6 +19,7 @@ ext {
    * declarations in subprojects.
    */
 
+  dependency_android_test_espresso_version = "3.0.2"
   dependency_android_test_support_version = "1.0.1"
   dependency_autovalue_version = "1.3"
   dependency_exoplayer_version = "r1.5.15"

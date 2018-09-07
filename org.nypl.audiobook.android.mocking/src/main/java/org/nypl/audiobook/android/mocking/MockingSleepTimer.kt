@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.sandbox
+package org.nypl.audiobook.android.mocking
 
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent
@@ -9,7 +9,7 @@ import rx.Observable
  * A sleep timer that does nothing at all.
  */
 
-class NullSleepTimer : PlayerSleepTimerType {
+class MockingSleepTimer : PlayerSleepTimerType {
 
   override fun start(time: Duration?) {
 
