@@ -172,12 +172,13 @@ and the documentation comments on the `PlayerFragmentListenerType` for details.
 The project contains numerous unit tests, many of which are designed
 to run _both_ locally and on real or emulated devices. The reason for
 this is that during development, it's desirable to be able to run the
-tests locally to quickly experiment with changes - running the entire
+tests locally to quickly experiment with changes; running the entire
 suite on the local machine takes just a few seconds. However, prior
 to deployment, it's both desirable and necessary to run those same
 tests on a real device in order to shake out platform-specific bugs.
-Running tests on a real device is slow; it typically takes minutes to
-run the entire test suite.
+Running tests on a real device is slow; it typically takes minutes
+to run the entire test suite and it would therefore make development
+rather painful if this was the only way to run the tests.
 
 In order to implement this, the project implements tests that must
 run locally *and* on devices as abstract classes ("contracts")
@@ -186,7 +187,7 @@ module. It then defines a set of classes that extend
 the abstract test classes in `src/test/java` in the
 `org.nypl.audiobook.android.tests` module, and a set of classes that
 extend the abstract test classes in `src/androidTest/java` in the
-`org.nypl.audiobook.android.tests.device`. The latter are _instrumented
+`org.nypl.audiobook.android.tests.device` module. The latter are _instrumented
 device tests_ and will run on real or emulated devices. The former
 classes will run the tests locally.
 
