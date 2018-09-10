@@ -1,6 +1,9 @@
 package org.nypl.audiobook.android.tests.device
 
+import android.app.KeyguardManager
+import android.content.Context
 import android.os.Build
+import android.os.PowerManager
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.matcher.ViewMatchers
@@ -8,7 +11,9 @@ import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,6 +31,36 @@ class PlayerFragmentTest {
   @Rule
   var activityRule: ActivityTestRule<MockPlayerActivity> =
     ActivityTestRule(MockPlayerActivity::class.java, false)
+
+  private lateinit var wakeLock: PowerManager.WakeLock
+
+  /**
+   * Acquire a wake lock so that the device doesn't go to sleep during testing.
+   */
+
+  @Before
+  fun setup() {
+    this.log.debug("waking up device")
+
+    val act = this.activityRule.activity
+    val keyguard = act.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+    keyguard.newKeyguardLock(this.javaClass.simpleName).disableKeyguard()
+
+    this.log.debug("acquiring wake lock")
+    val power = act.getSystemService(Context.POWER_SERVICE) as PowerManager
+    this.wakeLock = power.newWakeLock(
+      PowerManager.FULL_WAKE_LOCK
+        or PowerManager.ACQUIRE_CAUSES_WAKEUP
+        or PowerManager.ON_AFTER_RELEASE,
+      this.javaClass.simpleName)
+    this.wakeLock.acquire()
+  }
+
+  @After
+  fun tearDown() {
+    this.log.debug("releasing wake lock")
+    this.wakeLock.release()
+  }
 
   /**
    * Test that the play button does actually tell the player to play.
@@ -98,7 +133,7 @@ class PlayerFragmentTest {
 
   @Test
   fun testPlaybackRateDialogWorksNormal() {
-    testPlaybackRateDialogForRate(PlayerPlaybackRate.NORMAL_TIME)
+    this.testPlaybackRateDialogForRate(PlayerPlaybackRate.NORMAL_TIME)
   }
 
   /**
@@ -107,7 +142,7 @@ class PlayerFragmentTest {
 
   @Test
   fun testPlaybackRateDialogWorksDouble() {
-    testPlaybackRateDialogForRate(PlayerPlaybackRate.DOUBLE_TIME)
+    this.testPlaybackRateDialogForRate(PlayerPlaybackRate.DOUBLE_TIME)
   }
 
   /**
@@ -116,7 +151,7 @@ class PlayerFragmentTest {
 
   @Test
   fun testPlaybackRateDialogWorksThreeQuarters() {
-    testPlaybackRateDialogForRate(PlayerPlaybackRate.THREE_QUARTERS_TIME)
+    this.testPlaybackRateDialogForRate(PlayerPlaybackRate.THREE_QUARTERS_TIME)
   }
 
   /**
@@ -125,7 +160,7 @@ class PlayerFragmentTest {
 
   @Test
   fun testPlaybackRateDialogWorksOneAndAHalf() {
-    testPlaybackRateDialogForRate(PlayerPlaybackRate.ONE_AND_A_HALF_TIME)
+    this.testPlaybackRateDialogForRate(PlayerPlaybackRate.ONE_AND_A_HALF_TIME)
   }
 
   /**
@@ -134,7 +169,7 @@ class PlayerFragmentTest {
 
   @Test
   fun testPlaybackRateDialogWorksOneAndAQuarter() {
-    testPlaybackRateDialogForRate(PlayerPlaybackRate.ONE_AND_A_QUARTER_TIME)
+    this.testPlaybackRateDialogForRate(PlayerPlaybackRate.ONE_AND_A_QUARTER_TIME)
   }
 
   private fun testPlaybackRateDialogForRate(rate: PlayerPlaybackRate) {
