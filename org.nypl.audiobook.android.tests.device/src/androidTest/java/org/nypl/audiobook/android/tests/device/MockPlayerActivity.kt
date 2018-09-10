@@ -1,6 +1,8 @@
 package org.nypl.audiobook.android.tests.device
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.support.v4.app.FragmentActivity
 import android.widget.ImageView
 import com.google.common.util.concurrent.ListeningExecutorService
@@ -18,6 +20,8 @@ import org.nypl.audiobook.android.mocking.MockingSleepTimer
 import org.nypl.audiobook.android.views.PlayerFragment
 import org.nypl.audiobook.android.views.PlayerFragmentListenerType
 import org.nypl.audiobook.android.views.PlayerFragmentParameters
+import org.nypl.audiobook.android.views.PlayerPlaybackRateFragment
+import org.nypl.audiobook.android.views.PlayerSleepTimerFragment
 import org.nypl.audiobook.android.views.PlayerTOCFragment
 import org.nypl.audiobook.android.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
@@ -105,10 +109,16 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
   }
 
   override fun onPlayerPlaybackRateShouldOpen() {
-
+    Handler(Looper.getMainLooper()).post {
+      val fragment = PlayerPlaybackRateFragment.newInstance()
+      fragment.show(this.supportFragmentManager, "PLAYER_RATE")
+    }
   }
 
   override fun onPlayerSleepTimerShouldOpen() {
-
+    Handler(Looper.getMainLooper()).post {
+      val fragment = PlayerSleepTimerFragment.newInstance()
+      fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
+    }
   }
 }
