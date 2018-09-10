@@ -40,6 +40,40 @@ class PlayerFragmentTest {
     Assert.assertEquals("play", calls[0])
   }
 
+  /**
+   * Test that the forward button does actually tell the player to skip forward.
+   */
+
+  @Test
+  fun testForwardButtonWorks() {
+    val activity = this.activityRule.activity
+
+    val calls = this.logCalls(activity)
+
+    Espresso.onView(ViewMatchers.withId(R.id.player_jump_forwards))
+      .perform(ViewActions.click())
+
+    Assert.assertEquals(1, calls.size)
+    Assert.assertEquals("skipForward", calls[0])
+  }
+
+  /**
+   * Test that the backward button does actually tell the player to skip backward.
+   */
+
+  @Test
+  fun testBackwardButtonWorks() {
+    val activity = this.activityRule.activity
+
+    val calls = this.logCalls(activity)
+
+    Espresso.onView(ViewMatchers.withId(R.id.player_jump_backwards))
+      .perform(ViewActions.click())
+
+    Assert.assertEquals(1, calls.size)
+    Assert.assertEquals("skipBack", calls[0])
+  }
+
   private fun logCalls(activity: MockPlayerActivity): ArrayList<String> {
     val calls = ArrayList<String>()
     activity.player.calls.subscribe(
