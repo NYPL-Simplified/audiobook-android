@@ -6,6 +6,7 @@ import org.nypl.audiobook.android.api.PlayerPosition
 import org.nypl.audiobook.android.api.PlayerType
 import org.slf4j.LoggerFactory
 import rx.Observable
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 /**
@@ -17,6 +18,7 @@ class MockingPlayer : PlayerType {
   private val log = LoggerFactory.getLogger(MockingPlayer::class.java)
 
   private val callEvents = PublishSubject.create<String>()
+  private val statusEvents = BehaviorSubject.create<PlayerEvent>()
 
   val calls: Observable<String> = this.callEvents
 
@@ -39,7 +41,18 @@ class MockingPlayer : PlayerType {
     get() = false
 
   override val events: Observable<PlayerEvent>
-    get() = Observable.empty()
+    get() = this.statusEvents
+
+  fun error(
+    exception: Exception?,
+    errorCode: Int) {
+
+    this.statusEvents.onNext(PlayerEvent.PlayerEventError(
+      spineElement = null,
+      offsetMilliseconds = 0,
+      exception = exception,
+      errorCode = errorCode))
+  }
 
   override fun play() {
     this.log.debug("play")

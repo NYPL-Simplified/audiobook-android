@@ -19,6 +19,7 @@ import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
 import org.nypl.audiobook.android.api.PlayerAudioBookType
 import org.nypl.audiobook.android.api.PlayerEvent
+import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventError
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventPlaybackRateChanged
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventChapterCompleted
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventChapterWaiting
@@ -410,7 +411,22 @@ class PlayerFragment : android.support.v4.app.Fragment() {
         this.onPlayerEventPlaybackStopped(event)
       is PlayerEventPlaybackRateChanged ->
         this.onPlayerEventPlaybackRateChanged(event)
+      is PlayerEventError ->
+        this.onPlayerEventError(event)
     }
+  }
+
+  private fun onPlayerEventError(event: PlayerEventError) {
+    UIThread.runOnUIThread(Runnable {
+      val text = this.getString(R.string.audiobook_player_error, event.errorCode)
+      this.playerWaiting.setText(text)
+
+      val element = event.spineElement
+      if (element != null) {
+        this.playerSpineElement.text = this.spineElementText(element)
+        this.onEventUpdateTimeRelatedUI(element, event.offsetMilliseconds)
+      }
+    })
   }
 
   private fun onPlayerEventChapterWaiting(event: PlayerEventChapterWaiting) {

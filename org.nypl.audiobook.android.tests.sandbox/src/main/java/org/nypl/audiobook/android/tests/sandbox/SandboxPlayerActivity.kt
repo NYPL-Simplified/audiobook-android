@@ -1,7 +1,10 @@
 package org.nypl.audiobook.android.tests.sandbox
 
+import android.app.AlertDialog
+import android.app.PendingIntent.getActivity
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
+import android.view.View
 import android.widget.ImageView
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
@@ -22,6 +25,9 @@ import org.nypl.audiobook.android.views.PlayerTOCFragment
 import org.nypl.audiobook.android.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import android.view.LayoutInflater
+import android.widget.Button
+
 
 class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
@@ -67,11 +73,36 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
   }
 
   override fun onPlayerWantsPlayer(): PlayerType {
-    return MockingPlayer()
+    return this.player
   }
 
   override fun onPlayerWantsCoverImage(view: ImageView) {
 
+    /*
+     * Create a controls menu that pops up when long-clicking on the cover image.
+     */
+
+    view.setOnLongClickListener { _ ->
+      val dialogView = this.layoutInflater.inflate(R.layout.controls_dialog, null)
+
+      /*
+       * A button that triggers a player error.
+       */
+
+      val triggerError = dialogView.findViewById<Button>(R.id.controls_error)
+      triggerError.setOnClickListener { _ ->
+        this.player.error(IllegalStateException("Serious problem occurred."), 1138)
+      }
+
+      val dialog =
+        AlertDialog.Builder(this)
+          .setTitle("Controls")
+          .setView(dialogView)
+          .create()
+
+      dialog.show()
+      true
+    }
   }
 
   override fun onPlayerWantsTitle(): String {

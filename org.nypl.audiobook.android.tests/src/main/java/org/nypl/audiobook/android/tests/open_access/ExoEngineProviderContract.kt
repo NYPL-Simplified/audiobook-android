@@ -600,6 +600,8 @@ abstract class ExoEngineProviderContract {
         "playbackPaused ${event.spineElement.index} ${event.offsetMilliseconds}"
       is PlayerEventPlaybackStopped ->
         "playbackStopped ${event.spineElement.index} ${event.offsetMilliseconds}"
+      is PlayerEvent.PlayerEventError ->
+        "playbackError ${event.spineElement?.index} ${event.exception?.javaClass?.canonicalName} ${event.errorCode} ${event.offsetMilliseconds}"
     }
   }
 

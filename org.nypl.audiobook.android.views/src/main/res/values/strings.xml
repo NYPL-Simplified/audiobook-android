@@ -32,5 +32,6 @@
 
   <string name="audiobook_player_buffering">Buffering…</string>
   <string name="audiobook_player_waiting">Chapter %1$d must be downloaded to continue playback.</string>
+  <string name="audiobook_player_error">An error occurred during playback. Error code: %1$d</string>
 
 </resources>

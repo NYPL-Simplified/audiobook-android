@@ -16,6 +16,8 @@ import com.google.android.exoplayer.upstream.DefaultAllocator
 import com.google.android.exoplayer.upstream.DefaultUriDataSource
 import net.jcip.annotations.GuardedBy
 import org.nypl.audiobook.android.api.PlayerEvent
+import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventError
+import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventPlaybackRateChanged
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventChapterCompleted
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventChapterWaiting
 import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackPaused
@@ -31,7 +33,6 @@ import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpi
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.nypl.audiobook.android.api.PlayerType
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateInitial
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStatePlaying
 import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateStopped
@@ -43,7 +44,6 @@ import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.Subscription
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.util.concurrent.Callable
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
@@ -136,6 +136,11 @@ class ExoAudioBookPlayer private constructor(
   private val exoPlayerEventListener = object : ExoPlayer.Listener {
     override fun onPlayerError(error: ExoPlaybackException?) {
       this@ExoAudioBookPlayer.log.error("onPlayerError: ", error)
+      this@ExoAudioBookPlayer.statusEvents.onNext(PlayerEventError(
+        spineElement = this@ExoAudioBookPlayer.currentSpineElement(),
+        exception = error,
+        errorCode = -1,
+        offsetMilliseconds = this@ExoAudioBookPlayer.currentPlaybackOffset.toInt()))
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, stateNow: Int) {
@@ -394,7 +399,7 @@ class ExoAudioBookPlayer private constructor(
   private fun setPlayerPlaybackRate(newRate: PlayerPlaybackRate) {
     this.log.debug("setPlayerPlaybackRate: {}", newRate)
 
-    this.statusEvents.onNext(PlayerEvent.PlayerEventPlaybackRateChanged(newRate))
+    this.statusEvents.onNext(PlayerEventPlaybackRateChanged(newRate))
 
     /*
      * If the player has not started playing a track, then attempting to set the playback

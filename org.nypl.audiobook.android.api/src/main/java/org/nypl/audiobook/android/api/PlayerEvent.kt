@@ -14,6 +14,18 @@ sealed class PlayerEvent {
     val rate: PlayerPlaybackRate)
     : PlayerEvent()
 
+  /**
+   * An error occurred during playback. The error is expected to reflect an error in the
+   * underlying audio engine and, as such, the specifics of the errors themselves are vague.
+   */
+
+  data class PlayerEventError(
+    val spineElement: PlayerSpineElementType?,
+    val offsetMilliseconds: Int,
+    val exception: java.lang.Exception?,
+    val errorCode: Int)
+    : PlayerEvent()
+
   sealed class PlayerEventWithSpineElement : PlayerEvent() {
 
     /**

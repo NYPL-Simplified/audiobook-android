@@ -174,6 +174,7 @@ class PlayerTOCFragment : Fragment() {
       is PlayerEvent.PlayerEventPlaybackRateChanged -> Unit
       is PlayerEvent.PlayerEventWithSpineElement ->
         this.onPlayerSpineElement(event.spineElement.index)
+      is PlayerEvent.PlayerEventError -> Unit
     }
   }
 
