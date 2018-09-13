@@ -423,7 +423,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
       val element = event.spineElement
       if (element != null) {
-        this.playerSpineElement.text = this.spineElementText(element)
+        this.configureSpineElementText(element)
         this.onEventUpdateTimeRelatedUI(element, event.offsetMilliseconds)
       }
     })
@@ -434,7 +434,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       val text =
         this.getString(R.string.audiobook_player_waiting, event.spineElement.index + 1)
       this.playerWaiting.setText(text)
-      this.playerSpineElement.text = this.spineElementText(event.spineElement)
+      this.configureSpineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, 0)
     })
   }
@@ -442,7 +442,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun onPlayerEventPlaybackBuffering(event: PlayerEventPlaybackBuffering) {
     UIThread.runOnUIThread(Runnable {
       this.playerWaiting.setText(R.string.audiobook_player_buffering)
-      this.playerSpineElement.text = this.spineElementText(event.spineElement)
+      this.configureSpineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
   }
@@ -472,23 +472,18 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.play_icon)
       this.playPauseButton.setOnClickListener { this.onPressedPlay() }
-      this.playerSpineElement.text = this.spineElementText(event.spineElement)
+      this.playPauseButton.contentDescription = this.getString(R.string.audiobook_accessibility_play)
+      this.configureSpineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
-  }
-
-  private fun spineElementText(spineElement: PlayerSpineElementType): String {
-    return this.getString(
-      R.string.audiobook_player_spine_element,
-      spineElement.index + 1,
-      spineElement.book.spine.size)
   }
 
   private fun onPlayerEventPlaybackPaused(event: PlayerEventPlaybackPaused) {
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.play_icon)
       this.playPauseButton.setOnClickListener { this.onPressedPlay() }
-      this.playerSpineElement.text = this.spineElementText(event.spineElement)
+      this.playPauseButton.contentDescription = this.getString(R.string.audiobook_accessibility_play)
+      this.configureSpineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
   }
@@ -505,6 +500,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.pause_icon)
       this.playPauseButton.setOnClickListener { this.onPressedPause() }
+      this.playPauseButton.contentDescription = this.getString(R.string.audiobook_accessibility_pause)
       this.playerWaiting.text = ""
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
@@ -514,7 +510,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.pause_icon)
       this.playPauseButton.setOnClickListener { this.onPressedPause() }
-      this.playerSpineElement.text = this.spineElementText(event.spineElement)
+      this.playPauseButton.contentDescription = this.getString(R.string.audiobook_accessibility_pause)
+      this.configureSpineElementText(event.spineElement)
       this.playerPosition.isEnabled = true
       this.playerWaiting.text = ""
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
@@ -525,8 +522,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     spineElement: PlayerSpineElementType,
     offsetMilliseconds: Int) {
 
-    this.playerPosition.max =
-      spineElement.duration.standardSeconds.toInt()
+    this.playerPosition.max = spineElement.duration.standardSeconds.toInt()
     this.playerPosition.isEnabled = true
 
     this.playerPositionCurrentSpine = spineElement
@@ -543,5 +539,26 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       this.hourMinuteSecondTextFromMilliseconds(offsetMilliseconds)
     this.playerSpineElement.text =
       this.spineElementText(spineElement)
+  }
+
+  private fun spineElementText(spineElement: PlayerSpineElementType): String {
+    return this.getString(
+      R.string.audiobook_player_spine_element,
+      spineElement.index + 1,
+      spineElement.book.spine.size)
+  }
+
+  /**
+   * Configure the chapter display (such as "Chapter 1 of 2") and update the accessibility content
+   * description to give the same information.
+   */
+
+  private fun configureSpineElementText(element: PlayerSpineElementType) {
+    this.playerSpineElement.text = this.spineElementText(element)
+    this.playerSpineElement.contentDescription =
+      this.getString(
+        R.string.audiobook_accessibility_chapter_of,
+        element.index + 1,
+        this.book.spine.size)
   }
 }

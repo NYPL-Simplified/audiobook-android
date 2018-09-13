@@ -56,6 +56,7 @@ class PlayerPlaybackRateFragment : DialogFragment() {
 
       this.adapter =
         PlayerPlaybackRateAdapter(
+          resources = this.resources,
           rates = PlayerPlaybackRate.values().toList(),
           onSelect = { item -> this.onPlaybackRateSelected(item) })
 

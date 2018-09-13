@@ -1,5 +1,6 @@
 package org.nypl.audiobook.android.views
 
+import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import org.nypl.audiobook.android.api.PlayerPlaybackRate.THREE_QUARTERS_TIME
  */
 
 class PlayerPlaybackRateAdapter(
+  private val resources: Resources,
   private val rates: List<PlayerPlaybackRate>,
   private val onSelect: (PlayerPlaybackRate) -> Unit)
   : RecyclerView.Adapter<PlayerPlaybackRateAdapter.ViewHolder>() {
@@ -40,6 +42,23 @@ class PlayerPlaybackRateAdapter(
         ONE_AND_A_QUARTER_TIME -> "1.25x"
         ONE_AND_A_HALF_TIME -> "1.5x"
         DOUBLE_TIME -> "2.0x"
+      }
+    }
+
+    fun contentDescriptionOfRate(
+      resources: Resources,
+      item: PlayerPlaybackRate): String {
+      return when (item) {
+        THREE_QUARTERS_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_0p75)
+        NORMAL_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_1)
+        ONE_AND_A_QUARTER_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_1p25)
+        ONE_AND_A_HALF_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_1p5)
+        DOUBLE_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_2)
       }
     }
 
@@ -67,6 +86,7 @@ class PlayerPlaybackRateAdapter(
     val item = this.rates[position]
     holder.text.text = textOfRate(item)
     holder.border.visibility = INVISIBLE
+    holder.view.contentDescription = contentDescriptionOfRate(this.resources, item)
 
     if (item == this.currentRate) {
       holder.border.visibility = VISIBLE

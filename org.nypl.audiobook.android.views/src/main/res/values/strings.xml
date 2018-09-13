@@ -34,4 +34,33 @@
   <string name="audiobook_player_waiting">Chapter %1$d must be downloaded to continue playback.</string>
   <string name="audiobook_player_error">An error occurred during playback. Error code: %1$d</string>
 
+  <!--
+    Accessibility strings.
+    -->
+
+  <string name="audiobook_accessibility_sleep_timer">Set Your Sleep Timer</string>
+  <string name="audiobook_accessibility_sleep_timer_end_of_chapter">End of Chapter</string>
+  <string name="audiobook_accessibility_sleep_timer_60_minutes">60 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_45_minutes">45 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_30_minutes">30 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_15_minutes">15 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_off">Off</string>
+  <string name="audiobook_accessibility_sleep_timer_now">Now</string>
+
+  <string name="audiobook_accessibility_chapter_of">Chapter %1$d of %2$d</string>
+
+  <string name="audiobook_accessibility_toc_title">Select A Chapter From The Table Of Contents</string>
+
+  <string name="audiobook_accessibility_playback_speed_title">Set Your Playback Speed</string>
+  <string name="audiobook_accessibility_playback_speed_0p75">Playback speed 0.75x</string>
+  <string name="audiobook_accessibility_playback_speed_1">Playback speed 1.0x</string>
+  <string name="audiobook_accessibility_playback_speed_1p25">Playback speed 1.25x</string>
+  <string name="audiobook_accessibility_playback_speed_1p5">Playback speed 1.5x</string>
+  <string name="audiobook_accessibility_playback_speed_2">Playback speed 2.0x</string>
+
+  <string name="audiobook_accessibility_forward_15">Fast forward 15 seconds</string>
+  <string name="audiobook_accessibility_backward_15">Rewind 15 seconds</string>
+  <string name="audiobook_accessibility_play">Play</string>
+  <string name="audiobook_accessibility_pause">Pause</string>
+
 </resources>

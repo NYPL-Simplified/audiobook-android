@@ -89,6 +89,7 @@
     android:layout_height="64dp"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
+    android:contentDescription="@string/audiobook_accessibility_play"
     android:src="@drawable/play_icon" />
 
   <RelativeLayout
@@ -102,6 +103,7 @@
       android:id="@+id/player_jump_backwards"
       android:layout_width="64dp"
       android:layout_height="64dp"
+      android:contentDescription="@string/audiobook_accessibility_backward_15"
       android:src="@drawable/circle_arrow_backward" />
 
     <TextView
@@ -112,6 +114,8 @@
       android:layout_centerVertical="true"
       android:paddingTop="4dp"
       android:gravity="center"
+      android:clickable="false"
+      android:focusable="false"
       android:text="15"
       android:textColor="@color/audiobook_player_text_color"
       android:textSize="18sp"
@@ -129,6 +133,7 @@
       android:id="@+id/player_jump_forwards"
       android:layout_width="64dp"
       android:layout_height="64dp"
+      android:contentDescription="@string/audiobook_accessibility_forward_15"
       android:src="@drawable/circle_arrow_forward" />
 
     <TextView
@@ -139,6 +144,8 @@
       android:layout_centerVertical="true"
       android:paddingTop="4dp"
       android:gravity="center"
+      android:clickable="false"
+      android:focusable="false"
       android:text="15"
       android:textColor="@color/audiobook_player_text_color"
       android:textSize="18sp"

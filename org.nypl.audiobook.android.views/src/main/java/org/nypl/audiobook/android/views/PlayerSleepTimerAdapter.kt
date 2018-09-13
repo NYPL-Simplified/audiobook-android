@@ -7,13 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.END_OF_CHAPTER
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_15
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_30
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_45
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_60
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.NEVER
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.NOW
+import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.*
 
 /**
  * A Recycler view adapter used to display and control a sleep timer configuration menu.
@@ -56,6 +50,28 @@ class PlayerSleepTimerAdapter(
       }
     }
 
+    fun contentDescriptionOf(
+      resources: Resources,
+      item: PlayerSleepTimerConfiguration): CharSequence {
+
+      return when (item) {
+        NEVER ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_off)
+        END_OF_CHAPTER ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_end_of_chapter)
+        MINUTES_60 ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_60_minutes)
+        MINUTES_45 ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_45_minutes)
+        MINUTES_30 ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_30_minutes)
+        MINUTES_15 ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_15_minutes)
+        NOW ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_now)
+      }
+    }
+
   }
 
   override fun onCreateViewHolder(
@@ -80,6 +96,8 @@ class PlayerSleepTimerAdapter(
     val item = this.rates[position]
     holder.text.text =
       textOfConfiguration(resources = this.context.resources, item = item)
+    holder.view.contentDescription =
+      contentDescriptionOf(resources = this.context.resources, item = item)
 
     val view = holder.view
     view.tag = item
