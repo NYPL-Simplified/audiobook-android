@@ -1,6 +1,7 @@
 package org.nypl.audiobook.android.views
 
 import android.content.res.Resources
+import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ import org.nypl.audiobook.android.api.PlayerPlaybackRate.THREE_QUARTERS_TIME
 class PlayerPlaybackRateAdapter(
   private val resources: Resources,
   private val rates: List<PlayerPlaybackRate>,
+  private val parameters: PlayerFragmentParameters,
   private val onSelect: (PlayerPlaybackRate) -> Unit)
   : RecyclerView.Adapter<PlayerPlaybackRateAdapter.ViewHolder>() {
 
@@ -107,5 +109,10 @@ class PlayerPlaybackRateAdapter(
   inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     val text: TextView = view.findViewById(R.id.player_rate_item_view_name)
     val border: ImageView = view.findViewById(R.id.player_rate_item_view_border)
+
+    init {
+      this.border.setColorFilter(
+        this@PlayerPlaybackRateAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+    }
   }
 }

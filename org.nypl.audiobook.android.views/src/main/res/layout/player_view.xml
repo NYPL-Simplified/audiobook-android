@@ -42,11 +42,8 @@
     android:layout_height="wrap_content"
     android:layout_below="@id/player_author"
     android:layout_marginTop="16dp"
-    android:thumbTint="@color/audiobook_player_progress_color"
-    android:progressTint="@color/audiobook_player_progress_color"
     android:progress="0"
-    android:scaleY="2"
-    />
+    android:scaleY="2" />
 
   <TextView
     android:id="@+id/player_time"

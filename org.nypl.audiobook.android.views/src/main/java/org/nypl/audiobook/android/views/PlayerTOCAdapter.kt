@@ -3,6 +3,9 @@ package org.nypl.audiobook.android.views
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +29,7 @@ import org.nypl.audiobook.android.api.PlayerSpineElementType
 class PlayerTOCAdapter(
   private val context: Context,
   private val spineElements: List<PlayerSpineElementType>,
+  private val parameters: PlayerTOCFragmentParameters,
   private val onSelect: (PlayerSpineElementType) -> Unit)
   : RecyclerView.Adapter<PlayerTOCAdapter.ViewHolder>() {
 
@@ -225,9 +229,10 @@ class PlayerTOCAdapter(
 
     init {
       this.downloadProgress.thickness = 8.0f
-      this.downloadProgress.color =
-        this@PlayerTOCAdapter.context.resources.getColor(
-          R.color.audiobook_player_toc_spine_element_progress_color)
+      this.downloadProgress.color = this@PlayerTOCAdapter.parameters.primaryColor
+
+      this.border.setColorFilter(
+        this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
     }
   }
 }

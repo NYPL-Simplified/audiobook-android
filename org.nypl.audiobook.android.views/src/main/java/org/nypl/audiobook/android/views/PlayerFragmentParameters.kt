@@ -1,9 +1,16 @@
 package org.nypl.audiobook.android.views
 
+import android.support.annotation.ColorInt
 import java.io.Serializable
 
 /**
- * Reserved for future use.
+ * Parameters for the main player fragment.
  */
 
-class PlayerFragmentParameters : Serializable
+data class PlayerFragmentParameters(
+
+  /**
+   * The primary color used to tint various views in the player.
+   */
+
+  @ColorInt val primaryColor: Int) : Serializable

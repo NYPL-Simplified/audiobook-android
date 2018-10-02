@@ -2,6 +2,7 @@ package org.nypl.audiobook.android.tests.sandbox
 
 import android.app.AlertDialog
 import android.app.PendingIntent.getActivity
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.view.View
@@ -64,7 +65,9 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
     this.setContentView(R.layout.example_player_activity)
 
-    this.playerFragment = PlayerFragment.newInstance(PlayerFragmentParameters())
+    this.playerFragment =
+      PlayerFragment.newInstance(PlayerFragmentParameters(
+        primaryColor = Color.parseColor("#af1a16")))
 
     this.supportFragmentManager
       .beginTransaction()
@@ -119,7 +122,8 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerTOCShouldOpen() {
     val fragment =
-      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters())
+      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters(
+        primaryColor = Color.parseColor("#af1a16")))
 
     this.supportFragmentManager
       .beginTransaction()

@@ -70,14 +70,6 @@ class PlayerTOCFragment : Fragment() {
     return view
   }
 
-  override fun onCreate(state: Bundle?) {
-    super.onCreate(state)
-
-    this.parameters =
-      this.arguments!!.getSerializable(parametersKey)
-        as PlayerTOCFragmentParameters
-  }
-
   override fun onDestroy() {
     super.onDestroy()
 
@@ -87,6 +79,10 @@ class PlayerTOCFragment : Fragment() {
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
+
+    this.parameters =
+      this.arguments!!.getSerializable(parametersKey)
+        as PlayerTOCFragmentParameters
 
     if (context is PlayerFragmentListenerType) {
       this.listener = context
@@ -98,6 +94,7 @@ class PlayerTOCFragment : Fragment() {
         PlayerTOCAdapter(
           context = context,
           spineElements = this.book.spine,
+          parameters = this.parameters,
           onSelect = { item -> this.onTOCItemSelected(item) })
 
       this.bookSubscription =

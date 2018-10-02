@@ -1,6 +1,7 @@
 package org.nypl.audiobook.android.views
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -54,7 +55,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
   companion object {
 
-    val parametersKey = "org.nypl.audiobook.android.views.PlayerFragment.parameters"
+    const val parametersKey = "org.nypl.audiobook.android.views.PlayerFragment.parameters"
 
     @JvmStatic
     fun newInstance(parameters: PlayerFragmentParameters): PlayerFragment {
@@ -123,7 +124,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     super.onCreate(state)
 
     this.parameters =
-      this.arguments!!.getSerializable(org.nypl.audiobook.android.views.PlayerFragment.Companion.parametersKey)
+      this.arguments!!.getSerializable(parametersKey)
         as PlayerFragmentParameters
 
     /*
@@ -321,6 +322,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     this.playerWaiting.text = ""
 
     this.playerPosition = view.findViewById(R.id.player_progress)!!
+    this.playerPosition.thumbTintList = ColorStateList.valueOf(this.parameters.primaryColor)
+    this.playerPosition.progressTintList = ColorStateList.valueOf(this.parameters.primaryColor)
     this.playerPosition.isEnabled = false
     this.playerPositionDragging = false
     this.playerPosition.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

@@ -2,11 +2,7 @@
 
 <resources>
 
-  <!-- The primary tint color used for various UI elements in the player. -->
-  <color name="audiobook_player_primary">#af1a16</color>
-
   <!-- Color settings for the table of contents. -->
-  <color name="audiobook_player_toc_spine_element_current_border">@color/audiobook_player_primary</color>
   <color name="audiobook_player_toc_spine_element_progress_color">#000000</color>
   <color name="audiobook_player_toc_spine_element_separator">#dddddd</color>
   <color name="audiobook_player_toc_spine_element_bg_disabled">#eeeeee</color>
@@ -15,7 +11,6 @@
   <color name="audiobook_player_toc_spine_element_fg_normal">#000000</color>
 
   <!-- Color settings for the playback rate selection menu. -->
-  <color name="audiobook_player_rate_selected_border">@color/audiobook_player_primary</color>
   <color name="audiobook_player_rate_separator">#dddddd</color>
   <color name="audiobook_player_rate_bg_normal">#ffffff</color>
   <color name="audiobook_player_rate_fg_normal">#000000</color>
@@ -26,7 +21,6 @@
   <color name="audiobook_player_sleep_fg_normal">#000000</color>
 
   <!-- Color settings for the main player screen. -->
-  <color name="audiobook_player_progress_color">@color/audiobook_player_primary</color>
   <color name="audiobook_player_background_color">#ffffff</color>
   <color name="audiobook_player_text_color">#000000</color>
 

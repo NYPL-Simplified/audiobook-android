@@ -28,6 +28,7 @@ class PlayerPlaybackRateFragment : DialogFragment() {
   private lateinit var listener: PlayerFragmentListenerType
   private lateinit var adapter: PlayerPlaybackRateAdapter
   private lateinit var player: PlayerType
+  private lateinit var parameters: PlayerFragmentParameters
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -49,6 +50,10 @@ class PlayerPlaybackRateFragment : DialogFragment() {
   override fun onAttach(context: Context) {
     super.onAttach(context)
 
+    this.parameters =
+      this.arguments!!.getSerializable(parametersKey)
+        as PlayerFragmentParameters
+
     if (context is PlayerFragmentListenerType) {
       this.listener = context
 
@@ -58,6 +63,7 @@ class PlayerPlaybackRateFragment : DialogFragment() {
         PlayerPlaybackRateAdapter(
           resources = this.resources,
           rates = PlayerPlaybackRate.values().toList(),
+          parameters = this.parameters,
           onSelect = { item -> this.onPlaybackRateSelected(item) })
 
       this.adapter.setCurrentPlaybackRate(this.player.playbackRate)
@@ -84,9 +90,18 @@ class PlayerPlaybackRateFragment : DialogFragment() {
   }
 
   companion object {
+
+    const val parametersKey =
+      "org.nypl.audiobook.android.views.PlayerPlaybackRateFragment.parameters"
+
     @JvmStatic
-    fun newInstance(): PlayerPlaybackRateFragment {
-      return PlayerPlaybackRateFragment()
+    fun newInstance(parameters: PlayerFragmentParameters): PlayerPlaybackRateFragment {
+      val args = Bundle()
+      args.putSerializable(this.parametersKey, parameters)
+      val fragment = PlayerPlaybackRateFragment()
+      fragment.arguments = args
+      return fragment
     }
   }
+
 }

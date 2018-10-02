@@ -2,6 +2,7 @@ package org.nypl.audiobook.android.views
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View

@@ -38,6 +38,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
   private lateinit var adapter: PlayerSleepTimerAdapter
   private lateinit var timer: PlayerSleepTimerType
   private lateinit var player: PlayerType
+  private lateinit var parameters: PlayerFragmentParameters
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -58,6 +59,10 @@ class PlayerSleepTimerFragment : DialogFragment() {
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
+
+    this.parameters =
+      this.arguments!!.getSerializable(parametersKey)
+        as PlayerFragmentParameters
 
     if (context is PlayerFragmentListenerType) {
       this.listener = context
@@ -137,9 +142,18 @@ class PlayerSleepTimerFragment : DialogFragment() {
   }
 
   companion object {
+
+    const val parametersKey =
+      "org.nypl.audiobook.android.views.PlayerSleepTimerFragment.parameters"
+
     @JvmStatic
-    fun newInstance(): PlayerSleepTimerFragment {
-      return PlayerSleepTimerFragment()
+    fun newInstance(parameters: PlayerFragmentParameters): PlayerSleepTimerFragment {
+      val args = Bundle()
+      args.putSerializable(this.parametersKey, parameters)
+      val fragment = PlayerSleepTimerFragment()
+      fragment.arguments = args
+      return fragment
     }
   }
+
 }

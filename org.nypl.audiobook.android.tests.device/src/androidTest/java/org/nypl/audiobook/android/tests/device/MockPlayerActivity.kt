@@ -1,5 +1,6 @@
 package org.nypl.audiobook.android.tests.device
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -61,7 +62,8 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
     this.setContentView(R.layout.mocking_player_activity)
 
-    this.playerFragment = PlayerFragment.newInstance(PlayerFragmentParameters())
+    this.playerFragment = PlayerFragment.newInstance(PlayerFragmentParameters(
+      primaryColor = Color.parseColor("#f02020")))
 
     this.supportFragmentManager
       .beginTransaction()
@@ -91,7 +93,8 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerTOCShouldOpen() {
     val fragment =
-      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters())
+      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters(
+        primaryColor = Color.parseColor("#f02020")))
 
     this.supportFragmentManager
       .beginTransaction()
@@ -110,14 +113,18 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerPlaybackRateShouldOpen() {
     Handler(Looper.getMainLooper()).post {
-      val fragment = PlayerPlaybackRateFragment.newInstance()
+      val fragment =
+        PlayerPlaybackRateFragment.newInstance(PlayerFragmentParameters(
+          primaryColor = Color.parseColor("#f02020")))
       fragment.show(this.supportFragmentManager, "PLAYER_RATE")
     }
   }
 
   override fun onPlayerSleepTimerShouldOpen() {
     Handler(Looper.getMainLooper()).post {
-      val fragment = PlayerSleepTimerFragment.newInstance()
+      val fragment =
+        PlayerSleepTimerFragment.newInstance(PlayerFragmentParameters(
+          primaryColor = Color.parseColor("#f02020")))
       fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
     }
   }
