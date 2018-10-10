@@ -1,0 +1,103 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+dependencies {
+  api project(':org.nypl.audiobook.android.api')
+
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+  implementation "joda-time:joda-time:${dependency_joda_time_version}"
+  implementation "com.github.stephenc.jcip:jcip-annotations:${dependency_jcip_version}"
+  implementation "com.google.android.exoplayer:exoplayer:${dependency_exoplayer_version}"
+}
+
+/*
+ * Generate a properties file based on various settings.
+ */
+
+task generatePropertiesResources {
+
+  def directory = new File(project.projectDir, "src/main/resources/org/nypl/audiobook/android/open_access").absoluteFile
+  directory.mkdirs()
+  def file = new File(directory, "provider.properties")
+  file.createNewFile()
+
+  def properties = new Properties()
+  def major = version.split("\\.").getAt(0)
+  def minor = version.split("\\.").getAt(1)
+  def patch = version.split("\\.").getAt(2)
+  properties.setProperty("version.major", major)
+  properties.setProperty("version.minor", minor)
+  properties.setProperty("version.patch", patch)
+  properties.store(new FileOutputStream(file), "Automatically generated - DO NOT EDIT")
+}
+
+preBuild.dependsOn generatePropertiesResources
+
+android {
+  compileSdkVersion 27
+  buildToolsVersion "27.0.3"
+
+  packagingOptions {
+
+  }
+}
+
+task sourceJar(type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier "sources"
+}
+
+publishing {
+  publications {
+    debugAAR(MavenPublication) {
+      groupId group
+      artifactId 'org.nypl.audiobook.android.open_access'
+      version version
+      artifact(sourceJar)
+      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.open_access-debug.aar")
+
+      pom.withXml {
+        def dependencies = asNode().appendNode('dependencies')
+
+        final d0 = dependencies.appendNode('dependency')
+        d0.appendNode('groupId', 'org.nypl.audiobook')
+        d0.appendNode('artifactId', 'org.nypl.audiobook.android.api')
+        d0.appendNode('version', version)
+        d0.appendNode('type', 'aar')
+
+        final d1 = dependencies.appendNode('dependency')
+        d1.appendNode('groupId', 'joda-time')
+        d1.appendNode('artifactId', 'joda-time')
+        d1.appendNode('version', "${dependency_joda_time_version}")
+
+        final d2 = dependencies.appendNode('dependency')
+        d2.appendNode('groupId', 'org.slf4j')
+        d2.appendNode('artifactId', 'slf4j-api')
+        d2.appendNode('version', "${dependency_slf4j_version}")
+
+        final d3 = dependencies.appendNode('dependency')
+        d3.appendNode('groupId', 'com.github.stephenc.jcip')
+        d3.appendNode('artifactId', 'jcip-annotations')
+        d3.appendNode('version', "${dependency_jcip_version}")
+
+        final d4 = dependencies.appendNode('dependency')
+        d4.appendNode('groupId', 'com.google.android.exoplayer')
+        d4.appendNode('artifactId', 'exoplayer')
+        d4.appendNode('version', "${dependency_exoplayer_version}")
+        d4.appendNode('type', 'aar')
+
+        final d5 = dependencies.appendNode('dependency')
+        d5.appendNode('groupId', 'org.jetbrains.kotlin')
+        d5.appendNode('artifactId', 'kotlin-stdlib-jdk7')
+        d5.appendNode('version', "$kotlin_version")
+      }
+    }
+  }
+
+  repositories {
+    maven {
+      url "$buildDir/repo"
+    }
+  }
+}

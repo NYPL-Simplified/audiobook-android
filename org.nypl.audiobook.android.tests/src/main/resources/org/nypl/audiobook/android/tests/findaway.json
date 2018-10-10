@@ -1,0 +1,666 @@
+{
+  "readingOrder": [
+    {
+      "title": "Track 1",
+      "findaway:sequence": 1,
+      "href": null,
+      "duration": 16.646,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 2",
+      "findaway:sequence": 2,
+      "href": null,
+      "duration": 336.524,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 3",
+      "findaway:sequence": 3,
+      "href": null,
+      "duration": 248.254,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 4",
+      "findaway:sequence": 4,
+      "href": null,
+      "duration": 349.16,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 5",
+      "findaway:sequence": 5,
+      "href": null,
+      "duration": 509.294,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 6",
+      "findaway:sequence": 6,
+      "href": null,
+      "duration": 324.226,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 7",
+      "findaway:sequence": 7,
+      "href": null,
+      "duration": 386.86,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 8",
+      "findaway:sequence": 8,
+      "href": null,
+      "duration": 416.396,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 9",
+      "findaway:sequence": 9,
+      "href": null,
+      "duration": 276.282,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 10",
+      "findaway:sequence": 10,
+      "href": null,
+      "duration": 373.314,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 11",
+      "findaway:sequence": 11,
+      "href": null,
+      "duration": 516.236,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 12",
+      "findaway:sequence": 12,
+      "href": null,
+      "duration": 290.348,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 13",
+      "findaway:sequence": 13,
+      "href": null,
+      "duration": 345.702,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 14",
+      "findaway:sequence": 14,
+      "href": null,
+      "duration": 334.574,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 15",
+      "findaway:sequence": 15,
+      "href": null,
+      "duration": 356.544,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 16",
+      "findaway:sequence": 16,
+      "href": null,
+      "duration": 459.504,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 17",
+      "findaway:sequence": 17,
+      "href": null,
+      "duration": 311.46,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 18",
+      "findaway:sequence": 18,
+      "href": null,
+      "duration": 295.236,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 19",
+      "findaway:sequence": 19,
+      "href": null,
+      "duration": 443.722,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 20",
+      "findaway:sequence": 20,
+      "href": null,
+      "duration": 264.738,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 21",
+      "findaway:sequence": 21,
+      "href": null,
+      "duration": 348.77,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 22",
+      "findaway:sequence": 22,
+      "href": null,
+      "duration": 355.452,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 23",
+      "findaway:sequence": 23,
+      "href": null,
+      "duration": 346.898,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 24",
+      "findaway:sequence": 24,
+      "href": null,
+      "duration": 220.642,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 25",
+      "findaway:sequence": 25,
+      "href": null,
+      "duration": 373.626,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 26",
+      "findaway:sequence": 26,
+      "href": null,
+      "duration": 196.852,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 27",
+      "findaway:sequence": 27,
+      "href": null,
+      "duration": 399.756,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 28",
+      "findaway:sequence": 28,
+      "href": null,
+      "duration": 337.538,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 29",
+      "findaway:sequence": 29,
+      "href": null,
+      "duration": 297.524,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 30",
+      "findaway:sequence": 30,
+      "href": null,
+      "duration": 241.104,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 31",
+      "findaway:sequence": 31,
+      "href": null,
+      "duration": 387.77,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 32",
+      "findaway:sequence": 32,
+      "href": null,
+      "duration": 298.486,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 33",
+      "findaway:sequence": 33,
+      "href": null,
+      "duration": 368.062,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 34",
+      "findaway:sequence": 34,
+      "href": null,
+      "duration": 269.652,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 35",
+      "findaway:sequence": 35,
+      "href": null,
+      "duration": 494.656,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 36",
+      "findaway:sequence": 36,
+      "href": null,
+      "duration": 394.4,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 37",
+      "findaway:sequence": 37,
+      "href": null,
+      "duration": 309.77,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 38",
+      "findaway:sequence": 38,
+      "href": null,
+      "duration": 341.776,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 39",
+      "findaway:sequence": 39,
+      "href": null,
+      "duration": 415.538,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 40",
+      "findaway:sequence": 40,
+      "href": null,
+      "duration": 304.492,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 41",
+      "findaway:sequence": 41,
+      "href": null,
+      "duration": 417.54,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 42",
+      "findaway:sequence": 42,
+      "href": null,
+      "duration": 369.388,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 43",
+      "findaway:sequence": 43,
+      "href": null,
+      "duration": 411.664,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 44",
+      "findaway:sequence": 44,
+      "href": null,
+      "duration": 298.72,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 45",
+      "findaway:sequence": 45,
+      "href": null,
+      "duration": 300.696,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 46",
+      "findaway:sequence": 46,
+      "href": null,
+      "duration": 343.206,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 47",
+      "findaway:sequence": 47,
+      "href": null,
+      "duration": 448.298,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 48",
+      "findaway:sequence": 48,
+      "href": null,
+      "duration": 528.378,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 49",
+      "findaway:sequence": 49,
+      "href": null,
+      "duration": 406.984,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 50",
+      "findaway:sequence": 50,
+      "href": null,
+      "duration": 334.86,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 51",
+      "findaway:sequence": 51,
+      "href": null,
+      "duration": 307.976,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 52",
+      "findaway:sequence": 52,
+      "href": null,
+      "duration": 407.53,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 53",
+      "findaway:sequence": 53,
+      "href": null,
+      "duration": 488.858,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 54",
+      "findaway:sequence": 54,
+      "href": null,
+      "duration": 433.322,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 55",
+      "findaway:sequence": 55,
+      "href": null,
+      "duration": 364.526,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 56",
+      "findaway:sequence": 56,
+      "href": null,
+      "duration": 367.594,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 57",
+      "findaway:sequence": 57,
+      "href": null,
+      "duration": 330.024,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 58",
+      "findaway:sequence": 58,
+      "href": null,
+      "duration": 306.39,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 59",
+      "findaway:sequence": 59,
+      "href": null,
+      "duration": 528.534,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 60",
+      "findaway:sequence": 60,
+      "href": null,
+      "duration": 416.474,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 61",
+      "findaway:sequence": 61,
+      "href": null,
+      "duration": 524.738,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 62",
+      "findaway:sequence": 62,
+      "href": null,
+      "duration": 307.144,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 63",
+      "findaway:sequence": 63,
+      "href": null,
+      "duration": 298.382,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 64",
+      "findaway:sequence": 64,
+      "href": null,
+      "duration": 385.43,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 65",
+      "findaway:sequence": 65,
+      "href": null,
+      "duration": 384.104,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 66",
+      "findaway:sequence": 66,
+      "href": null,
+      "duration": 442.136,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 67",
+      "findaway:sequence": 67,
+      "href": null,
+      "duration": 263.984,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 68",
+      "findaway:sequence": 68,
+      "href": null,
+      "duration": 412.938,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 69",
+      "findaway:sequence": 69,
+      "href": null,
+      "duration": 253.246,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 70",
+      "findaway:sequence": 70,
+      "href": null,
+      "duration": 324.538,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 71",
+      "findaway:sequence": 71,
+      "href": null,
+      "duration": 361.952,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 72",
+      "findaway:sequence": 72,
+      "href": null,
+      "duration": 404.358,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 73",
+      "findaway:sequence": 73,
+      "href": null,
+      "duration": 511.062,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 74",
+      "findaway:sequence": 74,
+      "href": null,
+      "duration": 536.048,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 75",
+      "findaway:sequence": 75,
+      "href": null,
+      "duration": 473.232,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 76",
+      "findaway:sequence": 76,
+      "href": null,
+      "duration": 284.472,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 77",
+      "findaway:sequence": 77,
+      "href": null,
+      "duration": 419.568,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 78",
+      "findaway:sequence": 78,
+      "href": null,
+      "duration": 418.45,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    },
+    {
+      "title": "Track 79",
+      "findaway:sequence": 79,
+      "href": null,
+      "duration": 32.766,
+      "findaway:part": 0,
+      "type": "audio/mpeg"
+    }
+  ],
+  "@context": [
+    "http://readium.org/webpub/default.jsonld",
+    {
+      "findaway": "http://librarysimplified.org/terms/third-parties/findaway.com/"
+    }
+  ],
+  "links": [
+    {
+      "href": "http://book-covers.nypl.org/scaled/300/3M/3M%20ID/hxaee89/cover.jpg",
+      "rel": "cover"
+    }
+  ],
+  "metadata": {
+    "language": "en",
+    "title": "Most Dangerous",
+    "encrypted": {
+      "findaway:accountId": "REDACTED0",
+      "findaway:checkoutId": "REDACTED1",
+      "findaway:sessionKey": "REDACTED2",
+      "findaway:fulfillmentId": "REDACTED3",
+      "findaway:licenseId": "REDACTED4",
+      "scheme": "http://librarysimplified.org/terms/drm/scheme/FAE"
+    },
+    "authors": [
+      "Steve Sheinkin"
+    ],
+    "duration": 28407.294000000005,
+    "identifier": "urn:librarysimplified.org/terms/id/Bibliotheca%20ID/hxaee89",
+    "@type": "http://bib.schema.org/Audiobook"
+  }
+}

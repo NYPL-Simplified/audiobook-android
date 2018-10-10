@@ -1,0 +1,82 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation "junit:junit:${dependency_junit_version}"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+
+  implementation "com.github.tony19:logback-android-core:${dependency_logback_android_version}"
+  implementation("com.github.tony19:logback-android-classic:${dependency_logback_android_version}") {
+    // https://github.com/tony19/logback-android/issues/73
+    exclude group: 'com.google.android', module: 'android'
+  }
+
+  implementation "com.android.support:support-v4:${dependency_support_v4_version}"
+  implementation "com.android.support:recyclerview-v7:${dependency_recyclerview_version}"
+
+  androidTestImplementation "com.android.support.test:rules:${dependency_android_test_support_version}"
+  androidTestImplementation "com.android.support.test:runner:${dependency_android_test_support_version}"
+  androidTestImplementation "com.android.support.test.espresso:espresso-core:${dependency_android_test_espresso_version}"
+  androidTestUtil "com.android.support.test:orchestrator:${dependency_android_test_support_version}"
+
+  implementation project(':org.nypl.audiobook.android.api')
+  implementation project(':org.nypl.audiobook.android.manifest.nypl')
+  implementation project(':org.nypl.audiobook.android.mocking')
+  implementation project(':org.nypl.audiobook.android.open_access')
+  implementation project(':org.nypl.audiobook.android.views')
+
+  implementation (project(':org.nypl.audiobook.android.tests')) {
+    exclude group: 'ch.qos.logback', module: 'logback-classic'
+  }
+}
+
+android {
+  compileSdkVersion 27
+  buildToolsVersion "27.0.3"
+
+  defaultConfig {
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  testOptions {
+    execution 'ANDROID_TEST_ORCHESTRATOR'
+    animationsDisabled = true
+  }
+
+  packagingOptions {
+
+  }
+
+  /*
+   * We don't care about lint-related failures in the test suite.
+   */
+
+  lintOptions {
+    abortOnError false
+  }
+}
+
+publishing {
+  publications {
+    debugAAR(MavenPublication) {
+      groupId group
+      artifactId 'org.nypl.audiobook.android.tests.device'
+      version version
+      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.tests.device-debug.aar")
+    }
+  }
+  repositories {
+    maven {
+      url "$buildDir/repo"
+    }
+  }
+}
+
+/*
+ * Log unit test executions.
+ */
+
+tasks.matching {it instanceof Test}.all {
+  testLogging.events = ["failed", "passed", "skipped"]
+}

@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation "junit:junit:4.12"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+  implementation "ch.qos.logback:logback-classic:${dependency_logback_classic_version}"
+
+  implementation project(':org.nypl.audiobook.android.api')
+  implementation project(':org.nypl.audiobook.android.open_access')
+  implementation project(':org.nypl.audiobook.android.downloads')
+  implementation project(':org.nypl.audiobook.android.manifest.nypl')
+}
+
+android {
+  compileSdkVersion 27
+  buildToolsVersion "27.0.3"
+
+  packagingOptions {
+
+  }
+
+  /*
+   * We don't care about lint-related failures in the test suite.
+   */
+
+  lintOptions {
+    abortOnError false
+  }
+}
+
+publishing {
+  publications {
+    debugAAR(MavenPublication) {
+      groupId group
+      artifactId 'org.nypl.audiobook.android.tests'
+      version version
+      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.tests-debug.aar")
+    }
+  }
+  repositories {
+    maven {
+      url "$buildDir/repo"
+    }
+  }
+}
+
+/*
+ * Log unit test executions.
+ */
+
+tasks.matching {it instanceof Test}.all {
+  testLogging.events = ["failed", "passed", "skipped"]
+  testLogging.exceptionFormat = "full"
+}

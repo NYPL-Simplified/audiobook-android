@@ -1,0 +1,78 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+dependencies {
+  api "com.fasterxml.jackson.core:jackson-databind:${dependency_jackson_version}"
+  api "io.reactivex:rxjava:${dependency_rxjava_version}"
+  api "com.google.guava:guava:${dependency_guava_version}"
+  api "joda-time:joda-time:${dependency_joda_time_version}"
+
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+}
+
+android {
+  compileSdkVersion 27
+  buildToolsVersion "27.0.3"
+
+  packagingOptions {
+
+  }
+}
+
+task sourceJar(type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier "sources"
+}
+
+publishing {
+  publications {
+    debugAAR(MavenPublication) {
+      groupId group
+      artifactId 'org.nypl.audiobook.android.api'
+      version version
+      artifact(sourceJar)
+      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.api-debug.aar")
+
+      pom.withXml {
+        def dependencies = asNode().appendNode('dependencies')
+
+        final d0 = dependencies.appendNode('dependency')
+        d0.appendNode('groupId', 'com.fasterxml.jackson.core')
+        d0.appendNode('artifactId', 'jackson-databind')
+        d0.appendNode('version', "${dependency_jackson_version}")
+
+        final d1 = dependencies.appendNode('dependency')
+        d1.appendNode('groupId', 'joda-time')
+        d1.appendNode('artifactId', 'joda-time')
+        d1.appendNode('version', "${dependency_joda_time_version}")
+
+        final d2 = dependencies.appendNode('dependency')
+        d2.appendNode('groupId', 'org.slf4j')
+        d2.appendNode('artifactId', 'slf4j-api')
+        d2.appendNode('version', "${dependency_slf4j_version}")
+
+        final d3 = dependencies.appendNode('dependency')
+        d3.appendNode('groupId', 'io.reactivex')
+        d3.appendNode('artifactId', 'rxjava')
+        d3.appendNode('version', "${dependency_rxjava_version}")
+
+        final d4 = dependencies.appendNode('dependency')
+        d4.appendNode('groupId', 'com.google.guava')
+        d4.appendNode('artifactId', 'guava')
+        d4.appendNode('version', "${dependency_guava_version}")
+
+        final d5 = dependencies.appendNode('dependency')
+        d5.appendNode('groupId', 'org.jetbrains.kotlin')
+        d5.appendNode('artifactId', 'kotlin-stdlib-jdk7')
+        d5.appendNode('version', "$kotlin_version")
+      }
+    }
+  }
+
+  repositories {
+    maven {
+      url "$buildDir/repo"
+    }
+  }
+}

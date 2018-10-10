@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="org.nypl.audiobook.android.tests.sandbox">
+
+  <uses-sdk
+    android:minSdkVersion="21"
+    android:targetSdkVersion="27" />
+
+  <application android:allowBackup="false">
+    <activity android:name="org.nypl.audiobook.android.tests.sandbox.SandboxPlayerActivity" android:exported="true"/>
+  </application>
+
+</manifest>
