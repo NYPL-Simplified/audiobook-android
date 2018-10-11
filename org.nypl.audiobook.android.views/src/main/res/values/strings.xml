@@ -62,5 +62,7 @@
   <string name="audiobook_accessibility_backward_15">Rewind 15 seconds</string>
   <string name="audiobook_accessibility_play">Play</string>
   <string name="audiobook_accessibility_pause">Pause</string>
+  <string name="audiobook_accessibility_chapter_next">Go To Next Chapter</string>
+  <string name="audiobook_accessibility_chapter_previous">Go To Previous Chapter</string>
 
 </resources>

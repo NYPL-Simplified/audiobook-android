@@ -77,6 +77,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private lateinit var playPauseButton: ImageView
   private lateinit var playerSkipForwardButton: ImageView
   private lateinit var playerSkipBackwardButton: ImageView
+  private lateinit var playerChapterForwardButton: ImageView
+  private lateinit var playerChapterBackwardButton: ImageView
   private var playerPositionDragging: Boolean = false
   private lateinit var playerPosition: SeekBar
   private lateinit var playerTimeCurrent: TextView
@@ -315,8 +317,15 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
     this.playerSkipForwardButton = view.findViewById(R.id.player_jump_forwards)
     this.playerSkipForwardButton.setOnClickListener { this.player.skipForward() }
+
     this.playerSkipBackwardButton = view.findViewById(R.id.player_jump_backwards)
     this.playerSkipBackwardButton.setOnClickListener { this.player.skipBack() }
+
+    this.playerChapterForwardButton = view.findViewById(R.id.player_chapter_next)
+    this.playerChapterForwardButton.setOnClickListener { this.player.skipToNextChapter() }
+
+    this.playerChapterBackwardButton = view.findViewById(R.id.player_chapter_previous)
+    this.playerChapterBackwardButton.setOnClickListener { this.player.skipToPreviousChapter() }
 
     this.playerWaiting = view.findViewById(R.id.player_waiting_buffering)
     this.playerWaiting.text = ""
