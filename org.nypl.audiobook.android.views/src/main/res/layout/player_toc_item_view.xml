@@ -15,73 +15,77 @@
     android:clickable="false"
     android:src="@drawable/player_toc_item_separator" />
 
-  <RelativeLayout
-    android:id="@+id/player_toc_item_view_progress_container"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:layout_alignParentRight="true"
+  <ImageView
+    android:id="@+id/player_toc_item_is_current"
+    android:layout_width="16dp"
+    android:layout_height="16dp"
     android:layout_centerVertical="true"
-    android:layout_marginRight="16dp">
+    android:layout_marginLeft="16dp"
+    android:focusable="false"
+    android:clickable="false"
+    android:src="@drawable/circle" />
+
+  <RelativeLayout
+    android:id="@+id/player_toc_end_controls"
+    android:layout_width="80dp"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="16dp"
+    android:layout_alignParentRight="true"
+    android:layout_centerVertical="true">
+
     <org.nypl.audiobook.android.views.PlayerCircularProgressView
       android:id="@+id/player_toc_item_view_progress"
-      android:layout_width="48dp"
-      android:layout_height="48dp"
+      android:layout_alignParentRight="true"
+      android:layout_centerVertical="true"
+      android:layout_width="32dp"
+      android:layout_height="32dp"
       android:clickable="true"
       android:focusable="true" />
+
     <TextView
-      android:id="@+id/player_toc_item_view_progress_text"
+      android:id="@+id/player_toc_item_view_duration"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_centerInParent="true"
-      android:gravity="center"
-      android:text="0"
-      android:textStyle="bold"
-      android:textSize="14sp" />
+      android:layout_alignParentRight="true"
+      android:layout_centerVertical="true"
+      android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"
+      android:text="00:00:00"
+      android:textSize="18sp" />
+
+    <ImageView
+      android:id="@+id/player_toc_item_view_operation"
+      android:layout_width="32dp"
+      android:layout_height="32dp"
+      android:layout_alignParentRight="true"
+      android:layout_centerVertical="true"
+      android:clickable="true"
+      android:focusable="true"
+      android:src="@drawable/refresh" />
+
+    <ImageView
+      android:id="@+id/player_toc_item_error"
+      android:layout_width="32dp"
+      android:layout_height="32dp"
+      android:layout_marginRight="16dp"
+      android:layout_toLeftOf="@+id/player_toc_item_view_operation"
+      android:layout_centerVertical="true"
+      android:src="@drawable/error" />
+
   </RelativeLayout>
 
   <TextView
-    android:id="@+id/player_toc_item_view_duration"
+    android:id="@+id/player_toc_item_view_title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_marginRight="16dp"
-    android:layout_toLeftOf="@id/player_toc_item_view_progress_container"
-    android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"
-    android:text="00:00"
-    android:textSize="24sp" />
-
-  <ImageView
-    android:id="@+id/player_toc_item_view_operation"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:layout_alignParentRight="true"
-    android:layout_centerVertical="true"
-    android:layout_marginRight="16dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:src="@drawable/download" />
-
-  <ImageView
-    android:id="@+id/player_toc_item_view_border"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="false"
-    android:clickable="false"
-    android:src="@drawable/player_toc_item_border" />
-
-  <TextView
-    android:id="@+id/player_toc_item_view_title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_toLeftOf="@id/player_toc_item_view_duration"
-    android:layout_alignParentLeft="true"
+    android:layout_toLeftOf="@id/player_toc_end_controls"
+    android:layout_toRightOf="@+id/player_toc_item_is_current"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:lines="1"
     android:ellipsize="end"
     android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"
     android:text="Very long placeholder text that should never be seen in practice."
-    android:textSize="24sp" />
+    android:textSize="18sp" />
 
 </RelativeLayout>
