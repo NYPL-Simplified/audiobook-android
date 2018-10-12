@@ -31,7 +31,6 @@ import java.util.concurrent.Executors
 class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   val timer: MockingSleepTimer = MockingSleepTimer()
-  val player: MockingPlayer = MockingPlayer()
 
   val downloadExecutor: ListeningExecutorService =
     MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(4))
@@ -39,14 +38,18 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
     Executors.newFixedThreadPool(1)
 
   val downloadProvider: PlayerDownloadProviderType =
-    MockingDownloadProvider(executorService = downloadExecutor)
+    MockingDownloadProvider(
+      executorService = this.downloadExecutor,
+      shouldFail = { request -> false })
 
   val book: MockingAudioBook =
     MockingAudioBook(
       id = PlayerBookID.transform("abc"),
-      player = this.player,
+      players = { book -> MockingPlayer(book) },
       downloadStatusExecutor = this.downloadStatusExecutor,
       downloadProvider = this.downloadProvider)
+
+  val player: MockingPlayer = this.book.createPlayer()
 
   lateinit var playerFragment: PlayerFragment
 
