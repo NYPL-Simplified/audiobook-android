@@ -46,23 +46,23 @@ class MockingDownloadTask(
     this.log.debug("fetch")
 
     when (this.stateGetCurrent()) {
-      State.Initial -> onStartDownload()
-      State.Downloaded -> onDownloaded()
-      is State.Downloading -> onDownloading(this.percent)
+      State.Initial -> this.onStartDownload()
+      State.Downloaded -> this.onDownloaded()
+      is State.Downloading -> this.onDownloading(this.percent)
     }
   }
 
   private fun stateGetCurrent() =
-    synchronized(stateLock) { state }
+    synchronized(this.stateLock) { this.state }
 
   private fun stateSetCurrent(new_state: State) =
-    synchronized(stateLock) { this.state = new_state }
+    synchronized(this.stateLock) { this.state = new_state }
 
   private fun onBroadcastState() {
     when (this.stateGetCurrent()) {
-      State.Initial -> onNotDownloaded()
-      State.Downloaded -> onDownloaded()
-      is State.Downloading -> onDownloading(this.percent)
+      State.Initial -> this.onNotDownloaded()
+      State.Downloaded -> this.onDownloaded()
+      is State.Downloading -> this.onDownloading(this.percent)
     }
   }
 
@@ -85,7 +85,7 @@ class MockingDownloadTask(
     this.log.debug("starting download")
 
     val future = this.downloadProvider.download(PlayerDownloadRequest(
-      uri = URI.create("urn:" + spineElement.index),
+      uri = URI.create("urn:" + this.spineElement.index),
       credentials = null,
       outputFile = File("/"),
       onProgress = { percent -> this.onDownloading(percent) }))
@@ -118,12 +118,14 @@ class MockingDownloadTask(
   private fun onDownloadCancelled() {
     this.log.error("onDownloadCancelled")
     this.stateSetCurrent(State.Initial)
+    this.onBroadcastState()
     this.onDeleteDownloaded()
   }
 
   private fun onDownloadFailed(e: Exception) {
     this.log.error("onDownloadFailed: ", e)
     this.stateSetCurrent(State.Initial)
+    this.onBroadcastState()
     this.spineElement.setDownloadStatus(
       PlayerSpineElementDownloadFailed(
         this.spineElement, e, e.message ?: "Missing exception message"))
@@ -138,11 +140,11 @@ class MockingDownloadTask(
   override fun delete() {
     this.log.debug("delete")
 
-    val current = stateGetCurrent()
+    val current = this.stateGetCurrent()
     when (current) {
       State.Initial -> this.onBroadcastState()
-      State.Downloaded -> onDeleteDownloaded()
-      is State.Downloading -> onDeleteDownloading(current)
+      State.Downloaded -> this.onDeleteDownloaded()
+      is State.Downloading -> this.onDeleteDownloading(current)
     }
   }
 
@@ -151,6 +153,7 @@ class MockingDownloadTask(
 
     state.future.cancel(true)
     this.stateSetCurrent(State.Initial)
+    this.onBroadcastState()
     this.onDeleteDownloaded()
   }
 

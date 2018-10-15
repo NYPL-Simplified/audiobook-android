@@ -165,9 +165,16 @@ class PlayerTOCFragment : Fragment() {
   private fun onMenuStopAllSelected() {
     this.log.debug("onMenuStopAllSelected")
 
+    /*
+     * We iterate over the list of download tasks twice because the first iteration
+     * may trigger "errors" in the downloading tasks that then need to be cleared by
+     * a second deletion call.
+     */
+
     this.listener.onPlayerTOCWantsCancelAllDownloads {
       this.book.spine
         .filter { element -> elementIsNotDownloaded(element) }
+        .map { element -> element.downloadTask.delete(); element }
         .forEach { element -> element.downloadTask.delete() }
     }
   }

@@ -68,7 +68,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
         Duration.standardSeconds(20))
 
       if (!i.toString().endsWith("3")) {
-        // e.downloadTask.fetch()
+        e.downloadTask.fetch()
       }
     }
 
