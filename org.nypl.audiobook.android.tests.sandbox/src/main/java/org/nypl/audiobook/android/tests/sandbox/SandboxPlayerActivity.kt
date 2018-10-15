@@ -1,11 +1,10 @@
 package org.nypl.audiobook.android.tests.sandbox
 
 import android.app.AlertDialog
-import android.app.PendingIntent.getActivity
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
-import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
@@ -26,14 +25,11 @@ import org.nypl.audiobook.android.views.PlayerTOCFragment
 import org.nypl.audiobook.android.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import android.view.LayoutInflater
-import android.widget.Button
 
 
 class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   private val timer: MockingSleepTimer = MockingSleepTimer()
-  private val player: MockingPlayer = MockingPlayer()
 
   private val downloadExecutor: ListeningExecutorService =
     MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(4))
@@ -41,24 +37,32 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
     Executors.newFixedThreadPool(1)
 
   private val downloadProvider: PlayerDownloadProviderType =
-    MockingDownloadProvider(executorService = downloadExecutor)
+    MockingDownloadProvider(
+      executorService = this.downloadExecutor,
+      shouldFail = { request ->
+        request.uri.toString().endsWith("0") || request.uri.toString().endsWith("5")
+      })
+
+  private val lorem = SandboxLoremIpsum.create()
 
   private val book: MockingAudioBook =
     MockingAudioBook(
       id = PlayerBookID.transform("abc"),
-      player =  this.player,
+      players = { book -> MockingPlayer(book) },
       downloadStatusExecutor = this.downloadStatusExecutor,
       downloadProvider = this.downloadProvider)
+
+  private val player : MockingPlayer = this.book.createPlayer()
 
   private lateinit var playerFragment: PlayerFragment
 
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
-    for (i in 0 .. 100) {
+    for (i in 0..100) {
       val e = this.book.createSpineElement(
         "id$i",
-        "P$i",
+        "Chapter $i: " + this.lorem.lines[i % this.lorem.lines.size],
         Duration.standardSeconds(20))
       e.downloadTask.fetch()
     }

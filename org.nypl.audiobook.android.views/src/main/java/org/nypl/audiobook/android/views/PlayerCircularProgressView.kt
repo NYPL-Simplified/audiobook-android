@@ -19,8 +19,16 @@ import android.view.View
 
 class PlayerCircularProgressView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
+  private val defaultBgColor = "#cccccc"
+  private val defaultFgColor = "#ff00ff"
+
   private val arcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-    this.color = Color.parseColor("#ff00ff")
+    this.color = Color.parseColor(defaultFgColor)
+    this.isAntiAlias = true
+  }
+
+  private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    this.color = Color.parseColor(defaultBgColor)
     this.isAntiAlias = true
   }
 
@@ -65,7 +73,7 @@ class PlayerCircularProgressView(context: Context, attrs: AttributeSet) : View(c
       this.invalidate()
     }
 
-  private var colorValue: Int = Color.parseColor("#ff00ff")
+  private var colorValue: Int = Color.parseColor(defaultFgColor)
 
   /**
    * The current colour value.
@@ -97,11 +105,35 @@ class PlayerCircularProgressView(context: Context, attrs: AttributeSet) : View(c
       this.invalidate()
     }
 
+  private var unfilledColorValue: Int = Color.parseColor(defaultBgColor)
+
+  /**
+   * The current background colour value.
+   *
+   * @see Color.parseColor
+   */
+
+  var unfilledColor: Int
+    get() =
+      this.colorValue
+    set(value) {
+      this.unfilledColorValue = value
+      this.bgPaint.color = value
+      this.invalidate()
+    }
+
   override fun onDraw(canvas: Canvas?) {
     super.onDraw(canvas)
 
     if (canvas != null) {
       this.imageCanvas.drawColor(Color.TRANSPARENT, CLEAR)
+
+      this.imageCanvas.drawArc(
+        this.rectOuter,
+        -90.0f,
+        360.0f,
+        true,
+        this.bgPaint)
 
       this.imageCanvas.drawArc(
         this.rectOuter,
