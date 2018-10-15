@@ -151,8 +151,8 @@ class PlayerTOCFragment : Fragment() {
         this.onMenuRefreshAllSelected()
         true
       }
-      R.id.player_toc_menu_cancel_all -> {
-        this.onMenuCancelAllSelected()
+      R.id.player_toc_menu_stop_all -> {
+        this.onMenuStopAllSelected()
         true
       }
       else -> {
@@ -162,12 +162,14 @@ class PlayerTOCFragment : Fragment() {
     }
   }
 
-  private fun onMenuCancelAllSelected() {
-    this.log.debug("onMenuCancelAllSelected")
+  private fun onMenuStopAllSelected() {
+    this.log.debug("onMenuStopAllSelected")
 
-    this.book.spine
-      .filter { element -> elementIsNotDownloaded(element) }
-      .forEach { element -> element.downloadTask.delete() }
+    this.listener.onPlayerTOCWantsCancelAllDownloads {
+      this.book.spine
+        .filter { element -> elementIsNotDownloaded(element) }
+        .forEach { element -> element.downloadTask.delete() }
+    }
   }
 
   private fun onMenuRefreshAllSelected() {

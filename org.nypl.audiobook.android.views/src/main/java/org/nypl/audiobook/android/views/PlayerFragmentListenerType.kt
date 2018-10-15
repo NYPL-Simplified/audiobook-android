@@ -71,6 +71,13 @@ interface PlayerFragmentListenerType {
   fun onPlayerTOCWantsClose()
 
   /**
+   * The user triggered an action in the table of contents that wants to cancel all downloads. The
+   * given function should be called to confirm deletion.
+   */
+
+  fun onPlayerTOCWantsCancelAllDownloads(confirm: () -> Unit)
+
+  /**
    * The user has performed an action that requires that a playback rate selection dialog be opened.
    * The caller should load a fragment capable of displaying the rate selection menu
    * (such as {@link org.nypl.audiobook.demo.android.views.PlayerPlaybackRateFragment}).

@@ -74,6 +74,10 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
       .commit()
   }
 
+  override fun onPlayerTOCWantsCancelAllDownloads(confirm: () -> Unit) {
+    confirm.invoke()
+  }
+
   override fun onPlayerWantsPlayer(): PlayerType {
     return this.player
   }

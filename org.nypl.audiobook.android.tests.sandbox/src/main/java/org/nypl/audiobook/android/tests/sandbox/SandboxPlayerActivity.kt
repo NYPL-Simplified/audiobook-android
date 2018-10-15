@@ -18,6 +18,7 @@ import org.nypl.audiobook.android.mocking.MockingAudioBook
 import org.nypl.audiobook.android.mocking.MockingDownloadProvider
 import org.nypl.audiobook.android.mocking.MockingPlayer
 import org.nypl.audiobook.android.mocking.MockingSleepTimer
+import org.nypl.audiobook.android.views.PlayerCancelAllDownloadsDialog
 import org.nypl.audiobook.android.views.PlayerFragment
 import org.nypl.audiobook.android.views.PlayerFragmentListenerType
 import org.nypl.audiobook.android.views.PlayerFragmentParameters
@@ -25,7 +26,6 @@ import org.nypl.audiobook.android.views.PlayerTOCFragment
 import org.nypl.audiobook.android.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-
 
 class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
@@ -52,7 +52,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
       downloadStatusExecutor = this.downloadStatusExecutor,
       downloadProvider = this.downloadProvider)
 
-  private val player : MockingPlayer = this.book.createPlayer()
+  private val player: MockingPlayer = this.book.createPlayer()
 
   private lateinit var playerFragment: PlayerFragment
 
@@ -115,6 +115,14 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
       dialog.show()
       true
     }
+  }
+
+  override fun onPlayerTOCWantsCancelAllDownloads(confirm: () -> Unit) {
+    PlayerCancelAllDownloadsDialog.create(
+      activity = this,
+      theme = packageManager.getActivityInfo(componentName, 0).themeResource,
+      confirm = confirm)
+      .show()
   }
 
   override fun onPlayerWantsTitle(): String {
