@@ -81,7 +81,7 @@
     android:layout_toLeftOf="@id/player_toc_end_controls"
     android:layout_toRightOf="@+id/player_toc_item_is_current"
     android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginRight="32dp"
     android:lines="1"
     android:ellipsize="end"
     android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"

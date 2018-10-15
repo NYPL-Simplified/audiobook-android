@@ -7,6 +7,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import org.nypl.audiobook.android.api.PlayerAudioBookType
@@ -70,6 +73,17 @@ class PlayerTOCFragment : Fragment() {
     return view
   }
 
+  override fun onCreate(state: Bundle?) {
+    this.log.debug("onCreate")
+    super.onCreate(state)
+
+    /*
+     * This fragment wants an options menu.
+     */
+
+    this.setHasOptionsMenu(true)
+  }
+
   override fun onDestroy() {
     super.onDestroy()
 
@@ -120,6 +134,60 @@ class PlayerTOCFragment : Fragment() {
           .append(PlayerFragmentListenerType::class.java.canonicalName)
           .append('\n')
           .toString())
+    }
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    this.log.debug("onCreateOptionsMenu")
+    super.onCreateOptionsMenu(menu, inflater)
+
+    inflater.inflate(R.menu.player_toc_menu, menu)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    val id = item.itemId
+    return when (id) {
+      R.id.player_toc_menu_refresh_all -> {
+        this.onMenuRefreshAllSelected()
+        true
+      }
+      R.id.player_toc_menu_cancel_all -> {
+        this.onMenuCancelAllSelected()
+        true
+      }
+      else -> {
+        this.log.debug("unrecognized menu item: {}", id)
+        false
+      }
+    }
+  }
+
+  private fun onMenuCancelAllSelected() {
+    this.log.debug("onMenuCancelAllSelected")
+
+    this.book.spine
+      .filter { element -> elementIsNotDownloaded(element) }
+      .forEach { element -> element.downloadTask.delete() }
+  }
+
+  private fun onMenuRefreshAllSelected() {
+    this.log.debug("onMenuRefreshAllSelected")
+
+    this.book.spine
+      .filter { element -> elementIsNotDownloaded(element) }
+      .forEach { element -> element.downloadTask.fetch() }
+  }
+
+  private fun elementIsNotDownloaded(element: PlayerSpineElementType): Boolean {
+    return !elementIsDownloaded(element)
+  }
+
+  private fun elementIsDownloaded(element: PlayerSpineElementType): Boolean {
+    return when (element.downloadStatus) {
+      is PlayerSpineElementNotDownloaded,
+      is PlayerSpineElementDownloading,
+      is PlayerSpineElementDownloadFailed -> false
+      is PlayerSpineElementDownloaded -> true
     }
   }
 

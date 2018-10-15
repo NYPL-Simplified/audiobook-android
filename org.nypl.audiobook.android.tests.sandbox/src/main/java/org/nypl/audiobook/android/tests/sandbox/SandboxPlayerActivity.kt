@@ -59,12 +59,17 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
+    this.book.supportsStreaming = false
+
     for (i in 0..100) {
       val e = this.book.createSpineElement(
         "id$i",
         "Chapter $i: " + this.lorem.lines[i % this.lorem.lines.size],
         Duration.standardSeconds(20))
-      e.downloadTask.fetch()
+
+      if (!i.toString().endsWith("3")) {
+        // e.downloadTask.fetch()
+      }
     }
 
     this.setContentView(R.layout.example_player_activity)

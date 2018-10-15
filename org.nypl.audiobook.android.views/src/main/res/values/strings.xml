@@ -34,6 +34,9 @@
   <string name="audiobook_player_waiting">Chapter %1$d must be downloaded to continue playback.</string>
   <string name="audiobook_player_error">An error occurred during playback. Error code: %1$d</string>
 
+  <string name="audiobook_player_toc_menu_refresh_all">Refresh All</string>
+  <string name="audiobook_player_toc_menu_cancel_all">Cancel All Downloads</string>
+
   <!--
     Accessibility strings.
     -->
@@ -62,5 +65,8 @@
   <string name="audiobook_accessibility_backward_15">Rewind 15 seconds</string>
   <string name="audiobook_accessibility_play">Play</string>
   <string name="audiobook_accessibility_pause">Pause</string>
+
+  <string name="audiobook_accessibility_toc_refresh_all">Download All Chapters</string>
+  <string name="audiobook_accessibility_toc_cancel_all">Cancel All Chapter Downloads</string>
 
 </resources>
