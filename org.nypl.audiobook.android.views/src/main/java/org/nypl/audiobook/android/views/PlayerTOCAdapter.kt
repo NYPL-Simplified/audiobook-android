@@ -91,7 +91,7 @@ class PlayerTOCAdapter(
         holder.errorIcon.visibility = INVISIBLE
 
         holder.operationButton.visibility = VISIBLE
-        holder.operationButton.setImageResource(R.drawable.refresh)
+        holder.operationButton.setImageResource(R.drawable.toc_refresh)
         holder.operationButton.setOnClickListener({ item.downloadTask.fetch() })
 
         holder.downloadProgress.setOnClickListener({ })
@@ -143,7 +143,7 @@ class PlayerTOCAdapter(
         holder.errorIcon.visibility = VISIBLE
 
         holder.operationButton.visibility = VISIBLE
-        holder.operationButton.setImageResource(R.drawable.refresh)
+        holder.operationButton.setImageResource(R.drawable.toc_refresh)
         holder.operationButton.setOnClickListener({
           item.downloadTask.delete()
           item.downloadTask.fetch()
