@@ -1,6 +1,7 @@
 package org.nypl.audiobook.android.mocking
 
 import org.nypl.audiobook.android.api.PlayerEvent
+import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.*
 import org.nypl.audiobook.android.api.PlayerPlaybackRate
 import org.nypl.audiobook.android.api.PlayerPosition
 import org.nypl.audiobook.android.api.PlayerType
@@ -13,7 +14,7 @@ import rx.subjects.PublishSubject
  * A player that does nothing.
  */
 
-class MockingPlayer : PlayerType {
+class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
 
   private val log = LoggerFactory.getLogger(MockingPlayer::class.java)
 
@@ -87,10 +88,21 @@ class MockingPlayer : PlayerType {
   override fun playAtLocation(location: PlayerPosition) {
     this.log.debug("playAtLocation {} {} {}", location.part, location.chapter, location.offsetMilliseconds)
     this.callEvents.onNext("playAtLocation ${location.part} ${location.chapter} ${location.offsetMilliseconds}")
+    this.goToChapter(location.chapter)
+  }
+
+  private fun goToChapter(chapter: Int) {
+    val element = this.book.spineItems.find {
+      element -> element.position.chapter == chapter
+    }
+    if (element != null) {
+      this.statusEvents.onNext(PlayerEventPlaybackStarted(element, 0))
+    }
   }
 
   override fun movePlayheadToLocation(location: PlayerPosition) {
     this.log.debug("movePlayheadToLocation {} {} {}", location.part, location.chapter, location.offsetMilliseconds)
     this.callEvents.onNext("movePlayheadToLocation ${location.part} ${location.chapter} ${location.offsetMilliseconds}")
+    this.goToChapter(location.chapter)
   }
 }

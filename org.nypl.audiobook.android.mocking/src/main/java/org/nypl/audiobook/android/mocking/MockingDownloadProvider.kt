@@ -5,6 +5,7 @@ import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.SettableFuture
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerDownloadRequest
+import java.io.IOException
 import java.util.concurrent.CancellationException
 
 /**
@@ -13,6 +14,7 @@ import java.util.concurrent.CancellationException
  */
 
 class MockingDownloadProvider(
+  private val shouldFail: (PlayerDownloadRequest) -> Boolean,
   private val executorService: ListeningExecutorService)
   : PlayerDownloadProviderType {
 
@@ -23,6 +25,10 @@ class MockingDownloadProvider(
 
     this.executorService.submit {
       try {
+        if (this.shouldFail.invoke(request)) {
+          throw IOException("Failed!")
+        }
+
         doDownload(request, result)
         result.set(Unit)
       } catch (e: CancellationException) {

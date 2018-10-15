@@ -20,7 +20,7 @@ class MockingAudioBook(
   override val id: PlayerBookID,
   val downloadStatusExecutor: ExecutorService,
   val downloadProvider: PlayerDownloadProviderType,
-  val player: MockingPlayer) : PlayerAudioBookType {
+  val players: (MockingAudioBook) -> MockingPlayer) : PlayerAudioBookType {
 
   val statusEvents: BehaviorSubject<PlayerSpineElementDownloadStatus> = BehaviorSubject.create()
   val spineItems: MutableList<MockingSpineElement> = mutableListOf()
@@ -54,7 +54,7 @@ class MockingAudioBook(
   override val spineElementDownloadStatus: Observable<PlayerSpineElementDownloadStatus>
     get() = this.statusEvents
 
-  override fun createPlayer(): PlayerType {
-    return this.player
+  override fun createPlayer(): MockingPlayer {
+    return this.players.invoke(this)
   }
 }
