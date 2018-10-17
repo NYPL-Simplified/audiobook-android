@@ -329,7 +329,7 @@ abstract class ExoEngineProviderContract {
     Thread.sleep(1000L)
 
     player.play()
-    Thread.sleep(10_000L)
+    Thread.sleep(12_000L)
 
     player.close()
     waitLatch.await()
@@ -474,7 +474,7 @@ abstract class ExoEngineProviderContract {
 
     player.playAtLocation(book.spine[1].position)
     player.skipToPreviousChapter()
-    Thread.sleep(10_000L)
+    Thread.sleep(12_000L)
 
     player.close()
     waitLatch.await()

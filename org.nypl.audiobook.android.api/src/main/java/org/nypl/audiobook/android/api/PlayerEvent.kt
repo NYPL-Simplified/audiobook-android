@@ -21,7 +21,7 @@ sealed class PlayerEvent {
 
   data class PlayerEventError(
     val spineElement: PlayerSpineElementType?,
-    val offsetMilliseconds: Int,
+    val offsetMilliseconds: Long,
     val exception: java.lang.Exception?,
     val errorCode: Int)
     : PlayerEvent()
@@ -40,7 +40,7 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackStarted(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Int)
+      val offsetMilliseconds: Long)
       : PlayerEventWithSpineElement()
 
     /**
@@ -50,7 +50,7 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackBuffering(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Int)
+      val offsetMilliseconds: Long)
       : PlayerEventWithSpineElement()
 
     /**
@@ -60,7 +60,7 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackProgressUpdate(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Int)
+      val offsetMilliseconds: Long)
       : PlayerEventWithSpineElement()
 
     /**
@@ -87,7 +87,7 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackPaused(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Int)
+      val offsetMilliseconds: Long)
       : PlayerEventWithSpineElement()
 
     /**
@@ -96,7 +96,7 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackStopped(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Int)
+      val offsetMilliseconds: Long)
       : PlayerEventWithSpineElement()
 
   }

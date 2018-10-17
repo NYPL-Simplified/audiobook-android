@@ -26,7 +26,6 @@ import org.nypl.audiobook.android.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
 class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   private val timer: MockingSleepTimer = MockingSleepTimer()
@@ -52,19 +51,24 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
       downloadStatusExecutor = this.downloadStatusExecutor,
       downloadProvider = this.downloadProvider)
 
-  private val player : MockingPlayer = this.book.createPlayer()
+  private val player: MockingPlayer = this.book.createPlayer()
 
   private lateinit var playerFragment: PlayerFragment
 
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
+    this.book.supportsStreaming = true
+
     for (i in 0..100) {
       val e = this.book.createSpineElement(
         "id$i",
         "Chapter $i: " + this.lorem.lines[i % this.lorem.lines.size],
         Duration.standardSeconds(20))
-      e.downloadTask.fetch()
+
+      if (!i.toString().endsWith("3")) {
+        e.downloadTask.fetch()
+      }
     }
 
     this.setContentView(R.layout.example_player_activity)
@@ -99,6 +103,24 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
       val triggerError = dialogView.findViewById<Button>(R.id.controls_error)
       triggerError.setOnClickListener { _ ->
         this.player.error(IllegalStateException("Serious problem occurred."), 1138)
+      }
+
+      /*
+       * A button that enables streaming.
+       */
+
+      val triggerStream = dialogView.findViewById<Button>(R.id.controls_set_streamable)
+      triggerStream.setOnClickListener { _ ->
+        this.book.supportsStreaming = true
+      }
+
+      /*
+       * A button that disables streaming.
+       */
+
+      val triggerStreamOff = dialogView.findViewById<Button>(R.id.controls_set_not_streamable)
+      triggerStreamOff.setOnClickListener { _ ->
+        this.book.supportsStreaming = false
       }
 
       val dialog =
