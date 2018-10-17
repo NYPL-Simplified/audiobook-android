@@ -1,6 +1,8 @@
 package org.nypl.audiobook.android.views
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -165,18 +167,33 @@ class PlayerTOCFragment : Fragment() {
   private fun onMenuStopAllSelected() {
     this.log.debug("onMenuStopAllSelected")
 
+    val dialog =
+      AlertDialog.Builder(this.context)
+        .setCancelable(true)
+        .setMessage(R.string.audiobook_player_toc_menu_stop_all_confirm)
+        .setPositiveButton(
+          R.string.audiobook_part_download_stop,
+          { _: DialogInterface, _: Int -> onMenuStopAllSelectedConfirmed() })
+        .setNegativeButton(
+          R.string.audiobook_part_download_continue,
+          { _: DialogInterface, _: Int -> })
+        .create()
+    dialog.show()
+  }
+
+  private fun onMenuStopAllSelectedConfirmed() {
+    this.log.debug("onMenuStopAllSelectedConfirmed")
+
     /*
      * We iterate over the list of download tasks twice because the first iteration
      * may trigger "errors" in the downloading tasks that then need to be cleared by
      * a second deletion call.
      */
 
-    this.listener.onPlayerTOCWantsCancelAllDownloads {
-      this.book.spine
-        .filter { element -> elementIsNotDownloaded(element) }
-        .map { element -> element.downloadTask.delete(); element }
-        .forEach { element -> element.downloadTask.delete() }
-    }
+    this.book.spine
+      .filter { element -> elementIsNotDownloaded(element) }
+      .map { element -> element.downloadTask.delete(); element }
+      .forEach { element -> element.downloadTask.delete() }
   }
 
   private fun onMenuRefreshAllSelected() {

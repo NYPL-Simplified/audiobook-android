@@ -71,86 +71,73 @@ class PlayerTOCAdapter(
     val item = this.spineElements[position]
 
     holder.titleText.text = item.title
-    holder.durationText.text = this.periodFormatter.print(item.duration.toPeriod())
+
+    if (item.book.supportsStreaming) {
+      holder.titleText.setTextColor(holder.textColorNormal)
+      holder.view.setBackgroundColor(holder.backgroundColorNormal)
+    } else {
+      holder.titleText.setTextColor(holder.textColorDisabled)
+      holder.view.setBackgroundColor(holder.backgroundDisabled)
+    }
 
     val status = item.downloadStatus
     when (status) {
       is PlayerSpineElementNotDownloaded -> {
-        holder.durationText.visibility = VISIBLE
+        holder.buttonsDownloaded.visibility = INVISIBLE
+        holder.buttonsDownloading.visibility = INVISIBLE
+        holder.buttonsDownloadFailed.visibility = INVISIBLE
 
-        if (!item.book.supportsStreaming) {
-          holder.view.setBackgroundColor(holder.backgroundDisabled)
-          holder.durationText.setTextColor(holder.textColorDisabled)
-          holder.titleText.setTextColor(holder.textColorDisabled)
+        if (item.book.supportsStreaming) {
+          holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
+          holder.buttonsNotDownloadedStreamable.visibility = VISIBLE
+          holder.notDownloadedStreamableRefresh.setOnClickListener({
+            item.downloadTask.fetch()
+          })
         } else {
-          holder.view.setBackgroundColor(holder.backgroundColorNormal)
-          holder.durationText.setTextColor(holder.textColorNormal)
-          holder.titleText.setTextColor(holder.textColorNormal)
+          holder.buttonsNotDownloadedNotStreamable.visibility = VISIBLE
+          holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
+          holder.notDownloadedNotStreamableRefresh.setOnClickListener({
+            item.downloadTask.fetch()
+          })
         }
-
-        holder.errorIcon.visibility = INVISIBLE
-
-        holder.operationButton.visibility = VISIBLE
-        holder.operationButton.setImageResource(R.drawable.toc_refresh)
-        holder.operationButton.setOnClickListener({ item.downloadTask.fetch() })
-
-        holder.downloadProgress.setOnClickListener({ })
-        holder.downloadProgress.visibility = INVISIBLE
-        holder.downloadProgress.progress = 0.0f
       }
 
       is PlayerSpineElementDownloading -> {
-        holder.durationText.visibility = INVISIBLE
+        holder.buttonsDownloaded.visibility = INVISIBLE
+        holder.buttonsDownloading.visibility = VISIBLE
+        holder.buttonsDownloadFailed.visibility = INVISIBLE
+        holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
+        holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        if (!item.book.supportsStreaming) {
-          holder.view.setBackgroundColor(holder.backgroundDisabled)
-          holder.titleText.setTextColor(holder.textColorDisabled)
-        } else {
-          holder.view.setBackgroundColor(holder.backgroundColorNormal)
-          holder.titleText.setTextColor(holder.textColorNormal)
-        }
-
-        holder.errorIcon.visibility = INVISIBLE
-        holder.operationButton.visibility = INVISIBLE
-        holder.operationButton.setOnClickListener({ })
-
-        holder.downloadProgress.setOnClickListener({ this.onConfirmCancelDownloading(item) })
-        holder.downloadProgress.visibility = VISIBLE
-        holder.downloadProgress.progress = status.percent.toFloat() * 0.01f
+        holder.downloadingProgress.setOnClickListener({ this.onConfirmCancelDownloading(item) })
+        holder.downloadingProgress.visibility = VISIBLE
+        holder.downloadingProgress.progress = status.percent.toFloat() * 0.01f
       }
 
       is PlayerSpineElementDownloaded -> {
-        holder.durationText.visibility = VISIBLE
+        holder.buttonsDownloaded.visibility = VISIBLE
+        holder.buttonsDownloading.visibility = INVISIBLE
+        holder.buttonsDownloadFailed.visibility = INVISIBLE
+        holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
+        holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        holder.view.setBackgroundColor(holder.backgroundColorNormal)
-        holder.durationText.setTextColor(holder.textColorNormal)
         holder.titleText.setTextColor(holder.textColorNormal)
+        holder.view.setBackgroundColor(holder.backgroundColorNormal)
 
-        holder.errorIcon.visibility = INVISIBLE
-        holder.operationButton.visibility = INVISIBLE
-
-        holder.downloadProgress.setOnClickListener({ })
-        holder.downloadProgress.visibility = INVISIBLE
+        holder.downloadedDurationText.text = this.periodFormatter.print(item.duration.toPeriod())
       }
 
       is PlayerSpineElementDownloadFailed -> {
-        holder.durationText.visibility = INVISIBLE
+        holder.buttonsDownloaded.visibility = INVISIBLE
+        holder.buttonsDownloading.visibility = INVISIBLE
+        holder.buttonsDownloadFailed.visibility = VISIBLE
+        holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
+        holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        holder.view.setBackgroundColor(holder.backgroundColorNormal)
-        holder.durationText.setTextColor(holder.textColorNormal)
-        holder.titleText.setTextColor(holder.textColorNormal)
-
-        holder.errorIcon.visibility = VISIBLE
-
-        holder.operationButton.visibility = VISIBLE
-        holder.operationButton.setImageResource(R.drawable.toc_refresh)
-        holder.operationButton.setOnClickListener({
+        holder.downloadFailedRefresh.setOnClickListener({
           item.downloadTask.delete()
           item.downloadTask.fetch()
         })
-
-        holder.downloadProgress.setOnClickListener({ })
-        holder.downloadProgress.visibility = INVISIBLE
       }
     }
 
@@ -185,7 +172,7 @@ class PlayerTOCAdapter(
   fun setCurrentSpineElement(index: Int) {
     UIThread.checkIsUIThread()
 
-    val previous = currentSpineElement
+    val previous = this.currentSpineElement
     this.currentSpineElement = index
     this.notifyItemChanged(index)
 
@@ -196,36 +183,73 @@ class PlayerTOCAdapter(
 
   inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     val textColorNormal =
-      view.resources.getColor(R.color.audiobook_player_toc_spine_element_fg_normal)
+      this.view.resources.getColor(R.color.audiobook_player_toc_spine_element_fg_normal)
     val textColorDisabled =
-      view.resources.getColor(R.color.audiobook_player_toc_spine_element_fg_disabled)
+      this.view.resources.getColor(R.color.audiobook_player_toc_spine_element_fg_disabled)
 
     val backgroundColorNormal =
-      view.resources.getColor(R.color.audiobook_player_toc_spine_element_bg_normal)
+      this.view.resources.getColor(R.color.audiobook_player_toc_spine_element_bg_normal)
     val backgroundDisabled =
-      view.resources.getColor(R.color.audiobook_player_toc_spine_element_bg_disabled)
+      this.view.resources.getColor(R.color.audiobook_player_toc_spine_element_bg_disabled)
+
+    val buttons =
+      this.view.findViewById<ViewGroup>(R.id.player_toc_end_controls)
+    val buttonsDownloadFailed =
+      this.buttons.findViewById<ViewGroup>(R.id.player_toc_item_buttons_error)
+    val buttonsDownloaded =
+      this.buttons.findViewById<ViewGroup>(R.id.player_toc_item_buttons_downloaded)
+    val buttonsNotDownloadedNotStreamable =
+      this.buttons.findViewById<ViewGroup>(R.id.player_toc_item_buttons_not_downloaded_not_streamable)
+    val buttonsNotDownloadedStreamable =
+      this.buttons.findViewById<ViewGroup>(R.id.player_toc_item_buttons_not_downloaded_streamable)
+    val buttonsDownloading =
+      this.buttons.findViewById<ViewGroup>(R.id.player_toc_item_buttons_downloading)
 
     val titleText: TextView =
       this.view.findViewById(R.id.player_toc_item_view_title)
     val isCurrent: ImageView =
       this.view.findViewById(R.id.player_toc_item_is_current)
-    val errorIcon: ImageView =
-      this.view.findViewById(R.id.player_toc_item_error)
-    val durationText: TextView =
-      this.view.findViewById(R.id.player_toc_item_view_duration)
-    val downloadProgress: PlayerCircularProgressView =
-      this.view.findViewById(R.id.player_toc_item_view_progress)
-    val operationButton: ImageView =
-      this.view.findViewById(R.id.player_toc_item_view_operation)
+
+    val downloadFailedErrorIcon: ImageView =
+      this.buttonsDownloadFailed.findViewById(R.id.player_toc_item_download_failed_error_icon)
+    val downloadFailedRefresh: ImageView =
+      this.buttonsDownloadFailed.findViewById(R.id.player_toc_item_download_failed_refresh)
+
+    val downloadedDurationText: TextView =
+      this.buttonsDownloaded.findViewById(R.id.player_toc_item_downloaded_duration)
+
+    val notDownloadedStreamableRefresh: ImageView =
+      this.buttonsNotDownloadedStreamable.findViewById(
+        R.id.player_toc_item_not_downloaded_streamable_refresh)
+    val notDownloadedStreamableProgress: PlayerCircularProgressView =
+      this.buttonsNotDownloadedStreamable.findViewById(
+        R.id.player_toc_item_not_downloaded_streamable_progress)
+
+    val notDownloadedNotStreamableRefresh: ImageView =
+      this.buttonsNotDownloadedNotStreamable.findViewById(
+        R.id.player_toc_item_not_downloaded_not_streamable_refresh)
+
+    val downloadingProgress: PlayerCircularProgressView =
+      this.buttonsDownloading.findViewById(R.id.player_toc_item_downloading_progress)
 
     init {
-      this.downloadProgress.thickness = 8.0f
-      this.downloadProgress.color = this@PlayerTOCAdapter.parameters.primaryColor
+      this.downloadingProgress.thickness = 8.0f
+      this.downloadingProgress.color = this@PlayerTOCAdapter.parameters.primaryColor
 
-      this.errorIcon.setColorFilter(
+      this.notDownloadedStreamableProgress.thickness = 8.0f
+      this.notDownloadedStreamableProgress.color = this@PlayerTOCAdapter.parameters.primaryColor
+
+      this.downloadFailedErrorIcon.setColorFilter(
         this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
-      this.operationButton.setColorFilter(
+      this.downloadFailedRefresh.setColorFilter(
         this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+
+      this.notDownloadedStreamableRefresh.setColorFilter(
+        this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+
+      this.notDownloadedNotStreamableRefresh.setColorFilter(
+        this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+
       this.isCurrent.setColorFilter(
         this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
     }

@@ -18,7 +18,6 @@ import org.nypl.audiobook.android.mocking.MockingAudioBook
 import org.nypl.audiobook.android.mocking.MockingDownloadProvider
 import org.nypl.audiobook.android.mocking.MockingPlayer
 import org.nypl.audiobook.android.mocking.MockingSleepTimer
-import org.nypl.audiobook.android.views.PlayerCancelAllDownloadsDialog
 import org.nypl.audiobook.android.views.PlayerFragment
 import org.nypl.audiobook.android.views.PlayerFragmentListenerType
 import org.nypl.audiobook.android.views.PlayerFragmentParameters
@@ -59,7 +58,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
-    this.book.supportsStreaming = false
+    this.book.supportsStreaming = true
 
     for (i in 0..100) {
       val e = this.book.createSpineElement(
@@ -106,6 +105,24 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
         this.player.error(IllegalStateException("Serious problem occurred."), 1138)
       }
 
+      /*
+       * A button that enables streaming.
+       */
+
+      val triggerStream = dialogView.findViewById<Button>(R.id.controls_set_streamable)
+      triggerStream.setOnClickListener { _ ->
+        this.book.supportsStreaming = true
+      }
+
+      /*
+       * A button that disables streaming.
+       */
+
+      val triggerStreamOff = dialogView.findViewById<Button>(R.id.controls_set_not_streamable)
+      triggerStreamOff.setOnClickListener { _ ->
+        this.book.supportsStreaming = false
+      }
+
       val dialog =
         AlertDialog.Builder(this)
           .setTitle("Controls")
@@ -115,14 +132,6 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
       dialog.show()
       true
     }
-  }
-
-  override fun onPlayerTOCWantsCancelAllDownloads(confirm: () -> Unit) {
-    PlayerCancelAllDownloadsDialog.create(
-      activity = this,
-      theme = packageManager.getActivityInfo(componentName, 0).themeResource,
-      confirm = confirm)
-      .show()
   }
 
   override fun onPlayerWantsTitle(): String {
