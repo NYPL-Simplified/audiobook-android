@@ -359,9 +359,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       this.player.playAtLocation(
         spine.position.copy(
           offsetMilliseconds =
-          TimeUnit.MILLISECONDS.convert(
-            this.playerPosition.progress.toLong(),
-            TimeUnit.SECONDS).toInt()))
+          TimeUnit.MILLISECONDS.convert(this.playerPosition.progress.toLong(), TimeUnit.SECONDS)))
     }
   }
 
