@@ -92,7 +92,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private lateinit var parameters: PlayerFragmentParameters
 
   private var playerPositionCurrentSpine: PlayerSpineElementType? = null
-  private var playerPositionCurrentOffset: Int = 0
+  private var playerPositionCurrentOffset: Long = 0L
   private var playerEventSubscription: Subscription? = null
   private var playerSleepTimerEventSubscription: Subscription? = null
 
@@ -374,8 +374,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     this.log.debug("onProgressBarChanged: {} {}", progress, fromUser)
   }
 
-  private fun hourMinuteSecondTextFromMilliseconds(milliseconds: Int): String {
-    return this.hourMinuteSecondFormatter.print(Duration.millis(milliseconds.toLong()).toPeriod())
+  private fun hourMinuteSecondTextFromMilliseconds(milliseconds: Long): String {
+    return this.hourMinuteSecondFormatter.print(Duration.millis(milliseconds).toPeriod())
   }
 
   private fun hourMinuteSecondTextFromDuration(duration: Duration): String {
@@ -523,7 +523,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
   private fun onEventUpdateTimeRelatedUI(
     spineElement: PlayerSpineElementType,
-    offsetMilliseconds: Int) {
+    offsetMilliseconds: Long) {
 
     this.playerPosition.max = spineElement.duration.standardSeconds.toInt()
     this.playerPosition.isEnabled = true
@@ -533,7 +533,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
     if (!this.playerPositionDragging) {
       this.playerPosition.progress =
-        TimeUnit.MILLISECONDS.toSeconds(offsetMilliseconds.toLong()).toInt()
+        TimeUnit.MILLISECONDS.toSeconds(offsetMilliseconds).toInt()
     }
 
     this.playerTimeMaximum.text =
