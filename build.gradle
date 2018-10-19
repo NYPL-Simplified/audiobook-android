@@ -39,7 +39,7 @@ ext {
 
 allprojects {
   group = 'org.nypl.audiobook'
-  version = '0.0.51'
+  version = '0.0.52'
 
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
@@ -50,20 +50,24 @@ subprojects {
 
     mavenCentral()
     mavenLocal()
-
-    maven {
-      credentials {
-        username findProperty("org.librarysimplified.nexus.username")
-        password findProperty("org.librarysimplified.nexus.password")
-      }
-      url "https://nexus.librarysimplified.org:8443/nexus/content/groups/external/"
-    }
-
     maven {
       url "https://maven.google.com"
     }
 
     jcenter()
     google()
+  }
+
+  publishing {
+    repositories {
+      maven {
+        url "https://nexus.librarysimplified.org:8443/nexus/content/repositories/releases-no-drm/"
+
+        credentials {
+          username findProperty("org.librarysimplified.nexus.username")
+          password findProperty("org.librarysimplified.nexus.password")
+        }
+      }
+    }
   }
 }
