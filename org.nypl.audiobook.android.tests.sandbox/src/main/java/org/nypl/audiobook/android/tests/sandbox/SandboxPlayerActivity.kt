@@ -3,6 +3,8 @@ package org.nypl.audiobook.android.tests.sandbox
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.support.v4.app.FragmentActivity
 import android.widget.Button
 import android.widget.ImageView
@@ -21,6 +23,8 @@ import org.nypl.audiobook.android.mocking.MockingSleepTimer
 import org.nypl.audiobook.android.views.PlayerFragment
 import org.nypl.audiobook.android.views.PlayerFragmentListenerType
 import org.nypl.audiobook.android.views.PlayerFragmentParameters
+import org.nypl.audiobook.android.views.PlayerPlaybackRateFragment
+import org.nypl.audiobook.android.views.PlayerSleepTimerFragment
 import org.nypl.audiobook.android.views.PlayerTOCFragment
 import org.nypl.audiobook.android.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
@@ -168,9 +172,33 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerPlaybackRateShouldOpen() {
 
+    /*
+     * The player fragment wants us to open the playback rate selection dialog.
+     */
+
+    runOnUIThread (Runnable {
+      val fragment = PlayerPlaybackRateFragment.newInstance(
+        PlayerFragmentParameters(primaryColor = Color.parseColor("#af1a16")))
+      fragment.show(this.supportFragmentManager, "PLAYER_RATE")
+    })
+  }
+
+  private fun runOnUIThread(r: Runnable) {
+    val looper = Looper.getMainLooper()
+    val h = Handler(looper)
+    h.post(r)
   }
 
   override fun onPlayerSleepTimerShouldOpen() {
 
+    /*
+     * The player fragment wants us to open the sleep timer.
+     */
+
+    runOnUIThread (Runnable {
+      val fragment = PlayerSleepTimerFragment.newInstance(
+        PlayerFragmentParameters(primaryColor = Color.parseColor("#af1a16")))
+      fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
+    })
   }
 }
