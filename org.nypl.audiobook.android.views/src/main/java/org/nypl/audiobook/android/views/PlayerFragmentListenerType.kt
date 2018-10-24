@@ -4,6 +4,7 @@ import android.widget.ImageView
 import org.nypl.audiobook.android.api.PlayerAudioBookType
 import org.nypl.audiobook.android.api.PlayerSleepTimerType
 import org.nypl.audiobook.android.api.PlayerType
+import java.util.concurrent.ScheduledExecutorService
 
 /**
  * The listener interface implemented by activities hosting the various fragments included with
@@ -86,4 +87,10 @@ interface PlayerFragmentListenerType {
 
   fun onPlayerSleepTimerShouldOpen()
 
+  /**
+   * The player wants access to a scheduled executor on which it can submit short time-related
+   * tasks.
+   */
+
+  fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService
 }

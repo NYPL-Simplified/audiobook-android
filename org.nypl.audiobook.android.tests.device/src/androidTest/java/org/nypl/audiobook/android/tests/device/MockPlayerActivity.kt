@@ -27,6 +27,7 @@ import org.nypl.audiobook.android.views.PlayerTOCFragment
 import org.nypl.audiobook.android.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
 
 class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
@@ -36,6 +37,8 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
     MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(4))
   val downloadStatusExecutor: ExecutorService =
     Executors.newFixedThreadPool(1)
+  private val scheduledExecutor: ScheduledExecutorService =
+    Executors.newSingleThreadScheduledExecutor()
 
   val downloadProvider: PlayerDownloadProviderType =
     MockingDownloadProvider(
@@ -130,5 +133,9 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
           primaryColor = Color.parseColor("#f02020")))
       fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
     }
+  }
+
+  override fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService {
+    return this.scheduledExecutor
   }
 }

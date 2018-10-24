@@ -39,6 +39,8 @@ import org.nypl.audiobook.android.api.PlayerSpineElementType
 import org.nypl.audiobook.android.api.PlayerType
 import org.slf4j.LoggerFactory
 import rx.Subscription
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
 /**
@@ -70,6 +72,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private lateinit var listener: PlayerFragmentListenerType
   private lateinit var player: PlayerType
   private lateinit var book: PlayerAudioBookType
+  private lateinit var executor: ScheduledExecutorService
   private lateinit var sleepTimer: PlayerSleepTimerType
   private lateinit var coverView: ImageView
   private lateinit var playerTitleView: TextView
@@ -78,6 +81,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private lateinit var playerSkipForwardButton: ImageView
   private lateinit var playerSkipBackwardButton: ImageView
   private var playerPositionDragging: Boolean = false
+  private var playerBufferingStillOngoing: Boolean = false
+  private var playerBufferingTask: ScheduledFuture<*>? = null
   private lateinit var playerPosition: SeekBar
   private lateinit var playerTimeCurrent: TextView
   private lateinit var playerTimeMaximum: TextView
@@ -143,6 +148,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       this.player = this.listener.onPlayerWantsPlayer()
       this.book = this.listener.onPlayerTOCWantsBook()
       this.sleepTimer = this.listener.onPlayerWantsSleepTimer()
+      this.executor = this.listener.onPlayerWantsScheduledExecutor()
     } else {
       throw ClassCastException(
         StringBuilder(64)
@@ -299,6 +305,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     super.onDestroyView()
     this.playerEventSubscription?.unsubscribe()
     this.playerSleepTimerEventSubscription?.unsubscribe()
+    this.onPlayerBufferingStopped()
   }
 
   override fun onViewCreated(view: View, state: Bundle?) {
@@ -442,13 +449,14 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
   private fun onPlayerEventPlaybackBuffering(event: PlayerEventPlaybackBuffering) {
     UIThread.runOnUIThread(Runnable {
-      this.playerWaiting.setText(R.string.audiobook_player_buffering)
+      this.onPlayerBufferingStarted()
       this.configureSpineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
   }
 
   private fun onPlayerEventChapterCompleted(event: PlayerEventChapterCompleted) {
+    this.onPlayerBufferingStopped()
 
     /*
      * If the chapter is completed, and the sleep timer is running indefinitely, then
@@ -470,6 +478,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   }
 
   private fun onPlayerEventPlaybackStopped(event: PlayerEventPlaybackStopped) {
+    this.onPlayerBufferingStopped()
+
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.play_icon)
       this.playPauseButton.setOnClickListener { this.onPressedPlay() }
@@ -480,6 +490,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   }
 
   private fun onPlayerEventPlaybackPaused(event: PlayerEventPlaybackPaused) {
+    this.onPlayerBufferingStopped()
+
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.play_icon)
       this.playPauseButton.setOnClickListener { this.onPressedPlay() }
@@ -498,6 +510,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   }
 
   private fun onPlayerEventPlaybackProgressUpdate(event: PlayerEventPlaybackProgressUpdate) {
+    this.onPlayerBufferingStopped()
+
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.pause_icon)
       this.playPauseButton.setOnClickListener { this.onPressedPause() }
@@ -508,6 +522,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   }
 
   private fun onPlayerEventPlaybackStarted(event: PlayerEventPlaybackStarted) {
+    this.onPlayerBufferingStopped()
+
     UIThread.runOnUIThread(Runnable {
       this.playPauseButton.setImageResource(R.drawable.pause_icon)
       this.playPauseButton.setOnClickListener { this.onPressedPause() }
@@ -561,5 +577,41 @@ class PlayerFragment : android.support.v4.app.Fragment() {
         R.string.audiobook_accessibility_chapter_of,
         element.index + 1,
         this.book.spine.size)
+  }
+
+  /**
+   * The player said that it has started buffering. Only display a message if it is still buffering
+   * a few seconds from now.
+   */
+
+  private fun onPlayerBufferingStarted() {
+    UIThread.runOnUIThread(Runnable {
+      this.onPlayerBufferingStopTaskNow()
+      this.playerBufferingStillOngoing = true
+      this.playerBufferingTask = this.executor.schedule({ this.onPlayerBufferingCheckNow() }, 2L, TimeUnit.SECONDS)
+    })
+  }
+
+  private fun onPlayerBufferingCheckNow() {
+    UIThread.runOnUIThread(Runnable {
+      if (this.playerBufferingStillOngoing) {
+        this.playerWaiting.setText(R.string.audiobook_player_buffering)
+      }
+    })
+  }
+
+  private fun onPlayerBufferingStopped() {
+    UIThread.runOnUIThread(Runnable {
+      this.onPlayerBufferingStopTaskNow()
+      this.playerBufferingStillOngoing = false
+    })
+  }
+
+  private fun onPlayerBufferingStopTaskNow() {
+    val future = this.playerBufferingTask
+    if (future != null) {
+      future.cancel(true)
+      this.playerBufferingTask = null
+    }
   }
 }
