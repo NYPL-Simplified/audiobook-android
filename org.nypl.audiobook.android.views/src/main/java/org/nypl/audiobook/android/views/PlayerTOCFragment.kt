@@ -45,6 +45,9 @@ class PlayerTOCFragment : Fragment() {
   private lateinit var book: PlayerAudioBookType
   private lateinit var player: PlayerType
   private lateinit var parameters: PlayerTOCFragmentParameters
+  private var menuInitialized = false
+  private lateinit var menuRefreshAll: MenuItem
+  private lateinit var menuCancelAll: MenuItem
 
   private var bookSubscription: Subscription? = null
   private var playerSubscription: Subscription? = null
@@ -144,6 +147,31 @@ class PlayerTOCFragment : Fragment() {
     super.onCreateOptionsMenu(menu, inflater)
 
     inflater.inflate(R.menu.player_toc_menu, menu)
+
+    this.menuRefreshAll = menu.findItem(R.id.player_toc_menu_refresh_all)
+    this.menuCancelAll = menu.findItem(R.id.player_toc_menu_stop_all)
+    this.menuInitialized = true
+    this.menusConfigureVisibility()
+  }
+
+  private fun menusConfigureVisibility() {
+    UIThread.checkIsUIThread()
+
+    if (this.menuInitialized) {
+      val refreshVisibleThen = this.menuRefreshAll.isVisible
+      val cancelVisibleThen = this.menuCancelAll.isVisible
+
+      val refreshVisibleNow =
+        this.book.spine.any { item -> !(item.downloadStatus is PlayerSpineElementDownloaded) }
+      val cancelVisibleNow =
+        this.book.spine.any { item -> item.downloadStatus is PlayerSpineElementDownloading }
+
+      if (refreshVisibleNow != refreshVisibleThen || cancelVisibleNow != cancelVisibleThen) {
+        this.menuRefreshAll.isVisible = refreshVisibleNow
+        this.menuCancelAll.isVisible = cancelVisibleNow
+        this.activity!!.invalidateOptionsMenu()
+      }
+    }
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -283,6 +311,7 @@ class PlayerTOCFragment : Fragment() {
     UIThread.runOnUIThread(Runnable {
       val spineElement = status.spineElement
       this.adapter.notifyItemChanged(spineElement.index)
+      this.menusConfigureVisibility()
     })
   }
 
