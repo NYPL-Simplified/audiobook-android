@@ -39,7 +39,7 @@ ext {
 
 allprojects {
   group = 'org.nypl.audiobook'
-  version = '0.0.55-SNAPSHOT'
+  version = '0.0.55'
 
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
