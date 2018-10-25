@@ -327,7 +327,7 @@ class ExoAudioBookPlayer private constructor(
 
   private fun schedulePlaybackObserverForSpineElement(
     spineElement: ExoSpineElement,
-    initialSeek : Long?): ScheduledFuture<*> {
+    initialSeek: Long?): ScheduledFuture<*> {
 
     return this.engineExecutor.scheduleAtFixedRate(
       this.PlaybackObserver(spineElement, initialSeek), 1L, 1L, SECONDS)
@@ -725,11 +725,23 @@ class ExoAudioBookPlayer private constructor(
       state.spineElement, this.currentPlaybackOffset))
   }
 
-  private fun opSkipForward() {
+  private fun opSkipPlayhead(milliseconds: Long) {
+    this.log.debug("opSkipPlayhead")
+    return when {
+      milliseconds == 0L -> {
+      }
+      milliseconds > 0 -> opSkipForward(milliseconds)
+      else -> opSkipBack(milliseconds)
+    }
+  }
+
+  private fun opSkipForward(milliseconds: Long) {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipForward")
 
-    val offset = Math.min(this.exoPlayer.duration, this.exoPlayer.currentPosition + 15_000L)
+    assert(milliseconds > 0, { "Milliseconds must be positive" })
+
+    val offset = Math.min(this.exoPlayer.duration, this.exoPlayer.currentPosition + milliseconds)
     this.seek(offset)
 
     val state = this.stateGet()
@@ -743,9 +755,11 @@ class ExoAudioBookPlayer private constructor(
     }
   }
 
-  private fun opSkipBack() {
+  private fun opSkipBack(milliseconds: Long) {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipBack")
+
+    assert(milliseconds < 0, { "Milliseconds must be negative" })
 
     /*
      * If the current time is in the range [00:00, 00:04], skipping back should switch
@@ -755,9 +769,9 @@ class ExoAudioBookPlayer private constructor(
 
     val current = this.exoPlayer.currentPosition
     if (current <= 4_000L) {
-      this.opSkipToPreviousChapter(-15_000)
+      this.opSkipToPreviousChapter(milliseconds)
     } else {
-      this.seek(Math.max(0L, current - 15_000L))
+      this.seek(Math.max(0L, current + milliseconds))
     }
 
     val state = this.stateGet()
@@ -878,14 +892,9 @@ class ExoAudioBookPlayer private constructor(
     this.engineExecutor.execute { this.opSkipToPreviousChapter(offset = 0) }
   }
 
-  override fun skipForward() {
+  override fun skipPlayhead(milliseconds: Long) {
     this.checkNotClosed()
-    this.engineExecutor.execute { this.opSkipForward() }
-  }
-
-  override fun skipBack() {
-    this.checkNotClosed()
-    this.engineExecutor.execute { this.opSkipBack() }
+    this.engineExecutor.execute { this.opSkipPlayhead(milliseconds) }
   }
 
   override fun playAtLocation(location: PlayerPosition) {

@@ -79,12 +79,28 @@ interface PlayerType : AutoCloseable {
   fun skipToPreviousChapter()
 
   /**
+   * Skip forwards/backwards, possibly across chapter boundaries. If the given parameter is
+   * positive, skip forwards. If the given parameter is negative, skip backwards. If the given
+   * parameter is `0`, do nothing.
+   *
+   * Note: Implementations are not required to support skipping over multiple chapters in a
+   * single skip. Please use the explicit `playAtLocation` API if you want to perform large
+   * jumps.
+   *
+   * @throws java.lang.IllegalStateException If and only if the player is closed
+   */
+
+  fun skipPlayhead(milliseconds: Long)
+
+  /**
    * Skip forward 15 seconds and start playback
    *
    * @throws java.lang.IllegalStateException If and only if the player is closed
    */
 
-  fun skipForward()
+  fun skipForward() {
+    this.skipPlayhead(15_000L)
+  }
 
   /**
    * Skip back 15 seconds and start playback
@@ -92,7 +108,9 @@ interface PlayerType : AutoCloseable {
    * @throws java.lang.IllegalStateException If and only if the player is closed
    */
 
-  fun skipBack()
+  fun skipBack() {
+    this.skipPlayhead(-15_000L)
+  }
 
   /**
    * Move playhead and immediately start playing. This method is useful for scenarios like a table
