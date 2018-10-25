@@ -87,6 +87,7 @@ class PlayerPlaybackRateFragment : DialogFragment() {
 
     this.adapter.setCurrentPlaybackRate(item)
     this.player.playbackRate = item
+    this.dismiss()
   }
 
   companion object {

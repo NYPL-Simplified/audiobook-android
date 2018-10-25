@@ -28,7 +28,7 @@
   <string name="audiobook_player_sleep_30">30:00</string>
   <string name="audiobook_player_sleep_15">15:00</string>
   <string name="audiobook_player_sleep_now">Now</string>
-  <string name="audiobook_player_sleep_never">Never</string>
+  <string name="audiobook_player_sleep_off">Off</string>
 
   <string name="audiobook_player_buffering">Buffering…</string>
   <string name="audiobook_player_waiting">Chapter %1$d must be downloaded to continue playback.</string>
@@ -44,6 +44,11 @@
     Accessibility strings.
     -->
 
+  <string name="audiobook_accessibility_player_buffering">Buffering</string>
+
+  <string name="audiobook_accessibility_player_time_current">%1$s Played</string>
+  <string name="audiobook_accessibility_player_time_remaining">%1$s Remaining</string>
+
   <string name="audiobook_accessibility_sleep_timer">Set Your Sleep Timer</string>
   <string name="audiobook_accessibility_sleep_timer_end_of_chapter">End of Chapter</string>
   <string name="audiobook_accessibility_sleep_timer_60_minutes">60 Minutes</string>
@@ -52,6 +57,8 @@
   <string name="audiobook_accessibility_sleep_timer_15_minutes">15 Minutes</string>
   <string name="audiobook_accessibility_sleep_timer_off">Off</string>
   <string name="audiobook_accessibility_sleep_timer_now">Now</string>
+
+  <string name="audiobook_accessibility_sleep_timer_label">Sleep Timer</string>
 
   <string name="audiobook_accessibility_chapter_of">Chapter %1$d of %2$d</string>
 
@@ -71,5 +78,10 @@
 
   <string name="audiobook_accessibility_toc_refresh_all">Download All Chapters</string>
   <string name="audiobook_accessibility_toc_stop_all">Stop All Chapter Downloads</string>
+  <string name="audiobook_accessibility_toc_download">Download Chapter %1$d</string>
+  <string name="audiobook_accessibility_toc_cancel">Cancel Download Of Chapter %1$d</string>
+  <string name="audiobook_accessibility_toc_retry">Retry Download Of Chapter %1$d</string>
+  <string name="audiobook_accessibility_toc_progress">Download Progress Of Chapter %1$d is
+    %2$d Percent</string>
 
 </resources>

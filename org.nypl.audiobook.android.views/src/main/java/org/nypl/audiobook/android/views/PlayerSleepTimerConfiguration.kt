@@ -16,7 +16,7 @@ enum class PlayerSleepTimerConfiguration {
    * The sleep timer will never finish. This is essentially used to switch off the sleep timer.
    */
 
-  NEVER,
+  OFF,
 
   /**
    * The sleep timer will finish in 15 minutes.

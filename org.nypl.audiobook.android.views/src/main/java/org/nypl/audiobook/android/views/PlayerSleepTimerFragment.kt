@@ -16,7 +16,7 @@ import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_15
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_30
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_45
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_60
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.NEVER
+import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.OFF
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.NOW
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.values
 import org.slf4j.LoggerFactory
@@ -100,7 +100,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
       this.context!!.resources.getBoolean(R.bool.audiobook_player_debug_sleep_timer_now_enabled)
     return values().toList().filter { configuration ->
       when (configuration) {
-        MINUTES_15, MINUTES_30, MINUTES_45, MINUTES_60, NEVER, END_OF_CHAPTER -> true
+        MINUTES_15, MINUTES_30, MINUTES_45, MINUTES_60, OFF, END_OF_CHAPTER -> true
         NOW -> nowEnabled
       }
     }
@@ -134,7 +134,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
         this.timer.start(Duration.standardSeconds(1L))
         this.dismiss()
       }
-      NEVER -> {
+      OFF -> {
         this.timer.cancel()
         this.dismiss()
       }
