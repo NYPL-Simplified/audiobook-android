@@ -85,6 +85,11 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
     this.callEvents.onNext("skipBack")
   }
 
+  override fun skipPlayhead(milliseconds: Long) {
+    this.log.debug("skipPlayhead {}", milliseconds)
+    this.callEvents.onNext("skipPlayhead $milliseconds")
+  }
+
   override fun playAtLocation(location: PlayerPosition) {
     this.log.debug("playAtLocation {} {} {}", location.part, location.chapter, location.offsetMilliseconds)
     this.callEvents.onNext("playAtLocation ${location.part} ${location.chapter} ${location.offsetMilliseconds}")
