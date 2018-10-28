@@ -162,15 +162,33 @@ class PlayerTOCFragment : Fragment() {
       val cancelVisibleThen = this.menuCancelAll.isVisible
 
       val refreshVisibleNow =
-        this.book.spine.any { item -> !(item.downloadStatus is PlayerSpineElementDownloaded) }
+        this.book.spine.any { item -> isRefreshable(item) }
       val cancelVisibleNow =
-        this.book.spine.any { item -> item.downloadStatus is PlayerSpineElementDownloading }
+        this.book.spine.any { item -> isCancellable(item) }
 
       if (refreshVisibleNow != refreshVisibleThen || cancelVisibleNow != cancelVisibleThen) {
         this.menuRefreshAll.isVisible = refreshVisibleNow
         this.menuCancelAll.isVisible = cancelVisibleNow
         this.activity!!.invalidateOptionsMenu()
       }
+    }
+  }
+
+  private fun isCancellable(item: PlayerSpineElementType): Boolean {
+    return when (item.downloadStatus) {
+      is PlayerSpineElementDownloadFailed -> false
+      is PlayerSpineElementNotDownloaded -> false
+      is PlayerSpineElementDownloading -> true
+      is PlayerSpineElementDownloaded -> false
+    }
+  }
+
+  private fun isRefreshable(item: PlayerSpineElementType): Boolean {
+    return when (item.downloadStatus) {
+      is PlayerSpineElementDownloadFailed -> true
+      is PlayerSpineElementNotDownloaded -> true
+      is PlayerSpineElementDownloading -> false
+      is PlayerSpineElementDownloaded -> false
     }
   }
 
@@ -219,7 +237,7 @@ class PlayerTOCFragment : Fragment() {
      */
 
     this.book.spine
-      .filter { element -> elementIsNotDownloaded(element) }
+      .filter { element -> isCancellable(element) }
       .map { element -> element.downloadTask.delete(); element }
       .forEach { element -> element.downloadTask.delete() }
   }
@@ -228,21 +246,8 @@ class PlayerTOCFragment : Fragment() {
     this.log.debug("onMenuRefreshAllSelected")
 
     this.book.spine
-      .filter { element -> elementIsNotDownloaded(element) }
+      .filter { element -> isRefreshable(element) }
       .forEach { element -> element.downloadTask.fetch() }
-  }
-
-  private fun elementIsNotDownloaded(element: PlayerSpineElementType): Boolean {
-    return !elementIsDownloaded(element)
-  }
-
-  private fun elementIsDownloaded(element: PlayerSpineElementType): Boolean {
-    return when (element.downloadStatus) {
-      is PlayerSpineElementNotDownloaded,
-      is PlayerSpineElementDownloading,
-      is PlayerSpineElementDownloadFailed -> false
-      is PlayerSpineElementDownloaded -> true
-    }
   }
 
   private fun onTOCItemSelected(item: PlayerSpineElementType) {
