@@ -141,7 +141,7 @@ class PlayerTOCAdapter(
         holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
         holder.downloadFailedRefresh.setOnClickListener {
-          item.downloadTask.delete()
+          item.downloadTask.cancel()
           item.downloadTask.fetch()
         }
 
@@ -168,7 +168,7 @@ class PlayerTOCAdapter(
         .setMessage(R.string.audiobook_part_download_stop_confirm)
         .setPositiveButton(
           R.string.audiobook_part_download_stop,
-          { _: DialogInterface, _: Int -> item.downloadTask.delete() })
+          { _: DialogInterface, _: Int -> item.downloadTask.cancel() })
         .setNegativeButton(
           R.string.audiobook_part_download_continue,
           { _: DialogInterface, _: Int -> })

@@ -233,13 +233,13 @@ class PlayerTOCFragment : Fragment() {
     /*
      * We iterate over the list of download tasks twice because the first iteration
      * may trigger "errors" in the downloading tasks that then need to be cleared by
-     * a second deletion call.
+     * a second cancel call.
      */
 
     this.book.spine
       .filter { element -> isCancellable(element) }
-      .map { element -> element.downloadTask.delete(); element }
-      .forEach { element -> element.downloadTask.delete() }
+      .map { element -> element.downloadTask.cancel(); element }
+      .forEach { element -> element.downloadTask.cancel() }
   }
 
   private fun onMenuRefreshAllSelected() {
