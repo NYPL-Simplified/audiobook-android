@@ -42,16 +42,6 @@ class MockingDownloadTask(
     data class Downloading(val future: ListenableFuture<Unit>) : State()
   }
 
-  override fun fetch() {
-    this.log.debug("fetch")
-
-    when (this.stateGetCurrent()) {
-      State.Initial -> this.onStartDownload()
-      State.Downloaded -> this.onDownloaded()
-      is State.Downloading -> this.onDownloading(this.percent)
-    }
-  }
-
   private fun stateGetCurrent() =
     synchronized(this.stateLock) { this.state }
 
@@ -137,6 +127,16 @@ class MockingDownloadTask(
     this.onBroadcastState()
   }
 
+  override fun fetch() {
+    this.log.debug("fetch")
+
+    when (this.stateGetCurrent()) {
+      State.Initial -> this.onStartDownload()
+      State.Downloaded -> this.onDownloaded()
+      is State.Downloading -> this.onDownloading(this.percent)
+    }
+  }
+
   override fun delete() {
     this.log.debug("delete")
 
@@ -144,6 +144,17 @@ class MockingDownloadTask(
     when (current) {
       State.Initial -> this.onBroadcastState()
       State.Downloaded -> this.onDeleteDownloaded()
+      is State.Downloading -> this.onDeleteDownloading(current)
+    }
+  }
+
+  override fun cancel() {
+    this.log.debug("cancel")
+
+    val current = this.stateGetCurrent()
+    when (current) {
+      State.Initial -> this.onBroadcastState()
+      State.Downloaded -> this.onBroadcastState()
       is State.Downloading -> this.onDeleteDownloading(current)
     }
   }

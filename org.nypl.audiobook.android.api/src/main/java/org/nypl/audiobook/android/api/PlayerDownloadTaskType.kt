@@ -14,10 +14,24 @@ interface PlayerDownloadTaskType {
   fun fetch()
 
   /**
-   * Delete the downloaded data (if any). The method has no effect if the data has not been
-   * downloaded. If the download is in progress, this method cancels it.
+   * Cancel the download in progress if the download is currently running, and delete any partially
+   * downloaded data. Has no effect if the download task is not currently downloading anything,
+   * although implementations are permitted to broadcast events indicating the current state of the
+   * download.
    */
 
+  fun cancel()
+
+  /**
+   * Delete the downloaded data (if any). The method has no effect if the data has not been
+   * downloaded. If the download is in progress, the download is cancelled as if the `cancel`
+   * method had been called.
+   *
+   * @throws UnsupportedOperationException If individual chapter deletion is not supported
+   * @see PlayerAudioBookType.supportsIndividualChapterDeletion
+   */
+
+  @Throws(UnsupportedOperationException::class)
   fun delete()
 
   /**

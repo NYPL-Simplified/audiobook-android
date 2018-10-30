@@ -23,6 +23,14 @@ interface PlayerAudioBookType {
   val supportsStreaming: Boolean
 
   /**
+   * True iff the underlying audio engine supports the deletion of individual chapters via
+   * the PlayerDownloadTaskType interface. If this is false, local book data may only be
+   * deleted via the `deleteLocalChapterData` method.
+   */
+
+  val supportsIndividualChapterDeletion: Boolean
+
+  /**
    * The list of spine items in reading order.
    */
 
@@ -66,4 +74,12 @@ interface PlayerAudioBookType {
 
   fun createPlayer(): PlayerType
 
+  /**
+   * Delete all local data for chapters (if any). This will also have the effect of
+   * cancelling any downloads that happen to be in progress.
+   */
+
+  fun deleteLocalChapterData() {
+    this.spine.forEach { item -> item.downloadTask.delete() }
+  }
 }

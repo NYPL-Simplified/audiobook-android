@@ -50,16 +50,6 @@ class ExoDownloadTask(
     data class Downloading(val future: ListenableFuture<Unit>) : State()
   }
 
-  override fun fetch() {
-    this.log.debug("fetch")
-
-    when (this.stateGetCurrent()) {
-      Initial -> onStartDownload()
-      Downloaded -> onDownloaded()
-      is Downloading -> onDownloading(this.percent)
-    }
-  }
-
   private fun stateGetCurrent() =
     synchronized(stateLock) { state }
 
@@ -143,17 +133,6 @@ class ExoDownloadTask(
     this.onBroadcastState()
   }
 
-  override fun delete() {
-    this.log.debug("delete")
-
-    val current = stateGetCurrent()
-    when (current) {
-      Initial -> this.onBroadcastState()
-      Downloaded -> onDeleteDownloaded()
-      is Downloading -> onDeleteDownloading(current)
-    }
-  }
-
   private fun onDeleteDownloading(state: Downloading) {
     this.log.debug("cancelling download in progress")
 
@@ -172,6 +151,38 @@ class ExoDownloadTask(
     } finally {
       this.stateSetCurrent(Initial)
       this.onBroadcastState()
+    }
+  }
+
+  override fun delete() {
+    this.log.debug("delete")
+
+    val current = stateGetCurrent()
+    return when (current) {
+      Initial -> this.onBroadcastState()
+      Downloaded -> onDeleteDownloaded()
+      is Downloading -> onDeleteDownloading(current)
+    }
+  }
+
+  override fun fetch() {
+    this.log.debug("fetch")
+
+    when (this.stateGetCurrent()) {
+      Initial -> onStartDownload()
+      Downloaded -> onDownloaded()
+      is Downloading -> onDownloading(this.percent)
+    }
+  }
+
+  override fun cancel() {
+    this.log.debug("cancel")
+
+    val current = stateGetCurrent()
+    return when (current) {
+      Initial -> this.onBroadcastState()
+      Downloaded -> this.onBroadcastState()
+      is Downloading -> onDeleteDownloading(current)
     }
   }
 
