@@ -227,29 +227,31 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
     return when (event) {
       PlayerSleepTimerStopped ->
-        this.onPlayerSleepTimerEventStopped(event)
+        this.onPlayerSleepTimerEventStopped()
       is PlayerSleepTimerRunning ->
         this.onPlayerSleepTimerEventRunning(event)
       is PlayerSleepTimerCancelled ->
-        this.onPlayerSleepTimerEventCancelled(event)
+        this.onPlayerSleepTimerEventCancelled()
       PlayerSleepTimerFinished ->
-        this.onPlayerSleepTimerEventFinished(event)
+        this.onPlayerSleepTimerEventFinished()
     }
   }
 
-  private fun onPlayerSleepTimerEventFinished(event: PlayerSleepTimerEvent) {
+  private fun onPlayerSleepTimerEventFinished() {
     this.onPressedPause()
 
     UIThread.runOnUIThread(Runnable {
       this.menuSleepText.text = ""
+      this.menuSleepText.contentDescription = this.sleepTimerContentDescriptionSetUp()
       this.menuSleepText.visibility = INVISIBLE
       this.menuSleepEndOfChapter.visibility = INVISIBLE
     })
   }
 
-  private fun onPlayerSleepTimerEventCancelled(event: PlayerSleepTimerCancelled) {
+  private fun onPlayerSleepTimerEventCancelled() {
     UIThread.runOnUIThread(Runnable {
       this.menuSleepText.text = ""
+      this.menuSleepText.contentDescription = this.sleepTimerContentDescriptionSetUp()
       this.menuSleepText.visibility = INVISIBLE
       this.menuSleepEndOfChapter.visibility = INVISIBLE
     })
@@ -260,9 +262,11 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       val remaining = event.remaining
       if (remaining != null) {
         this.menuSleepText.text = this.minuteSecondTextFromDuration(remaining)
+        this.menuSleepText.contentDescription = this.sleepTimerContentDescriptionForTime(remaining)
         this.menuSleepEndOfChapter.visibility = INVISIBLE
       } else {
         this.menuSleepText.text = ""
+        this.menuSleepText.contentDescription = this.sleepTimerContentDescriptionSetUp()
         this.menuSleepEndOfChapter.visibility = VISIBLE
       }
 
@@ -270,9 +274,17 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     })
   }
 
-  private fun onPlayerSleepTimerEventStopped(event: PlayerSleepTimerEvent) {
+  private fun sleepTimerContentDescriptionForTime(remaining: Duration): String {
+    return this.resources.getString(R.string.audiobook_accessibility_sleep_timer_label) + ": " + this.minuteSecondTextFromDuration(remaining)
+  }
+
+  private fun sleepTimerContentDescriptionSetUp(): String =
+    this.resources.getString(R.string.audiobook_accessibility_sleep_timer)
+
+  private fun onPlayerSleepTimerEventStopped() {
     UIThread.runOnUIThread(Runnable {
       this.menuSleepText.text = ""
+      this.menuSleepText.contentDescription = this.sleepTimerContentDescriptionSetUp()
       this.menuSleepText.visibility = INVISIBLE
       this.menuSleepEndOfChapter.visibility = INVISIBLE
     })
@@ -327,6 +339,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
     this.playerWaiting = view.findViewById(R.id.player_waiting_buffering)
     this.playerWaiting.text = ""
+    this.playerWaiting.contentDescription = null
 
     this.playerPosition = view.findViewById(R.id.player_progress)!!
     this.playerPosition.thumbTintList = ColorStateList.valueOf(this.parameters.primaryColor)
@@ -363,7 +376,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
     val spine = this.playerPositionCurrentSpine
     if (spine != null) {
-      this.player.playAtLocation(
+      this.player.movePlayheadToLocation(
         spine.position.copy(
           offsetMilliseconds =
           TimeUnit.MILLISECONDS.convert(this.playerPosition.progress.toLong(), TimeUnit.SECONDS)))
@@ -428,6 +441,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     UIThread.runOnUIThread(Runnable {
       val text = this.getString(R.string.audiobook_player_error, event.errorCode)
       this.playerWaiting.setText(text)
+      this.playerWaiting.contentDescription = null
 
       val element = event.spineElement
       if (element != null) {
@@ -442,6 +456,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       val text =
         this.getString(R.string.audiobook_player_waiting, event.spineElement.index + 1)
       this.playerWaiting.setText(text)
+      this.playerWaiting.contentDescription = null
       this.configureSpineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, 0)
     })
@@ -517,6 +532,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       this.playPauseButton.setOnClickListener { this.onPressedPause() }
       this.playPauseButton.contentDescription = this.getString(R.string.audiobook_accessibility_pause)
       this.playerWaiting.text = ""
+      this.playerWaiting.contentDescription = null
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
   }
@@ -552,10 +568,33 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
     this.playerTimeMaximum.text =
       this.hourMinuteSecondTextFromDuration(spineElement.duration)
+    this.playerTimeMaximum.contentDescription =
+      this.playerTimeRemainingDescription(offsetMilliseconds, spineElement.duration)
+
     this.playerTimeCurrent.text =
       this.hourMinuteSecondTextFromMilliseconds(offsetMilliseconds)
-    this.playerSpineElement.text =
-      this.spineElementText(spineElement)
+    this.playerTimeCurrent.contentDescription =
+      this.playerTimeCurrentDescription(offsetMilliseconds)
+
+    this.playerSpineElement.text = this.spineElementText(spineElement)
+  }
+
+  private fun playerTimeCurrentDescription(offsetMilliseconds: Long): String {
+    return this.getString(
+      R.string.audiobook_accessibility_player_time_current,
+      this.hourMinuteSecondTextFromMilliseconds(offsetMilliseconds))
+  }
+
+  private fun playerTimeRemainingDescription(
+    offsetMilliseconds: Long,
+    duration: Duration): String {
+
+    val remaining =
+      duration.minus(Duration.millis(offsetMilliseconds))
+
+    return this.getString(
+      R.string.audiobook_accessibility_player_time_remaining,
+      this.hourMinuteSecondTextFromDuration(remaining))
   }
 
   private fun spineElementText(spineElement: PlayerSpineElementType): String {
@@ -595,6 +634,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun onPlayerBufferingCheckNow() {
     UIThread.runOnUIThread(Runnable {
       if (this.playerBufferingStillOngoing) {
+        this.playerWaiting.contentDescription =
+          this.getString(R.string.audiobook_accessibility_player_buffering)
         this.playerWaiting.setText(R.string.audiobook_player_buffering)
       }
     })

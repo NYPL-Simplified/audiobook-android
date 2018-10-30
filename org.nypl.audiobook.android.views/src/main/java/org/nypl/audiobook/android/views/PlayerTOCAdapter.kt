@@ -90,15 +90,19 @@ class PlayerTOCAdapter(
         if (item.book.supportsStreaming) {
           holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
           holder.buttonsNotDownloadedStreamable.visibility = VISIBLE
-          holder.notDownloadedStreamableRefresh.setOnClickListener({
-            item.downloadTask.fetch()
-          })
+          holder.notDownloadedStreamableRefresh.setOnClickListener { item.downloadTask.fetch() }
+          holder.notDownloadedStreamableRefresh.contentDescription =
+            this.context.getString(
+              R.string.audiobook_accessibility_toc_download,
+              item.index)
         } else {
           holder.buttonsNotDownloadedNotStreamable.visibility = VISIBLE
           holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
-          holder.notDownloadedNotStreamableRefresh.setOnClickListener({
-            item.downloadTask.fetch()
-          })
+          holder.notDownloadedNotStreamableRefresh.setOnClickListener { item.downloadTask.fetch() }
+          holder.notDownloadedStreamableRefresh.contentDescription =
+            this.context.getString(
+              R.string.audiobook_accessibility_toc_download,
+              item.index)
         }
       }
 
@@ -109,7 +113,9 @@ class PlayerTOCAdapter(
         holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
         holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        holder.downloadingProgress.setOnClickListener({ this.onConfirmCancelDownloading(item) })
+        holder.downloadingProgress.setOnClickListener { this.onConfirmCancelDownloading(item) }
+        holder.downloadingProgress.contentDescription =
+          this.context.getString(R.string.audiobook_accessibility_toc_progress, item.index, status.percent)
         holder.downloadingProgress.visibility = VISIBLE
         holder.downloadingProgress.progress = status.percent.toFloat() * 0.01f
       }
@@ -134,10 +140,13 @@ class PlayerTOCAdapter(
         holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
         holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        holder.downloadFailedRefresh.setOnClickListener({
-          item.downloadTask.delete()
+        holder.downloadFailedRefresh.setOnClickListener {
+          item.downloadTask.cancel()
           item.downloadTask.fetch()
-        })
+        }
+
+        holder.downloadFailedRefresh.contentDescription =
+          this.context.getString(R.string.audiobook_accessibility_toc_retry, item.index)
       }
     }
 
@@ -159,7 +168,7 @@ class PlayerTOCAdapter(
         .setMessage(R.string.audiobook_part_download_stop_confirm)
         .setPositiveButton(
           R.string.audiobook_part_download_stop,
-          { _: DialogInterface, _: Int -> item.downloadTask.delete() })
+          { _: DialogInterface, _: Int -> item.downloadTask.cancel() })
         .setNegativeButton(
           R.string.audiobook_part_download_continue,
           { _: DialogInterface, _: Int -> })

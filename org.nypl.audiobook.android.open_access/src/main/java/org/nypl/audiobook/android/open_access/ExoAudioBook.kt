@@ -42,6 +42,9 @@ class ExoAudioBook private constructor(
   override val supportsStreaming: Boolean
     get() = false
 
+  override val supportsIndividualChapterDeletion: Boolean
+    get() = true
+
   companion object {
 
     private val log = LoggerFactory.getLogger(ExoAudioBook::class.java)

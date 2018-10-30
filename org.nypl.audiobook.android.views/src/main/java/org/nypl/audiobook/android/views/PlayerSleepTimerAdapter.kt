@@ -12,7 +12,7 @@ import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_15
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_30
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_45
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_60
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.NEVER
+import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.OFF
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.NOW
 
 /**
@@ -51,8 +51,8 @@ class PlayerSleepTimerAdapter(
           resources.getString(R.string.audiobook_player_sleep_15)
         NOW ->
           resources.getString(R.string.audiobook_player_sleep_now)
-        NEVER ->
-          resources.getString(R.string.audiobook_player_sleep_never)
+        OFF ->
+          resources.getString(R.string.audiobook_player_sleep_off)
       }
     }
 
@@ -61,7 +61,7 @@ class PlayerSleepTimerAdapter(
       item: PlayerSleepTimerConfiguration): CharSequence {
 
       return when (item) {
-        NEVER ->
+        OFF ->
           resources.getString(R.string.audiobook_accessibility_sleep_timer_off)
         END_OF_CHAPTER ->
           resources.getString(R.string.audiobook_accessibility_sleep_timer_end_of_chapter)

@@ -45,6 +45,9 @@ class PlayerTOCFragment : Fragment() {
   private lateinit var book: PlayerAudioBookType
   private lateinit var player: PlayerType
   private lateinit var parameters: PlayerTOCFragmentParameters
+  private var menuInitialized = false
+  private lateinit var menuRefreshAll: MenuItem
+  private lateinit var menuCancelAll: MenuItem
 
   private var bookSubscription: Subscription? = null
   private var playerSubscription: Subscription? = null
@@ -144,6 +147,49 @@ class PlayerTOCFragment : Fragment() {
     super.onCreateOptionsMenu(menu, inflater)
 
     inflater.inflate(R.menu.player_toc_menu, menu)
+
+    this.menuRefreshAll = menu.findItem(R.id.player_toc_menu_refresh_all)
+    this.menuCancelAll = menu.findItem(R.id.player_toc_menu_stop_all)
+    this.menuInitialized = true
+    this.menusConfigureVisibility()
+  }
+
+  private fun menusConfigureVisibility() {
+    UIThread.checkIsUIThread()
+
+    if (this.menuInitialized) {
+      val refreshVisibleThen = this.menuRefreshAll.isVisible
+      val cancelVisibleThen = this.menuCancelAll.isVisible
+
+      val refreshVisibleNow =
+        this.book.spine.any { item -> isRefreshable(item) }
+      val cancelVisibleNow =
+        this.book.spine.any { item -> isCancellable(item) }
+
+      if (refreshVisibleNow != refreshVisibleThen || cancelVisibleNow != cancelVisibleThen) {
+        this.menuRefreshAll.isVisible = refreshVisibleNow
+        this.menuCancelAll.isVisible = cancelVisibleNow
+        this.activity!!.invalidateOptionsMenu()
+      }
+    }
+  }
+
+  private fun isCancellable(item: PlayerSpineElementType): Boolean {
+    return when (item.downloadStatus) {
+      is PlayerSpineElementDownloadFailed -> false
+      is PlayerSpineElementNotDownloaded -> false
+      is PlayerSpineElementDownloading -> true
+      is PlayerSpineElementDownloaded -> false
+    }
+  }
+
+  private fun isRefreshable(item: PlayerSpineElementType): Boolean {
+    return when (item.downloadStatus) {
+      is PlayerSpineElementDownloadFailed -> true
+      is PlayerSpineElementNotDownloaded -> true
+      is PlayerSpineElementDownloading -> false
+      is PlayerSpineElementDownloaded -> false
+    }
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -187,34 +233,21 @@ class PlayerTOCFragment : Fragment() {
     /*
      * We iterate over the list of download tasks twice because the first iteration
      * may trigger "errors" in the downloading tasks that then need to be cleared by
-     * a second deletion call.
+     * a second cancel call.
      */
 
     this.book.spine
-      .filter { element -> elementIsNotDownloaded(element) }
-      .map { element -> element.downloadTask.delete(); element }
-      .forEach { element -> element.downloadTask.delete() }
+      .filter { element -> isCancellable(element) }
+      .map { element -> element.downloadTask.cancel(); element }
+      .forEach { element -> element.downloadTask.cancel() }
   }
 
   private fun onMenuRefreshAllSelected() {
     this.log.debug("onMenuRefreshAllSelected")
 
     this.book.spine
-      .filter { element -> elementIsNotDownloaded(element) }
+      .filter { element -> isRefreshable(element) }
       .forEach { element -> element.downloadTask.fetch() }
-  }
-
-  private fun elementIsNotDownloaded(element: PlayerSpineElementType): Boolean {
-    return !elementIsDownloaded(element)
-  }
-
-  private fun elementIsDownloaded(element: PlayerSpineElementType): Boolean {
-    return when (element.downloadStatus) {
-      is PlayerSpineElementNotDownloaded,
-      is PlayerSpineElementDownloading,
-      is PlayerSpineElementDownloadFailed -> false
-      is PlayerSpineElementDownloaded -> true
-    }
   }
 
   private fun onTOCItemSelected(item: PlayerSpineElementType) {
@@ -283,6 +316,7 @@ class PlayerTOCFragment : Fragment() {
     UIThread.runOnUIThread(Runnable {
       val spineElement = status.spineElement
       this.adapter.notifyItemChanged(spineElement.index)
+      this.menusConfigureVisibility()
     })
   }
 

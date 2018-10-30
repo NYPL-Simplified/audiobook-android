@@ -41,6 +41,9 @@ class MockingAudioBook(
 
   override var supportsStreaming: Boolean = false
 
+  override val supportsIndividualChapterDeletion: Boolean
+    get() = true
+
   override val spine: List<PlayerSpineElementType>
     get() = this.spineItems
 
