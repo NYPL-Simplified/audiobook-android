@@ -376,10 +376,14 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
     val spine = this.playerPositionCurrentSpine
     if (spine != null) {
-      this.player.movePlayheadToLocation(
-        spine.position.copy(
-          offsetMilliseconds =
-          TimeUnit.MILLISECONDS.convert(this.playerPosition.progress.toLong(), TimeUnit.SECONDS)))
+      val target = spine.position.copy(
+        offsetMilliseconds =
+        TimeUnit.MILLISECONDS.convert(this.playerPosition.progress.toLong(), TimeUnit.SECONDS))
+      if (player.isPlaying) {
+        this.player.playAtLocation(target)
+      } else {
+        this.player.movePlayheadToLocation(target)
+      }
     }
   }
 
