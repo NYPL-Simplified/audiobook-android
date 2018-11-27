@@ -12,8 +12,8 @@ import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_15
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_30
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_45
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_60
-import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.OFF
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.NOW
+import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.OFF
 
 /**
  * A Recycler view adapter used to display and control a sleep timer configuration menu.

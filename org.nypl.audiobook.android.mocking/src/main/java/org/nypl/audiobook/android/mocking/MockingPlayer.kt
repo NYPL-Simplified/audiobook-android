@@ -55,6 +55,12 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
       errorCode = errorCode))
   }
 
+  fun buffering() {
+    this.statusEvents.onNext(PlayerEventPlaybackBuffering(
+      spineElement = this.book.spine.first(),
+      offsetMilliseconds = 0L))
+  }
+
   override fun play() {
     this.log.debug("play")
     this.callEvents.onNext("play")

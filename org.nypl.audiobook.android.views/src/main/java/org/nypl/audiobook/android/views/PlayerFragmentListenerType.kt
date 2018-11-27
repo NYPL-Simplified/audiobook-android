@@ -93,4 +93,10 @@ interface PlayerFragmentListenerType {
    */
 
   fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService
+
+  /**
+   * The player published an event relevant to accessibility.
+   */
+
+  fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent)
 }

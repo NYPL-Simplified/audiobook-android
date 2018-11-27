@@ -8,6 +8,7 @@ import android.os.Looper
 import android.support.v4.app.FragmentActivity
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
 import org.joda.time.Duration
@@ -20,6 +21,7 @@ import org.nypl.audiobook.android.mocking.MockingAudioBook
 import org.nypl.audiobook.android.mocking.MockingDownloadProvider
 import org.nypl.audiobook.android.mocking.MockingPlayer
 import org.nypl.audiobook.android.mocking.MockingSleepTimer
+import org.nypl.audiobook.android.views.PlayerAccessibilityEvent
 import org.nypl.audiobook.android.views.PlayerFragment
 import org.nypl.audiobook.android.views.PlayerFragmentListenerType
 import org.nypl.audiobook.android.views.PlayerFragmentParameters
@@ -100,7 +102,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
      * Create a controls menu that pops up when long-clicking on the cover image.
      */
 
-    view.setOnLongClickListener { _ ->
+    view.setOnLongClickListener {
       val dialogView = this.layoutInflater.inflate(R.layout.controls_dialog, null)
 
       /*
@@ -108,8 +110,17 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
        */
 
       val triggerError = dialogView.findViewById<Button>(R.id.controls_error)
-      triggerError.setOnClickListener { _ ->
+      triggerError.setOnClickListener {
         this.player.error(IllegalStateException("Serious problem occurred."), 1138)
+      }
+
+      /*
+       * A button that triggers a player error.
+       */
+
+      val triggerBuffering = dialogView.findViewById<Button>(R.id.controls_buffering)
+      triggerBuffering.setOnClickListener {
+        this.player.buffering()
       }
 
       /*
@@ -117,7 +128,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
        */
 
       val triggerStream = dialogView.findViewById<Button>(R.id.controls_set_streamable)
-      triggerStream.setOnClickListener { _ ->
+      triggerStream.setOnClickListener {
         this.book.supportsStreaming = true
       }
 
@@ -126,7 +137,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
        */
 
       val triggerStreamOff = dialogView.findViewById<Button>(R.id.controls_set_not_streamable)
-      triggerStreamOff.setOnClickListener { _ ->
+      triggerStreamOff.setOnClickListener {
         this.book.supportsStreaming = false
       }
 
@@ -207,5 +218,12 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService {
     return this.scheduledExecutor
+  }
+
+  override fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent) {
+    runOnUIThread(Runnable {
+      val toast = Toast.makeText(this.applicationContext, event.message, Toast.LENGTH_LONG)
+      toast.show()
+    })
   }
 }
