@@ -23,6 +23,7 @@ import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpi
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementType
 import org.nypl.audiobook.android.api.PlayerType
+import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityChapterSelected
 import org.slf4j.LoggerFactory
 import rx.Subscription
 
@@ -252,6 +253,14 @@ class PlayerTOCFragment : Fragment() {
 
   private fun onTOCItemSelected(item: PlayerSpineElementType) {
     this.log.debug("onTOCItemSelected: ", item.index)
+
+    try {
+      this.listener.onPlayerAccessibilityEvent(
+        PlayerAccessibilityChapterSelected(
+          this.context!!.getString(R.string.audiobook_accessibility_toc_selected, item.index + 1)))
+    } catch (ex: Exception) {
+      this.log.debug("ignored exception in event handler: ", ex)
+    }
 
     return when (item.downloadStatus) {
       is PlayerSpineElementNotDownloaded ->

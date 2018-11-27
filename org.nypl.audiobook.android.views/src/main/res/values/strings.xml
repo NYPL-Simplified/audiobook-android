@@ -58,13 +58,13 @@
   <string name="audiobook_accessibility_sleep_timer_off">Off</string>
   <string name="audiobook_accessibility_sleep_timer_now">Now</string>
 
-  <string name="audiobook_accessibility_sleep_timer_selected_end_of_chapter">Selected: End of Chapter</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_60_minutes">Selected: 60 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_45_minutes">Selected: 45 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_30_minutes">Selected: 30 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_15_minutes">Selected: 15 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_off">Selected: Off</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_now">Selected:Now</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_end_of_chapter">Selected End of Chapter</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_60_minutes">Selected 60 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_45_minutes">Selected 45 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_30_minutes">Selected 30 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_15_minutes">Selected 15 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_off">Selected Off</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_now">Selected Now</string>
 
   <string name="audiobook_accessibility_sleep_timer_label">Sleep Timer</string>
 
@@ -79,11 +79,11 @@
   <string name="audiobook_accessibility_playback_speed_1p5">Playback speed 150 percent</string>
   <string name="audiobook_accessibility_playback_speed_2">Playback speed 200 percent</string>
 
-  <string name="audiobook_accessibility_playback_speed_selected_0p75">Selected: Playback speed 75 percent</string>
-  <string name="audiobook_accessibility_playback_speed_selected_1">Selected: Playback speed 100 percent</string>
-  <string name="audiobook_accessibility_playback_speed_selected_1p25">Selected: Playback speed 125 percent</string>
-  <string name="audiobook_accessibility_playback_speed_selected_1p5">Selected: Playback speed 150 percent</string>
-  <string name="audiobook_accessibility_playback_speed_selected_2">Selected: Playback speed 200 percent</string>
+  <string name="audiobook_accessibility_playback_speed_selected_0p75">Selected Playback speed 75 percent</string>
+  <string name="audiobook_accessibility_playback_speed_selected_1">Selected Playback speed 100 percent</string>
+  <string name="audiobook_accessibility_playback_speed_selected_1p25">Selected Playback speed 125 percent</string>
+  <string name="audiobook_accessibility_playback_speed_selected_1p5">Selected Playback speed 150 percent</string>
+  <string name="audiobook_accessibility_playback_speed_selected_2">Selected Playback speed 200 percent</string>
 
   <string name="audiobook_accessibility_forward_15">Fast forward 15 seconds</string>
   <string name="audiobook_accessibility_backward_15">Rewind 15 seconds</string>
@@ -97,5 +97,6 @@
   <string name="audiobook_accessibility_toc_retry">Retry Download Of Chapter %1$d</string>
   <string name="audiobook_accessibility_toc_progress">Download Progress Of Chapter %1$d is
     %2$d Percent</string>
+  <string name="audiobook_accessibility_toc_selected">Selected Chapter %1$d</string>
 
 </resources>

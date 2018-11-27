@@ -80,6 +80,7 @@ class PlayerTOCAdapter(
       holder.view.setBackgroundColor(holder.backgroundDisabled)
     }
 
+    val normalIndex = item.index + 1
     val status = item.downloadStatus
     when (status) {
       is PlayerSpineElementNotDownloaded -> {
@@ -94,7 +95,7 @@ class PlayerTOCAdapter(
           holder.notDownloadedStreamableRefresh.contentDescription =
             this.context.getString(
               R.string.audiobook_accessibility_toc_download,
-              item.index)
+              normalIndex)
         } else {
           holder.buttonsNotDownloadedNotStreamable.visibility = VISIBLE
           holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
@@ -102,7 +103,7 @@ class PlayerTOCAdapter(
           holder.notDownloadedStreamableRefresh.contentDescription =
             this.context.getString(
               R.string.audiobook_accessibility_toc_download,
-              item.index)
+              normalIndex)
         }
       }
 
@@ -115,7 +116,7 @@ class PlayerTOCAdapter(
 
         holder.downloadingProgress.setOnClickListener { this.onConfirmCancelDownloading(item) }
         holder.downloadingProgress.contentDescription =
-          this.context.getString(R.string.audiobook_accessibility_toc_progress, item.index, status.percent)
+          this.context.getString(R.string.audiobook_accessibility_toc_progress, normalIndex, status.percent)
         holder.downloadingProgress.visibility = VISIBLE
         holder.downloadingProgress.progress = status.percent.toFloat() * 0.01f
       }
@@ -146,7 +147,7 @@ class PlayerTOCAdapter(
         }
 
         holder.downloadFailedRefresh.contentDescription =
-          this.context.getString(R.string.audiobook_accessibility_toc_retry, item.index)
+          this.context.getString(R.string.audiobook_accessibility_toc_retry, normalIndex)
       }
     }
 
