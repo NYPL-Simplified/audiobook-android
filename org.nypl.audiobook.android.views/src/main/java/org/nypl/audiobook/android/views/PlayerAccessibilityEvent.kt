@@ -34,4 +34,24 @@ sealed class PlayerAccessibilityEvent {
   data class PlayerAccessibilityErrorOccurred(
     override val message: String) : PlayerAccessibilityEvent()
 
+  /**
+   * A new playback rate has been selected.
+   */
+
+  data class PlayerAccessibilityPlaybackRateChanged(
+    override val message: String) : PlayerAccessibilityEvent()
+
+  /**
+   * A new sleep timer setting has been selected.
+   */
+
+  data class PlayerAccessibilitySleepTimerSettingChanged(
+    override val message: String) : PlayerAccessibilityEvent()
+
+  /**
+   * A chapter has been selected.
+   */
+
+  data class PlayerAccessibilityChapterSelected(
+    override val message: String) : PlayerAccessibilityEvent()
 }

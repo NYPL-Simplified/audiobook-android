@@ -58,6 +58,14 @@
   <string name="audiobook_accessibility_sleep_timer_off">Off</string>
   <string name="audiobook_accessibility_sleep_timer_now">Now</string>
 
+  <string name="audiobook_accessibility_sleep_timer_selected_end_of_chapter">Selected: End of Chapter</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_60_minutes">Selected: 60 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_45_minutes">Selected: 45 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_30_minutes">Selected: 30 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_15_minutes">Selected: 15 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_off">Selected: Off</string>
+  <string name="audiobook_accessibility_sleep_timer_selected_now">Selected:Now</string>
+
   <string name="audiobook_accessibility_sleep_timer_label">Sleep Timer</string>
 
   <string name="audiobook_accessibility_chapter_of">Chapter %1$d of %2$d</string>

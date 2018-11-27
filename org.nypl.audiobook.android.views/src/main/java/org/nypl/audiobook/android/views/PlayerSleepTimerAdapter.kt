@@ -58,7 +58,7 @@ class PlayerSleepTimerAdapter(
 
     fun contentDescriptionOf(
       resources: Resources,
-      item: PlayerSleepTimerConfiguration): CharSequence {
+      item: PlayerSleepTimerConfiguration): String {
 
       return when (item) {
         OFF ->
@@ -78,6 +78,27 @@ class PlayerSleepTimerAdapter(
       }
     }
 
+    fun selectedContentDescriptionOf(
+      resources: Resources,
+      item: PlayerSleepTimerConfiguration): String {
+
+      return when (item) {
+        OFF ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_selected_off)
+        END_OF_CHAPTER ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_selected_end_of_chapter)
+        MINUTES_60 ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_selected_60_minutes)
+        MINUTES_45 ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_selected_45_minutes)
+        MINUTES_30 ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_selected_30_minutes)
+        MINUTES_15 ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_selected_15_minutes)
+        NOW ->
+          resources.getString(R.string.audiobook_accessibility_sleep_timer_selected_now)
+      }
+    }
   }
 
   override fun onCreateViewHolder(
