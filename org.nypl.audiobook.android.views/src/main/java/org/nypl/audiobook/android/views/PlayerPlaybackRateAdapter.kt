@@ -64,6 +64,22 @@ class PlayerPlaybackRateAdapter(
       }
     }
 
+    fun selectedContentDescriptionOfRate(
+      resources: Resources,
+      item: PlayerPlaybackRate): String {
+      return when (item) {
+        THREE_QUARTERS_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_0p75)
+        NORMAL_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_1)
+        ONE_AND_A_QUARTER_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_1p25)
+        ONE_AND_A_HALF_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_1p5)
+        DOUBLE_TIME ->
+          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_2)
+      }
+    }
   }
 
   override fun onCreateViewHolder(

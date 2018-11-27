@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerSleepTimerType
 import org.nypl.audiobook.android.api.PlayerType
+import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilitySleepTimerSettingChanged
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.END_OF_CHAPTER
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_15
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_30
@@ -108,6 +109,14 @@ class PlayerSleepTimerFragment : DialogFragment() {
 
   private fun onSleepTimerSelected(item: PlayerSleepTimerConfiguration) {
     this.log.debug("onSleepTimerSelected: {}", item)
+
+    try {
+      this.listener.onPlayerAccessibilityEvent(
+        PlayerAccessibilitySleepTimerSettingChanged(
+          PlayerSleepTimerAdapter.selectedContentDescriptionOf(resources, item)))
+    } catch (ex: Exception) {
+      this.log.debug("ignored exception in event handler: ", ex)
+    }
 
     when (item) {
       END_OF_CHAPTER -> {

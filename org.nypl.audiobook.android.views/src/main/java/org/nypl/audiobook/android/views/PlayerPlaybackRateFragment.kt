@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import org.nypl.audiobook.android.api.PlayerPlaybackRate
 import org.nypl.audiobook.android.api.PlayerType
+import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityPlaybackRateChanged
 import org.slf4j.LoggerFactory
 
 /**
@@ -84,6 +85,13 @@ class PlayerPlaybackRateFragment : DialogFragment() {
 
   private fun onPlaybackRateSelected(item: PlayerPlaybackRate) {
     this.log.debug("onPlaybackRateSelected: {}", item)
+
+    try {
+      this.listener.onPlayerAccessibilityEvent(PlayerAccessibilityPlaybackRateChanged(
+        PlayerPlaybackRateAdapter.selectedContentDescriptionOfRate(resources, item)))
+    } catch (ex: Exception) {
+      this.log.debug("ignored exception in handler: ", ex)
+    }
 
     this.adapter.setCurrentPlaybackRate(item)
     this.player.playbackRate = item
