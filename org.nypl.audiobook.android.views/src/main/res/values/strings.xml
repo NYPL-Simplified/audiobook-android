@@ -44,7 +44,7 @@
     Accessibility strings.
     -->
 
-  <string name="audiobook_accessibility_player_buffering">Buffering</string>
+  <string name="audiobook_accessibility_player_buffering">Player Is Buffering</string>
 
   <string name="audiobook_accessibility_player_time_current">%1$s Played</string>
   <string name="audiobook_accessibility_player_time_remaining">%1$s Remaining</string>

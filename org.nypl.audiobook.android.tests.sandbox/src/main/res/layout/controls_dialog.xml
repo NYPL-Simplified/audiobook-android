@@ -15,6 +15,13 @@
     android:text="Trigger playback error" />
 
   <Button
+    android:id="@+id/controls_buffering"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:text="Trigger buffering" />
+
+  <Button
     android:id="@+id/controls_set_streamable"
     android:layout_width="320dp"
     android:layout_height="wrap_content"

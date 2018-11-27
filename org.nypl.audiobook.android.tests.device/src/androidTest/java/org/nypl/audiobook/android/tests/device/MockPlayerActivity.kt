@@ -18,6 +18,7 @@ import org.nypl.audiobook.android.mocking.MockingAudioBook
 import org.nypl.audiobook.android.mocking.MockingDownloadProvider
 import org.nypl.audiobook.android.mocking.MockingPlayer
 import org.nypl.audiobook.android.mocking.MockingSleepTimer
+import org.nypl.audiobook.android.views.PlayerAccessibilityEvent
 import org.nypl.audiobook.android.views.PlayerFragment
 import org.nypl.audiobook.android.views.PlayerFragmentListenerType
 import org.nypl.audiobook.android.views.PlayerFragmentParameters
@@ -137,5 +138,9 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService {
     return this.scheduledExecutor
+  }
+
+  override fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent) {
+
   }
 }
