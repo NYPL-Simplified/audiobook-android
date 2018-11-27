@@ -28,8 +28,8 @@ class PlayerSleepTimerAdapter(
   private val listener: View.OnClickListener
 
   init {
-    this.listener = View.OnClickListener {
-      v -> this.onSelect(v.tag as PlayerSleepTimerConfiguration)
+    this.listener = View.OnClickListener { v ->
+      this.onSelect(v.tag as PlayerSleepTimerConfiguration)
     }
   }
 
