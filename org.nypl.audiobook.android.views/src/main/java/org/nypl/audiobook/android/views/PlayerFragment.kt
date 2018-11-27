@@ -37,6 +37,9 @@ import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerStop
 import org.nypl.audiobook.android.api.PlayerSleepTimerType
 import org.nypl.audiobook.android.api.PlayerSpineElementType
 import org.nypl.audiobook.android.api.PlayerType
+import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityErrorOccurred
+import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityIsBuffering
+import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityIsWaitingForChapter
 import org.slf4j.LoggerFactory
 import rx.Subscription
 import java.util.concurrent.ScheduledExecutorService
@@ -429,7 +432,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       is PlayerEventPlaybackProgressUpdate ->
         this.onPlayerEventPlaybackProgressUpdate(event)
       is PlayerEventChapterCompleted ->
-        this.onPlayerEventChapterCompleted(event)
+        this.onPlayerEventChapterCompleted()
       is PlayerEventPlaybackPaused ->
         this.onPlayerEventPlaybackPaused(event)
       is PlayerEventPlaybackStopped ->
@@ -446,6 +449,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       val text = this.getString(R.string.audiobook_player_error, event.errorCode)
       this.playerWaiting.setText(text)
       this.playerWaiting.contentDescription = null
+      this.listener.onPlayerAccessibilityEvent(PlayerAccessibilityErrorOccurred(text))
 
       val element = event.spineElement
       if (element != null) {
@@ -461,6 +465,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
         this.getString(R.string.audiobook_player_waiting, event.spineElement.index + 1)
       this.playerWaiting.setText(text)
       this.playerWaiting.contentDescription = null
+      this.listener.onPlayerAccessibilityEvent(PlayerAccessibilityIsWaitingForChapter(text))
+
       this.configureSpineElementText(event.spineElement)
       this.onEventUpdateTimeRelatedUI(event.spineElement, 0)
     })
@@ -474,7 +480,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     })
   }
 
-  private fun onPlayerEventChapterCompleted(event: PlayerEventChapterCompleted) {
+  private fun onPlayerEventChapterCompleted() {
     this.onPlayerBufferingStopped()
 
     /*
@@ -631,16 +637,18 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     UIThread.runOnUIThread(Runnable {
       this.onPlayerBufferingStopTaskNow()
       this.playerBufferingStillOngoing = true
-      this.playerBufferingTask = this.executor.schedule({ this.onPlayerBufferingCheckNow() }, 2L, TimeUnit.SECONDS)
+      this.playerBufferingTask =
+        this.executor.schedule({ this.onPlayerBufferingCheckNow() }, 2L, TimeUnit.SECONDS)
     })
   }
 
   private fun onPlayerBufferingCheckNow() {
     UIThread.runOnUIThread(Runnable {
       if (this.playerBufferingStillOngoing) {
-        this.playerWaiting.contentDescription =
-          this.getString(R.string.audiobook_accessibility_player_buffering)
+        val accessibleMessage = this.getString(R.string.audiobook_accessibility_player_buffering)
+        this.playerWaiting.contentDescription = accessibleMessage
         this.playerWaiting.setText(R.string.audiobook_player_buffering)
+        this.listener.onPlayerAccessibilityEvent(PlayerAccessibilityIsBuffering(accessibleMessage))
       }
     })
   }
