@@ -8,6 +8,7 @@ dependencies {
   implementation "ch.qos.logback:logback-classic:${dependency_logback_classic_version}"
 
   implementation project(':org.nypl.audiobook.android.api')
+  implementation project(':org.nypl.audiobook.android.views')
   implementation project(':org.nypl.audiobook.android.open_access')
   implementation project(':org.nypl.audiobook.android.downloads')
   implementation project(':org.nypl.audiobook.android.manifest.nypl')

@@ -20,6 +20,7 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
 
   private val callEvents = PublishSubject.create<String>()
   private val statusEvents = BehaviorSubject.create<PlayerEvent>()
+  private var rate: PlayerPlaybackRate = PlayerPlaybackRate.NORMAL_TIME
 
   val calls: Observable<String> = this.callEvents
 
@@ -32,10 +33,12 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
     get() = false
 
   override var playbackRate: PlayerPlaybackRate
-    get() = PlayerPlaybackRate.NORMAL_TIME
+    get() = this.rate
     set(value) {
       this.log.debug("playbackRate {}", value)
       this.callEvents.onNext("playbackRate $value")
+      this.rate = value
+      this.statusEvents.onNext(PlayerEvent.PlayerEventPlaybackRateChanged(value))
     }
 
   override val isClosed: Boolean

@@ -47,7 +47,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
     state: Bundle?): View? {
 
     val view: RecyclerView =
-      inflater.inflate(R.layout.player_rate_view, container, false) as RecyclerView
+      inflater.inflate(R.layout.player_sleep_timer_view, container, false) as RecyclerView
 
     this.dialog.setTitle(R.string.audiobook_player_menu_sleep_title)
 
@@ -113,7 +113,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
     try {
       this.listener.onPlayerAccessibilityEvent(
         PlayerAccessibilitySleepTimerSettingChanged(
-          PlayerSleepTimerAdapter.selectedContentDescriptionOf(resources, item)))
+          PlayerSleepTimerAdapter.hasBeenSetToContentDescriptionOf(resources, item)))
     } catch (ex: Exception) {
       this.log.debug("ignored exception in event handler: ", ex)
     }

@@ -22,8 +22,9 @@
     android:layout_marginRight="16dp"
     android:layout_centerVertical="true"
     android:layout_toLeftOf="@id/player_toc_item_not_downloaded_streamable_refresh"
-    android:clickable="false"
     android:focusable="false"
+    android:clickable="false"
+    android:importantForAccessibility="no"
     android:visibility="visible" />
 
 </RelativeLayout>

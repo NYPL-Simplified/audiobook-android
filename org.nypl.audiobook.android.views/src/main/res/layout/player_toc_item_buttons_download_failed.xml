@@ -22,8 +22,8 @@
     android:layout_centerVertical="true"
     android:layout_toLeftOf="@id/player_toc_item_download_failed_refresh"
     android:layout_marginRight="16dp"
-    android:clickable="true"
-    android:focusable="true"
+    android:clickable="false"
+    android:focusable="false"
     android:visibility="visible"
     android:src="@drawable/toc_error" />
 
