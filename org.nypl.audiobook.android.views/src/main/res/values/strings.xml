@@ -14,7 +14,7 @@
   <string name="audiobook_part_download_continue">Continue</string>
 
   <string name="audiobook_player_menu_playback_rate_title">Playback Rate</string>
-  <string name="audiobook_player_menu_sleep_title">Sleep</string>
+  <string name="audiobook_player_menu_sleep_title">Set Your Sleep Timer</string>
   <string name="audiobook_player_menu_toc_title">Contents</string>
 
   <string name="audiobook_player_toc_title">Table Of Contents</string>
@@ -44,28 +44,37 @@
     Accessibility strings.
     -->
 
+  <string name="audiobook_accessibility_hours">Hours</string>
+  <string name="audiobook_accessibility_minutes">Minutes</string>
+  <string name="audiobook_accessibility_seconds">Seconds</string>
+  <string name="audiobook_accessibility_hour">Hour</string>
+  <string name="audiobook_accessibility_minute">Minute</string>
+  <string name="audiobook_accessibility_second">Second</string>
+
   <string name="audiobook_accessibility_player_buffering">Player Is Buffering</string>
 
   <string name="audiobook_accessibility_player_time_current">%1$s Played</string>
   <string name="audiobook_accessibility_player_time_remaining">%1$s Remaining</string>
 
-  <string name="audiobook_accessibility_sleep_timer">Set Your Sleep Timer</string>
-  <string name="audiobook_accessibility_sleep_timer_end_of_chapter">End of Chapter</string>
-  <string name="audiobook_accessibility_sleep_timer_60_minutes">60 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_45_minutes">45 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_30_minutes">30 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_15_minutes">15 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_off">Off</string>
-  <string name="audiobook_accessibility_sleep_timer_now">Now</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_icon">Set Your Sleep Timer</string>
+  <string name="audiobook_accessibility_menu_sleep_timer">Sleep Timer Menu</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_item_at_end_of_chapter">Sleep At End of Chapter</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_item_in_60_minutes">Sleep In 60 Minutes</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_item_in_45_minutes">Sleep In 45 Minutes</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_item_in_30_minutes">Sleep In 30 Minutes</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_item_in_15_minutes">Sleep In 15 Minutes</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_item_off">Sleep Timer Off</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_item_now">Sleep Now</string>
 
-  <string name="audiobook_accessibility_sleep_timer_selected_end_of_chapter">Selected End of Chapter</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_60_minutes">Selected 60 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_45_minutes">Selected 45 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_30_minutes">Selected 30 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_15_minutes">Selected 15 Minutes</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_off">Selected Off</string>
-  <string name="audiobook_accessibility_sleep_timer_selected_now">Selected Now</string>
+  <string name="audiobook_accessibility_sleep_timer_description_end_of_chapter">Sleep At End of Chapter</string>
+  <string name="audiobook_accessibility_sleep_timer_description_60_minutes">Sleep In 60 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_description_45_minutes">Sleep In 45 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_description_30_minutes">Sleep In 30 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_description_15_minutes">Sleep In 15 Minutes</string>
+  <string name="audiobook_accessibility_sleep_timer_description_off">Off</string>
 
+  <string name="audiobook_accessibility_sleep_timer_currently">The Sleep Timer Is Currently Set To</string>
+  <string name="audiobook_accessibility_sleep_timer_selected">Selected</string>
   <string name="audiobook_accessibility_sleep_timer_label">Sleep Timer</string>
 
   <string name="audiobook_accessibility_chapter_of">Chapter %1$d of %2$d</string>

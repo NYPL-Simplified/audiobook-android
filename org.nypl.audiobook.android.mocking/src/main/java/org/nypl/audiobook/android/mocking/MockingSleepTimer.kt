@@ -4,6 +4,7 @@ import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerSleepTimerEvent
 import org.nypl.audiobook.android.api.PlayerSleepTimerType
 import rx.Observable
+import rx.subjects.BehaviorSubject
 
 /**
  * A sleep timer that does nothing at all.
@@ -11,29 +12,35 @@ import rx.Observable
 
 class MockingSleepTimer : PlayerSleepTimerType {
 
-  override fun start(time: Duration?) {
+  private val events = BehaviorSubject.create<PlayerSleepTimerEvent>()
+  private var running: PlayerSleepTimerType.Running? = null
+  private var closed: Boolean = false
 
+  override fun start(time: Duration?) {
+    this.running = PlayerSleepTimerType.Running(time)
+    this.events.onNext(PlayerSleepTimerEvent.PlayerSleepTimerRunning(time))
   }
 
   override fun cancel() {
-
+    this.events.onNext(PlayerSleepTimerEvent.PlayerSleepTimerCancelled(this.running?.duration))
   }
 
   override fun finish() {
-
+    this.events.onNext(PlayerSleepTimerEvent.PlayerSleepTimerFinished)
   }
 
   override val status: Observable<PlayerSleepTimerEvent>
-    get() = Observable.empty()
+    get() = this.events
 
   override fun close() {
-
+    this.closed = true
+    this.events.onCompleted()
   }
 
   override val isClosed: Boolean
-    get() = false
+    get() = this.closed
 
   override val isRunning: PlayerSleepTimerType.Running?
-    get() = null
+    get() = this.running
 
 }

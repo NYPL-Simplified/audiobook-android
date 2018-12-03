@@ -222,7 +222,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent) {
     runOnUIThread(Runnable {
-      val toast = Toast.makeText(this.applicationContext, event.message, Toast.LENGTH_LONG)
+      val toast = Toast.makeText(this.applicationContext, event.message, Toast.LENGTH_SHORT)
       toast.show()
     })
   }

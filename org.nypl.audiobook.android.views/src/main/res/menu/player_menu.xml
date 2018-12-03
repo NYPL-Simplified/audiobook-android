@@ -15,7 +15,6 @@
     android:title="@string/audiobook_player_menu_sleep_title"
     android:icon="@drawable/sleep_icon"
     android:actionLayout="@layout/player_menu_sleep_text"
-    android:contentDescription="@string/audiobook_accessibility_sleep_timer"
     android:showAsAction="always"/>
 
   <item

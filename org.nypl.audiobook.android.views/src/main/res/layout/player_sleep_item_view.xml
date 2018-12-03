@@ -10,6 +10,7 @@
     android:layout_height="1dp"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
+    android:importantForAccessibility="no"
     android:focusable="false"
     android:clickable="false"
     android:src="@drawable/player_sleep_item_separator" />
@@ -19,6 +20,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
+    android:importantForAccessibility="no"
+    android:focusable="false"
+    android:clickable="false"
     android:layout_margin="12dp"
     android:text="Placeholder"
     android:textAlignment="center"
