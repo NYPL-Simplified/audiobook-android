@@ -109,7 +109,7 @@
   <string name="audiobook_accessibility_toc_cancel">Cancel Download Of Chapter %1$d</string>
   <string name="audiobook_accessibility_toc_retry">Retry Download Of Chapter %1$d</string>
   <string name="audiobook_accessibility_toc_progress">Download Progress Of Chapter %1$d is
-    %2$d Percent</string>
+    %2$d Percent. Click To Stop Download.</string>
   <string name="audiobook_accessibility_toc_selected">Selected Chapter %1$d</string>
 
 </resources>

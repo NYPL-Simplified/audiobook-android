@@ -135,6 +135,7 @@ class PlayerTOCAdapter(
         holder.downloadingProgress.progress = status.percent.toFloat() * 0.01f
 
         downloading = true
+        requiresDownload = item.book.supportsStreaming == false
       }
 
       is PlayerSpineElementDownloaded -> {
