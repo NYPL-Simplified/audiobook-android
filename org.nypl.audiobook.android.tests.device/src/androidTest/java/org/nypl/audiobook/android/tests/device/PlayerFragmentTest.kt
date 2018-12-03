@@ -188,8 +188,12 @@ class PlayerFragmentTest {
         PlayerPlaybackRateAdapter.textOfRate(rate)))
         .perform(ViewActions.click())
 
-      Assert.assertEquals(1, calls.size)
-      Assert.assertEquals("playbackRate " + rate, calls[0])
+      if (rate != PlayerPlaybackRate.NORMAL_TIME) {
+        Assert.assertEquals(1, calls.size)
+        Assert.assertEquals("playbackRate " + rate, calls[0])
+      } else {
+        Assert.assertEquals(0, calls.size)
+      }
     }
   }
 
