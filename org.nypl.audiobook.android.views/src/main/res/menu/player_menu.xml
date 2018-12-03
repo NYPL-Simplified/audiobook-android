@@ -7,7 +7,6 @@
     android:title="@string/audiobook_player_menu_playback_rate_title"
     android:icon="@drawable/speed"
     android:actionLayout="@layout/player_menu_playback_rate_text"
-    android:contentDescription="@string/audiobook_accessibility_playback_speed_title"
     android:showAsAction="always"/>
 
   <item

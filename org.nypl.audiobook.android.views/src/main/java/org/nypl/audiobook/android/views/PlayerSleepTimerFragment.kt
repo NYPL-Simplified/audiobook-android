@@ -113,7 +113,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
     try {
       this.listener.onPlayerAccessibilityEvent(
         PlayerAccessibilitySleepTimerSettingChanged(
-          PlayerSleepTimerAdapter.menuItemSelectedContentDescriptionOf(resources, item)))
+          PlayerSleepTimerAdapter.hasBeenSetToContentDescriptionOf(resources, item)))
     } catch (ex: Exception) {
       this.log.debug("ignored exception in event handler: ", ex)
     }

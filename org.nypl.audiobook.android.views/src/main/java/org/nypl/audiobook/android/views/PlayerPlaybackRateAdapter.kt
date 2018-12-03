@@ -16,6 +16,7 @@ import org.nypl.audiobook.android.api.PlayerPlaybackRate.NORMAL_TIME
 import org.nypl.audiobook.android.api.PlayerPlaybackRate.ONE_AND_A_HALF_TIME
 import org.nypl.audiobook.android.api.PlayerPlaybackRate.ONE_AND_A_QUARTER_TIME
 import org.nypl.audiobook.android.api.PlayerPlaybackRate.THREE_QUARTERS_TIME
+import java.lang.StringBuilder
 
 /**
  * A Recycler view adapter used to display and control a playback rate configuration menu.
@@ -47,38 +48,52 @@ class PlayerPlaybackRateAdapter(
       }
     }
 
+    fun menuItemContentDescriptionOfRate(
+      resources: Resources,
+      item: PlayerPlaybackRate): String {
+
+      return StringBuilder(128)
+        .append(resources.getString(R.string.audiobook_accessibility_playback_speed_set_to))
+        .append(" ")
+        .append(this.contentDescriptionOfRate(resources, item))
+        .toString()
+    }
+
     fun contentDescriptionOfRate(
       resources: Resources,
       item: PlayerPlaybackRate): String {
       return when (item) {
         THREE_QUARTERS_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_0p75)
+          resources.getString(R.string.audiobook_accessibility_menu_playback_speed_0p75)
         NORMAL_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_1)
+          resources.getString(R.string.audiobook_accessibility_menu_playback_speed_1)
         ONE_AND_A_QUARTER_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_1p25)
+          resources.getString(R.string.audiobook_accessibility_menu_playback_speed_1p25)
         ONE_AND_A_HALF_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_1p5)
+          resources.getString(R.string.audiobook_accessibility_menu_playback_speed_1p5)
         DOUBLE_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_2)
+          resources.getString(R.string.audiobook_accessibility_menu_playback_speed_2)
       }
     }
 
-    fun selectedContentDescriptionOfRate(
+    fun hasBeenSetToContentDescriptionOfRate(
       resources: Resources,
       item: PlayerPlaybackRate): String {
-      return when (item) {
-        THREE_QUARTERS_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_0p75)
-        NORMAL_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_1)
-        ONE_AND_A_QUARTER_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_1p25)
-        ONE_AND_A_HALF_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_1p5)
-        DOUBLE_TIME ->
-          resources.getString(R.string.audiobook_accessibility_playback_speed_selected_2)
-      }
+      return StringBuilder(128)
+        .append(resources.getString(R.string.audiobook_accessibility_playback_speed_has_been_set))
+        .append(" ")
+        .append(this.contentDescriptionOfRate(resources, item))
+        .toString()
+    }
+
+    fun menuItemSelectedContentDescriptionOfRate(
+      resources: Resources,
+      item: PlayerPlaybackRate): String {
+      return StringBuilder(128)
+        .append(this.menuItemContentDescriptionOfRate(resources, item))
+        .append(". ")
+        .append(resources.getString(R.string.audiobook_accessibility_playback_speed_is_selected))
+        .toString()
     }
   }
 
@@ -104,10 +119,16 @@ class PlayerPlaybackRateAdapter(
     val item = this.rates[position]
     holder.text.text = textOfRate(item)
     holder.border.visibility = INVISIBLE
-    holder.view.contentDescription = contentDescriptionOfRate(this.resources, item)
 
     if (item == this.currentRate) {
       holder.border.visibility = VISIBLE
+      holder.view.contentDescription = menuItemSelectedContentDescriptionOfRate(this.resources, item)
+      holder.view.isEnabled = false
+      holder.text.isEnabled = false
+    } else {
+      holder.view.contentDescription = menuItemContentDescriptionOfRate(this.resources, item)
+      holder.view.isEnabled = true
+      holder.text.isEnabled = true
     }
 
     val view = holder.view

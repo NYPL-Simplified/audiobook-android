@@ -78,11 +78,11 @@ class PlayerSleepTimerAdapter(
       }
     }
 
-    fun menuItemSelectedContentDescriptionOf(
+    fun hasBeenSetToContentDescriptionOf(
       resources: Resources,
       item: PlayerSleepTimerConfiguration): String {
       return StringBuilder(64)
-        .append(resources.getString(R.string.audiobook_accessibility_sleep_timer_selected))
+        .append(resources.getString(R.string.audiobook_accessibility_sleep_timer_has_been_set))
         .append(" ")
         .append(menuItemContentDescription(resources, item))
         .toString()

@@ -74,25 +74,24 @@
   <string name="audiobook_accessibility_sleep_timer_description_off">Off</string>
 
   <string name="audiobook_accessibility_sleep_timer_currently">The Sleep Timer Is Currently Set To</string>
-  <string name="audiobook_accessibility_sleep_timer_selected">Selected</string>
+  <string name="audiobook_accessibility_sleep_timer_has_been_set">Sleep timer has been set to</string>
   <string name="audiobook_accessibility_sleep_timer_label">Sleep Timer</string>
 
   <string name="audiobook_accessibility_chapter_of">Chapter %1$d of %2$d</string>
 
   <string name="audiobook_accessibility_toc_title">Select A Chapter From The Table Of Contents</string>
 
-  <string name="audiobook_accessibility_playback_speed_title">Set Your Playback Speed</string>
-  <string name="audiobook_accessibility_playback_speed_0p75">Playback speed 75 percent</string>
-  <string name="audiobook_accessibility_playback_speed_1">Playback speed 100 percent</string>
-  <string name="audiobook_accessibility_playback_speed_1p25">Playback speed 125 percent</string>
-  <string name="audiobook_accessibility_playback_speed_1p5">Playback speed 150 percent</string>
-  <string name="audiobook_accessibility_playback_speed_2">Playback speed 200 percent</string>
+  <string name="audiobook_accessibility_menu_playback_speed_icon">Set Your Playback Speed</string>
+  <string name="audiobook_accessibility_menu_playback_speed_0p75">75 percent</string>
+  <string name="audiobook_accessibility_menu_playback_speed_1">100 percent</string>
+  <string name="audiobook_accessibility_menu_playback_speed_1p25">125 percent</string>
+  <string name="audiobook_accessibility_menu_playback_speed_1p5">150 percent</string>
+  <string name="audiobook_accessibility_menu_playback_speed_2">200 percent</string>
 
-  <string name="audiobook_accessibility_playback_speed_selected_0p75">Selected Playback speed 75 percent</string>
-  <string name="audiobook_accessibility_playback_speed_selected_1">Selected Playback speed 100 percent</string>
-  <string name="audiobook_accessibility_playback_speed_selected_1p25">Selected Playback speed 125 percent</string>
-  <string name="audiobook_accessibility_playback_speed_selected_1p5">Selected Playback speed 150 percent</string>
-  <string name="audiobook_accessibility_playback_speed_selected_2">Selected Playback speed 200 percent</string>
+  <string name="audiobook_accessibility_playback_speed_currently">Playback Speed Is Currently Set To</string>
+  <string name="audiobook_accessibility_playback_speed_set_to">Set Playback Speed To</string>
+  <string name="audiobook_accessibility_playback_speed_has_been_set">Playback speed has been set to</string>
+  <string name="audiobook_accessibility_playback_speed_is_selected">This Is The Currently Selected Playback Rate</string>
 
   <string name="audiobook_accessibility_forward_15">Fast forward 15 seconds</string>
   <string name="audiobook_accessibility_backward_15">Rewind 15 seconds</string>

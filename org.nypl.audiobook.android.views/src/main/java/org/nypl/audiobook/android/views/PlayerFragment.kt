@@ -163,6 +163,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
     this.menuPlaybackRate = menu.findItem(R.id.player_menu_playback_rate)
     this.menuPlaybackRate.actionView.setOnClickListener { this.onMenuPlaybackRateSelected() }
+    this.menuPlaybackRate.actionView.contentDescription =
+      this.playbackRateContentDescription()
     this.menuPlaybackRateText =
       this.menuPlaybackRate.actionView.findViewById(R.id.player_menu_playback_rate_text)
     this.menuPlaybackRateText.text =
@@ -277,7 +279,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun sleepTimerContentDescriptionEndOfChapter(): String {
     val builder = java.lang.StringBuilder(128)
     builder.append(this.resources.getString(R.string.audiobook_accessibility_menu_sleep_timer_icon))
-    builder.append(".")
+    builder.append(". ")
     builder.append(this.resources.getString(R.string.audiobook_accessibility_sleep_timer_currently))
     builder.append(" ")
     builder.append(this.resources.getString(R.string.audiobook_accessibility_sleep_timer_description_end_of_chapter))
@@ -287,7 +289,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun sleepTimerContentDescriptionForTime(remaining: Duration): String {
     val builder = java.lang.StringBuilder(128)
     builder.append(this.resources.getString(R.string.audiobook_accessibility_menu_sleep_timer_icon))
-    builder.append(".")
+    builder.append(". ")
     builder.append(this.resources.getString(R.string.audiobook_accessibility_sleep_timer_currently))
     builder.append(" ")
     builder.append(PlayerTimeStrings.minuteSecondSpokenFromDuration(this.timeStrings, remaining))
@@ -297,10 +299,20 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun sleepTimerContentDescriptionSetUp(): String {
     val builder = java.lang.StringBuilder(128)
     builder.append(this.resources.getString(R.string.audiobook_accessibility_menu_sleep_timer_icon))
-    builder.append(".")
+    builder.append(". ")
     builder.append(this.resources.getString(R.string.audiobook_accessibility_sleep_timer_currently))
     builder.append(" ")
     builder.append(this.resources.getString(R.string.audiobook_accessibility_sleep_timer_description_off))
+    return builder.toString()
+  }
+
+  private fun playbackRateContentDescription(): String {
+    val builder = java.lang.StringBuilder(128)
+    builder.append(this.resources.getString(R.string.audiobook_accessibility_menu_playback_speed_icon))
+    builder.append(". ")
+    builder.append(this.resources.getString(R.string.audiobook_accessibility_playback_speed_currently))
+    builder.append(" ")
+    builder.append(PlayerPlaybackRateAdapter.contentDescriptionOfRate(this.resources, this.player.playbackRate))
     return builder.toString()
   }
 
@@ -507,6 +519,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
   private fun onPlayerEventPlaybackRateChanged(event: PlayerEventPlaybackRateChanged) {
     UIThread.runOnUIThread(Runnable {
       this.menuPlaybackRateText.text = PlayerPlaybackRateAdapter.textOfRate(event.rate)
+      this.menuPlaybackRate.actionView.contentDescription = this.playbackRateContentDescription()
     })
   }
 

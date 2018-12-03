@@ -88,7 +88,7 @@ class PlayerPlaybackRateFragment : DialogFragment() {
 
     try {
       this.listener.onPlayerAccessibilityEvent(PlayerAccessibilityPlaybackRateChanged(
-        PlayerPlaybackRateAdapter.selectedContentDescriptionOfRate(resources, item)))
+        PlayerPlaybackRateAdapter.hasBeenSetToContentDescriptionOfRate(resources, item)))
     } catch (ex: Exception) {
       this.log.debug("ignored exception in handler: ", ex)
     }
