@@ -97,11 +97,11 @@
   <string name="audiobook_accessibility_pause">Pause</string>
 
   <string name="audiobook_accessibility_toc_chapter_n">Chapter %1$d</string>
-  <string name="audiobook_accessibility_toc_chapter_is_current">This Is The Currently Playing Chapter</string>
-  <string name="audiobook_accessibility_toc_chapter_requires_download">This Chapter Must Be Downloaded Before It Can Be Played</string>
-  <string name="audiobook_accessibility_toc_chapter_failed_download">This Chapter Has Failed To Download</string>
-  <string name="audiobook_accessibility_toc_chapter_downloading">This Chapter Is Currently Downloading</string>
-  <string name="audiobook_accessibility_toc_chapter_duration_is">Chapter Duration Is</string>
+  <string name="audiobook_accessibility_toc_chapter_is_current">Selected</string>
+  <string name="audiobook_accessibility_toc_chapter_requires_download">Chapter Must Be Downloaded Before It Can Be Played</string>
+  <string name="audiobook_accessibility_toc_chapter_failed_download">Chapter Has Failed To Download</string>
+  <string name="audiobook_accessibility_toc_chapter_downloading">Chapter Is Currently Downloading</string>
+  <string name="audiobook_accessibility_toc_chapter_duration_is">Duration</string>
 
   <string name="audiobook_accessibility_toc_refresh_all">Download All Chapters</string>
   <string name="audiobook_accessibility_toc_stop_all">Stop All Chapter Downloads</string>

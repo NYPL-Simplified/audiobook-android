@@ -180,7 +180,6 @@ class PlayerTOCAdapter(
         resources = context.resources,
         title = item.title,
         duration = item.duration,
-        index = normalIndex,
         playing = position == this.currentSpineElement,
         requiresDownload =  requiresDownload,
         failedDownload = failedDownload,
@@ -197,26 +196,25 @@ class PlayerTOCAdapter(
     resources: Resources,
     title: String,
     duration: Duration,
-    index: Int,
     playing: Boolean,
     requiresDownload: Boolean,
     failedDownload: Boolean,
     downloading: Boolean): String {
 
     val builder = StringBuilder(128)
-    builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_n, index))
-    builder.append(". ")
+
+    if (playing) {
+      builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_is_current))
+      builder.append(" ")
+    }
+
     builder.append(title)
     builder.append(". ")
 
     builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_duration_is))
+    builder.append(" ")
     builder.append(PlayerTimeStrings.hourMinuteSecondSpokenFromDuration(this.timeStrings, duration))
     builder.append(". ")
-
-    if (playing) {
-      builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_is_current))
-      builder.append(".")
-    }
 
     if (requiresDownload) {
       builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_requires_download))
