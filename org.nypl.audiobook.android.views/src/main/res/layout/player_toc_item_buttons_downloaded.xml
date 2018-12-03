@@ -13,8 +13,9 @@
     android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"
     android:text="00:00:00"
     android:textSize="18sp"
-    android:clickable="false"
     android:focusable="false"
+    android:clickable="false"
+    android:importantForAccessibility="no"
     android:visibility="visible" />
 
 </RelativeLayout>
