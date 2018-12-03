@@ -13,6 +13,7 @@
     android:layout_centerHorizontal="true"
     android:focusable="false"
     android:clickable="false"
+    android:importantForAccessibility="no"
     android:src="@drawable/player_toc_item_separator" />
 
   <ImageView
@@ -23,6 +24,7 @@
     android:layout_marginLeft="16dp"
     android:focusable="false"
     android:clickable="false"
+    android:importantForAccessibility="no"
     android:src="@drawable/circle" />
 
   <FrameLayout
@@ -62,6 +64,9 @@
     android:layout_toRightOf="@+id/player_toc_item_is_current"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="64dp"
+    android:clickable="false"
+    android:focusable="false"
+    android:importantForAccessibility="no"
     android:lines="1"
     android:ellipsize="end"
     android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"

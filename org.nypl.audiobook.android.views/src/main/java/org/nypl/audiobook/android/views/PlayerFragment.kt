@@ -113,15 +113,8 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     this.parameters =
       this.arguments!!.getSerializable(parametersKey)
         as PlayerFragmentParameters
-
     this.timeStrings =
-      PlayerTimeStrings.SpokenTranslations(
-        hoursText = this.resources.getString(R.string.audiobook_accessibility_hours),
-        hourText = this.resources.getString(R.string.audiobook_accessibility_hour),
-        minutesText = this.resources.getString(R.string.audiobook_accessibility_minutes),
-        minuteText = this.resources.getString(R.string.audiobook_accessibility_minute),
-        secondsText = this.resources.getString(R.string.audiobook_accessibility_seconds),
-        secondText = this.resources.getString(R.string.audiobook_accessibility_second))
+      PlayerTimeStrings.SpokenTranslations.createFromResources(this.resources)
 
     /*
      * This fragment wants an options menu.

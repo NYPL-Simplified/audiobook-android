@@ -3,6 +3,7 @@ package org.nypl.audiobook.android.views
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -19,6 +20,8 @@ import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpi
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementType
+import java.lang.StringBuilder
+import org.joda.time.Duration
 
 /**
  * A Recycler view adapter used to display and control the table of contents.
@@ -45,7 +48,11 @@ class PlayerTOCAdapter(
       .appendSeconds()
       .toFormatter()
 
+  private val timeStrings: PlayerTimeStrings.SpokenTranslations
+
   init {
+    this.timeStrings =
+      PlayerTimeStrings.SpokenTranslations.createFromResources(this.context.resources)
     this.listener = View.OnClickListener { v -> this.onSelect(v.tag as PlayerSpineElementType) }
   }
 
@@ -71,16 +78,22 @@ class PlayerTOCAdapter(
     val item = this.spineElements[position]
 
     holder.titleText.text = item.title
+    holder.titleText.isEnabled = false
 
     if (item.book.supportsStreaming) {
       holder.titleText.setTextColor(holder.textColorNormal)
       holder.view.setBackgroundColor(holder.backgroundColorNormal)
+      holder.view.isEnabled = true
     } else {
       holder.titleText.setTextColor(holder.textColorDisabled)
       holder.view.setBackgroundColor(holder.backgroundDisabled)
+      holder.view.isEnabled = false
     }
 
     val normalIndex = item.index + 1
+    var requiresDownload = false
+    var failedDownload = false
+    var downloading = false
     val status = item.downloadStatus
     when (status) {
       is PlayerSpineElementNotDownloaded -> {
@@ -100,10 +113,11 @@ class PlayerTOCAdapter(
           holder.buttonsNotDownloadedNotStreamable.visibility = VISIBLE
           holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
           holder.notDownloadedNotStreamableRefresh.setOnClickListener { item.downloadTask.fetch() }
-          holder.notDownloadedStreamableRefresh.contentDescription =
+          holder.notDownloadedNotStreamableRefresh.contentDescription =
             this.context.getString(
               R.string.audiobook_accessibility_toc_download,
               normalIndex)
+          requiresDownload = true
         }
       }
 
@@ -119,6 +133,8 @@ class PlayerTOCAdapter(
           this.context.getString(R.string.audiobook_accessibility_toc_progress, normalIndex, status.percent)
         holder.downloadingProgress.visibility = VISIBLE
         holder.downloadingProgress.progress = status.percent.toFloat() * 0.01f
+
+        downloading = true
       }
 
       is PlayerSpineElementDownloaded -> {
@@ -130,6 +146,7 @@ class PlayerTOCAdapter(
 
         holder.titleText.setTextColor(holder.textColorNormal)
         holder.view.setBackgroundColor(holder.backgroundColorNormal)
+        holder.view.isEnabled = true
 
         holder.downloadedDurationText.text = this.periodFormatter.print(item.duration.toPeriod())
       }
@@ -148,18 +165,74 @@ class PlayerTOCAdapter(
 
         holder.downloadFailedRefresh.contentDescription =
           this.context.getString(R.string.audiobook_accessibility_toc_retry, normalIndex)
+
+        failedDownload = true
+        requiresDownload = item.book.supportsStreaming == false
       }
     }
 
     val view = holder.view
     view.tag = item
     view.setOnClickListener(this@PlayerTOCAdapter.listener)
+    view.contentDescription =
+      contentDescriptionOf(
+        resources = context.resources,
+        title = item.title,
+        duration = item.duration,
+        index = normalIndex,
+        playing = position == this.currentSpineElement,
+        requiresDownload =  requiresDownload,
+        failedDownload = failedDownload,
+        downloading = downloading)
 
     if (position == this.currentSpineElement) {
       holder.isCurrent.visibility = VISIBLE
     } else {
       holder.isCurrent.visibility = INVISIBLE
     }
+  }
+
+  private fun contentDescriptionOf(
+    resources: Resources,
+    title: String,
+    duration: Duration,
+    index: Int,
+    playing: Boolean,
+    requiresDownload: Boolean,
+    failedDownload: Boolean,
+    downloading: Boolean): String {
+
+    val builder = StringBuilder(128)
+    builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_n, index))
+    builder.append(". ")
+    builder.append(title)
+    builder.append(". ")
+
+    builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_duration_is))
+    builder.append(PlayerTimeStrings.hourMinuteSecondSpokenFromDuration(this.timeStrings, duration))
+    builder.append(". ")
+
+    if (playing) {
+      builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_is_current))
+      builder.append(".")
+    }
+
+    if (requiresDownload) {
+      builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_requires_download))
+      builder.append(".")
+    }
+
+    if (failedDownload) {
+      builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_failed_download))
+      builder.append(".")
+    }
+
+    if (downloading) {
+      builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_downloading))
+      builder.append(".")
+    }
+
+    return builder.toString()
   }
 
   private fun onConfirmCancelDownloading(item: PlayerSpineElementType) {

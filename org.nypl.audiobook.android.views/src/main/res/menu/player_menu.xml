@@ -20,7 +20,6 @@
     android:id="@+id/player_menu_toc"
     android:title="@string/audiobook_player_menu_toc_title"
     android:icon="@drawable/list"
-    android:contentDescription="@string/audiobook_accessibility_toc_title"
     android:showAsAction="always"/>
 
 </menu>

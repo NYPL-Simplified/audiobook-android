@@ -67,12 +67,12 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
-    this.book.supportsStreaming = true
+    this.book.supportsStreaming = false
 
-    for (i in 0..100) {
+    for (i in 1..100) {
       val e = this.book.createSpineElement(
         "id$i",
-        "Chapter $i: " + this.lorem.lines[i % this.lorem.lines.size],
+        this.lorem.lines[i % this.lorem.lines.size],
         Duration.standardSeconds(20))
 
       if (!i.toString().endsWith("3")) {

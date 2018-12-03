@@ -1,5 +1,6 @@
 package org.nypl.audiobook.android.views
 
+import android.content.res.Resources
 import org.joda.time.Duration
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormatter
@@ -49,14 +50,27 @@ object PlayerTimeStrings {
 
     val secondText: String) {
 
-    fun minutes(minutes: Long):String =
+    fun minutes(minutes: Long): String =
       if (minutes > 1) this.minutesText else this.minuteText
 
-    fun hours(hours: Long):String =
+    fun hours(hours: Long): String =
       if (hours > 1) this.hoursText else this.hourText
 
-    fun seconds(seconds: Long):String =
+    fun seconds(seconds: Long): String =
       if (seconds > 1) this.secondsText else this.secondText
+
+    companion object {
+
+      fun createFromResources(resources: Resources): SpokenTranslations {
+        return PlayerTimeStrings.SpokenTranslations(
+          hoursText = resources.getString(R.string.audiobook_accessibility_hours),
+          hourText = resources.getString(R.string.audiobook_accessibility_hour),
+          minutesText = resources.getString(R.string.audiobook_accessibility_minutes),
+          minuteText = resources.getString(R.string.audiobook_accessibility_minute),
+          secondsText = resources.getString(R.string.audiobook_accessibility_seconds),
+          secondText = resources.getString(R.string.audiobook_accessibility_second))
+      }
+    }
   }
 
   private val hourMinuteSecondFormatter: PeriodFormatter =
