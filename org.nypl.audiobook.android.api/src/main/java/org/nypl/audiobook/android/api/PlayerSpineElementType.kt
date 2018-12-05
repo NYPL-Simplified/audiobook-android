@@ -69,8 +69,17 @@ interface PlayerSpineElementType {
   val downloadStatus: PlayerSpineElementDownloadStatus
 
   /**
-   * The download task for the spine item.
+   * `true` if downloading individual chapters is supported by the underlying engine.
    */
 
-  val downloadTask: PlayerDownloadTaskType
+  val downloadTasksSupported: Boolean
+
+  /**
+   * The download task for the spine item.
+   *
+   * @see downloadTasksSupported
+   */
+
+  @Throws(UnsupportedOperationException::class)
+  fun downloadTask(): PlayerDownloadTaskType
 }

@@ -8,6 +8,7 @@ import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
@@ -104,19 +105,35 @@ class PlayerTOCAdapter(
         if (item.book.supportsStreaming) {
           holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
           holder.buttonsNotDownloadedStreamable.visibility = VISIBLE
-          holder.notDownloadedStreamableRefresh.setOnClickListener { item.downloadTask.fetch() }
-          holder.notDownloadedStreamableRefresh.contentDescription =
-            this.context.getString(
-              R.string.audiobook_accessibility_toc_download,
-              normalIndex)
+
+          if (item.downloadTasksSupported) {
+            holder.notDownloadedStreamableRefresh.setOnClickListener { item.downloadTask().fetch() }
+            holder.notDownloadedStreamableRefresh.contentDescription =
+              this.context.getString(
+                R.string.audiobook_accessibility_toc_download,
+                normalIndex)
+            holder.notDownloadedStreamableRefresh.isEnabled = true
+          } else {
+            holder.notDownloadedStreamableRefresh.contentDescription = null
+            holder.notDownloadedStreamableRefresh.isEnabled = false
+          }
+
         } else {
           holder.buttonsNotDownloadedNotStreamable.visibility = VISIBLE
           holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
-          holder.notDownloadedNotStreamableRefresh.setOnClickListener { item.downloadTask.fetch() }
-          holder.notDownloadedNotStreamableRefresh.contentDescription =
-            this.context.getString(
-              R.string.audiobook_accessibility_toc_download,
-              normalIndex)
+
+          if (item.downloadTasksSupported) {
+            holder.notDownloadedStreamableRefresh.setOnClickListener { item.downloadTask().fetch() }
+            holder.notDownloadedStreamableRefresh.contentDescription =
+              this.context.getString(
+                R.string.audiobook_accessibility_toc_download,
+                normalIndex)
+            holder.notDownloadedStreamableRefresh.isEnabled = true
+          } else {
+            holder.notDownloadedStreamableRefresh.contentDescription = null
+            holder.notDownloadedStreamableRefresh.isEnabled = false
+          }
+
           requiresDownload = true
         }
       }
@@ -128,11 +145,11 @@ class PlayerTOCAdapter(
         holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
         holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        if (this.parameters.allowIndividualDownloadCancellations) {
+        if (item.downloadTasksSupported) {
           holder.downloadingProgress.setOnClickListener { this.onConfirmCancelDownloading(item) }
-          holder.downloadingProgress.isEnabled = false
-        } else {
           holder.downloadingProgress.isEnabled = true
+        } else {
+          holder.downloadingProgress.isEnabled = false
         }
 
         holder.downloadingProgress.contentDescription =
@@ -165,13 +182,18 @@ class PlayerTOCAdapter(
         holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
         holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        holder.downloadFailedRefresh.setOnClickListener {
-          item.downloadTask.cancel()
-          item.downloadTask.fetch()
+        if (item.downloadTasksSupported) {
+          holder.downloadFailedRefresh.setOnClickListener {
+            item.downloadTask().cancel()
+            item.downloadTask().fetch()
+          }
+          holder.downloadFailedRefresh.contentDescription =
+            this.context.getString(R.string.audiobook_accessibility_toc_retry, normalIndex)
+          holder.downloadFailedRefresh.isEnabled = true
+        } else {
+          holder.downloadFailedRefresh.contentDescription = null
+          holder.downloadFailedRefresh.isEnabled = false
         }
-
-        holder.downloadFailedRefresh.contentDescription =
-          this.context.getString(R.string.audiobook_accessibility_toc_retry, normalIndex)
 
         failedDownload = true
         requiresDownload = item.book.supportsStreaming == false
@@ -247,7 +269,7 @@ class PlayerTOCAdapter(
         .setMessage(R.string.audiobook_part_download_stop_confirm)
         .setPositiveButton(
           R.string.audiobook_part_download_stop,
-          { _: DialogInterface, _: Int -> item.downloadTask.cancel() })
+          { _: DialogInterface, _: Int -> item.downloadTask().cancel() })
         .setNegativeButton(
           R.string.audiobook_part_download_continue,
           { _: DialogInterface, _: Int -> })

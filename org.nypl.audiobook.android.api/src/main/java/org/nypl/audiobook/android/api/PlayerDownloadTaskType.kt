@@ -26,12 +26,8 @@ interface PlayerDownloadTaskType {
    * Delete the downloaded data (if any). The method has no effect if the data has not been
    * downloaded. If the download is in progress, the download is cancelled as if the `cancel`
    * method had been called.
-   *
-   * @throws UnsupportedOperationException If individual chapter deletion is not supported
-   * @see PlayerAudioBookType.supportsIndividualChapterDeletion
    */
 
-  @Throws(UnsupportedOperationException::class)
   fun delete()
 
   /**

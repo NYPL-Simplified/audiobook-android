@@ -62,12 +62,16 @@ class ExoSpineElement(
   override val title: String
     get() = this.itemManifest.title
 
-  override val downloadTask: PlayerDownloadTaskType =
+  private val downloadTask: PlayerDownloadTaskType =
     ExoDownloadTask(
       downloadStatusExecutor = this.engineExecutor,
       downloadProvider = this.downloadProvider,
       manifest = this.bookManifest,
       spineElement = this)
+
+  override fun downloadTask(): PlayerDownloadTaskType {
+    return this.downloadTask
+  }
 
   fun setBook(book: ExoAudioBook) {
     this.bookActual = book
@@ -77,6 +81,9 @@ class ExoSpineElement(
     synchronized(this.statusLock, { this.statusNow = status })
     this.downloadStatusEvents.onNext(status)
   }
+
+  override val downloadTasksSupported: Boolean
+    get() = true
 
   override val downloadStatus: PlayerSpineElementDownloadStatus
     get() = synchronized(this.statusLock, { this.statusNow })
