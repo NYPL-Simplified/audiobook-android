@@ -128,7 +128,13 @@ class PlayerTOCAdapter(
         holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
         holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        holder.downloadingProgress.setOnClickListener { this.onConfirmCancelDownloading(item) }
+        if (this.parameters.allowIndividualDownloadCancellations) {
+          holder.downloadingProgress.setOnClickListener { this.onConfirmCancelDownloading(item) }
+          holder.downloadingProgress.isEnabled = false
+        } else {
+          holder.downloadingProgress.isEnabled = true
+        }
+
         holder.downloadingProgress.contentDescription =
           this.context.getString(R.string.audiobook_accessibility_toc_progress, normalIndex, status.percent)
         holder.downloadingProgress.visibility = VISIBLE

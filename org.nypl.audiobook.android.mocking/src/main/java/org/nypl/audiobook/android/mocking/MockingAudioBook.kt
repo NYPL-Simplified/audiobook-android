@@ -4,6 +4,7 @@ import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerAudioBookType
 import org.nypl.audiobook.android.api.PlayerBookID
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
+import org.nypl.audiobook.android.api.PlayerDownloadWholeBookTaskType
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus
 import org.nypl.audiobook.android.api.PlayerSpineElementType
 import org.nypl.audiobook.android.api.PlayerType
@@ -24,6 +25,8 @@ class MockingAudioBook(
 
   val statusEvents: BehaviorSubject<PlayerSpineElementDownloadStatus> = BehaviorSubject.create()
   val spineItems: MutableList<MockingSpineElement> = mutableListOf()
+
+  private val wholeTask = MockingDownloadWholeBookTask(this)
 
   fun createSpineElement(id: String, title: String, duration: Duration): MockingSpineElement {
     val element = MockingSpineElement(
@@ -55,6 +58,9 @@ class MockingAudioBook(
 
   override val spineElementDownloadStatus: Observable<PlayerSpineElementDownloadStatus>
     get() = this.statusEvents
+
+  override val wholeBookDownloadTask: PlayerDownloadWholeBookTaskType
+    get() = this.wholeTask
 
   override fun createPlayer(): MockingPlayer {
     return this.players.invoke(this)

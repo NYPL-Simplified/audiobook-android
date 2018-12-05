@@ -82,4 +82,11 @@ interface PlayerAudioBookType {
   fun deleteLocalChapterData() {
     this.spine.forEach { item -> item.downloadTask.delete() }
   }
+
+  /**
+   * A download task that downloads all chapters. Implementations are permitted to provide
+   * a download task that uses a more efficient whole-book download procedure internally.
+   */
+
+  val wholeBookDownloadTask: PlayerDownloadWholeBookTaskType
 }

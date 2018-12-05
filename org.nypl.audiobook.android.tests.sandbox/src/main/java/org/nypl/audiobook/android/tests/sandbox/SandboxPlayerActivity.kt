@@ -84,6 +84,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
     this.playerFragment =
       PlayerFragment.newInstance(PlayerFragmentParameters(
+        allowIndividualDownloadCancellations = true,
         primaryColor = Color.parseColor("#af1a16")))
 
     this.supportFragmentManager
@@ -167,6 +168,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
   override fun onPlayerTOCShouldOpen() {
     val fragment =
       PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters(
+        allowIndividualDownloadCancellations = true,
         primaryColor = Color.parseColor("#af1a16")))
 
     this.supportFragmentManager
@@ -192,7 +194,9 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
     runOnUIThread (Runnable {
       val fragment = PlayerPlaybackRateFragment.newInstance(
-        PlayerFragmentParameters(primaryColor = Color.parseColor("#af1a16")))
+        PlayerFragmentParameters(
+          allowIndividualDownloadCancellations = true,
+          primaryColor = Color.parseColor("#af1a16")))
       fragment.show(this.supportFragmentManager, "PLAYER_RATE")
     })
   }
@@ -211,7 +215,9 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
     runOnUIThread (Runnable {
       val fragment = PlayerSleepTimerFragment.newInstance(
-        PlayerFragmentParameters(primaryColor = Color.parseColor("#af1a16")))
+        PlayerFragmentParameters(
+          allowIndividualDownloadCancellations = true,
+          primaryColor = Color.parseColor("#af1a16")))
       fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
     })
   }
