@@ -75,11 +75,8 @@ interface PlayerAudioBookType {
   fun createPlayer(): PlayerType
 
   /**
-   * Delete all local data for chapters (if any). This will also have the effect of
-   * cancelling any downloads that happen to be in progress.
+   * A download task that downloads all chapters and can also be used to delete local book data.
    */
 
-  fun deleteLocalChapterData() {
-    this.spine.forEach { item -> item.downloadTask.delete() }
-  }
+  val wholeBookDownloadTask: PlayerDownloadWholeBookTaskType
 }

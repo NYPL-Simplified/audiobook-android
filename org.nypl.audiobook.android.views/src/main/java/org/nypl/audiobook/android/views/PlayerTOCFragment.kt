@@ -230,25 +230,12 @@ class PlayerTOCFragment : Fragment() {
 
   private fun onMenuStopAllSelectedConfirmed() {
     this.log.debug("onMenuStopAllSelectedConfirmed")
-
-    /*
-     * We iterate over the list of download tasks twice because the first iteration
-     * may trigger "errors" in the downloading tasks that then need to be cleared by
-     * a second cancel call.
-     */
-
-    this.book.spine
-      .filter { element -> isCancellable(element) }
-      .map { element -> element.downloadTask.cancel(); element }
-      .forEach { element -> element.downloadTask.cancel() }
+    this.book.wholeBookDownloadTask.cancel()
   }
 
   private fun onMenuRefreshAllSelected() {
     this.log.debug("onMenuRefreshAllSelected")
-
-    this.book.spine
-      .filter { element -> isRefreshable(element) }
-      .forEach { element -> element.downloadTask.fetch() }
+    this.book.wholeBookDownloadTask.fetch()
   }
 
   private fun onTOCItemSelected(item: PlayerSpineElementType) {

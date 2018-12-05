@@ -192,7 +192,7 @@ abstract class ExoEngineProviderContract {
     val events = ArrayList<String>()
     this.subscribeToEvents(player, events, waitLatch)
 
-    book.spine[0].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
     Thread.sleep(1000L)
 
     player.play()
@@ -238,7 +238,7 @@ abstract class ExoEngineProviderContract {
     val events = ArrayList<String>()
     this.subscribeToEvents(player, events, waitLatch)
 
-    book.spine[0].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
     Thread.sleep(1000L)
 
     this.downloadSpineItemAndWait(book.spine[0])
@@ -275,7 +275,7 @@ abstract class ExoEngineProviderContract {
     val events = ArrayList<String>()
     this.subscribeToEvents(player, events, waitLatch)
 
-    book.spine[0].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
     Thread.sleep(1000L)
 
     this.downloadSpineItemAndWait(book.spine[0])
@@ -320,8 +320,8 @@ abstract class ExoEngineProviderContract {
     val events = ArrayList<String>()
     this.subscribeToEvents(player, events, waitLatch)
 
-    book.spine[0].downloadTask.delete()
-    book.spine[1].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
+    book.spine[1].downloadTask().delete()
     Thread.sleep(1000L)
 
     this.downloadSpineItemAndWait(book.spine[0])
@@ -374,7 +374,7 @@ abstract class ExoEngineProviderContract {
     val events = ArrayList<String>()
     this.subscribeToEvents(player, events, waitLatch)
 
-    book.spine[0].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
     Thread.sleep(1000L)
 
     this.downloadSpineItemAndWait(book.spine[0])
@@ -382,7 +382,7 @@ abstract class ExoEngineProviderContract {
 
     player.play()
     Thread.sleep(1000L)
-    book.spine[0].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
     Thread.sleep(2000L)
 
     player.close()
@@ -413,8 +413,8 @@ abstract class ExoEngineProviderContract {
     val events = ArrayList<String>()
     this.subscribeToEvents(player, events, waitLatch)
 
-    book.spine[0].downloadTask.delete()
-    book.spine[1].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
+    book.spine[1].downloadTask().delete()
     Thread.sleep(1000L)
 
     this.downloadSpineItemAndWait(book.spine[0])
@@ -464,8 +464,8 @@ abstract class ExoEngineProviderContract {
     val events = ArrayList<String>()
     this.subscribeToEvents(player, events, waitLatch)
 
-    book.spine[0].downloadTask.delete()
-    book.spine[1].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
+    book.spine[1].downloadTask().delete()
     Thread.sleep(1000L)
 
     this.downloadSpineItemAndWait(book.spine[0])
@@ -523,8 +523,8 @@ abstract class ExoEngineProviderContract {
     val events = ArrayList<String>()
     this.subscribeToEvents(player, events, waitLatch)
 
-    book.spine[0].downloadTask.delete()
-    book.spine[1].downloadTask.delete()
+    book.spine[0].downloadTask().delete()
+    book.spine[1].downloadTask().delete()
     Thread.sleep(1000L)
 
     this.downloadSpineItemAndWait(book.spine[0])
@@ -560,8 +560,8 @@ abstract class ExoEngineProviderContract {
   }
 
   private fun downloadSpineItemAndWait(spineItem: PlayerSpineElementType) {
-    spineItem.downloadTask.delete()
-    spineItem.downloadTask.fetch()
+    spineItem.downloadTask().delete()
+    spineItem.downloadTask().fetch()
 
     var downloaded = false
     while (!downloaded) {

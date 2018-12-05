@@ -76,7 +76,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
         Duration.standardSeconds(20))
 
       if (!i.toString().endsWith("3")) {
-        e.downloadTask.fetch()
+        e.downloadTask().fetch()
       }
     }
 
@@ -141,6 +141,24 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
         this.book.supportsStreaming = false
       }
 
+      /*
+       * A button that disables download tasks.
+       */
+
+      val triggerTasksOff = dialogView.findViewById<Button>(R.id.controls_set_download_tasks_unsupported)
+      triggerTasksOff.setOnClickListener {
+        this.book.spineItems.forEach { item -> item.downloadTasksAreSupported = false }
+      }
+
+      /*
+       * A button that enables download tasks.
+       */
+
+      val triggerTasksOn = dialogView.findViewById<Button>(R.id.controls_set_download_tasks_supported)
+      triggerTasksOn.setOnClickListener {
+        this.book.spineItems.forEach { item -> item.downloadTasksAreSupported = true }
+      }
+
       val dialog =
         AlertDialog.Builder(this)
           .setTitle("Controls")
@@ -192,7 +210,8 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
     runOnUIThread (Runnable {
       val fragment = PlayerPlaybackRateFragment.newInstance(
-        PlayerFragmentParameters(primaryColor = Color.parseColor("#af1a16")))
+        PlayerFragmentParameters(
+          primaryColor = Color.parseColor("#af1a16")))
       fragment.show(this.supportFragmentManager, "PLAYER_RATE")
     })
   }
@@ -211,7 +230,8 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
     runOnUIThread (Runnable {
       val fragment = PlayerSleepTimerFragment.newInstance(
-        PlayerFragmentParameters(primaryColor = Color.parseColor("#af1a16")))
+        PlayerFragmentParameters(
+          primaryColor = Color.parseColor("#af1a16")))
       fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
     })
   }

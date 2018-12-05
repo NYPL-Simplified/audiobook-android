@@ -24,6 +24,11 @@ class MockingSpineElement(
   override val id: String,
   override val title: String) : PlayerSpineElementType {
 
+  var downloadTasksAreSupported = true
+
+  override val downloadTasksSupported: Boolean
+    get() = this.downloadTasksAreSupported
+
   override val book: PlayerAudioBookType
     get() = this.bookMocking
 
@@ -63,6 +68,7 @@ class MockingSpineElement(
       downloadProvider = this.downloadProvider,
       spineElement = this)
 
-  override val downloadTask: PlayerDownloadTaskType
-    get() = this.downloadTaskValue
+  override fun downloadTask(): PlayerDownloadTaskType {
+    return this.downloadTaskValue
+  }
 }

@@ -5,6 +5,7 @@ import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerAudioBookType
 import org.nypl.audiobook.android.api.PlayerBookID
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
+import org.nypl.audiobook.android.api.PlayerDownloadWholeBookTaskType
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus
 import org.nypl.audiobook.android.api.PlayerSpineElementType
 import org.nypl.audiobook.android.api.PlayerType
@@ -31,6 +32,8 @@ class ExoAudioBook private constructor(
   private val engineProvider: ExoEngineProvider)
   : PlayerAudioBookType {
 
+  private val wholeBookTask = ExoDownloadWholeBookTask(this)
+
   override fun createPlayer(): PlayerType {
     return ExoAudioBookPlayer.create(
       book = this,
@@ -44,6 +47,9 @@ class ExoAudioBook private constructor(
 
   override val supportsIndividualChapterDeletion: Boolean
     get() = true
+
+  override val wholeBookDownloadTask: PlayerDownloadWholeBookTaskType
+    get() = this.wholeBookTask
 
   companion object {
 

@@ -35,4 +35,18 @@
     android:layout_margin="8dp"
     android:text="Make book not streamable" />
 
+  <Button
+    android:id="@+id/controls_set_download_tasks_unsupported"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:text="Make chapter download tasks unsupported" />
+
+  <Button
+    android:id="@+id/controls_set_download_tasks_supported"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:text="Make chapter download tasks supported" />
+
 </LinearLayout>
