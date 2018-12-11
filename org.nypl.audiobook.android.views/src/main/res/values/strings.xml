@@ -76,6 +76,7 @@
   <string name="audiobook_accessibility_sleep_timer_currently">The Sleep Timer Is Currently Set To</string>
   <string name="audiobook_accessibility_sleep_timer_has_been_set">Sleep timer has been set to</string>
   <string name="audiobook_accessibility_sleep_timer_label">Sleep Timer</string>
+  <string name="audiobook_accessibility_sleep_timer_is_paused">The Sleep Timer Is Paused Because Playback Is Paused.</string>
 
   <string name="audiobook_accessibility_chapter_of">Chapter %1$d of %2$d</string>
 

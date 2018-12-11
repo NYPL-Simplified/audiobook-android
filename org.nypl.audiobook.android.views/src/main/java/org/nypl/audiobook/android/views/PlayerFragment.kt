@@ -254,7 +254,7 @@ class PlayerFragment : android.support.v4.app.Fragment() {
       val remaining = event.remaining
       if (remaining != null) {
         this.menuSleep.actionView.contentDescription =
-          this.sleepTimerContentDescriptionForTime(remaining)
+          this.sleepTimerContentDescriptionForTime(event.paused, remaining)
         this.menuSleepText.text =
           PlayerTimeStrings.minuteSecondTextFromDuration(remaining)
         this.menuSleepEndOfChapter.visibility = INVISIBLE
@@ -279,13 +279,19 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     return builder.toString()
   }
 
-  private fun sleepTimerContentDescriptionForTime(remaining: Duration): String {
+  private fun sleepTimerContentDescriptionForTime(
+    paused: Boolean,
+    remaining: Duration): String {
     val builder = java.lang.StringBuilder(128)
     builder.append(this.resources.getString(R.string.audiobook_accessibility_menu_sleep_timer_icon))
     builder.append(". ")
     builder.append(this.resources.getString(R.string.audiobook_accessibility_sleep_timer_currently))
     builder.append(" ")
     builder.append(PlayerTimeStrings.minuteSecondSpokenFromDuration(this.timeStrings, remaining))
+    if (paused) {
+      builder.append(". ")
+      builder.append(this.resources.getString(R.string.audiobook_accessibility_sleep_timer_is_paused))
+    }
     return builder.toString()
   }
 
@@ -542,10 +548,12 @@ class PlayerFragment : android.support.v4.app.Fragment() {
 
   private fun onPressedPlay() {
     this.player.play()
+    this.sleepTimer.unpause()
   }
 
   private fun onPressedPause() {
     this.player.pause()
+    this.sleepTimer.pause()
   }
 
   private fun onPlayerEventPlaybackProgressUpdate(event: PlayerEventPlaybackProgressUpdate) {
