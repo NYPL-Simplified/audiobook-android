@@ -17,7 +17,8 @@ interface PlayerSleepTimerType : AutoCloseable {
   /**
    * Start the timer. If a duration is given, the timer will count down over the given duration
    * and will periodically publish events giving the remaining time. If no duration is given, the
-   * timer will wait indefinitely for a call to {@link #finish()}.
+   * timer will wait indefinitely for a call to {@link #finish()}. If the timer is paused, the
+   * timer will be unpaused.
    *
    * @param time The total duration for which the timer will run
    *
@@ -38,8 +39,28 @@ interface PlayerSleepTimerType : AutoCloseable {
   fun cancel()
 
   /**
+   * Pause the timer. The timer will pause and will publish an event indicating the current
+   * state.
+   *
+   * @throws java.lang.IllegalStateException If and only if the player is closed
+   */
+
+  @Throws(java.lang.IllegalStateException::class)
+  fun pause()
+
+  /**
+   * Unpause the timer. The timer will unpause and will publish an event indicating the current
+   * state.
+   *
+   * @throws java.lang.IllegalStateException If and only if the player is closed
+   */
+
+  @Throws(java.lang.IllegalStateException::class)
+  fun unpause()
+
+  /**
    * Finish the timer. This makes the timer behave exactly as if a duration had been given to
-   * start and the duration has elapsed.
+   * start and the duration has elapsed. If the timer is paused, the timer will be unpaused.
    *
    * @throws java.lang.IllegalStateException If and only if the player is closed
    */
@@ -73,6 +94,7 @@ interface PlayerSleepTimerType : AutoCloseable {
    */
 
   data class Running(
+    val paused: Boolean,
     val duration: Duration?)
 
   /**

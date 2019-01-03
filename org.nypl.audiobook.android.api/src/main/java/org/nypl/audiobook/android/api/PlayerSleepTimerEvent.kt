@@ -21,6 +21,7 @@ sealed class PlayerSleepTimerEvent {
    */
 
   data class PlayerSleepTimerRunning(
+    val paused: Boolean,
     val remaining: Duration?)
     : PlayerSleepTimerEvent()
 

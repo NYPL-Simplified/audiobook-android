@@ -395,4 +395,194 @@ abstract class PlayerSleepTimerContract {
     Assert.assertEquals("finished", events[2])
     Assert.assertEquals("stopped", events[3])
   }
+
+  /**
+   * Pausing a timer works.
+   */
+
+  @Test(timeout = 10_000L)
+  fun testPause() {
+    val logger = this.logger()
+    val timer = this.create()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
+      events.add(when (event) {
+        PlayerSleepTimerStopped -> "stopped"
+        is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+        is PlayerSleepTimerCancelled -> "cancelled"
+        PlayerSleepTimerFinished -> "finished"
+      })
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
+
+    logger.debug("starting timer")
+    timer.start(Duration.millis(3000L))
+
+    logger.debug("waiting for timer")
+    Thread.sleep(1000L)
+
+    timer.pause()
+    Thread.sleep(1000L)
+    val running = timer.isRunning!!
+    Assert.assertTrue("Is paused", running.paused)
+
+    Thread.sleep(1000L)
+    Thread.sleep(1000L)
+
+    logger.debug("closing timer")
+    timer.close()
+
+    waitLatch.await()
+
+    logger.debug("events: {}", events)
+    val distinctEvents = withoutSuccessiveDuplicates(events)
+    logger.debug("distinctEvents: {}", distinctEvents)
+
+    logger.debug("events: {}", events)
+    Assert.assertEquals(4, distinctEvents.size)
+    Assert.assertEquals("stopped", distinctEvents[0])
+    Assert.assertEquals("running", distinctEvents[1])
+    Assert.assertEquals("running paused", distinctEvents[2])
+    Assert.assertEquals("stopped", distinctEvents[3])
+  }
+
+  /**
+   * Pausing and unpausing a timer works.
+   */
+
+  @Test(timeout = 10_000L)
+  fun testUnpause() {
+    val logger = this.logger()
+    val timer = this.create()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
+      events.add(when (event) {
+        PlayerSleepTimerStopped -> "stopped"
+        is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+        is PlayerSleepTimerCancelled -> "cancelled"
+        PlayerSleepTimerFinished -> "finished"
+      })
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
+
+    logger.debug("starting timer")
+    timer.start(Duration.millis(3000L))
+
+    logger.debug("waiting for timer")
+    timer.pause()
+
+    Thread.sleep(1000L)
+    val running = timer.isRunning!!
+    Assert.assertTrue("Is paused", running.paused)
+
+    Thread.sleep(1000L)
+
+    timer.unpause()
+    Thread.sleep(1000L)
+    val stillRunning = timer.isRunning!!
+    Assert.assertFalse("Is not paused", stillRunning.paused)
+
+    Thread.sleep(1000L)
+    Thread.sleep(1000L)
+    Thread.sleep(1000L)
+    Thread.sleep(1000L)
+
+    logger.debug("closing timer")
+    timer.close()
+
+    waitLatch.await()
+
+    logger.debug("events: {}", events)
+    val distinctEvents = withoutSuccessiveDuplicates(events)
+    logger.debug("distinctEvents: {}", distinctEvents)
+
+    Assert.assertEquals(6, distinctEvents.size)
+    Assert.assertEquals("stopped", distinctEvents[0])
+    Assert.assertEquals("running", distinctEvents[1])
+    Assert.assertEquals("running paused", distinctEvents[2])
+    Assert.assertEquals("running", distinctEvents[3])
+    Assert.assertEquals("finished", distinctEvents[4])
+    Assert.assertEquals("stopped", distinctEvents[5])
+  }
+
+  /**
+   * Sending unpause requests to an unpaused timer is redundant.
+   */
+
+  @Test(timeout = 10_000L)
+  fun testUnpauseRedundant() {
+    val logger = this.logger()
+    val timer = this.create()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+
+    timer.status.subscribe({ event ->
+      logger.debug("event: {}", event)
+      events.add(when (event) {
+        PlayerSleepTimerStopped -> "stopped"
+        is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+        is PlayerSleepTimerCancelled -> "cancelled"
+        PlayerSleepTimerFinished -> "finished"
+      })
+    },
+      { waitLatch.countDown() },
+      { waitLatch.countDown() })
+
+    logger.debug("starting timer")
+    timer.start(Duration.millis(3000L))
+
+    logger.debug("waiting for timer")
+    Thread.sleep(1000L)
+
+    Thread.sleep(1000L)
+    val running = timer.isRunning!!
+    Assert.assertFalse("Is paused", running.paused)
+
+    timer.unpause()
+    Thread.sleep(1000L)
+    val stillRunning = timer.isRunning!!
+    Assert.assertFalse("Is not paused", stillRunning.paused)
+
+    Thread.sleep(1000L)
+    Thread.sleep(1000L)
+    Thread.sleep(1000L)
+
+    logger.debug("closing timer")
+    timer.close()
+
+    waitLatch.await()
+
+    logger.debug("events: {}", events)
+    val distinctEvents = withoutSuccessiveDuplicates(events)
+    logger.debug("distinctEvents: {}", distinctEvents)
+
+    Assert.assertEquals(4, distinctEvents.size)
+    Assert.assertEquals("stopped", distinctEvents[0])
+    Assert.assertEquals("running", distinctEvents[1])
+    Assert.assertEquals("finished", distinctEvents[2])
+    Assert.assertEquals("stopped", distinctEvents[3])
+  }
+
+  private fun <T> withoutSuccessiveDuplicates(values: List<T>): List<T> {
+    var current: T? = null
+    val results = ArrayList<T>()
+    for (x in values) {
+      if (x != current) {
+        results.add(x)
+        current = x
+      }
+    }
+    return results
+  }
 }

@@ -24,6 +24,14 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
 
   private val log = LoggerFactory.getLogger(PlayerManifestParserNYPL::class.java)
 
+  private val contextTypes = setOf(
+    "http://readium.org/webpub/default.jsonld",
+    "http://readium.org/webpub-manifest/context.jsonld")
+
+  private fun isRecognizedContextType(type: String): Boolean {
+    return this.contextTypes.contains(type)
+  }
+
   override fun canParse(node: ObjectNode): Boolean {
     if (node.has("@context")) {
       val context = node["@context"]
@@ -31,14 +39,14 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
         if (context.size() > 0) {
           for (element in context.elements()) {
             if (element is TextNode) {
-              if (element.textValue() == "http://readium.org/webpub/default.jsonld") {
+              if (this.isRecognizedContextType(element.textValue())) {
                 return true
               }
             }
           }
         }
       } else if (context is TextNode) {
-        return context.textValue() == "http://readium.org/webpub/default.jsonld"
+        return this.isRecognizedContextType(context.textValue())
       }
     }
 
