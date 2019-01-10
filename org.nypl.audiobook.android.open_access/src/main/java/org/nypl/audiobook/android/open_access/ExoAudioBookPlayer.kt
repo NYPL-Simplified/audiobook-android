@@ -907,6 +907,16 @@ class ExoAudioBookPlayer private constructor(
     this.engineExecutor.execute { this.opMovePlayheadToLocation(location) }
   }
 
+  override fun playAtBookStart() {
+    this.checkNotClosed()
+    this.engineExecutor.execute { this.opPlayAtLocation(this.book.spine.first().position) }
+  }
+
+  override fun movePlayheadToBookStart() {
+    this.checkNotClosed()
+    this.engineExecutor.execute { this.opMovePlayheadToLocation(this.book.spine.first().position) }
+  }
+
   override val isClosed: Boolean
     get() = this.closed.get()
 

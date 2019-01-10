@@ -105,6 +105,16 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
     this.goToChapter(location.chapter)
   }
 
+  override fun playAtBookStart() {
+    this.log.debug("playAtBookStart")
+    this.playAtLocation(this.book.spineItems.first().position)
+  }
+
+  override fun movePlayheadToBookStart() {
+    this.log.debug("movePlayheadToBookStart")
+    this.movePlayheadToLocation(this.book.spineItems.first().position)
+  }
+
   private fun goToChapter(chapter: Int) {
     val element = this.book.spineItems.find {
       element -> element.position.chapter == chapter
