@@ -551,6 +551,49 @@ abstract class ExoEngineProviderContract {
     Assert.assertEquals("playbackStopped 2 0", events.removeAt(0))
   }
 
+  /**
+   * Test that playing the start of the book works.
+   */
+
+  @Test(timeout = 20_000L)
+  fun testPlayerPlayAtBookStart() {
+    val book =
+      this.createBook("flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(this.exec,
+          mapOf(
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("noise.mp3") }),
+            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("noise.mp3") }))))
+
+    val player = book.createPlayer()
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    book.spine[0].downloadTask().delete()
+    book.spine[1].downloadTask().delete()
+    Thread.sleep(1000L)
+
+    this.downloadSpineItemAndWait(book.spine[0])
+    this.downloadSpineItemAndWait(book.spine[1])
+    Thread.sleep(1000L)
+
+    player.playAtBookStart()
+    Thread.sleep(10_000L)
+
+    player.close()
+    waitLatch.await()
+
+    this.showEvents(events)
+    Assert.assertTrue("At least 9 events must be logged (${events.size})", events.size >= 9)
+    Assert.assertEquals("rateChanged NORMAL_TIME", events.removeAt(0))
+    Assert.assertEquals("playbackStarted 0 0", events.removeAt(0))
+    while (events[0].startsWith("playbackProgressUpdate 0")) {
+      events.removeAt(0)
+    }
+    Assert.assertEquals("playbackChapterCompleted 0", events.removeAt(0))
+    Assert.assertEquals("playbackStopped 0 0", events.removeAt(0))
+  }
+
   private fun showEvents(events: ArrayList<String>) {
     val log = this.log()
     log.debug("event count: {}", events.size)

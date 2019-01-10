@@ -131,4 +131,20 @@ interface PlayerType : AutoCloseable {
 
   fun movePlayheadToLocation(
     location: PlayerPosition)
+
+  /**
+   * Move playhead to the start of the book and immediately start playing.
+   *
+   * @throws java.lang.IllegalStateException If and only if the player is closed
+   */
+
+  fun playAtBookStart()
+
+  /**
+   * Move playhead to the start of the book but do not start playback.
+   *
+   * @throws java.lang.IllegalStateException If and only if the player is closed
+   */
+
+  fun movePlayheadToBookStart()
 }
