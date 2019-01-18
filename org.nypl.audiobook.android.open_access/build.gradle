@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 
 dependencies {
   api project(':org.nypl.audiobook.android.api')
+  api project(':org.nypl.audiobook.android.rbdigital')
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
@@ -65,6 +66,12 @@ publishing {
         d0.appendNode('artifactId', 'org.nypl.audiobook.android.api')
         d0.appendNode('version', version)
         d0.appendNode('type', 'aar')
+
+        final d0_r = dependencies.appendNode('dependency')
+        d0_r.appendNode('groupId', 'org.nypl.audiobook')
+        d0_r.appendNode('artifactId', 'org.nypl.audiobook.android.rbdigital')
+        d0_r.appendNode('version', version)
+        d0_r.appendNode('type', 'aar')
 
         final d1 = dependencies.appendNode('dependency')
         d1.appendNode('groupId', 'joda-time')
