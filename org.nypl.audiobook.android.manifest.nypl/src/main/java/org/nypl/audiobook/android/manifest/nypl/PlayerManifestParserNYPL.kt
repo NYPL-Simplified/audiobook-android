@@ -106,9 +106,11 @@ class PlayerManifestParserNYPL : PlayerManifestParserType {
   private fun parseScalarMap(node: ObjectNode): Map<String, PlayerManifestScalar> {
     val values = HashMap<String, PlayerManifestScalar>()
     for (key in node.fieldNames()) {
-      val value = PlayerJSONParserUtilities.getScalar(node, key)
-      if (value != null) {
-        values.put(key, value)
+      if (node[key].isValueNode) {
+        val value = PlayerJSONParserUtilities.getScalar(node, key)
+        if (value != null) {
+          values.put(key, value)
+        }
       }
     }
     return values.toMap()

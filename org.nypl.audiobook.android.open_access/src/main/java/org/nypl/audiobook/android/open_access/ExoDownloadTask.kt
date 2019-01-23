@@ -1,8 +1,12 @@
 package org.nypl.audiobook.android.open_access
 
+import com.google.common.base.Function
+import com.google.common.util.concurrent.AsyncFunction
+import com.google.common.util.concurrent.FluentFuture
 import com.google.common.util.concurrent.FutureCallback
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.common.util.concurrent.MoreExecutors
 import net.jcip.annotations.GuardedBy
 import org.nypl.audiobook.android.api.PlayerDownloadProviderType
 import org.nypl.audiobook.android.api.PlayerDownloadRequest
@@ -14,7 +18,12 @@ import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpi
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Downloaded
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Downloading
 import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Initial
+import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser
+import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseFailed
+import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseSuccess
 import org.slf4j.LoggerFactory
+import java.io.File
+import java.net.URI
 import java.util.concurrent.CancellationException
 import java.util.concurrent.ExecutorService
 
@@ -51,16 +60,16 @@ class ExoDownloadTask(
   }
 
   private fun stateGetCurrent() =
-    synchronized(stateLock) { state }
+    synchronized(this.stateLock) { this.state }
 
   private fun stateSetCurrent(new_state: State) =
-    synchronized(stateLock) { this.state = new_state }
+    synchronized(this.stateLock) { this.state = new_state }
 
   private fun onBroadcastState() {
     when (this.stateGetCurrent()) {
-      Initial -> onNotDownloaded()
-      Downloaded -> onDownloaded()
-      is Downloading -> onDownloading(this.percent)
+      Initial -> this.onNotDownloaded()
+      Downloaded -> this.onDownloaded()
+      is Downloading -> this.onDownloading(this.percent)
     }
   }
 
@@ -82,10 +91,31 @@ class ExoDownloadTask(
   private fun onStartDownload(): ListenableFuture<Unit> {
     this.log.debug("starting download")
 
+    /*
+     * If the spine element requires going through an RBDigital access document, download
+     * and parse that first.
+     */
+
+    val uriFuture: FluentFuture<URI> =
+      when (this.spineElement.itemManifest.type) {
+        "vnd.librarysimplified/rbdigital-access-document+json" ->
+          this.processRBDigitalAccessDocument(this.spineElement.itemManifest.uri)
+        else ->
+          FluentFuture.from(Futures.immediateFuture(this.spineElement.itemManifest.uri))
+      }
+
+    return uriFuture.transformAsync(
+      AsyncFunction<URI, Unit>{ targetURI -> this.onStartDownloadDirect(targetURI!!) },
+      MoreExecutors.directExecutor())
+  }
+
+  private fun onStartDownloadDirect(targetURI: URI): ListenableFuture<Unit> {
+    this.log.debug("download: {}", targetURI)
+
     val future = this.downloadProvider.download(PlayerDownloadRequest(
-      uri = spineElement.itemManifest.uri,
+      uri = targetURI,
       credentials = null,
-      outputFile = spineElement.partFile,
+      outputFile = this.spineElement.partFile,
       onProgress = { percent -> this.onDownloading(percent) }))
 
     this.stateSetCurrent(Downloading(future))
@@ -105,12 +135,44 @@ class ExoDownloadTask(
           is CancellationException ->
             this@ExoDownloadTask.onDownloadCancelled()
           else ->
-            this@ExoDownloadTask.onDownloadFailed(kotlin.Exception(exception))
+            this@ExoDownloadTask.onDownloadFailed(Exception(exception))
         }
       }
     }, this.downloadStatusExecutor)
 
     return future
+  }
+
+  private fun processRBDigitalAccessDocument(targetURI: URI): FluentFuture<URI> {
+    this.log.debug("downloading rbdigital link document: {}", targetURI)
+
+    val tempFile =
+      File.createTempFile("org.nypl.audiobook.android.open_access.download-", "tmp")
+        .absoluteFile
+
+    this.log.debug("downloading rbdigital temporary: {}", tempFile)
+
+    val future =
+      FluentFuture.from(
+        this.downloadProvider.download(PlayerDownloadRequest(
+          uri = targetURI,
+          credentials = null,
+          outputFile = tempFile,
+          onProgress = { percent -> this.log.debug("downloading rbdigital link: {}%", percent) })))
+
+    return future.transform(Function<Unit, URI> {
+      val uri = this.parseRBDigitalLinkDocument(tempFile)
+      tempFile.delete()
+      uri
+    }, this.downloadStatusExecutor)
+  }
+
+  private fun parseRBDigitalLinkDocument(tempFile: File): URI {
+    val result = RBDigitalLinkDocumentParser().parseFromFile(tempFile)
+    return when (result) {
+      is ParseSuccess -> result.document.uri
+      is ParseFailed -> throw result.exception
+    }
   }
 
   private fun onDownloadCancelled() {
@@ -157,11 +219,11 @@ class ExoDownloadTask(
   override fun delete() {
     this.log.debug("delete")
 
-    val current = stateGetCurrent()
+    val current = this.stateGetCurrent()
     return when (current) {
       Initial -> this.onBroadcastState()
-      Downloaded -> onDeleteDownloaded()
-      is Downloading -> onDeleteDownloading(current)
+      Downloaded -> this.onDeleteDownloaded()
+      is Downloading -> this.onDeleteDownloading(current)
     }
   }
 
@@ -169,20 +231,20 @@ class ExoDownloadTask(
     this.log.debug("fetch")
 
     when (this.stateGetCurrent()) {
-      Initial -> onStartDownload()
-      Downloaded -> onDownloaded()
-      is Downloading -> onDownloading(this.percent)
+      Initial -> this.onStartDownload()
+      Downloaded -> this.onDownloaded()
+      is Downloading -> this.onDownloading(this.percent)
     }
   }
 
   override fun cancel() {
     this.log.debug("cancel")
 
-    val current = stateGetCurrent()
+    val current = this.stateGetCurrent()
     return when (current) {
       Initial -> this.onBroadcastState()
       Downloaded -> this.onBroadcastState()
-      is Downloading -> onDeleteDownloading(current)
+      is Downloading -> this.onDeleteDownloading(current)
     }
   }
 

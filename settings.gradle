@@ -1,21 +1,23 @@
 rootProject.name = 'org.nypl.audiobook.android'
 
 include ':org.nypl.audiobook.android.api'
-include ':org.nypl.audiobook.android.manifest.nypl'
-include ':org.nypl.audiobook.android.open_access'
 include ':org.nypl.audiobook.android.downloads'
+include ':org.nypl.audiobook.android.manifest.nypl'
 include ':org.nypl.audiobook.android.mocking'
-include ':org.nypl.audiobook.android.views'
+include ':org.nypl.audiobook.android.open_access'
+include ':org.nypl.audiobook.android.rbdigital'
 include ':org.nypl.audiobook.android.tests'
 include ':org.nypl.audiobook.android.tests.device'
 include ':org.nypl.audiobook.android.tests.sandbox'
+include ':org.nypl.audiobook.android.views'
 
 project(':org.nypl.audiobook.android.api').projectDir = "$rootDir/org.nypl.audiobook.android.api" as File
+project(':org.nypl.audiobook.android.downloads').projectDir = "$rootDir/org.nypl.audiobook.android.downloads" as File
 project(':org.nypl.audiobook.android.manifest.nypl').projectDir = "$rootDir/org.nypl.audiobook.android.manifest.nypl" as File
+project(':org.nypl.audiobook.android.mocking').projectDir = "$rootDir/org.nypl.audiobook.android.mocking" as File
 project(':org.nypl.audiobook.android.open_access').projectDir = "$rootDir/org.nypl.audiobook.android.open_access" as File
+project(':org.nypl.audiobook.android.rbdigital').projectDir = "$rootDir/org.nypl.audiobook.android.rbdigital" as File
 project(':org.nypl.audiobook.android.tests').projectDir = "$rootDir/org.nypl.audiobook.android.tests" as File
 project(':org.nypl.audiobook.android.tests.device').projectDir = "$rootDir/org.nypl.audiobook.android.tests.device" as File
 project(':org.nypl.audiobook.android.tests.sandbox').projectDir = "$rootDir/org.nypl.audiobook.android.tests.sandbox" as File
 project(':org.nypl.audiobook.android.views').projectDir = "$rootDir/org.nypl.audiobook.android.views" as File
-project(':org.nypl.audiobook.android.downloads').projectDir = "$rootDir/org.nypl.audiobook.android.downloads" as File
-project(':org.nypl.audiobook.android.mocking').projectDir = "$rootDir/org.nypl.audiobook.android.mocking" as File

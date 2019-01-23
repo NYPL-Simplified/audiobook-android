@@ -29,6 +29,7 @@ is available to ease integration.
 | [org.nypl.audiobook.android.manifest.nypl](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.manifest.nypl) | NYPL manifest parser
 | [org.nypl.audiobook.android.mocking](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.mocking) | A mock implementation of the API for unit testing
 | [org.nypl.audiobook.android.open_access](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.open_access) | ExoPlayer-based audio player provider for non-encrypted audio books
+| [org.nypl.audiobook.android.rbdigital](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.rbdigital) | Functionality specific to RBDigital audio books
 | [org.nypl.audiobook.android.tests.device](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.tests.device) | Unit tests that execute on real or emulated devices
 | [org.nypl.audiobook.android.tests.sandbox](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.tests.sandbox) | A sandbox for quickly testing changes during development
 | [org.nypl.audiobook.android.tests](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.tests) | Unit tests that can execute without needing a real or emulated device
@@ -53,7 +54,7 @@ engine that can play non-encrypted audio books:
 
 ```
 ext {
-  nypl_audiobook_api_version = "0.0.44"
+  nypl_audiobook_api_version = "1.0.0"
 }
 
 dependencies {
@@ -62,6 +63,10 @@ dependencies {
   implementation "org.nypl.audiobook:org.nypl.audiobook.android.open_access:${nypl_audiobook_api_version}"
 }
 ```
+
+### Versioning
+
+The API is expected to follow [semantic versioning](https://semver.org/).
 
 ### Providers
 
