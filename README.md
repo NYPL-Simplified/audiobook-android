@@ -54,7 +54,7 @@ engine that can play non-encrypted audio books:
 
 ```
 ext {
-  nypl_audiobook_api_version = "0.0.44"
+  nypl_audiobook_api_version = "1.0.0"
 }
 
 dependencies {
@@ -63,6 +63,10 @@ dependencies {
   implementation "org.nypl.audiobook:org.nypl.audiobook.android.open_access:${nypl_audiobook_api_version}"
 }
 ```
+
+### Versioning
+
+The API is expected to follow [semantic versioning](https://semver.org/).
 
 ### Providers
 
