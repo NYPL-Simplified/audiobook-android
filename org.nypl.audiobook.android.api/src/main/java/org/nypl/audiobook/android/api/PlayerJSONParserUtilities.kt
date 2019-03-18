@@ -535,6 +535,9 @@ class PlayerJSONParserUtilities private constructor() {
           sb.append("Received: A value of type ")
           sb.append(v.nodeType)
           sb.append("\n")
+          sb.append("Key: ")
+          sb.append(key)
+          sb.append("\n")
           throw PlayerJSONParseException(sb.toString())
         }
 
