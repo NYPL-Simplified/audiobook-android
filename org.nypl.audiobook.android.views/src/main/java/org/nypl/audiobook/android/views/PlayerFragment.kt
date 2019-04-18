@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.view.MenuItemCompat
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -375,9 +376,14 @@ class PlayerFragment : android.support.v4.app.Fragment() {
     this.playerWaiting.text = ""
     this.playerWaiting.contentDescription = null
 
+    val primaryColorResolved =
+      PlayerColors.primaryColor(requireActivity(), this.parameters.primaryColor)
+
     this.playerPosition = view.findViewById(R.id.player_progress)!!
-    this.playerPosition.thumbTintList = ColorStateList.valueOf(this.parameters.primaryColor)
-    this.playerPosition.progressTintList = ColorStateList.valueOf(this.parameters.primaryColor)
+    this.playerPosition.thumbTintList =
+      ColorStateList.valueOf(primaryColorResolved)
+    this.playerPosition.progressTintList =
+      ColorStateList.valueOf(primaryColorResolved)
     this.playerPosition.isEnabled = false
     this.playerPositionDragging = false
     this.playerPosition.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
