@@ -12,6 +12,8 @@ dependencies {
     exclude group: 'com.google.android', module: 'android'
   }
 
+  implementation "com.android.support:appcompat-v7:${dependency_support_v7_version}"
+  implementation "com.android.support:design:${dependency_support_design_version}"
   implementation "com.android.support:support-v4:${dependency_support_v4_version}"
   implementation "com.android.support:recyclerview-v7:${dependency_recyclerview_version}"
 

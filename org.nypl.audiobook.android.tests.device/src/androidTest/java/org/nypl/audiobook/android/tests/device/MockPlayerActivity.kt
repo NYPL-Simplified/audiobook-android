@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
@@ -30,7 +31,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 
-class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
+class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
 
   val timer: MockingSleepTimer = MockingSleepTimer()
 
@@ -59,6 +60,8 @@ class MockPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
+
+    this.setTheme(R.style.AudioBooksWithActionBar)
 
     for (i in 0..100) {
       val e = this.book.createSpineElement(
