@@ -8,12 +8,12 @@ import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
@@ -21,8 +21,6 @@ import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpi
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.nypl.audiobook.android.api.PlayerSpineElementType
-import java.lang.StringBuilder
-import org.joda.time.Duration
 
 /**
  * A Recycler view adapter used to display and control the table of contents.
@@ -32,7 +30,8 @@ class PlayerTOCAdapter(
   private val context: Context,
   private val spineElements: List<PlayerSpineElementType>,
   private val parameters: PlayerTOCFragmentParameters,
-  private val onSelect: (PlayerSpineElementType) -> Unit)
+  private val onSelect: (PlayerSpineElementType) -> Unit,
+  private val primaryColor: () -> Int)
   : RecyclerView.Adapter<PlayerTOCAdapter.ViewHolder>() {
 
   private val listener: View.OnClickListener
@@ -343,25 +342,27 @@ class PlayerTOCAdapter(
       this.buttonsDownloading.findViewById(R.id.player_toc_item_downloading_progress)
 
     init {
+      val primaryColorResolved = this@PlayerTOCAdapter.primaryColor.invoke()
+
       this.downloadingProgress.thickness = 8.0f
-      this.downloadingProgress.color = this@PlayerTOCAdapter.parameters.primaryColor
+      this.downloadingProgress.color = primaryColorResolved
 
       this.notDownloadedStreamableProgress.thickness = 8.0f
-      this.notDownloadedStreamableProgress.color = this@PlayerTOCAdapter.parameters.primaryColor
+      this.notDownloadedStreamableProgress.color = primaryColorResolved
 
       this.downloadFailedErrorIcon.setColorFilter(
-        this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
       this.downloadFailedRefresh.setColorFilter(
-        this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
 
       this.notDownloadedStreamableRefresh.setColorFilter(
-        this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
 
       this.notDownloadedNotStreamableRefresh.setColorFilter(
-        this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
 
       this.isCurrent.setColorFilter(
-        this@PlayerTOCAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
     }
   }
 }

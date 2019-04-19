@@ -16,7 +16,6 @@ import org.nypl.audiobook.android.api.PlayerPlaybackRate.NORMAL_TIME
 import org.nypl.audiobook.android.api.PlayerPlaybackRate.ONE_AND_A_HALF_TIME
 import org.nypl.audiobook.android.api.PlayerPlaybackRate.ONE_AND_A_QUARTER_TIME
 import org.nypl.audiobook.android.api.PlayerPlaybackRate.THREE_QUARTERS_TIME
-import java.lang.StringBuilder
 
 /**
  * A Recycler view adapter used to display and control a playback rate configuration menu.
@@ -26,6 +25,7 @@ class PlayerPlaybackRateAdapter(
   private val resources: Resources,
   private val rates: List<PlayerPlaybackRate>,
   private val parameters: PlayerFragmentParameters,
+  private val primaryColor: () -> Int,
   private val onSelect: (PlayerPlaybackRate) -> Unit)
   : RecyclerView.Adapter<PlayerPlaybackRateAdapter.ViewHolder>() {
 
@@ -148,8 +148,8 @@ class PlayerPlaybackRateAdapter(
     val border: ImageView = view.findViewById(R.id.player_rate_item_view_border)
 
     init {
-      this.border.setColorFilter(
-        this@PlayerPlaybackRateAdapter.parameters.primaryColor, PorterDuff.Mode.MULTIPLY)
+      val colorResolved = this@PlayerPlaybackRateAdapter.primaryColor.invoke()
+      this.border.setColorFilter(colorResolved, PorterDuff.Mode.MULTIPLY)
     }
   }
 }

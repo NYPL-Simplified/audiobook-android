@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item
     android:id="@+id/player_menu_playback_rate"
     android:title="@string/audiobook_player_menu_playback_rate_title"
     android:icon="@drawable/speed"
-    android:actionLayout="@layout/player_menu_playback_rate_text"
-    android:showAsAction="always"/>
+    app:actionLayout="@layout/player_menu_playback_rate_text"
+    app:showAsAction="always" />
 
   <item
     android:id="@+id/player_menu_sleep"
     android:title="@string/audiobook_player_menu_sleep_title"
     android:icon="@drawable/sleep_icon"
-    android:actionLayout="@layout/player_menu_sleep_text"
-    android:showAsAction="always"/>
+    app:actionLayout="@layout/player_menu_sleep_text"
+    app:showAsAction="always" />
 
   <item
     android:id="@+id/player_menu_toc"
     android:title="@string/audiobook_player_menu_toc_title"
     android:icon="@drawable/list"
-    android:showAsAction="always"/>
+    app:showAsAction="always" />
 
 </menu>

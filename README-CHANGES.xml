@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<c:changelog project="org.nypl.audiobook.android" xmlns:c="urn:com.io7m.changelog:4.0">
+  <c:releases>
+    <c:release date="2019-01-23T00:00:00+00:00" ticket-system="org.nypl.jira" version="1.0.0">
+      <c:changes/>
+    </c:release>
+    <c:release date="2019-04-19T10:19:14+00:00" ticket-system="org.nypl.jira" version="2.0.0">
+      <c:changes>
+        <c:change compatible="false" date="2019-04-19T10:19:14+00:00" summary="Take all color scheme information from the current Android theme"/>
+      </c:changes>
+    </c:release>
+  </c:releases>
+  <c:ticket-systems>
+    <c:ticket-system default="true" id="org.nypl.jira" url="https://jira.nypl.org/browse/"/>
+  </c:ticket-systems>
+</c:changelog>

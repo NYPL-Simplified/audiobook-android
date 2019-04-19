@@ -1,11 +1,10 @@
 package org.nypl.audiobook.android.tests.sandbox
 
 import android.app.AlertDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -33,7 +32,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 
-class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
+class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
 
   private val timer: MockingSleepTimer = MockingSleepTimer()
 
@@ -67,6 +66,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
+    this.setTheme(R.style.AudioBooksWithActionBar)
     this.book.supportsStreaming = false
 
     for (i in 1..100) {
@@ -83,8 +83,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
     this.setContentView(R.layout.example_player_activity)
 
     this.playerFragment =
-      PlayerFragment.newInstance(PlayerFragmentParameters(
-        primaryColor = Color.parseColor("#af1a16")))
+      PlayerFragment.newInstance(PlayerFragmentParameters())
 
     this.supportFragmentManager
       .beginTransaction()
@@ -184,8 +183,7 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerTOCShouldOpen() {
     val fragment =
-      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters(
-        primaryColor = Color.parseColor("#af1a16")))
+      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters())
 
     this.supportFragmentManager
       .beginTransaction()
@@ -208,10 +206,9 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
      * The player fragment wants us to open the playback rate selection dialog.
      */
 
-    runOnUIThread (Runnable {
-      val fragment = PlayerPlaybackRateFragment.newInstance(
-        PlayerFragmentParameters(
-          primaryColor = Color.parseColor("#af1a16")))
+    runOnUIThread(Runnable {
+      val fragment =
+        PlayerPlaybackRateFragment.newInstance(PlayerFragmentParameters())
       fragment.show(this.supportFragmentManager, "PLAYER_RATE")
     })
   }
@@ -228,10 +225,9 @@ class SandboxPlayerActivity : FragmentActivity(), PlayerFragmentListenerType {
      * The player fragment wants us to open the sleep timer.
      */
 
-    runOnUIThread (Runnable {
-      val fragment = PlayerSleepTimerFragment.newInstance(
-        PlayerFragmentParameters(
-          primaryColor = Color.parseColor("#af1a16")))
+    runOnUIThread(Runnable {
+      val fragment =
+        PlayerSleepTimerFragment.newInstance(PlayerFragmentParameters())
       fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
     })
   }

@@ -115,6 +115,7 @@ class PlayerTOCFragment : Fragment() {
           context = context,
           spineElements = this.book.spine,
           parameters = this.parameters,
+          primaryColor = { PlayerColors.primaryColor(requireActivity(), this.parameters.primaryColor) },
           onSelect = { item -> this.onTOCItemSelected(item) })
 
       this.bookSubscription =

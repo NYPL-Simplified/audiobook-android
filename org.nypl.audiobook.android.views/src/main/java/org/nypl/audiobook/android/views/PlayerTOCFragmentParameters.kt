@@ -14,4 +14,7 @@ class PlayerTOCFragmentParameters(
    * as the border color for the active table item.
    */
 
-  @ColorInt val primaryColor: Int) : Serializable
+  @Deprecated(
+    message = "Colors should now be taken from the colorPrimary attribute of the current application theme",
+    level = DeprecationLevel.WARNING)
+  @ColorInt val primaryColor: Int? = null) : Serializable
