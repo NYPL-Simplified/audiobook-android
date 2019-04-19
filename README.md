@@ -223,3 +223,8 @@ points _must_ be observed if the test suite is to run correctly:
    is locked, many activities will not correctly go into the `RESUMED`
    state and the test code will not execute properly.
 
+## Changelog
+
+The project currently uses [com.io7m.changelog](https://www.io7m.com/software/changelog/)
+to manage release changelogs.
+
