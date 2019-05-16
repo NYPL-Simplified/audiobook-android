@@ -113,6 +113,10 @@ class ExoAudioBookPlayer private constructor(
 
   @Volatile
   private var currentPlaybackOffset: Long = 0
+    set(value) {
+      this.log.trace("currentPlaybackOffset: {}", value)
+      field = value
+    }
 
   private val stateLock: Any = Object()
   @GuardedBy("stateLock")
@@ -316,6 +320,7 @@ class ExoAudioBookPlayer private constructor(
 
     this.exoPlayer.prepare(this.exoAudioRenderer)
     this.exoPlayer.playWhenReady = true
+    this.seek(offset)
 
     this.setPlayerPlaybackRate(this.currentPlaybackRate)
     return this.schedulePlaybackObserverForSpineElement(spineElement, initialSeek = offset)
@@ -557,6 +562,7 @@ class ExoAudioBookPlayer private constructor(
       spineElement = element,
       observerTask = this.openSpineElement(element, offset)))
     this.statusEvents.onNext(PlayerEventPlaybackStarted(element, offset))
+    this.currentPlaybackOffset = offset
   }
 
   private fun seek(offsetMs: Long) {
@@ -715,7 +721,7 @@ class ExoAudioBookPlayer private constructor(
 
   private fun opPausePlaying(state: ExoPlayerStatePlaying) {
     ExoEngineThread.checkIsExoEngineThread()
-    this.log.debug("opPausePlaying")
+    this.log.debug("opPausePlaying: offset: {}", this.currentPlaybackOffset)
 
     state.observerTask.cancel(true)
     this.exoPlayer.playWhenReady = false
