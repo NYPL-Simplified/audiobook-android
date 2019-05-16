@@ -35,6 +35,11 @@ is available to ease integration.
 | [org.nypl.audiobook.android.tests](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.tests) | Unit tests that can execute without needing a real or emulated device
 | [org.nypl.audiobook.android.views](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.nypl.audiobook.android.views) | UI components
 
+### Changelog
+
+The project currently uses [com.io7m.changelog](https://www.io7m.com/software/changelog/)
+to manage release changelogs.
+
 ### Usage
 
 1. Download (or synthesize) an [audio book manifest](#manifest_parsers). [Hadrien Gardeur](https://github.com/HadrienGardeur/audiobook-manifest/) publishes many example manifests in formats supported by the API.
@@ -222,4 +227,5 @@ points _must_ be observed if the test suite is to run correctly:
    This is not mentioned in the Espresso documentation. If the device
    is locked, many activities will not correctly go into the `RESUMED`
    state and the test code will not execute properly.
+
 
