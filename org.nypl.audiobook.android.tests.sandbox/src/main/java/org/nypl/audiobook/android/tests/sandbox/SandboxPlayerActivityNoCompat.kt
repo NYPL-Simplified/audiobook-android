@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 
-class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
+class SandboxPlayerActivityNoCompat : FragmentActivity(), PlayerFragmentListenerType {
 
   private val timer: MockingSleepTimer = MockingSleepTimer()
 
@@ -67,7 +67,7 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
-    this.setTheme(R.style.AudioBooksWithActionBar)
+    this.setTheme(R.style.AudioBooksWithActionBarNonCompat)
     this.book.supportsStreaming = false
 
     for (i in 1..100) {

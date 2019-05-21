@@ -9,9 +9,18 @@
         <c:change compatible="false" date="2019-04-19T00:00:00+00:00" summary="Take all color scheme information from the current Android theme"/>
       </c:changes>
     </c:release>
-    <c:release date="2019-05-16T17:21:29+00:00" ticket-system="org.nypl.jira" version="2.0.1">
+    <c:release date="2019-05-16T00:00:00+00:00" ticket-system="org.nypl.jira" version="2.0.1">
       <c:changes>
-        <c:change date="2019-05-16T17:21:29+00:00" summary="Aggressively seek to ensure playback positions are restored">
+        <c:change date="2019-05-16T00:00:00+00:00" summary="Aggressively seek to ensure playback positions are restored">
+          <c:tickets>
+            <c:ticket id="SIMPLY-1738"/>
+          </c:tickets>
+        </c:change>
+      </c:changes>
+    </c:release>
+    <c:release date="2019-05-21T17:43:51+00:00" ticket-system="org.nypl.jira" version="2.0.2">
+      <c:changes>
+        <c:change date="2019-05-21T17:43:51+00:00" summary="Add workaround so that code can run on non-AppCompat themes">
           <c:tickets>
             <c:ticket id="SIMPLY-1738"/>
           </c:tickets>

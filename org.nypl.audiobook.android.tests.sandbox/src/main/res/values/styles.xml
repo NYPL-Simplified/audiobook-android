@@ -18,4 +18,12 @@
     <item name="android:displayOptions">homeAsUp|showTitle</item>
   </style>
 
+  <style name="AudioBooksWithActionBarNonCompat" parent="android:Theme.Holo.Light.DarkActionBar">
+    <item name="colorPrimary">@color/audiobooks_material_blue_primary</item>
+    <item name="colorPrimaryDark">@color/audiobooks_material_blue_primary_dark</item>
+    <item name="colorAccent">@color/audiobooks_material_blue_primary_light</item>
+    <item name="android:windowActionBar">true</item>
+    <item name="android:windowBackground">@color/audiobooks_background</item>
+  </style>
+
 </resources>
