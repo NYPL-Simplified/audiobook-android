@@ -9,6 +9,7 @@ dependencies {
   androidTestImplementation libraries.androidXTestExtJunit
   androidTestImplementation libraries.androidXTestRules
   androidTestImplementation libraries.androidXTestRunner
+  androidTestUtil libraries.androidXTestOrchestrator
 
   implementation project(':org.nypl.audiobook.android.api')
   implementation project(':org.nypl.audiobook.android.manifest.nypl')
