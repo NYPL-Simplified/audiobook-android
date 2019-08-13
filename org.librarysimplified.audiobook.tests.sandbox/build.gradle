@@ -1,0 +1,14 @@
+dependencies {
+  implementation libraries.kotlinStdlib
+  implementation libraries.junit
+  implementation libraries.slf4j
+
+  implementation project(':org.librarysimplified.audiobook.api')
+  implementation project(':org.librarysimplified.audiobook.manifest.nypl')
+  implementation project(':org.librarysimplified.audiobook.mocking')
+  implementation project(':org.librarysimplified.audiobook.open_access')
+  implementation project(':org.librarysimplified.audiobook.views')
+
+  implementation libraries.androidXAppCompat
+  implementation libraries.logbackAndroid
+}

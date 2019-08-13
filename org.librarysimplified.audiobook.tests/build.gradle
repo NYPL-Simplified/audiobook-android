@@ -1,0 +1,23 @@
+dependencies {
+  api project(':org.librarysimplified.audiobook.api')
+  api project(':org.librarysimplified.audiobook.views')
+  api project(':org.librarysimplified.audiobook.open_access')
+  api project(':org.librarysimplified.audiobook.downloads')
+  api project(':org.librarysimplified.audiobook.manifest.nypl')
+  api project(':org.librarysimplified.audiobook.rbdigital')
+
+  api libraries.kotlinStdlib
+  api libraries.junit
+  api libraries.slf4j
+
+  implementation libraries.logbackClassic
+}
+
+/*
+ * Log unit test executions.
+ */
+
+tasks.matching {it instanceof Test}.all {
+  testLogging.events = ["failed", "passed", "skipped"]
+  testLogging.exceptionFormat = "full"
+}

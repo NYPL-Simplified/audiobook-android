@@ -1,0 +1,9 @@
+dependencies {
+  api libraries.jacksonDatabind
+  api libraries.rxjava
+  api libraries.googleGuava
+  api libraries.jodaTime
+
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+}

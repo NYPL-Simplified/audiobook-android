@@ -4,5 +4,5 @@
 app.properties
 build
 local.properties
-org.nypl.audiobook.android.open_access/src/main/resources/org/nypl/audiobook/android/open_access/provider.properties
+org.nypl.audiobook.android.open_access/src/main/resources/org/librarysimplified/audiobook/open_access/provider.properties
 provider.properties

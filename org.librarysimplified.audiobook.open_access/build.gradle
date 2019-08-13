@@ -1,0 +1,34 @@
+dependencies {
+  api project(':org.librarysimplified.audiobook.api')
+  api project(':org.librarysimplified.audiobook.rbdigital')
+
+  implementation libraries.googleExoplayer
+  implementation libraries.jodaTime
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+
+  compileOnly libraries.jcip
+}
+
+/*
+ * Generate a properties file based on various settings.
+ */
+
+task generatePropertiesResources {
+
+  def directory = new File(project.projectDir, "src/main/resources/org/librarysimplified/audiobook/open_access").absoluteFile
+  directory.mkdirs()
+  def file = new File(directory, "provider.properties")
+  file.createNewFile()
+
+  def properties = new Properties()
+  def major = version.split("\\.").getAt(0)
+  def minor = version.split("\\.").getAt(1)
+  def patch = version.split("\\.").getAt(2)
+  properties.setProperty("version.major", major)
+  properties.setProperty("version.minor", minor)
+  properties.setProperty("version.patch", patch)
+  properties.store(new FileOutputStream(file), "Automatically generated - DO NOT EDIT")
+}
+
+preBuild.dependsOn generatePropertiesResources
