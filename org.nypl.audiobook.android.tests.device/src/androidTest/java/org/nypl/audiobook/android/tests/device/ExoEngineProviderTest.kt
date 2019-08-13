@@ -1,9 +1,9 @@
 package org.nypl.audiobook.android.tests.device
 
 import android.content.Context
-import androidx.test.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.filters.MediumTest
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 
 import org.junit.Before
 import org.junit.runner.RunWith
@@ -20,7 +20,7 @@ class ExoEngineProviderTest : ExoEngineProviderContract() {
   @Before
   override fun setup() {
     super.setup()
-    this.instrumentationContext = InstrumentationRegistry.getContext()
+    this.instrumentationContext = InstrumentationRegistry.getInstrumentation().context
   }
 
   override fun log(): Logger {

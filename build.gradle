@@ -32,7 +32,7 @@ ext {
   androidBuildToolsVersion = "28.0.3"
   androidCompileSDKVersion = 28
   androidMinimumSDKVersion = 21
-  androidTargetSDKVersion  = 28
+  androidTargetSDKVersion = 28
 
   if (!project.hasProperty("nexusUsername")) {
     logger.warn("No nexusUsername property specified: Using an empty value")
@@ -46,15 +46,15 @@ ext {
 
 ext.libraries = [
   androidMaterial            : "com.google.android.material:material:1.0.0",
-  androidSupportTestRules    : "com.android.support.test:rules:1.0.2",
-  androidSupportTestRunner   : "com.android.support.test:runner:1.0.2",
-  androidTestOrchestrator    : "com.android.support.test:orchestrator:1.0.2",
   androidXActivity           : "androidx.activity:activity-ktx:1.0.0-alpha06",
   androidXAppCompat          : "androidx.appcompat:appcompat:1.1.0-alpha04",
   androidXConstraintLayout   : "androidx.constraintlayout:constraintlayout:1.1.3",
   androidXCore               : "androidx.core:core-ktx:1.0.1",
-  androidXEspresso           : "androidx.test.espresso:espresso-core:3.1.0",
   androidXRecyclerView       : "androidx.recyclerview:recyclerview:1.0.0",
+  androidXTestEspresso       : "androidx.test.espresso:espresso-core:3.1.0",
+  androidXTestExtJunit       : "androidx.test.ext:junit:1.1.0",
+  androidXTestRules          : "androidx.test:rules:1.1.0",
+  androidXTestRunner         : "androidx.test:runner:1.1.0",
   googleExoplayer            : "com.google.android.exoplayer:exoplayer:r1.5.15",
   googleGuava                : "com.google.guava:guava:27.1-android",
   jacksonCore                : "com.fasterxml.jackson.core:jackson-core:2.9.9.3",

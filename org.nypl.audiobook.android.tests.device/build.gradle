@@ -5,10 +5,10 @@ dependencies {
   implementation libraries.logbackAndroid
   implementation libraries.slf4j
 
-  androidTestImplementation libraries.androidSupportTestRules
-  androidTestImplementation libraries.androidSupportTestRunner
-  androidTestImplementation libraries.androidXEspresso
-  androidTestUtil libraries.androidTestOrchestrator
+  androidTestImplementation libraries.androidXTestEspresso
+  androidTestImplementation libraries.androidXTestExtJunit
+  androidTestImplementation libraries.androidXTestRules
+  androidTestImplementation libraries.androidXTestRunner
 
   implementation project(':org.nypl.audiobook.android.api')
   implementation project(':org.nypl.audiobook.android.manifest.nypl')
