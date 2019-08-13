@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.manifest.nypl
+package org.librarysimplified.audiobook.manifest.nypl
 
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
