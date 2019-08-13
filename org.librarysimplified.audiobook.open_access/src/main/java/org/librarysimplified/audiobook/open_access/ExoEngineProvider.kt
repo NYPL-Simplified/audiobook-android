@@ -52,7 +52,7 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
   }
 
   override fun name(): String {
-    return "org.nypl.audiobook.android.open_access"
+    return "org.librarysimplified.audiobook.open_access"
   }
 
   override fun version(): PlayerAudioEngineVersion {

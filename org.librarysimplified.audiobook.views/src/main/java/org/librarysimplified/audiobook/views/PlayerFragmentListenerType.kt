@@ -53,7 +53,7 @@ interface PlayerFragmentListenerType {
   /**
    * The user has performed an action that requires that the TOC be opened. The caller should
    * load a fragment capable of displaying the TOC
-   * (such as {@link org.nypl.audiobook.demo.android.views.PlayerTOCFragment}).
+   * (such as {@link org.librarysimplified.audiobook.views.PlayerTOCFragment}).
    */
 
   fun onPlayerTOCShouldOpen()

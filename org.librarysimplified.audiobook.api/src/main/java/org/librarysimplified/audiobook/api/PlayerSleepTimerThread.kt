@@ -9,7 +9,7 @@ package org.librarysimplified.audiobook.api
 class PlayerSleepTimerThread(runnable: Runnable) : Thread(runnable) {
 
   init {
-    this.name = "org.nypl.audiobook.android.api:timer:${this.id}"
+    this.name = "org.librarysimplified.audiobook.api:timer:${this.id}"
   }
 
   companion object {

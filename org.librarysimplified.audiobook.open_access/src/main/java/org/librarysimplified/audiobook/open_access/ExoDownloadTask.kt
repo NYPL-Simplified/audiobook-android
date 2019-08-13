@@ -147,7 +147,7 @@ class ExoDownloadTask(
     this.log.debug("downloading rbdigital link document: {}", targetURI)
 
     val tempFile =
-      File.createTempFile("org.nypl.audiobook.android.open_access.download-", "tmp")
+      File.createTempFile("org.librarysimplified.audiobook.open_access.download-", "tmp")
         .absoluteFile
 
     this.log.debug("downloading rbdigital temporary: {}", tempFile)

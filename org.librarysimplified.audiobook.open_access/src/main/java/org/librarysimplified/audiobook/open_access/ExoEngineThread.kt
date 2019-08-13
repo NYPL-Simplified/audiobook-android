@@ -20,7 +20,7 @@ class ExoEngineThread(
 }) {
 
   init {
-    this.name = "org.nypl.audiobook.android.open_access:engine:${this.id}"
+    this.name = "org.librarysimplified.audiobook.open_access:engine:${this.id}"
   }
 
   companion object {

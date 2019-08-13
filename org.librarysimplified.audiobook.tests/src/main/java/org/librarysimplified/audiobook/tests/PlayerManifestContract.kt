@@ -11,7 +11,7 @@ import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 /**
- * Tests for the {@link org.nypl.audiobook.android.api.PlayerRawManifest} type.
+ * Tests for the {@link org.librarysimplified.audiobook.api.PlayerRawManifest} type.
  */
 
 abstract class PlayerManifestContract {
