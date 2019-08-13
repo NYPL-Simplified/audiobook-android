@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.sandbox
+package org.librarysimplified.audiobook.tests.sandbox
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
