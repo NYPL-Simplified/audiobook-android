@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.mocking
+package org.librarysimplified.audiobook.mocking
 
 import org.librarysimplified.audiobook.api.PlayerDownloadWholeBookTaskType
 import org.slf4j.LoggerFactory

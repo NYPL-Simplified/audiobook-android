@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.mocking
+package org.librarysimplified.audiobook.mocking
 
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.ListeningExecutorService

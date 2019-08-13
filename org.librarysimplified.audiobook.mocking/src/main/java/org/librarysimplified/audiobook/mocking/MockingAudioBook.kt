@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.mocking
+package org.librarysimplified.audiobook.mocking
 
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType

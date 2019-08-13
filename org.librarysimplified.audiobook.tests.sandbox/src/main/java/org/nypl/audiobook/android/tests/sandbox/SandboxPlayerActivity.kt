@@ -16,10 +16,10 @@ import org.librarysimplified.audiobook.api.PlayerBookID
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerSleepTimerType
 import org.librarysimplified.audiobook.api.PlayerType
-import org.nypl.audiobook.android.mocking.MockingAudioBook
-import org.nypl.audiobook.android.mocking.MockingDownloadProvider
-import org.nypl.audiobook.android.mocking.MockingPlayer
-import org.nypl.audiobook.android.mocking.MockingSleepTimer
+import org.librarysimplified.audiobook.mocking.MockingAudioBook
+import org.librarysimplified.audiobook.mocking.MockingDownloadProvider
+import org.librarysimplified.audiobook.mocking.MockingPlayer
+import org.librarysimplified.audiobook.mocking.MockingSleepTimer
 import org.nypl.audiobook.android.views.PlayerAccessibilityEvent
 import org.nypl.audiobook.android.views.PlayerFragment
 import org.nypl.audiobook.android.views.PlayerFragmentListenerType

@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.mocking
+package org.librarysimplified.audiobook.mocking
 
 import com.google.common.util.concurrent.FutureCallback
 import com.google.common.util.concurrent.Futures
