@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec ./gradlew clean assemble test connectedAndroidTest
+exec ./gradlew clean assemble test
