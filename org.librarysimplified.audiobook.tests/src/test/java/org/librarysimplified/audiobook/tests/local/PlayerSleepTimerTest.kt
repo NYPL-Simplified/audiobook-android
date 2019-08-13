@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.local
+package org.librarysimplified.audiobook.tests.local
 
 import org.librarysimplified.audiobook.api.PlayerSleepTimer
 import org.librarysimplified.audiobook.api.PlayerSleepTimerType
