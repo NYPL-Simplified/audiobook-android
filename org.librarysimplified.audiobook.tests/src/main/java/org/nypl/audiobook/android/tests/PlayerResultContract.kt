@@ -2,11 +2,11 @@ package org.nypl.audiobook.android.tests
 
 import org.junit.Assert
 import org.junit.Test
-import org.nypl.audiobook.android.api.PlayerResult
-import org.nypl.audiobook.android.api.PlayerResult.Companion.unit
+import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerResult.Companion.unit
 
 /**
- * Tests for the {@link org.nypl.audiobook.android.api.PlayerResult} type.
+ * Tests for the {@link org.librarysimplified.audiobook.api.PlayerResult} type.
  */
 
 open class PlayerResultContract {

@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.nypl.audiobook.android.api.PlayerPlaybackRate
-import org.nypl.audiobook.android.api.PlayerType
+import org.librarysimplified.audiobook.api.PlayerPlaybackRate
+import org.librarysimplified.audiobook.api.PlayerType
 import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityPlaybackRateChanged
 import org.slf4j.LoggerFactory
 

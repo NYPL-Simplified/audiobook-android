@@ -2,8 +2,8 @@ package org.nypl.audiobook.android.tests
 
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.ListenableFutureTask
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerDownloadRequest
+import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerDownloadRequest
 
 /**
  * An implementation of the {@link PlayerDownloadProviderType} interface that lies about

@@ -1,12 +1,12 @@
 package org.nypl.audiobook.android.open_access
 
 import android.content.Context
-import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
-import org.nypl.audiobook.android.api.PlayerAudioBookType
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerManifest
-import org.nypl.audiobook.android.api.PlayerResult
-import org.nypl.audiobook.android.api.PlayerResult.Failure
+import org.librarysimplified.audiobook.api.PlayerAudioBookProviderType
+import org.librarysimplified.audiobook.api.PlayerAudioBookType
+import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerResult.Failure
 import java.util.concurrent.ScheduledExecutorService
 
 /**

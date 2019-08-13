@@ -1,13 +1,12 @@
 package org.nypl.audiobook.android.mocking
 
 import org.joda.time.Duration
-import org.nypl.audiobook.android.api.PlayerAudioBookType
-import org.nypl.audiobook.android.api.PlayerBookID
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerDownloadWholeBookTaskType
-import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus
-import org.nypl.audiobook.android.api.PlayerSpineElementType
-import org.nypl.audiobook.android.api.PlayerType
+import org.librarysimplified.audiobook.api.PlayerAudioBookType
+import org.librarysimplified.audiobook.api.PlayerBookID
+import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerDownloadWholeBookTaskType
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
+import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.util.SortedMap

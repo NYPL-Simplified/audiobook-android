@@ -9,8 +9,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.joda.time.Duration
-import org.nypl.audiobook.android.api.PlayerSleepTimerType
-import org.nypl.audiobook.android.api.PlayerType
+import org.librarysimplified.audiobook.api.PlayerSleepTimerType
+import org.librarysimplified.audiobook.api.PlayerType
 import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilitySleepTimerSettingChanged
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.END_OF_CHAPTER
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_15

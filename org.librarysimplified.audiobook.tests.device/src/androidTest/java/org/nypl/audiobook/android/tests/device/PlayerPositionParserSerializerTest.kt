@@ -3,9 +3,9 @@ package org.nypl.audiobook.android.tests.device
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.junit.runner.RunWith
-import org.nypl.audiobook.android.api.PlayerPositionParserType
-import org.nypl.audiobook.android.api.PlayerPositionSerializerType
-import org.nypl.audiobook.android.api.PlayerPositions
+import org.librarysimplified.audiobook.api.PlayerPositionParserType
+import org.librarysimplified.audiobook.api.PlayerPositionSerializerType
+import org.librarysimplified.audiobook.api.PlayerPositions
 import org.nypl.audiobook.android.tests.PlayerPositionParserSerializerContract
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

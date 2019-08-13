@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.nypl.audiobook.android.api.PlayerPlaybackRate
-import org.nypl.audiobook.android.api.PlayerPlaybackRate.DOUBLE_TIME
-import org.nypl.audiobook.android.api.PlayerPlaybackRate.NORMAL_TIME
-import org.nypl.audiobook.android.api.PlayerPlaybackRate.ONE_AND_A_HALF_TIME
-import org.nypl.audiobook.android.api.PlayerPlaybackRate.ONE_AND_A_QUARTER_TIME
-import org.nypl.audiobook.android.api.PlayerPlaybackRate.THREE_QUARTERS_TIME
+import org.librarysimplified.audiobook.api.PlayerPlaybackRate
+import org.librarysimplified.audiobook.api.PlayerPlaybackRate.DOUBLE_TIME
+import org.librarysimplified.audiobook.api.PlayerPlaybackRate.NORMAL_TIME
+import org.librarysimplified.audiobook.api.PlayerPlaybackRate.ONE_AND_A_HALF_TIME
+import org.librarysimplified.audiobook.api.PlayerPlaybackRate.ONE_AND_A_QUARTER_TIME
+import org.librarysimplified.audiobook.api.PlayerPlaybackRate.THREE_QUARTERS_TIME
 
 /**
  * A Recycler view adapter used to display and control a playback rate configuration menu.

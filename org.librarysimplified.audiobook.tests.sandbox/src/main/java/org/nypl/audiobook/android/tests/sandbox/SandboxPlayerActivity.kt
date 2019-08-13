@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
 import org.joda.time.Duration
-import org.nypl.audiobook.android.api.PlayerAudioBookType
-import org.nypl.audiobook.android.api.PlayerBookID
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerSleepTimerType
-import org.nypl.audiobook.android.api.PlayerType
+import org.librarysimplified.audiobook.api.PlayerAudioBookType
+import org.librarysimplified.audiobook.api.PlayerBookID
+import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerSleepTimerType
+import org.librarysimplified.audiobook.api.PlayerType
 import org.nypl.audiobook.android.mocking.MockingAudioBook
 import org.nypl.audiobook.android.mocking.MockingDownloadProvider
 import org.nypl.audiobook.android.mocking.MockingPlayer

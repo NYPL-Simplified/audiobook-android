@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
 import org.junit.Assert
 import org.junit.Test
-import org.nypl.audiobook.android.api.PlayerPosition
-import org.nypl.audiobook.android.api.PlayerPositionParserType
-import org.nypl.audiobook.android.api.PlayerPositionSerializerType
-import org.nypl.audiobook.android.api.PlayerResult
-import org.nypl.audiobook.android.api.PlayerResult.Success
+import org.librarysimplified.audiobook.api.PlayerPosition
+import org.librarysimplified.audiobook.api.PlayerPositionParserType
+import org.librarysimplified.audiobook.api.PlayerPositionSerializerType
+import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerResult.Success
 import org.slf4j.Logger
 
 abstract class PlayerPositionParserSerializerContract {

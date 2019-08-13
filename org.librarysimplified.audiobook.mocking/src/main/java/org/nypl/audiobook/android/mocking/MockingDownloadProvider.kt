@@ -3,8 +3,8 @@ package org.nypl.audiobook.android.mocking
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.SettableFuture
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerDownloadRequest
+import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerDownloadRequest
 import java.io.IOException
 import java.util.concurrent.CancellationException
 

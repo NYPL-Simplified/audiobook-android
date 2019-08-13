@@ -1,6 +1,6 @@
 package org.nypl.audiobook.android.open_access
 
-import org.nypl.audiobook.android.api.PlayerDownloadWholeBookTaskType
+import org.librarysimplified.audiobook.api.PlayerDownloadWholeBookTaskType
 
 /**
  * An Exo implementation of the download-whole-book task.

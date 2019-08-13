@@ -5,7 +5,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
- * Tests for the {@link org.nypl.audiobook.android.api.PlayerManifest} type.
+ * Tests for the {@link org.librarysimplified.audiobook.api.PlayerManifest} type.
  */
 
 class PlayerManifestTest : PlayerManifestContract() {

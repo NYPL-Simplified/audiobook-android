@@ -3,16 +3,16 @@ package org.nypl.audiobook.android.tests
 import org.joda.time.Duration
 import org.junit.Assert
 import org.junit.Test
-import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerCancelled
-import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerFinished
-import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerRunning
-import org.nypl.audiobook.android.api.PlayerSleepTimerEvent.PlayerSleepTimerStopped
-import org.nypl.audiobook.android.api.PlayerSleepTimerType
+import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent.PlayerSleepTimerCancelled
+import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent.PlayerSleepTimerFinished
+import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent.PlayerSleepTimerRunning
+import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent.PlayerSleepTimerStopped
+import org.librarysimplified.audiobook.api.PlayerSleepTimerType
 import org.slf4j.Logger
 import java.util.concurrent.CountDownLatch
 
 /**
- * Test contract for the {@link org.nypl.audiobook.android.api.PlayerSleepTimerType} interface.
+ * Test contract for the {@link org.librarysimplified.audiobook.api.PlayerSleepTimerType} interface.
  */
 
 abstract class PlayerSleepTimerContract {

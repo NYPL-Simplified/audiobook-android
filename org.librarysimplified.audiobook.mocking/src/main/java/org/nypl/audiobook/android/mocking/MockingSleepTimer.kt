@@ -1,8 +1,8 @@
 package org.nypl.audiobook.android.mocking
 
 import org.joda.time.Duration
-import org.nypl.audiobook.android.api.PlayerSleepTimerEvent
-import org.nypl.audiobook.android.api.PlayerSleepTimerType
+import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent
+import org.librarysimplified.audiobook.api.PlayerSleepTimerType
 import rx.Observable
 import rx.subjects.BehaviorSubject
 

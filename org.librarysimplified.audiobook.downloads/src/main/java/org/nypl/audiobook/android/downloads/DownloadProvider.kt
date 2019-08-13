@@ -7,9 +7,9 @@ import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerDownloadRequest
-import org.nypl.audiobook.android.api.PlayerDownloadRequestCredentials.PlayerDownloadRequestCredentialsBasic
+import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerDownloadRequest
+import org.librarysimplified.audiobook.api.PlayerDownloadRequestCredentials.PlayerDownloadRequestCredentialsBasic
 import org.slf4j.LoggerFactory
 import java.io.FileOutputStream
 import java.io.IOException

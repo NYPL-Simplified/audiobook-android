@@ -6,7 +6,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
- * Tests for the {@link org.nypl.audiobook.android.api.PlayerAudioEngines} type.
+ * Tests for the {@link org.librarysimplified.audiobook.api.PlayerAudioEngines} type.
  */
 
 class PlayerAudioEnginesTest : PlayerAudioEnginesContract() {

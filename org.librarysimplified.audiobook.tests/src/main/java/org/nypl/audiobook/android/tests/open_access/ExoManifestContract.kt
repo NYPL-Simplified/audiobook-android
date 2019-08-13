@@ -3,9 +3,9 @@ package org.nypl.audiobook.android.tests.open_access
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.nypl.audiobook.android.api.PlayerManifest
-import org.nypl.audiobook.android.api.PlayerManifests
-import org.nypl.audiobook.android.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.api.PlayerManifests
+import org.librarysimplified.audiobook.api.PlayerResult
 import org.nypl.audiobook.android.open_access.ExoManifest
 import org.slf4j.Logger
 import java.io.InputStream

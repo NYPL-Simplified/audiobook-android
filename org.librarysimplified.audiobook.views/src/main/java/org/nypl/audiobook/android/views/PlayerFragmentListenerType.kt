@@ -1,9 +1,9 @@
 package org.nypl.audiobook.android.views
 
 import android.widget.ImageView
-import org.nypl.audiobook.android.api.PlayerAudioBookType
-import org.nypl.audiobook.android.api.PlayerSleepTimerType
-import org.nypl.audiobook.android.api.PlayerType
+import org.librarysimplified.audiobook.api.PlayerAudioBookType
+import org.librarysimplified.audiobook.api.PlayerSleepTimerType
+import org.librarysimplified.audiobook.api.PlayerType
 import java.util.concurrent.ScheduledExecutorService
 
 /**

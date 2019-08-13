@@ -3,8 +3,8 @@ package org.nypl.audiobook.android.tests
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.SettableFuture
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerDownloadRequest
+import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerDownloadRequest
 import org.slf4j.LoggerFactory
 import java.io.FileOutputStream
 import java.io.IOException

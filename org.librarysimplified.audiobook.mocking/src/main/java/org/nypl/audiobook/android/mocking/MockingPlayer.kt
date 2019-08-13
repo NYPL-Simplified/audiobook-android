@@ -1,10 +1,10 @@
 package org.nypl.audiobook.android.mocking
 
-import org.nypl.audiobook.android.api.PlayerEvent
-import org.nypl.audiobook.android.api.PlayerEvent.PlayerEventWithSpineElement.*
-import org.nypl.audiobook.android.api.PlayerPlaybackRate
-import org.nypl.audiobook.android.api.PlayerPosition
-import org.nypl.audiobook.android.api.PlayerType
+import org.librarysimplified.audiobook.api.PlayerEvent
+import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.*
+import org.librarysimplified.audiobook.api.PlayerPlaybackRate
+import org.librarysimplified.audiobook.api.PlayerPosition
+import org.librarysimplified.audiobook.api.PlayerType
 import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.subjects.BehaviorSubject

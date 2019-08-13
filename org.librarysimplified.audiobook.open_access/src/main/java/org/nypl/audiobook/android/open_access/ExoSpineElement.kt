@@ -2,14 +2,14 @@ package org.nypl.audiobook.android.open_access
 
 import net.jcip.annotations.GuardedBy
 import org.joda.time.Duration
-import org.nypl.audiobook.android.api.PlayerAudioBookType
-import org.nypl.audiobook.android.api.PlayerBookID
-import org.nypl.audiobook.android.api.PlayerDownloadProviderType
-import org.nypl.audiobook.android.api.PlayerDownloadTaskType
-import org.nypl.audiobook.android.api.PlayerPosition
-import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus
-import org.nypl.audiobook.android.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
-import org.nypl.audiobook.android.api.PlayerSpineElementType
+import org.librarysimplified.audiobook.api.PlayerAudioBookType
+import org.librarysimplified.audiobook.api.PlayerBookID
+import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerDownloadTaskType
+import org.librarysimplified.audiobook.api.PlayerPosition
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
+import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import rx.subjects.PublishSubject
 import java.io.File
 import java.util.concurrent.ExecutorService

@@ -3,14 +3,14 @@ package org.nypl.audiobook.android.manifest.nypl
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
-import org.nypl.audiobook.android.api.PlayerJSONParserUtilities
-import org.nypl.audiobook.android.api.PlayerManifest
-import org.nypl.audiobook.android.api.PlayerManifestEncrypted
-import org.nypl.audiobook.android.api.PlayerManifestMetadata
-import org.nypl.audiobook.android.api.PlayerManifestParserType
-import org.nypl.audiobook.android.api.PlayerManifestScalar
-import org.nypl.audiobook.android.api.PlayerManifestSpineItem
-import org.nypl.audiobook.android.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerJSONParserUtilities
+import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.api.PlayerManifestEncrypted
+import org.librarysimplified.audiobook.api.PlayerManifestMetadata
+import org.librarysimplified.audiobook.api.PlayerManifestParserType
+import org.librarysimplified.audiobook.api.PlayerManifestScalar
+import org.librarysimplified.audiobook.api.PlayerManifestSpineItem
+import org.librarysimplified.audiobook.api.PlayerResult
 import org.slf4j.LoggerFactory
 
 /**

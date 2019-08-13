@@ -1,10 +1,10 @@
 package org.nypl.audiobook.android.open_access
 
-import org.nypl.audiobook.android.api.PlayerManifest
-import org.nypl.audiobook.android.api.PlayerManifestScalar
-import org.nypl.audiobook.android.api.PlayerManifestScalar.PlayerManifestScalarNumber
-import org.nypl.audiobook.android.api.PlayerManifestSpineItem
-import org.nypl.audiobook.android.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.api.PlayerManifestScalar
+import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarNumber
+import org.librarysimplified.audiobook.api.PlayerManifestSpineItem
+import org.librarysimplified.audiobook.api.PlayerResult
 import java.net.URI
 
 /**

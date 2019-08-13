@@ -2,16 +2,16 @@ package org.nypl.audiobook.android.tests
 
 import org.junit.Assert
 import org.junit.Test
-import org.nypl.audiobook.android.api.PlayerAudioEngineRequest
-import org.nypl.audiobook.android.api.PlayerAudioEngines
-import org.nypl.audiobook.android.api.PlayerManifest
-import org.nypl.audiobook.android.api.PlayerManifests
-import org.nypl.audiobook.android.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
+import org.librarysimplified.audiobook.api.PlayerAudioEngines
+import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.api.PlayerManifests
+import org.librarysimplified.audiobook.api.PlayerResult
 import org.slf4j.Logger
 import java.io.InputStream
 
 /**
- * Tests for the {@link org.nypl.audiobook.android.api.PlayerAudioEngines} type.
+ * Tests for the {@link org.librarysimplified.audiobook.api.PlayerAudioEngines} type.
  */
 
 abstract class PlayerAudioEnginesContract {

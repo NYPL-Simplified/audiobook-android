@@ -1,9 +1,9 @@
 package org.nypl.audiobook.android.open_access
 
-import org.nypl.audiobook.android.api.PlayerAudioBookProviderType
-import org.nypl.audiobook.android.api.PlayerAudioEngineProviderType
-import org.nypl.audiobook.android.api.PlayerAudioEngineRequest
-import org.nypl.audiobook.android.api.PlayerAudioEngineVersion
+import org.librarysimplified.audiobook.api.PlayerAudioBookProviderType
+import org.librarysimplified.audiobook.api.PlayerAudioEngineProviderType
+import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
+import org.librarysimplified.audiobook.api.PlayerAudioEngineVersion
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 import java.util.Properties
