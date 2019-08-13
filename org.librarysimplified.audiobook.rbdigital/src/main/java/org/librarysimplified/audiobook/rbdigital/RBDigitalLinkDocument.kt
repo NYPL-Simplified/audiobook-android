@@ -1,4 +1,4 @@
-package org.nypl.audiobook.rbdigital
+package org.librarysimplified.audiobook.rbdigital
 
 import java.net.URI
 

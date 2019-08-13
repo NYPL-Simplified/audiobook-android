@@ -18,9 +18,9 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloaded
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloading
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Initial
-import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser
-import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseFailed
-import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseSuccess
+import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser
+import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseFailed
+import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseSuccess
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URI

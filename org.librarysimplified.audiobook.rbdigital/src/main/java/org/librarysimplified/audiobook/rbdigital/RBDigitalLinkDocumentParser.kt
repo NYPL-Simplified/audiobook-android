@@ -1,4 +1,4 @@
-package org.nypl.audiobook.rbdigital
+package org.librarysimplified.audiobook.rbdigital
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper

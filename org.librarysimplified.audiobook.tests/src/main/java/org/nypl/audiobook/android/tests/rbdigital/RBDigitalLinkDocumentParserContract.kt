@@ -3,9 +3,9 @@ package org.nypl.audiobook.android.tests.rbdigital
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.Assert
 import org.junit.Test
-import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser
-import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseFailed
-import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseSuccess
+import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser
+import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseFailed
+import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseSuccess
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
