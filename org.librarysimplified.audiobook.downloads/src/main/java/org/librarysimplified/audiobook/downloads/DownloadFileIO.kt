@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.downloads
+package org.librarysimplified.audiobook.downloads
 
 import java.io.File
 import java.io.IOException

@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.downloads
+package org.librarysimplified.audiobook.downloads
 
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.ListeningExecutorService
