@@ -3,7 +3,7 @@ package org.nypl.audiobook.android.tests.device
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.junit.runner.RunWith
-import org.nypl.audiobook.android.tests.PlayerManifestContract
+import org.librarysimplified.audiobook.tests.PlayerManifestContract
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

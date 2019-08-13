@@ -2,7 +2,7 @@ package org.nypl.audiobook.android.tests.local
 
 import org.librarysimplified.audiobook.api.PlayerSleepTimer
 import org.librarysimplified.audiobook.api.PlayerSleepTimerType
-import org.nypl.audiobook.android.tests.PlayerSleepTimerContract
+import org.librarysimplified.audiobook.tests.PlayerSleepTimerContract
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

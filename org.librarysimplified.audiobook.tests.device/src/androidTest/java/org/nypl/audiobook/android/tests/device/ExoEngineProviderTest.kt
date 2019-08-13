@@ -7,7 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 
 import org.junit.Before
 import org.junit.runner.RunWith
-import org.nypl.audiobook.android.tests.open_access.ExoEngineProviderContract
+import org.librarysimplified.audiobook.tests.open_access.ExoEngineProviderContract
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

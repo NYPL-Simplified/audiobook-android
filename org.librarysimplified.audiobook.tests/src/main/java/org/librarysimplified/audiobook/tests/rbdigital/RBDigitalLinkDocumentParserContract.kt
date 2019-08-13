@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.rbdigital
+package org.librarysimplified.audiobook.tests.rbdigital
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.Assert

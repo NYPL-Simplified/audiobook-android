@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.open_access
+package org.librarysimplified.audiobook.tests.open_access
 
 import org.junit.Assert
 import org.junit.Assert.assertTrue
@@ -219,7 +219,7 @@ abstract class ExoManifestContract {
   }
 
   private fun resource(name: String): InputStream {
-    val path = "/org/nypl/audiobook/android/tests/" + name
+    val path = "/org/librarysimplified/audiobook/tests/" + name
     return ExoManifestContract::class.java.getResourceAsStream(path)
       ?: throw AssertionError("Missing resource file: " + path)
   }

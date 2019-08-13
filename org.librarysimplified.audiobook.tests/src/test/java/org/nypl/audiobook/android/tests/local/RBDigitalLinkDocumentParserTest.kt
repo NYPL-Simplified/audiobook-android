@@ -1,5 +1,5 @@
 package org.nypl.audiobook.android.tests.local
 
-import org.nypl.audiobook.android.tests.rbdigital.RBDigitalLinkDocumentParserContract
+import org.librarysimplified.audiobook.tests.rbdigital.RBDigitalLinkDocumentParserContract
 
 class RBDigitalLinkDocumentParserTest : RBDigitalLinkDocumentParserContract()

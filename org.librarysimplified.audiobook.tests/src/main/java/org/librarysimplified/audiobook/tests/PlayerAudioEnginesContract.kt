@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests
+package org.librarysimplified.audiobook.tests
 
 import org.junit.Assert
 import org.junit.Test
@@ -43,7 +43,7 @@ abstract class PlayerAudioEnginesContract {
   }
 
   private fun resource(name: String): InputStream {
-    val path = "/org/nypl/audiobook/android/tests/" + name
+    val path = "/org/librarysimplified/audiobook/tests/" + name
     return PlayerAudioEnginesContract::class.java.getResourceAsStream(path)
       ?: throw AssertionError("Missing resource file: " + path)
   }

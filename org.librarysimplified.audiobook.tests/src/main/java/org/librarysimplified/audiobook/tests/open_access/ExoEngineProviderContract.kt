@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.open_access
+package org.librarysimplified.audiobook.tests.open_access
 
 import android.content.Context
 import com.google.common.util.concurrent.ListeningExecutorService
@@ -33,8 +33,8 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
 import org.librarysimplified.audiobook.open_access.ExoEngineProvider
-import org.nypl.audiobook.android.tests.DishonestDownloadProvider
-import org.nypl.audiobook.android.tests.ResourceDownloadProvider
+import org.librarysimplified.audiobook.tests.DishonestDownloadProvider
+import org.librarysimplified.audiobook.tests.ResourceDownloadProvider
 import org.slf4j.Logger
 import java.io.InputStream
 import java.net.URI
@@ -673,7 +673,7 @@ abstract class ExoEngineProviderContract {
   }
 
   private fun resource(name: String): InputStream {
-    val path = "/org/nypl/audiobook/android/tests/" + name
+    val path = "/org/librarysimplified/audiobook/tests/" + name
     return ExoEngineProviderContract::class.java.getResourceAsStream(path)
       ?: throw AssertionError("Missing resource file: " + path)
   }

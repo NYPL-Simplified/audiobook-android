@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests
+package org.librarysimplified.audiobook.tests
 
 import org.joda.time.Duration
 import org.junit.Assert

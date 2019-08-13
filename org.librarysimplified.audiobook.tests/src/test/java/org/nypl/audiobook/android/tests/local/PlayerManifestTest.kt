@@ -1,6 +1,6 @@
 package org.nypl.audiobook.android.tests.local
 
-import org.nypl.audiobook.android.tests.PlayerManifestContract
+import org.librarysimplified.audiobook.tests.PlayerManifestContract
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

@@ -1,5 +1,5 @@
 package org.nypl.audiobook.android.tests.local
 
-import org.nypl.audiobook.android.tests.PlayerTimeStringsContract
+import org.librarysimplified.audiobook.tests.PlayerTimeStringsContract
 
 class PlayerTimeStringsTest : PlayerTimeStringsContract()

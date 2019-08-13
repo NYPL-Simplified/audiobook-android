@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests
+package org.librarysimplified.audiobook.tests
 
 import org.junit.Assert
 import org.junit.Test
