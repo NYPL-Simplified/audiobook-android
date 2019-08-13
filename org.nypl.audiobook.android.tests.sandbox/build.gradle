@@ -1,10 +1,7 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-
 dependencies {
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  implementation "junit:junit:${dependency_junit_version}"
-  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+  implementation libraries.kotlinStdlib
+  implementation libraries.junit
+  implementation libraries.slf4j
 
   implementation project(':org.nypl.audiobook.android.api')
   implementation project(':org.nypl.audiobook.android.manifest.nypl')
@@ -12,16 +9,8 @@ dependencies {
   implementation project(':org.nypl.audiobook.android.open_access')
   implementation project(':org.nypl.audiobook.android.views')
 
-  implementation "com.android.support:appcompat-v7:${dependency_support_v7_version}"
-  implementation "com.android.support:design:${dependency_support_design_version}"
-  implementation "com.android.support:support-v4:${dependency_support_v4_version}"
-  implementation "com.android.support:recyclerview-v7:${dependency_recyclerview_version}"
-
-  implementation "com.github.tony19:logback-android-core:${dependency_logback_android_version}"
-  implementation("com.github.tony19:logback-android-classic:${dependency_logback_android_version}") {
-    // https://github.com/tony19/logback-android/issues/73
-    exclude group: 'com.google.android', module: 'android'
-  }
+  implementation libraries.androidXAppCompat
+  implementation libraries.logbackAndroid
 }
 
 android {
@@ -46,21 +35,5 @@ android {
 
   lintOptions {
     abortOnError false
-  }
-}
-
-publishing {
-  publications {
-    debugAPK(MavenPublication) {
-      groupId group
-      artifactId 'org.nypl.audiobook.android.tests.sandbox'
-      version version
-      artifact("$buildDir/outputs/apk/debug/org.nypl.audiobook.android.tests.sandbox-debug.apk")
-    }
-  }
-  repositories {
-    maven {
-      url "$buildDir/repo"
-    }
   }
 }

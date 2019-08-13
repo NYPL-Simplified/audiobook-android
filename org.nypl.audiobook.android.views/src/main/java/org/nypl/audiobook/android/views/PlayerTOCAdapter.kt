@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.PorterDuff
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -13,6 +12,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder

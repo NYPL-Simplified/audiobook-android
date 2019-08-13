@@ -1,10 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="org.nypl.audiobook.android.api">
-
-  <uses-sdk
-    android:minSdkVersion="21"
-    android:targetSdkVersion="27" />
-
-</manifest>
+<manifest package="org.nypl.audiobook.android.api" />

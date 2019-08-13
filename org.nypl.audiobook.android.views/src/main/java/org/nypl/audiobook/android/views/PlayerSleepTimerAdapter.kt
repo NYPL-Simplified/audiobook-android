@@ -2,11 +2,11 @@ package org.nypl.audiobook.android.views
 
 import android.content.Context
 import android.content.res.Resources
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.END_OF_CHAPTER
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_15
 import org.nypl.audiobook.android.views.PlayerSleepTimerConfiguration.MINUTES_30

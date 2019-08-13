@@ -2,12 +2,12 @@ package org.nypl.audiobook.android.views
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerSleepTimerType
 import org.nypl.audiobook.android.api.PlayerType
@@ -49,7 +49,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
     val view: RecyclerView =
       inflater.inflate(R.layout.player_sleep_timer_view, container, false) as RecyclerView
 
-    this.dialog.setTitle(R.string.audiobook_player_menu_sleep_title)
+    this.dialog?.setTitle(R.string.audiobook_player_menu_sleep_title)
 
     view.layoutManager = LinearLayoutManager(view.context)
     view.setHasFixedSize(true)

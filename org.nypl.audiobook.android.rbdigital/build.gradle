@@ -1,12 +1,10 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-
 dependencies {
   api project(':org.nypl.audiobook.android.api')
-  api "com.fasterxml.jackson.core:jackson-databind:${dependency_jackson_version}"
 
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+  api libraries.jacksonDatabind
+
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
 }
 
 /*
@@ -31,55 +29,3 @@ task generatePropertiesResources {
 }
 
 preBuild.dependsOn generatePropertiesResources
-
-android {
-  compileSdkVersion 28
-  buildToolsVersion "28.0.3"
-
-  packagingOptions {
-
-  }
-}
-
-task sourceJar(type: Jar) {
-  from android.sourceSets.main.java.srcDirs
-  classifier "sources"
-}
-
-publishing {
-  publications {
-    debugAAR(MavenPublication) {
-      groupId group
-      artifactId 'org.nypl.audiobook.android.rbdigital'
-      version version
-      artifact(sourceJar)
-      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.rbdigital-debug.aar")
-
-      pom.withXml {
-        def dependencies = asNode().appendNode('dependencies')
-
-        final d0 = dependencies.appendNode('dependency')
-        d0.appendNode('groupId', 'org.nypl.audiobook')
-        d0.appendNode('artifactId', 'org.nypl.audiobook.android.api')
-        d0.appendNode('version', version)
-        d0.appendNode('type', 'aar')
-
-        final d1 = dependencies.appendNode('dependency')
-        d1.appendNode('groupId', 'org.slf4j')
-        d1.appendNode('artifactId', 'slf4j-api')
-        d1.appendNode('version', "${dependency_slf4j_version}")
-
-        final d2 = dependencies.appendNode('dependency')
-        d2.appendNode('groupId', 'org.jetbrains.kotlin')
-        d2.appendNode('artifactId', 'kotlin-stdlib-jdk7')
-        d2.appendNode('version', "$kotlin_version")
-      }
-    }
-  }
-
-  repositories {
-    maven {
-      url "$buildDir/repo"
-    }
-  }
-}

@@ -1,26 +1,13 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-
 dependencies {
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  implementation "junit:junit:${dependency_junit_version}"
-  implementation "org.slf4j:slf4j-api:${dependency_slf4j_version}"
+  implementation libraries.androidXAppCompat
+  implementation libraries.junit
+  implementation libraries.kotlinStdlib
+  implementation libraries.logbackAndroid
+  implementation libraries.slf4j
 
-  implementation "com.github.tony19:logback-android-core:${dependency_logback_android_version}"
-  implementation("com.github.tony19:logback-android-classic:${dependency_logback_android_version}") {
-    // https://github.com/tony19/logback-android/issues/73
-    exclude group: 'com.google.android', module: 'android'
-  }
-
-  implementation "com.android.support:appcompat-v7:${dependency_support_v7_version}"
-  implementation "com.android.support:design:${dependency_support_design_version}"
-  implementation "com.android.support:support-v4:${dependency_support_v4_version}"
-  implementation "com.android.support:recyclerview-v7:${dependency_recyclerview_version}"
-
-  androidTestImplementation "com.android.support.test:rules:${dependency_android_test_support_version}"
-  androidTestImplementation "com.android.support.test:runner:${dependency_android_test_support_version}"
-  androidTestImplementation "com.android.support.test.espresso:espresso-core:${dependency_android_test_espresso_version}"
-  androidTestUtil "com.android.support.test:orchestrator:${dependency_android_test_support_version}"
+  androidTestImplementation libraries.androidSupportTestRules
+  androidTestImplementation libraries.androidSupportTestRunner
+  androidTestUtil libraries.androidTestOrchestrator
 
   implementation project(':org.nypl.audiobook.android.api')
   implementation project(':org.nypl.audiobook.android.manifest.nypl')
@@ -56,22 +43,6 @@ android {
 
   lintOptions {
     abortOnError false
-  }
-}
-
-publishing {
-  publications {
-    debugAAR(MavenPublication) {
-      groupId group
-      artifactId 'org.nypl.audiobook.android.tests.device'
-      version version
-      artifact("$buildDir/outputs/aar/org.nypl.audiobook.android.tests.device-debug.aar")
-    }
-  }
-  repositories {
-    maven {
-      url "$buildDir/repo"
-    }
   }
 }
 

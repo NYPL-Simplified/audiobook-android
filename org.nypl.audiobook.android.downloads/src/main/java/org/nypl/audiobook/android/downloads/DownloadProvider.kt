@@ -140,8 +140,10 @@ class DownloadProvider private constructor(
       throw CancellationException()
     }
 
-    val body = response.body()
-    val expectedLength = body.contentLength()
+    val body =
+      response.body() ?: throw IOException("HTTP server response did not contain a body")
+    val expectedLength =
+      body.contentLength()
 
     /*
      * Try to create the parent directory (and all of the required ancestors too). Ignore

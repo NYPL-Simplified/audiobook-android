@@ -2,7 +2,6 @@ package org.nypl.audiobook.android.views
 
 import android.content.res.Resources
 import android.graphics.PorterDuff
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -10,6 +9,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import org.nypl.audiobook.android.api.PlayerPlaybackRate
 import org.nypl.audiobook.android.api.PlayerPlaybackRate.DOUBLE_TIME
 import org.nypl.audiobook.android.api.PlayerPlaybackRate.NORMAL_TIME

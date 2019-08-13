@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.view.MenuItemCompat
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -16,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import org.joda.time.Duration
 import org.nypl.audiobook.android.api.PlayerAudioBookType
 import org.nypl.audiobook.android.api.PlayerEvent
@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit
  * interface. An exception will be raised if this is not the case.
  */
 
-class PlayerFragment : android.support.v4.app.Fragment() {
+class PlayerFragment : Fragment() {
 
   companion object {
 

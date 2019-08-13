@@ -2,9 +2,9 @@ package org.nypl.audiobook.android.views
 
 import android.content.Context
 import android.content.res.Resources
-import android.support.annotation.AttrRes
-import android.support.annotation.ColorInt
 import android.util.TypedValue
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 
 /**
  * Functions to resolve colors from themes.

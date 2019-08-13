@@ -1,0 +1,3511 @@
+{
+  "readingOrder": [
+    {
+      "rbdigital:id": "2350112",
+      "title": "Introduction",
+      "schema:contentSize": 502304,
+      "href": "http://example.com",
+      "duration": 82.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350113",
+      "title": "Chapter 1",
+      "schema:contentSize": 2399864,
+      "href": "http://example.com",
+      "duration": 399.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350114",
+      "title": "Chapter 2",
+      "schema:contentSize": 2462720,
+      "href": "http://example.com",
+      "duration": 409.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350115",
+      "title": "Chapter 3",
+      "schema:contentSize": 2480648,
+      "href": "http://example.com",
+      "duration": 412.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350116",
+      "title": "Chapter 4",
+      "schema:contentSize": 2564024,
+      "href": "http://example.com",
+      "duration": 426.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350117",
+      "title": "Chapter 5",
+      "schema:contentSize": 2482160,
+      "href": "http://example.com",
+      "duration": 412.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350118",
+      "title": "Chapter 6",
+      "schema:contentSize": 2449976,
+      "href": "http://example.com",
+      "duration": 408.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350119",
+      "title": "Chapter 7",
+      "schema:contentSize": 2455376,
+      "href": "http://example.com",
+      "duration": 408.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350120",
+      "title": "Chapter 8",
+      "schema:contentSize": 2396840,
+      "href": "http://example.com",
+      "duration": 399.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350121",
+      "title": "Chapter 9",
+      "schema:contentSize": 1770224,
+      "href": "http://example.com",
+      "duration": 294.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350122",
+      "title": "Chapter 10",
+      "schema:contentSize": 1441256,
+      "href": "http://example.com",
+      "duration": 240.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350123",
+      "title": "Chapter 11",
+      "schema:contentSize": 2372000,
+      "href": "http://example.com",
+      "duration": 394.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350124",
+      "title": "Chapter 12",
+      "schema:contentSize": 1977584,
+      "href": "http://example.com",
+      "duration": 328.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350125",
+      "title": "Chapter 13",
+      "schema:contentSize": 1575608,
+      "href": "http://example.com",
+      "duration": 261.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350126",
+      "title": "Chapter 14",
+      "schema:contentSize": 1688576,
+      "href": "http://example.com",
+      "duration": 280.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350127",
+      "title": "Chapter 15",
+      "schema:contentSize": 1458320,
+      "href": "http://example.com",
+      "duration": 243.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350128",
+      "title": "Chapter 16",
+      "schema:contentSize": 2648480,
+      "href": "http://example.com",
+      "duration": 441.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350129",
+      "title": "Chapter 17",
+      "schema:contentSize": 2564240,
+      "href": "http://example.com",
+      "duration": 426.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350130",
+      "title": "Chapter 18",
+      "schema:contentSize": 2525576,
+      "href": "http://example.com",
+      "duration": 420.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350131",
+      "title": "Chapter 19",
+      "schema:contentSize": 1918400,
+      "href": "http://example.com",
+      "duration": 318.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350132",
+      "title": "Chapter 20",
+      "schema:contentSize": 1867856,
+      "href": "http://example.com",
+      "duration": 310.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350133",
+      "title": "Chapter 21",
+      "schema:contentSize": 2073704,
+      "href": "http://example.com",
+      "duration": 345.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350134",
+      "title": "Chapter 22",
+      "schema:contentSize": 1708880,
+      "href": "http://example.com",
+      "duration": 283.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350135",
+      "title": "Chapter 23",
+      "schema:contentSize": 2487128,
+      "href": "http://example.com",
+      "duration": 414.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350136",
+      "title": "Chapter 24",
+      "schema:contentSize": 2433560,
+      "href": "http://example.com",
+      "duration": 405.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350137",
+      "title": "Chapter 25",
+      "schema:contentSize": 1569128,
+      "href": "http://example.com",
+      "duration": 261.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350138",
+      "title": "Chapter 26",
+      "schema:contentSize": 1555736,
+      "href": "http://example.com",
+      "duration": 258.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350139",
+      "title": "Chapter 27",
+      "schema:contentSize": 2528600,
+      "href": "http://example.com",
+      "duration": 420.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350140",
+      "title": "Chapter 28",
+      "schema:contentSize": 2105240,
+      "href": "http://example.com",
+      "duration": 349.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350141",
+      "title": "Chapter 29",
+      "schema:contentSize": 2256008,
+      "href": "http://example.com",
+      "duration": 375.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350142",
+      "title": "Chapter 30",
+      "schema:contentSize": 2387120,
+      "href": "http://example.com",
+      "duration": 396.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350143",
+      "title": "Chapter 31",
+      "schema:contentSize": 2411960,
+      "href": "http://example.com",
+      "duration": 402.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350144",
+      "title": "Chapter 32",
+      "schema:contentSize": 1785128,
+      "href": "http://example.com",
+      "duration": 297.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350145",
+      "title": "Chapter 33",
+      "schema:contentSize": 1536944,
+      "href": "http://example.com",
+      "duration": 255.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350146",
+      "title": "Chapter 34",
+      "schema:contentSize": 2400296,
+      "href": "http://example.com",
+      "duration": 399.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350147",
+      "title": "Chapter 35",
+      "schema:contentSize": 1468040,
+      "href": "http://example.com",
+      "duration": 243.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350148",
+      "title": "Chapter 36",
+      "schema:contentSize": 1290056,
+      "href": "http://example.com",
+      "duration": 214.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350149",
+      "title": "Chapter 37",
+      "schema:contentSize": 2491232,
+      "href": "http://example.com",
+      "duration": 414.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350150",
+      "title": "Chapter 38",
+      "schema:contentSize": 2462936,
+      "href": "http://example.com",
+      "duration": 409.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350151",
+      "title": "Chapter 39",
+      "schema:contentSize": 1704560,
+      "href": "http://example.com",
+      "duration": 283.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350152",
+      "title": "Chapter 40",
+      "schema:contentSize": 1134968,
+      "href": "http://example.com",
+      "duration": 189.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350153",
+      "title": "Chapter 41",
+      "schema:contentSize": 1869368,
+      "href": "http://example.com",
+      "duration": 310.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350154",
+      "title": "Chapter 42",
+      "schema:contentSize": 2184296,
+      "href": "http://example.com",
+      "duration": 363.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350155",
+      "title": "Chapter 43",
+      "schema:contentSize": 2260976,
+      "href": "http://example.com",
+      "duration": 375.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350156",
+      "title": "Chapter 44",
+      "schema:contentSize": 1749488,
+      "href": "http://example.com",
+      "duration": 291.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350157",
+      "title": "Chapter 45",
+      "schema:contentSize": 1695920,
+      "href": "http://example.com",
+      "duration": 282.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350158",
+      "title": "Chapter 46",
+      "schema:contentSize": 2009552,
+      "href": "http://example.com",
+      "duration": 333.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350159",
+      "title": "Chapter 47",
+      "schema:contentSize": 1772600,
+      "href": "http://example.com",
+      "duration": 294.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350160",
+      "title": "Chapter 48",
+      "schema:contentSize": 1776488,
+      "href": "http://example.com",
+      "duration": 295.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350161",
+      "title": "Chapter 49",
+      "schema:contentSize": 1777136,
+      "href": "http://example.com",
+      "duration": 295.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350162",
+      "title": "Chapter 50",
+      "schema:contentSize": 2438528,
+      "href": "http://example.com",
+      "duration": 405.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350163",
+      "title": "Chapter 51",
+      "schema:contentSize": 1685552,
+      "href": "http://example.com",
+      "duration": 279.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350164",
+      "title": "Chapter 52",
+      "schema:contentSize": 1605200,
+      "href": "http://example.com",
+      "duration": 267.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350165",
+      "title": "Chapter 53",
+      "schema:contentSize": 2640488,
+      "href": "http://example.com",
+      "duration": 439.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350166",
+      "title": "Chapter 54",
+      "schema:contentSize": 2537240,
+      "href": "http://example.com",
+      "duration": 421.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350167",
+      "title": "Chapter 55",
+      "schema:contentSize": 2589728,
+      "href": "http://example.com",
+      "duration": 430.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350168",
+      "title": "Chapter 56",
+      "schema:contentSize": 1858784,
+      "href": "http://example.com",
+      "duration": 309.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350169",
+      "title": "Chapter 57",
+      "schema:contentSize": 2415416,
+      "href": "http://example.com",
+      "duration": 402.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350170",
+      "title": "Chapter 58",
+      "schema:contentSize": 1150304,
+      "href": "http://example.com",
+      "duration": 190.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350171",
+      "title": "Chapter 59",
+      "schema:contentSize": 1305608,
+      "href": "http://example.com",
+      "duration": 216.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350172",
+      "title": "Chapter 60",
+      "schema:contentSize": 2406344,
+      "href": "http://example.com",
+      "duration": 400.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350173",
+      "title": "Chapter 61",
+      "schema:contentSize": 2491880,
+      "href": "http://example.com",
+      "duration": 414.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350174",
+      "title": "Chapter 62",
+      "schema:contentSize": 2481944,
+      "href": "http://example.com",
+      "duration": 412.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350175",
+      "title": "Chapter 63",
+      "schema:contentSize": 2499224,
+      "href": "http://example.com",
+      "duration": 415.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350176",
+      "title": "Chapter 64",
+      "schema:contentSize": 2438528,
+      "href": "http://example.com",
+      "duration": 405.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350177",
+      "title": "Chapter 65",
+      "schema:contentSize": 2441768,
+      "href": "http://example.com",
+      "duration": 406.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350178",
+      "title": "Chapter 66",
+      "schema:contentSize": 1762016,
+      "href": "http://example.com",
+      "duration": 292.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350179",
+      "title": "Chapter 67",
+      "schema:contentSize": 1760288,
+      "href": "http://example.com",
+      "duration": 292.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350180",
+      "title": "Chapter 68",
+      "schema:contentSize": 2593400,
+      "href": "http://example.com",
+      "duration": 432.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350181",
+      "title": "Chapter 69",
+      "schema:contentSize": 2440904,
+      "href": "http://example.com",
+      "duration": 405.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350182",
+      "title": "Chapter 70",
+      "schema:contentSize": 2350832,
+      "href": "http://example.com",
+      "duration": 390.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350183",
+      "title": "Chapter 71",
+      "schema:contentSize": 2199848,
+      "href": "http://example.com",
+      "duration": 366.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350184",
+      "title": "Chapter 72",
+      "schema:contentSize": 2260760,
+      "href": "http://example.com",
+      "duration": 375.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350185",
+      "title": "Chapter 73",
+      "schema:contentSize": 2294456,
+      "href": "http://example.com",
+      "duration": 381.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350186",
+      "title": "Chapter 74",
+      "schema:contentSize": 2295752,
+      "href": "http://example.com",
+      "duration": 381.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350187",
+      "title": "Chapter 75",
+      "schema:contentSize": 2306552,
+      "href": "http://example.com",
+      "duration": 384.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350188",
+      "title": "Chapter 76",
+      "schema:contentSize": 2288624,
+      "href": "http://example.com",
+      "duration": 381.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350189",
+      "title": "Chapter 77",
+      "schema:contentSize": 2250824,
+      "href": "http://example.com",
+      "duration": 375.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350190",
+      "title": "Chapter 78",
+      "schema:contentSize": 2290352,
+      "href": "http://example.com",
+      "duration": 381.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350191",
+      "title": "Chapter 79",
+      "schema:contentSize": 2344784,
+      "href": "http://example.com",
+      "duration": 390.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350192",
+      "title": "Chapter 80",
+      "schema:contentSize": 2427080,
+      "href": "http://example.com",
+      "duration": 403.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350193",
+      "title": "Chapter 81",
+      "schema:contentSize": 2400512,
+      "href": "http://example.com",
+      "duration": 399.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350194",
+      "title": "Chapter 82",
+      "schema:contentSize": 2429456,
+      "href": "http://example.com",
+      "duration": 403.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350195",
+      "title": "Chapter 83",
+      "schema:contentSize": 2409584,
+      "href": "http://example.com",
+      "duration": 400.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350196",
+      "title": "Chapter 84",
+      "schema:contentSize": 2384096,
+      "href": "http://example.com",
+      "duration": 396.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350197",
+      "title": "Chapter 85",
+      "schema:contentSize": 2343920,
+      "href": "http://example.com",
+      "duration": 390.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350198",
+      "title": "Chapter 86",
+      "schema:contentSize": 2214536,
+      "href": "http://example.com",
+      "duration": 369.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350199",
+      "title": "Chapter 87",
+      "schema:contentSize": 2304824,
+      "href": "http://example.com",
+      "duration": 384.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350200",
+      "title": "Chapter 88",
+      "schema:contentSize": 2494472,
+      "href": "http://example.com",
+      "duration": 414.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350201",
+      "title": "Chapter 89",
+      "schema:contentSize": 2563808,
+      "href": "http://example.com",
+      "duration": 426.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350202",
+      "title": "Chapter 90",
+      "schema:contentSize": 2107616,
+      "href": "http://example.com",
+      "duration": 351.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350203",
+      "title": "Chapter 91",
+      "schema:contentSize": 1480568,
+      "href": "http://example.com",
+      "duration": 245.99999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350204",
+      "title": "Chapter 92",
+      "schema:contentSize": 2148008,
+      "href": "http://example.com",
+      "duration": 357.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350205",
+      "title": "Chapter 93",
+      "schema:contentSize": 2268752,
+      "href": "http://example.com",
+      "duration": 378.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350206",
+      "title": "Chapter 94",
+      "schema:contentSize": 2109344,
+      "href": "http://example.com",
+      "duration": 351.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350207",
+      "title": "Chapter 95",
+      "schema:contentSize": 2099408,
+      "href": "http://example.com",
+      "duration": 348.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350208",
+      "title": "Chapter 96",
+      "schema:contentSize": 2057072,
+      "href": "http://example.com",
+      "duration": 342.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350209",
+      "title": "Chapter 97",
+      "schema:contentSize": 2696432,
+      "href": "http://example.com",
+      "duration": 448.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350210",
+      "title": "Chapter 98",
+      "schema:contentSize": 2564888,
+      "href": "http://example.com",
+      "duration": 426.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350211",
+      "title": "Chapter 99",
+      "schema:contentSize": 2456888,
+      "href": "http://example.com",
+      "duration": 408.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350212",
+      "title": "Chapter 100",
+      "schema:contentSize": 2130728,
+      "href": "http://example.com",
+      "duration": 354.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350213",
+      "title": "Chapter 101",
+      "schema:contentSize": 1754888,
+      "href": "http://example.com",
+      "duration": 291.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350214",
+      "title": "Chapter 102",
+      "schema:contentSize": 1893344,
+      "href": "http://example.com",
+      "duration": 315.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350215",
+      "title": "Chapter 103",
+      "schema:contentSize": 1773032,
+      "href": "http://example.com",
+      "duration": 294.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350216",
+      "title": "Chapter 104",
+      "schema:contentSize": 1693760,
+      "href": "http://example.com",
+      "duration": 282.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350217",
+      "title": "Chapter 105",
+      "schema:contentSize": 2391224,
+      "href": "http://example.com",
+      "duration": 397.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350218",
+      "title": "Chapter 106",
+      "schema:contentSize": 2580440,
+      "href": "http://example.com",
+      "duration": 429.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350219",
+      "title": "Chapter 107",
+      "schema:contentSize": 2441984,
+      "href": "http://example.com",
+      "duration": 406.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350220",
+      "title": "Chapter 108",
+      "schema:contentSize": 2435288,
+      "href": "http://example.com",
+      "duration": 405.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350221",
+      "title": "Chapter 109",
+      "schema:contentSize": 2409152,
+      "href": "http://example.com",
+      "duration": 400.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350222",
+      "title": "Chapter 110",
+      "schema:contentSize": 2331608,
+      "href": "http://example.com",
+      "duration": 387.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350223",
+      "title": "Chapter 111",
+      "schema:contentSize": 2366600,
+      "href": "http://example.com",
+      "duration": 393.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350224",
+      "title": "Chapter 112",
+      "schema:contentSize": 2404832,
+      "href": "http://example.com",
+      "duration": 399.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350225",
+      "title": "Chapter 113",
+      "schema:contentSize": 2360336,
+      "href": "http://example.com",
+      "duration": 393.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350226",
+      "title": "Chapter 114",
+      "schema:contentSize": 2314976,
+      "href": "http://example.com",
+      "duration": 384.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350227",
+      "title": "Chapter 115",
+      "schema:contentSize": 1649912,
+      "href": "http://example.com",
+      "duration": 274.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350228",
+      "title": "Chapter 116",
+      "schema:contentSize": 1511888,
+      "href": "http://example.com",
+      "duration": 252.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350229",
+      "title": "Chapter 117",
+      "schema:contentSize": 2206760,
+      "href": "http://example.com",
+      "duration": 366.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350230",
+      "title": "Chapter 118",
+      "schema:contentSize": 1680368,
+      "href": "http://example.com",
+      "duration": 279.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350231",
+      "title": "Chapter 119",
+      "schema:contentSize": 1986224,
+      "href": "http://example.com",
+      "duration": 330.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350232",
+      "title": "Chapter 120",
+      "schema:contentSize": 1767200,
+      "href": "http://example.com",
+      "duration": 294.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350233",
+      "title": "Chapter 121",
+      "schema:contentSize": 1329800,
+      "href": "http://example.com",
+      "duration": 220.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350234",
+      "title": "Chapter 122",
+      "schema:contentSize": 2028992,
+      "href": "http://example.com",
+      "duration": 337.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350235",
+      "title": "Chapter 123",
+      "schema:contentSize": 2000696,
+      "href": "http://example.com",
+      "duration": 333.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350236",
+      "title": "Chapter 124",
+      "schema:contentSize": 1431320,
+      "href": "http://example.com",
+      "duration": 237.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350237",
+      "title": "Chapter 125",
+      "schema:contentSize": 1946264,
+      "href": "http://example.com",
+      "duration": 324.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350238",
+      "title": "Chapter 126",
+      "schema:contentSize": 1948208,
+      "href": "http://example.com",
+      "duration": 324.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350239",
+      "title": "Chapter 127",
+      "schema:contentSize": 2299208,
+      "href": "http://example.com",
+      "duration": 382.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350240",
+      "title": "Chapter 128",
+      "schema:contentSize": 2229440,
+      "href": "http://example.com",
+      "duration": 370.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350241",
+      "title": "Chapter 129",
+      "schema:contentSize": 2184728,
+      "href": "http://example.com",
+      "duration": 363.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350242",
+      "title": "Chapter 130",
+      "schema:contentSize": 2484536,
+      "href": "http://example.com",
+      "duration": 414.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350243",
+      "title": "Chapter 131",
+      "schema:contentSize": 2114528,
+      "href": "http://example.com",
+      "duration": 351.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350244",
+      "title": "Chapter 132",
+      "schema:contentSize": 1742576,
+      "href": "http://example.com",
+      "duration": 289.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350245",
+      "title": "Chapter 133",
+      "schema:contentSize": 1555304,
+      "href": "http://example.com",
+      "duration": 258.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350246",
+      "title": "Chapter 134",
+      "schema:contentSize": 2397488,
+      "href": "http://example.com",
+      "duration": 399.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350247",
+      "title": "Chapter 135",
+      "schema:contentSize": 1450544,
+      "href": "http://example.com",
+      "duration": 240.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350248",
+      "title": "Chapter 136",
+      "schema:contentSize": 1692464,
+      "href": "http://example.com",
+      "duration": 282.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350249",
+      "title": "Chapter 137",
+      "schema:contentSize": 2227712,
+      "href": "http://example.com",
+      "duration": 370.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350250",
+      "title": "Chapter 138",
+      "schema:contentSize": 2154056,
+      "href": "http://example.com",
+      "duration": 358.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350251",
+      "title": "Chapter 139",
+      "schema:contentSize": 1918832,
+      "href": "http://example.com",
+      "duration": 318.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350252",
+      "title": "Chapter 140",
+      "schema:contentSize": 1930928,
+      "href": "http://example.com",
+      "duration": 321.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350253",
+      "title": "Chapter 141",
+      "schema:contentSize": 1662872,
+      "href": "http://example.com",
+      "duration": 276.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350254",
+      "title": "Chapter 142",
+      "schema:contentSize": 1490720,
+      "href": "http://example.com",
+      "duration": 247.79999999999998,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350255",
+      "title": "Chapter 143",
+      "schema:contentSize": 1723784,
+      "href": "http://example.com",
+      "duration": 286.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350256",
+      "title": "Chapter 144",
+      "schema:contentSize": 1627448,
+      "href": "http://example.com",
+      "duration": 270.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350257",
+      "title": "Chapter 145",
+      "schema:contentSize": 2032880,
+      "href": "http://example.com",
+      "duration": 337.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350258",
+      "title": "Chapter 146",
+      "schema:contentSize": 2499440,
+      "href": "http://example.com",
+      "duration": 415.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350259",
+      "title": "Chapter 147",
+      "schema:contentSize": 2167664,
+      "href": "http://example.com",
+      "duration": 360.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350260",
+      "title": "Chapter 148",
+      "schema:contentSize": 1733504,
+      "href": "http://example.com",
+      "duration": 288.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350261",
+      "title": "Chapter 149",
+      "schema:contentSize": 2225768,
+      "href": "http://example.com",
+      "duration": 370.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350262",
+      "title": "Chapter 150",
+      "schema:contentSize": 1600664,
+      "href": "http://example.com",
+      "duration": 265.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350263",
+      "title": "Chapter 151",
+      "schema:contentSize": 904928,
+      "href": "http://example.com",
+      "duration": 150.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350264",
+      "title": "Chapter 152",
+      "schema:contentSize": 1691600,
+      "href": "http://example.com",
+      "duration": 280.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350265",
+      "title": "Chapter 153",
+      "schema:contentSize": 1527656,
+      "href": "http://example.com",
+      "duration": 253.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350266",
+      "title": "Chapter 154",
+      "schema:contentSize": 744224,
+      "href": "http://example.com",
+      "duration": 123.60000000000001,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350267",
+      "title": "Chapter 155",
+      "schema:contentSize": 2447600,
+      "href": "http://example.com",
+      "duration": 406.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350268",
+      "title": "Chapter 156",
+      "schema:contentSize": 2237000,
+      "href": "http://example.com",
+      "duration": 372.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350269",
+      "title": "Chapter 157",
+      "schema:contentSize": 2348240,
+      "href": "http://example.com",
+      "duration": 390.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350270",
+      "title": "Chapter 158",
+      "schema:contentSize": 1415984,
+      "href": "http://example.com",
+      "duration": 235.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350271",
+      "title": "Chapter 159",
+      "schema:contentSize": 2236352,
+      "href": "http://example.com",
+      "duration": 372.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350272",
+      "title": "Chapter 160",
+      "schema:contentSize": 1762016,
+      "href": "http://example.com",
+      "duration": 292.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350273",
+      "title": "Chapter 161",
+      "schema:contentSize": 1857920,
+      "href": "http://example.com",
+      "duration": 309.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350274",
+      "title": "Chapter 162",
+      "schema:contentSize": 2525144,
+      "href": "http://example.com",
+      "duration": 420.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350275",
+      "title": "Chapter 163",
+      "schema:contentSize": 2520608,
+      "href": "http://example.com",
+      "duration": 420.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350276",
+      "title": "Chapter 164",
+      "schema:contentSize": 2087096,
+      "href": "http://example.com",
+      "duration": 346.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350277",
+      "title": "Chapter 165",
+      "schema:contentSize": 2292728,
+      "href": "http://example.com",
+      "duration": 381.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350278",
+      "title": "Chapter 166",
+      "schema:contentSize": 2234408,
+      "href": "http://example.com",
+      "duration": 372.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350279",
+      "title": "Chapter 167",
+      "schema:contentSize": 2359040,
+      "href": "http://example.com",
+      "duration": 393.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350280",
+      "title": "Chapter 168",
+      "schema:contentSize": 1990976,
+      "href": "http://example.com",
+      "duration": 330.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350281",
+      "title": "Chapter 169",
+      "schema:contentSize": 2198120,
+      "href": "http://example.com",
+      "duration": 366.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350282",
+      "title": "Chapter 170",
+      "schema:contentSize": 2278904,
+      "href": "http://example.com",
+      "duration": 378.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350283",
+      "title": "Chapter 171",
+      "schema:contentSize": 900608,
+      "href": "http://example.com",
+      "duration": 150.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350284",
+      "title": "Chapter 172",
+      "schema:contentSize": 2022296,
+      "href": "http://example.com",
+      "duration": 336.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350285",
+      "title": "Chapter 173",
+      "schema:contentSize": 2114096,
+      "href": "http://example.com",
+      "duration": 351.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350286",
+      "title": "Chapter 174",
+      "schema:contentSize": 2383448,
+      "href": "http://example.com",
+      "duration": 396.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350287",
+      "title": "Chapter 175",
+      "schema:contentSize": 2461424,
+      "href": "http://example.com",
+      "duration": 409.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350288",
+      "title": "Chapter 176",
+      "schema:contentSize": 1387040,
+      "href": "http://example.com",
+      "duration": 231.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350289",
+      "title": "Chapter 177",
+      "schema:contentSize": 1433912,
+      "href": "http://example.com",
+      "duration": 238.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350290",
+      "title": "Chapter 178",
+      "schema:contentSize": 2020352,
+      "href": "http://example.com",
+      "duration": 336.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350291",
+      "title": "Chapter 179",
+      "schema:contentSize": 1412312,
+      "href": "http://example.com",
+      "duration": 234.60000000000002,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350292",
+      "title": "Chapter 180",
+      "schema:contentSize": 2043896,
+      "href": "http://example.com",
+      "duration": 339.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350293",
+      "title": "Chapter 181",
+      "schema:contentSize": 1746032,
+      "href": "http://example.com",
+      "duration": 291.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350294",
+      "title": "Chapter 182",
+      "schema:contentSize": 1609304,
+      "href": "http://example.com",
+      "duration": 267.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350295",
+      "title": "Chapter 183",
+      "schema:contentSize": 2121872,
+      "href": "http://example.com",
+      "duration": 352.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350296",
+      "title": "Chapter 184",
+      "schema:contentSize": 1717952,
+      "href": "http://example.com",
+      "duration": 285.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350297",
+      "title": "Chapter 185",
+      "schema:contentSize": 1482944,
+      "href": "http://example.com",
+      "duration": 246.60000000000002,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350298",
+      "title": "Chapter 186",
+      "schema:contentSize": 1913648,
+      "href": "http://example.com",
+      "duration": 318.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350299",
+      "title": "Chapter 187",
+      "schema:contentSize": 1794416,
+      "href": "http://example.com",
+      "duration": 298.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350300",
+      "title": "Chapter 188",
+      "schema:contentSize": 1986656,
+      "href": "http://example.com",
+      "duration": 330.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350301",
+      "title": "Chapter 189",
+      "schema:contentSize": 1916672,
+      "href": "http://example.com",
+      "duration": 318.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350302",
+      "title": "Chapter 190",
+      "schema:contentSize": 1476032,
+      "href": "http://example.com",
+      "duration": 245.99999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350303",
+      "title": "Chapter 191",
+      "schema:contentSize": 1517072,
+      "href": "http://example.com",
+      "duration": 252.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350304",
+      "title": "Chapter 192",
+      "schema:contentSize": 1514480,
+      "href": "http://example.com",
+      "duration": 252.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350305",
+      "title": "Chapter 193",
+      "schema:contentSize": 1518152,
+      "href": "http://example.com",
+      "duration": 252.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350306",
+      "title": "Chapter 194",
+      "schema:contentSize": 1633280,
+      "href": "http://example.com",
+      "duration": 271.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350307",
+      "title": "Chapter 195",
+      "schema:contentSize": 2179328,
+      "href": "http://example.com",
+      "duration": 363.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350308",
+      "title": "Chapter 196",
+      "schema:contentSize": 2141096,
+      "href": "http://example.com",
+      "duration": 355.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350309",
+      "title": "Chapter 197",
+      "schema:contentSize": 2257088,
+      "href": "http://example.com",
+      "duration": 375.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350310",
+      "title": "Chapter 198",
+      "schema:contentSize": 2357960,
+      "href": "http://example.com",
+      "duration": 393.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350311",
+      "title": "Chapter 199",
+      "schema:contentSize": 1941080,
+      "href": "http://example.com",
+      "duration": 322.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350312",
+      "title": "Chapter 200",
+      "schema:contentSize": 1962248,
+      "href": "http://example.com",
+      "duration": 327.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350313",
+      "title": "Chapter 201",
+      "schema:contentSize": 1880816,
+      "href": "http://example.com",
+      "duration": 312.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350314",
+      "title": "Chapter 202",
+      "schema:contentSize": 1828544,
+      "href": "http://example.com",
+      "duration": 303.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350315",
+      "title": "Chapter 203",
+      "schema:contentSize": 1518800,
+      "href": "http://example.com",
+      "duration": 252.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350316",
+      "title": "Chapter 204",
+      "schema:contentSize": 2263784,
+      "href": "http://example.com",
+      "duration": 376.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350317",
+      "title": "Chapter 205",
+      "schema:contentSize": 2354720,
+      "href": "http://example.com",
+      "duration": 391.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350318",
+      "title": "Chapter 206",
+      "schema:contentSize": 2132456,
+      "href": "http://example.com",
+      "duration": 354.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350319",
+      "title": "Chapter 207",
+      "schema:contentSize": 1899392,
+      "href": "http://example.com",
+      "duration": 315.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350320",
+      "title": "Chapter 208",
+      "schema:contentSize": 1972400,
+      "href": "http://example.com",
+      "duration": 327.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350321",
+      "title": "Chapter 209",
+      "schema:contentSize": 1224176,
+      "href": "http://example.com",
+      "duration": 204.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350322",
+      "title": "Chapter 210",
+      "schema:contentSize": 1521176,
+      "href": "http://example.com",
+      "duration": 252.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350323",
+      "title": "Chapter 211",
+      "schema:contentSize": 2171120,
+      "href": "http://example.com",
+      "duration": 360.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350324",
+      "title": "Chapter 212",
+      "schema:contentSize": 1880600,
+      "href": "http://example.com",
+      "duration": 312.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350325",
+      "title": "Chapter 213",
+      "schema:contentSize": 2510888,
+      "href": "http://example.com",
+      "duration": 417.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350326",
+      "title": "Chapter 214",
+      "schema:contentSize": 1504760,
+      "href": "http://example.com",
+      "duration": 249.60000000000002,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350327",
+      "title": "Chapter 215",
+      "schema:contentSize": 2045840,
+      "href": "http://example.com",
+      "duration": 340.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350328",
+      "title": "Chapter 216",
+      "schema:contentSize": 2000912,
+      "href": "http://example.com",
+      "duration": 333.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350329",
+      "title": "Chapter 217",
+      "schema:contentSize": 2274368,
+      "href": "http://example.com",
+      "duration": 378.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350330",
+      "title": "Chapter 218",
+      "schema:contentSize": 1844528,
+      "href": "http://example.com",
+      "duration": 306.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350331",
+      "title": "Chapter 219",
+      "schema:contentSize": 1871312,
+      "href": "http://example.com",
+      "duration": 310.79999999999995,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350332",
+      "title": "Chapter 220",
+      "schema:contentSize": 2503976,
+      "href": "http://example.com",
+      "duration": 417.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350333",
+      "title": "Chapter 221",
+      "schema:contentSize": 1189832,
+      "href": "http://example.com",
+      "duration": 198.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350334",
+      "title": "Chapter 222",
+      "schema:contentSize": 1576688,
+      "href": "http://example.com",
+      "duration": 261.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350335",
+      "title": "Chapter 223",
+      "schema:contentSize": 1375808,
+      "href": "http://example.com",
+      "duration": 228.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350336",
+      "title": "Chapter 224",
+      "schema:contentSize": 1978880,
+      "href": "http://example.com",
+      "duration": 328.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350337",
+      "title": "Chapter 225",
+      "schema:contentSize": 1350536,
+      "href": "http://example.com",
+      "duration": 225.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350338",
+      "title": "Chapter 226",
+      "schema:contentSize": 2445656,
+      "href": "http://example.com",
+      "duration": 406.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350339",
+      "title": "Chapter 227",
+      "schema:contentSize": 2429888,
+      "href": "http://example.com",
+      "duration": 405.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350340",
+      "title": "Chapter 228",
+      "schema:contentSize": 1468040,
+      "href": "http://example.com",
+      "duration": 243.59999999999997,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350341",
+      "title": "Chapter 229",
+      "schema:contentSize": 2513696,
+      "href": "http://example.com",
+      "duration": 418.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350342",
+      "title": "Chapter 230",
+      "schema:contentSize": 1821416,
+      "href": "http://example.com",
+      "duration": 303.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350343",
+      "title": "Chapter 231",
+      "schema:contentSize": 2286464,
+      "href": "http://example.com",
+      "duration": 381.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350344",
+      "title": "Chapter 232",
+      "schema:contentSize": 1388984,
+      "href": "http://example.com",
+      "duration": 231.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350345",
+      "title": "Chapter 233",
+      "schema:contentSize": 1496552,
+      "href": "http://example.com",
+      "duration": 249.00000000000003,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350346",
+      "title": "Chapter 234",
+      "schema:contentSize": 1612976,
+      "href": "http://example.com",
+      "duration": 267.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350347",
+      "title": "Chapter 235",
+      "schema:contentSize": 1663952,
+      "href": "http://example.com",
+      "duration": 276.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350348",
+      "title": "Chapter 236",
+      "schema:contentSize": 1504112,
+      "href": "http://example.com",
+      "duration": 249.60000000000002,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350349",
+      "title": "Chapter 237",
+      "schema:contentSize": 2613488,
+      "href": "http://example.com",
+      "duration": 435.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350350",
+      "title": "Chapter 238",
+      "schema:contentSize": 1792904,
+      "href": "http://example.com",
+      "duration": 297.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350351",
+      "title": "Chapter 239",
+      "schema:contentSize": 1695488,
+      "href": "http://example.com",
+      "duration": 282.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350352",
+      "title": "Chapter 240",
+      "schema:contentSize": 1488128,
+      "href": "http://example.com",
+      "duration": 247.79999999999998,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350353",
+      "title": "Chapter 241",
+      "schema:contentSize": 1670000,
+      "href": "http://example.com",
+      "duration": 277.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350354",
+      "title": "Chapter 242",
+      "schema:contentSize": 1206464,
+      "href": "http://example.com",
+      "duration": 201.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350355",
+      "title": "Chapter 243",
+      "schema:contentSize": 1694624,
+      "href": "http://example.com",
+      "duration": 282.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350356",
+      "title": "Chapter 244",
+      "schema:contentSize": 2510024,
+      "href": "http://example.com",
+      "duration": 417.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350357",
+      "title": "Chapter 245",
+      "schema:contentSize": 1834160,
+      "href": "http://example.com",
+      "duration": 304.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350358",
+      "title": "Chapter 246",
+      "schema:contentSize": 1661792,
+      "href": "http://example.com",
+      "duration": 276.6,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350359",
+      "title": "Chapter 247",
+      "schema:contentSize": 2197040,
+      "href": "http://example.com",
+      "duration": 366.0,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "rbdigital:id": "2350360",
+      "title": "Chapter 248",
+      "schema:contentSize": 535784,
+      "href": "http://example.com",
+      "duration": 88.8,
+      "type": "vnd.librarysimplified/rbdigital-access-document+json",
+      "alternates": [
+        {
+          "href": "http://example.com",
+          "type": "audio/mpeg"
+        }
+      ]
+    }
+  ],
+  "@context": "http://readium.org/webpub/default.jsonld",
+  "links": [
+    {
+      "href": "http://example.com",
+      "type": "image/png",
+      "rel": "cover"
+    }
+  ],
+  "metadata": {
+    "publisher": "Macmillan Audio",
+    "narrator": "Simon Slater",
+    "description": "In the ruthless arena of King Henry VIII's court, only one man dares to gamble his life to win the king's favor and ascend to the heights of political power England...",
+    "author": "Hilary Mantel",
+    "title": "Wolf Hall",
+    "schema:contentSize": 498028368,
+    "rbdigital:hasDrm": true,
+    "duration": 82844.4,
+    "identifier": "9781427220370",
+    "@type": "http://bib.schema.org/Audiobook",
+    "rbdigital:encryptionKey": "0628bb60-abe2-4428-b4c0-43e72f565dbe"
+  }
+}

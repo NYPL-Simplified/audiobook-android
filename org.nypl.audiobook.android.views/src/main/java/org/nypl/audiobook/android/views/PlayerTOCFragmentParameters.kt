@@ -1,6 +1,6 @@
 package org.nypl.audiobook.android.views
 
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 import java.io.Serializable
 
 /**
