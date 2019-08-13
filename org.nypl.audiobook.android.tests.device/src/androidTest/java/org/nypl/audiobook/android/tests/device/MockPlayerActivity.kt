@@ -4,9 +4,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
 import org.joda.time.Duration

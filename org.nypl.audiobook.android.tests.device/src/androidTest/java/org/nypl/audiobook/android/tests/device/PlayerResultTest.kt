@@ -1,7 +1,7 @@
 package org.nypl.audiobook.android.tests.device
 
-import android.support.test.filters.MediumTest
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.filters.MediumTest
+import androidx.test.runner.AndroidJUnit4
 import org.junit.runner.RunWith
 import org.nypl.audiobook.android.tests.PlayerResultContract
 

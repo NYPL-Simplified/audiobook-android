@@ -7,6 +7,7 @@ dependencies {
 
   androidTestImplementation libraries.androidSupportTestRules
   androidTestImplementation libraries.androidSupportTestRunner
+  androidTestImplementation libraries.androidXEspresso
   androidTestUtil libraries.androidTestOrchestrator
 
   implementation project(':org.nypl.audiobook.android.api')
