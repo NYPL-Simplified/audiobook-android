@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.device
+package org.librarysimplified.audiobook.tests.device
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest

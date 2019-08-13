@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.device
+package org.librarysimplified.audiobook.tests.device
 
 import android.graphics.Color
 import android.os.Bundle
@@ -26,6 +26,7 @@ import org.librarysimplified.audiobook.views.PlayerPlaybackRateFragment
 import org.librarysimplified.audiobook.views.PlayerSleepTimerFragment
 import org.librarysimplified.audiobook.views.PlayerTOCFragment
 import org.librarysimplified.audiobook.views.PlayerTOCFragmentParameters
+import org.nypl.audiobook.android.tests.device.R
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService

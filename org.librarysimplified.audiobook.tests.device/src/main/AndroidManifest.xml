@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="org.nypl.audiobook.android.tests.device">
+  package="org.librarysimplified.audiobook.tests.device">
 
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -9,7 +9,7 @@
 
   <application android:allowBackup="false">
     <activity
-      android:name="org.nypl.audiobook.android.tests.device.MockPlayerActivity"
+      android:name="org.librarysimplified.audiobook.tests.device.MockPlayerActivity"
       android:exported="true" />
   </application>
 </manifest>

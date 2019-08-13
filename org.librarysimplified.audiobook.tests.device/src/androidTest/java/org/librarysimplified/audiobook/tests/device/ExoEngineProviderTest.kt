@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.tests.device
+package org.librarysimplified.audiobook.tests.device
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
