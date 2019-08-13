@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.open_access
+package org.librarysimplified.audiobook.open_access
 
 import android.content.Context
 import android.media.AudioManager
@@ -33,13 +33,13 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.librarysimplified.audiobook.api.PlayerType
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateInitial
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStatePlaying
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateStopped
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateWaitingForElement
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_NONEXISTENT
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_NOT_DOWNLOADED
-import org.nypl.audiobook.android.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_READY
+import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateInitial
+import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStatePlaying
+import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateStopped
+import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.ExoPlayerState.ExoPlayerStateWaitingForElement
+import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_NONEXISTENT
+import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_NOT_DOWNLOADED
+import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_READY
 import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.Subscription

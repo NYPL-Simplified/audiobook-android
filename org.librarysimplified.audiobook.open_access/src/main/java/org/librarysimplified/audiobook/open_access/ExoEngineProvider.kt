@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.open_access
+package org.librarysimplified.audiobook.open_access
 
 import org.librarysimplified.audiobook.api.PlayerAudioBookProviderType
 import org.librarysimplified.audiobook.api.PlayerAudioEngineProviderType
@@ -77,14 +77,14 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
 
     private fun parseVersionFromProperties(): PlayerAudioEngineVersion {
       try {
-        val path = "/org/nypl/audiobook/android/open_access/provider.properties"
+        val path = "#Automatically generated - DO NOT EDIT\n#Tue Aug 13 19:18:10 UTC 2019\nversion.minor=0\nversion.patch=0\nversion.major=3\n"
         val stream = ExoEngineProvider::class.java.getResourceAsStream(path)
         if (stream == null) {
           throw IllegalStateException("Unable to load properties from: " + path)
         }
         return loadPropertiesFromStream(stream)
       } catch (e: Exception) {
-        this.log.error("could not load properties: ", e)
+        log.error("could not load properties: ", e)
         return PlayerAudioEngineVersion(0, 0, 0)
       }
     }

@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.open_access
+package org.librarysimplified.audiobook.open_access
 
 import net.jcip.annotations.GuardedBy
 import org.joda.time.Duration

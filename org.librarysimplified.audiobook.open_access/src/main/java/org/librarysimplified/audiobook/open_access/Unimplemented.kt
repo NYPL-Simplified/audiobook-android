@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.open_access
+package org.librarysimplified.audiobook.open_access
 
 /**
  * An exception type indicating unimplemented code.

@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.open_access
+package org.librarysimplified.audiobook.open_access
 
 import android.content.Context
 import org.joda.time.Duration
@@ -70,7 +70,7 @@ class ExoAudioBook private constructor(
 
       val bookId = PlayerBookID.transform(manifest.id)
       val directory = findDirectoryFor(context, bookId)
-      this.log.debug("book directory: {}", directory)
+      log.debug("book directory: {}", directory)
 
       /*
        * Set up all the various bits of state required.
@@ -106,7 +106,7 @@ class ExoAudioBook private constructor(
 
         elements.add(element)
         elementsById.put(element.id, element)
-        this.addElementByPartAndChapter(elementsByPart, element)
+        addElementByPartAndChapter(elementsByPart, element)
         ++index
 
         /*

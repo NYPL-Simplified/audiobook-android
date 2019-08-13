@@ -32,7 +32,7 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
-import org.nypl.audiobook.android.open_access.ExoEngineProvider
+import org.librarysimplified.audiobook.open_access.ExoEngineProvider
 import org.nypl.audiobook.android.tests.DishonestDownloadProvider
 import org.nypl.audiobook.android.tests.ResourceDownloadProvider
 import org.slf4j.Logger
@@ -42,7 +42,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 
 /**
- * Tests for the {@link org.nypl.audiobook.android.open_access.ExoEngineProvider} type.
+ * Tests for the {@link org.librarysimplified.audiobook.open_access.ExoEngineProvider} type.
  */
 
 abstract class ExoEngineProviderContract {

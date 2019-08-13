@@ -16,7 +16,7 @@ dependencies {
 
 task generatePropertiesResources {
 
-  def directory = new File(project.projectDir, "src/main/resources/org/nypl/audiobook/android/open_access").absoluteFile
+  def directory = new File(project.projectDir, "src/main/resources/org/librarysimplified/audiobook/open_access").absoluteFile
   directory.mkdirs()
   def file = new File(directory, "provider.properties")
   file.createNewFile()

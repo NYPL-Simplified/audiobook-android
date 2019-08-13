@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.open_access
+package org.librarysimplified.audiobook.open_access
 
 import com.google.common.base.Function
 import com.google.common.util.concurrent.AsyncFunction
@@ -15,9 +15,9 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
-import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Downloaded
-import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Downloading
-import org.nypl.audiobook.android.open_access.ExoDownloadTask.State.Initial
+import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloaded
+import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloading
+import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Initial
 import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser
 import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseFailed
 import org.nypl.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseSuccess

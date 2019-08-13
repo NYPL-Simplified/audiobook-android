@@ -6,7 +6,7 @@ import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerManifest
 import org.librarysimplified.audiobook.api.PlayerManifests
 import org.librarysimplified.audiobook.api.PlayerResult
-import org.nypl.audiobook.android.open_access.ExoManifest
+import org.librarysimplified.audiobook.open_access.ExoManifest
 import org.slf4j.Logger
 import java.io.InputStream
 
