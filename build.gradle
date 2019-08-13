@@ -158,7 +158,7 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
         defaultConfig {
           minSdkVersion androidMinimumSDKVersion
           targetSdkVersion androidTargetSDKVersion
-          testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+          testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         }
         compileOptions {
           sourceCompatibility JavaVersion.VERSION_1_8

@@ -12,28 +12,3 @@ dependencies {
   implementation libraries.androidXAppCompat
   implementation libraries.logbackAndroid
 }
-
-android {
-  compileSdkVersion 28
-  buildToolsVersion "28.0.3"
-
-  defaultConfig {
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-
-  testOptions {
-    execution 'ANDROID_TEST_ORCHESTRATOR'
-  }
-
-  packagingOptions {
-
-  }
-
-  /*
-   * We don't care about lint-related failures in the test suite.
-   */
-
-  lintOptions {
-    abortOnError false
-  }
-}
