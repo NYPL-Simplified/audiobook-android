@@ -11,13 +11,13 @@ dependencies {
   androidTestImplementation libraries.androidXTestRunner
   androidTestUtil libraries.androidXTestOrchestrator
 
-  implementation project(':org.nypl.audiobook.android.api')
-  implementation project(':org.nypl.audiobook.android.manifest.nypl')
-  implementation project(':org.nypl.audiobook.android.mocking')
-  implementation project(':org.nypl.audiobook.android.open_access')
-  implementation project(':org.nypl.audiobook.android.views')
+  implementation project(':org.librarysimplified.audiobook.api')
+  implementation project(':org.librarysimplified.audiobook.manifest.nypl')
+  implementation project(':org.librarysimplified.audiobook.mocking')
+  implementation project(':org.librarysimplified.audiobook.open_access')
+  implementation project(':org.librarysimplified.audiobook.views')
 
-  implementation (project(':org.nypl.audiobook.android.tests')) {
+  implementation (project(':org.librarysimplified.audiobook.tests')) {
     exclude group: 'ch.qos.logback', module: 'logback-classic'
   }
 }

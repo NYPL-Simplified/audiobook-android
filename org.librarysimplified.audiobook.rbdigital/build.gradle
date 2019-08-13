@@ -1,5 +1,5 @@
 dependencies {
-  api project(':org.nypl.audiobook.android.api')
+  api project(':org.librarysimplified.audiobook.api')
 
   api libraries.jacksonDatabind
 

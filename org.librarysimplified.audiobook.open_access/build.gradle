@@ -1,6 +1,6 @@
 dependencies {
-  api project(':org.nypl.audiobook.android.api')
-  api project(':org.nypl.audiobook.android.rbdigital')
+  api project(':org.librarysimplified.audiobook.api')
+  api project(':org.librarysimplified.audiobook.rbdigital')
 
   implementation libraries.googleExoplayer
   implementation libraries.jodaTime
