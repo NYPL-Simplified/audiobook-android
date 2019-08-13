@@ -9,6 +9,6 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   app:layoutManager="LinearLayoutManager"
-  tools:context=".PlayerTOCFragment"
+  tools:context="org.librarysimplified.audiobook.views.PlayerTOCFragment"
   tools:listitem="@layout/player_toc_item_view" />
 

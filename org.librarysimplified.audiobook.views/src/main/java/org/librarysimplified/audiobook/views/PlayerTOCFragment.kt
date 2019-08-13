@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.app.AlertDialog
 import android.content.Context
@@ -23,7 +23,7 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
-import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityChapterSelected
+import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityChapterSelected
 import org.slf4j.LoggerFactory
 import rx.Subscription
 
@@ -33,7 +33,7 @@ import rx.Subscription
  * New instances MUST be created with {@link #newInstance()} rather than calling the constructor
  * directly. The public constructor only exists because the Android API requires it.
  *
- * Activities hosting this fragment MUST implement the {@link org.nypl.audiobook.android.views.PlayerFragmentListenerType}
+ * Activities hosting this fragment MUST implement the {@link org.librarysimplified.audiobook.views.PlayerFragmentListenerType}
  * interface. An exception will be raised if this is not the case.
  */
 
@@ -320,7 +320,7 @@ class PlayerTOCFragment : Fragment() {
   companion object {
 
     private val parametersKey =
-      "org.nypl.audiobook.android.views.PlayerTOCFragment.parameters"
+      "org.librarysimplified.audiobook.views.PlayerTOCFragment.parameters"
 
     @JvmStatic
     fun newInstance(parameters: PlayerTOCFragmentParameters): PlayerTOCFragment {

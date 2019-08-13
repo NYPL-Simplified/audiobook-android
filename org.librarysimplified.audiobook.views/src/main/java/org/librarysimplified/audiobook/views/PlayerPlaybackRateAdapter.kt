@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.content.res.Resources
 import android.graphics.PorterDuff
@@ -55,7 +55,7 @@ class PlayerPlaybackRateAdapter(
       return StringBuilder(128)
         .append(resources.getString(R.string.audiobook_accessibility_playback_speed_set_to))
         .append(" ")
-        .append(this.contentDescriptionOfRate(resources, item))
+        .append(contentDescriptionOfRate(resources, item))
         .toString()
     }
 
@@ -82,7 +82,7 @@ class PlayerPlaybackRateAdapter(
       return StringBuilder(128)
         .append(resources.getString(R.string.audiobook_accessibility_playback_speed_has_been_set))
         .append(" ")
-        .append(this.contentDescriptionOfRate(resources, item))
+        .append(contentDescriptionOfRate(resources, item))
         .toString()
     }
 
@@ -90,7 +90,7 @@ class PlayerPlaybackRateAdapter(
       resources: Resources,
       item: PlayerPlaybackRate): String {
       return StringBuilder(128)
-        .append(this.menuItemContentDescriptionOfRate(resources, item))
+        .append(menuItemContentDescriptionOfRate(resources, item))
         .append(". ")
         .append(resources.getString(R.string.audiobook_accessibility_playback_speed_is_selected))
         .toString()

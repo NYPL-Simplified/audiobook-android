@@ -4,7 +4,7 @@
   android:layout_width="80dp"
   android:layout_height="80dp">
 
-  <org.nypl.audiobook.android.views.PlayerCircularProgressView
+  <org.librarysimplified.audiobook.views.PlayerCircularProgressView
     android:id="@+id/player_toc_item_downloading_progress"
     android:layout_width="32dp"
     android:layout_height="32dp"

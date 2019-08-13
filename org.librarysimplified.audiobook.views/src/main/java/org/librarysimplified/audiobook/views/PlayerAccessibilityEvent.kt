@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 /**
  * The type of events significant to accessibility.

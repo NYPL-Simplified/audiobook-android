@@ -10,6 +10,6 @@
   android:layout_height="match_parent"
   android:paddingTop="16dp"
   app:layoutManager="LinearLayoutManager"
-  tools:context=".PlayerPlaybackRateFragment"
+  tools:context="org.librarysimplified.audiobook.views.PlayerPlaybackRateFragment"
   tools:listitem="@layout/player_rate_item_view" />
 

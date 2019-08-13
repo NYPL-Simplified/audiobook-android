@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.content.Context
 import android.graphics.Bitmap

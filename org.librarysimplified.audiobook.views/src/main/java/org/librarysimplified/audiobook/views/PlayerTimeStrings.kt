@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.content.res.Resources
 import org.joda.time.Duration
@@ -62,7 +62,7 @@ object PlayerTimeStrings {
     companion object {
 
       fun createFromResources(resources: Resources): SpokenTranslations {
-        return PlayerTimeStrings.SpokenTranslations(
+        return SpokenTranslations(
           hoursText = resources.getString(R.string.audiobook_accessibility_hours),
           hourText = resources.getString(R.string.audiobook_accessibility_hour),
           minutesText = resources.getString(R.string.audiobook_accessibility_minutes),
@@ -94,17 +94,17 @@ object PlayerTimeStrings {
       .toFormatter()
 
   fun hourMinuteSecondTextFromMilliseconds(milliseconds: Long): String {
-    return this.hourMinuteSecondFormatter.print(Duration.millis(milliseconds).toPeriod())
+    return hourMinuteSecondFormatter.print(Duration.millis(milliseconds).toPeriod())
   }
 
   fun hourMinuteSecondSpokenFromMilliseconds(
     translations: SpokenTranslations,
     milliseconds: Long): String {
-    return this.hourMinuteSecondSpokenFromDuration(translations, Duration.millis(milliseconds))
+    return hourMinuteSecondSpokenFromDuration(translations, Duration.millis(milliseconds))
   }
 
   fun hourMinuteSecondTextFromDuration(duration: Duration): String {
-    return this.hourMinuteSecondFormatter.print(duration.toPeriod())
+    return hourMinuteSecondFormatter.print(duration.toPeriod())
   }
 
   fun hourMinuteSecondSpokenFromDuration(
@@ -143,7 +143,7 @@ object PlayerTimeStrings {
   }
 
   fun minuteSecondTextFromDuration(duration: Duration): String {
-    return this.minuteSecondFormatter.print(duration.toPeriod())
+    return minuteSecondFormatter.print(duration.toPeriod())
   }
 
   fun minuteSecondSpokenFromDuration(

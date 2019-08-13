@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -36,9 +36,9 @@ import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent.PlayerSleepTime
 import org.librarysimplified.audiobook.api.PlayerSleepTimerType
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
-import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityErrorOccurred
-import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityIsBuffering
-import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityIsWaitingForChapter
+import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityErrorOccurred
+import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityIsBuffering
+import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityIsWaitingForChapter
 import org.slf4j.LoggerFactory
 import rx.Subscription
 import java.util.concurrent.ScheduledExecutorService
@@ -51,7 +51,7 @@ import java.util.concurrent.TimeUnit
  * New instances MUST be created with {@link #newInstance()} rather than calling the constructor
  * directly. The public constructor only exists because the Android API requires it.
  *
- * Activities hosting this fragment MUST implement the {@link org.nypl.audiobook.android.views.PlayerFragmentListenerType}
+ * Activities hosting this fragment MUST implement the {@link org.librarysimplified.audiobook.views.PlayerFragmentListenerType}
  * interface. An exception will be raised if this is not the case.
  */
 
@@ -59,12 +59,12 @@ class PlayerFragment : Fragment() {
 
   companion object {
 
-    const val parametersKey = "org.nypl.audiobook.android.views.PlayerFragment.parameters"
+    const val parametersKey = "org.librarysimplified.audiobook.views.PlayerFragment.parameters"
 
     @JvmStatic
     fun newInstance(parameters: PlayerFragmentParameters): PlayerFragment {
       val args = Bundle()
-      args.putSerializable(this.parametersKey, parameters)
+      args.putSerializable(parametersKey, parameters)
       val fragment = PlayerFragment()
       fragment.arguments = args
       return fragment

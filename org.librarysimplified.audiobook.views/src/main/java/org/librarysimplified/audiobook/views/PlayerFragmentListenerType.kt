@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.widget.ImageView
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
@@ -82,7 +82,7 @@ interface PlayerFragmentListenerType {
   /**
    * The user has performed an action that requires that a sleep timer configuration dialog be opened.
    * The caller should load a fragment capable of displaying the configuration menu
-   * (such as {@link org.nypl.audiobook.android.views.PlayerSleepTimerFragment}).
+   * (such as {@link org.librarysimplified.audiobook.views.PlayerSleepTimerFragment}).
    */
 
   fun onPlayerSleepTimerShouldOpen()

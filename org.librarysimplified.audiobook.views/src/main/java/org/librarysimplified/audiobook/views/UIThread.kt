@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.os.Handler
 import android.os.Looper
@@ -17,7 +17,7 @@ internal class UIThread private constructor() {
      */
 
     fun checkIsUIThread() {
-      if (UIThread.isUIThread() == false) {
+      if (isUIThread() == false) {
         throw IllegalStateException(
           String.format(
             "Current thread '%s' is not the Android UI thread",

@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.content.Context
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.librarysimplified.audiobook.api.PlayerPlaybackRate
 import org.librarysimplified.audiobook.api.PlayerType
-import org.nypl.audiobook.android.views.PlayerAccessibilityEvent.PlayerAccessibilityPlaybackRateChanged
+import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityPlaybackRateChanged
 import org.slf4j.LoggerFactory
 
 /**
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory
  * New instances MUST be created with {@link #newInstance()} rather than calling the constructor
  * directly. The public constructor only exists because the Android API requires it.
  *
- * Activities hosting this fragment MUST implement the {@link org.nypl.audiobook.android.views.PlayerFragmentListenerType}
+ * Activities hosting this fragment MUST implement the {@link org.librarysimplified.audiobook.views.PlayerFragmentListenerType}
  * interface. An exception will be raised if this is not the case.
  */
 
@@ -102,12 +102,12 @@ class PlayerPlaybackRateFragment : DialogFragment() {
   companion object {
 
     const val parametersKey =
-      "org.nypl.audiobook.android.views.PlayerPlaybackRateFragment.parameters"
+      "org.librarysimplified.audiobook.views.PlayerPlaybackRateFragment.parameters"
 
     @JvmStatic
     fun newInstance(parameters: PlayerFragmentParameters): PlayerPlaybackRateFragment {
       val args = Bundle()
-      args.putSerializable(this.parametersKey, parameters)
+      args.putSerializable(parametersKey, parameters)
       val fragment = PlayerPlaybackRateFragment()
       fragment.arguments = args
       return fragment

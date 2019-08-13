@@ -15,7 +15,7 @@
     android:visibility="visible"
     android:src="@drawable/toc_refresh" />
 
-  <org.nypl.audiobook.android.views.PlayerCircularProgressView
+  <org.librarysimplified.audiobook.views.PlayerCircularProgressView
     android:id="@+id/player_toc_item_not_downloaded_streamable_progress"
     android:layout_width="32dp"
     android:layout_height="32dp"

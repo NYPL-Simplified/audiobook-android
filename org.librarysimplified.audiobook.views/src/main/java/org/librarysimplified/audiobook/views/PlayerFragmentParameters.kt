@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import androidx.annotation.ColorInt
 import java.io.Serializable

@@ -10,5 +10,5 @@
   android:layout_height="match_parent"
   android:paddingTop="16dp"
   app:layoutManager="LinearLayoutManager"
-  tools:context=".PlayerSleepTimerFragment"
+  tools:context="org.librarysimplified.audiobook.views.PlayerSleepTimerFragment"
   tools:listitem="@layout/player_sleep_item_view" />

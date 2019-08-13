@@ -3,7 +3,7 @@ package org.librarysimplified.audiobook.tests
 import org.joda.time.Duration
 import org.junit.Assert
 import org.junit.Test
-import org.nypl.audiobook.android.views.PlayerTimeStrings
+import org.librarysimplified.audiobook.views.PlayerTimeStrings
 
 
 abstract class PlayerTimeStringsContract {

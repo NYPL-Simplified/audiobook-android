@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.librarysimplified.audiobook.api.PlayerPlaybackRate
-import org.nypl.audiobook.android.views.PlayerPlaybackRateAdapter
+import org.librarysimplified.audiobook.views.PlayerPlaybackRateAdapter
 import org.slf4j.LoggerFactory
 
 @RunWith(AndroidJUnit4::class)

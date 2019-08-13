@@ -1,4 +1,4 @@
-package org.nypl.audiobook.android.views
+package org.librarysimplified.audiobook.views
 
 import android.content.Context
 import android.content.res.Resources
@@ -38,6 +38,6 @@ internal object PlayerColors {
   fun primaryColor(
     context: Context,
     @ColorInt providedColor: Int?): Int {
-    return providedColor ?: resolveColorAttribute(context.theme, android.R.attr.colorPrimary)
+    return providedColor ?: resolveColorAttribute(context.theme, R.attr.colorPrimary)
   }
 }
