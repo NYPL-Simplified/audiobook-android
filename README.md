@@ -2,7 +2,7 @@ audiobook-android
 ===
 
 ![Travis (.org)](https://img.shields.io/travis/NYPL-Simplified/audiobook-android.svg?style=flat-square)
-[![Maven Central](https://img.shields.io/maven-central/v/org.librarysimplified.audiobook/org.librarysimplified.audiobook.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.librarysimplified.audiobook%22)
+[![Maven Central](https://img.shields.io/maven-central/v/org.librarysimplified.audiobook/org.librarysimplified.audiobook.api.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.librarysimplified.audiobook%22)
 
 ### Compilation
 
