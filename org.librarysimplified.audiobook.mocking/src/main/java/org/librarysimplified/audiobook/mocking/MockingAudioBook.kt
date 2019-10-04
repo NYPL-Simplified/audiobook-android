@@ -9,8 +9,10 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import rx.Observable
 import rx.subjects.BehaviorSubject
+import java.lang.IllegalStateException
 import java.util.SortedMap
 import java.util.concurrent.ExecutorService
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * A fake audio book.
@@ -25,6 +27,7 @@ class MockingAudioBook(
   val statusEvents: BehaviorSubject<PlayerSpineElementDownloadStatus> = BehaviorSubject.create()
   val spineItems: MutableList<MockingSpineElement> = mutableListOf()
 
+  private val isClosedNow = AtomicBoolean(false)
   private val wholeTask = MockingDownloadWholeBookTask(this)
 
   fun createSpineElement(id: String, title: String, duration: Duration): MockingSpineElement {
@@ -62,6 +65,18 @@ class MockingAudioBook(
     get() = this.wholeTask
 
   override fun createPlayer(): MockingPlayer {
+    check(!this.isClosed) { "Audio book has been closed" }
+
     return this.players.invoke(this)
   }
+
+  override fun close() {
+    if (this.isClosedNow.compareAndSet(false, true)) {
+      // No resources to clean up
+    }
+  }
+
+  override val isClosed: Boolean
+    get() = this.isClosedNow.get()
+
 }

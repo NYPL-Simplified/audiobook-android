@@ -1,13 +1,20 @@
 package org.librarysimplified.audiobook.api
 
 import rx.Observable
+import java.io.Closeable
 import java.util.SortedMap
 
 /**
- * An instance of an audio book.
+ * An instance of an audio book. The audio book must be closed when it is no longer needed.
  */
 
-interface PlayerAudioBookType {
+interface PlayerAudioBookType : Closeable {
+
+  /**
+   * `true` if [close] has been called
+   */
+
+  val isClosed: Boolean
 
   /**
    * A unique identifier for the book.

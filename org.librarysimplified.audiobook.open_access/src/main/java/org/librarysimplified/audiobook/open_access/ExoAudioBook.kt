@@ -15,6 +15,7 @@ import java.io.File
 import java.util.SortedMap
 import java.util.TreeMap
 import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * An ExoPlayer audio book.
@@ -32,9 +33,12 @@ class ExoAudioBook private constructor(
   private val engineProvider: ExoEngineProvider)
   : PlayerAudioBookType {
 
+  private val isClosedNow = AtomicBoolean(false)
   private val wholeBookTask = ExoDownloadWholeBookTask(this)
 
   override fun createPlayer(): PlayerType {
+    check(!this.isClosed) { "Audio book has been closed" }
+
     return ExoAudioBookPlayer.create(
       book = this,
       engineProvider = this.engineProvider,
@@ -157,4 +161,14 @@ class ExoAudioBook private constructor(
       elementsByPart.put(element.itemManifest.part, partChapters)
     }
   }
+
+  override fun close() {
+    if (this.isClosedNow.compareAndSet(false, true)) {
+      log.debug("closed audio book")
+      this.spineElementDownloadStatus.onCompleted()
+    }
+  }
+
+  override val isClosed: Boolean
+    get() = this.isClosedNow.get()
 }
