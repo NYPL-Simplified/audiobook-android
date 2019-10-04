@@ -55,7 +55,7 @@ object PlayerPositions : PlayerPositionParserType, PlayerPositionSerializerType 
     positionNode.put("offsetMilliseconds", position.offsetMilliseconds)
     positionNode.put("title", position.title)
 
-    node.set("position", positionNode)
+    node.set<ObjectNode>("position", positionNode)
     return node
   }
 

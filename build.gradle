@@ -23,9 +23,9 @@ buildscript {
 
 plugins {
   id "com.github.ben-manes.versions" version "0.25.0"
-  id "com.vanniktech.android.junit.jacoco" version "0.13.0"
+  id "com.vanniktech.android.junit.jacoco" version "0.15.0"
   id "digital.wup.android-maven-publish" version "3.6.2"
-  id "io.codearte.nexus-staging" version "0.20.0"
+  id "io.codearte.nexus-staging" version "0.21.1"
   id "ru.vyarus.animalsniffer" version "1.5.0"
 }
 
@@ -59,10 +59,10 @@ ext.libraries = [
   androidXTestRunner         : "androidx.test:runner:1.3.0-alpha02",
   googleExoplayer            : "com.google.android.exoplayer:exoplayer:r1.5.15",
   googleGuava                : "com.google.guava:guava:27.1-android",
-  jacksonCore                : "com.fasterxml.jackson.core:jackson-core:2.9.9.3",
-  jacksonDatabind            : "com.fasterxml.jackson.core:jackson-databind:2.9.9.3",
+  jacksonCore                : "com.fasterxml.jackson.core:jackson-core:2.10.0",
+  jacksonDatabind            : "com.fasterxml.jackson.core:jackson-databind:2.10.0",
   jcip                       : "com.io7m.jcip:jcip-annotations:1.0.2",
-  jodaTime                   : "joda-time:joda-time:2.10.1",
+  jodaTime                   : "joda-time:joda-time:2.10.4",
   junit                      : "junit:junit:4.12",
   kotlinReflect              : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
   kotlinStdlib               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
