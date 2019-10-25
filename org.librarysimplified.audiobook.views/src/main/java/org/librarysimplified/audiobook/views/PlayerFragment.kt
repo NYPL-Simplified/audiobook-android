@@ -12,6 +12,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -709,6 +710,7 @@ class PlayerFragment : Fragment() {
         val accessibleMessage = this.getString(R.string.audiobook_accessibility_player_buffering)
         this.playerWaiting.contentDescription = accessibleMessage
         this.playerWaiting.setText(R.string.audiobook_player_buffering)
+        this.playerWaiting.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
         this.listener.onPlayerAccessibilityEvent(PlayerAccessibilityIsBuffering(accessibleMessage))
       }
     })
