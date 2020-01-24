@@ -1,10 +1,11 @@
 dependencies {
   api project(':org.librarysimplified.audiobook.api')
-  api project(':org.librarysimplified.audiobook.views')
-  api project(':org.librarysimplified.audiobook.open_access')
   api project(':org.librarysimplified.audiobook.downloads')
-  api project(':org.librarysimplified.audiobook.manifest.nypl')
+  api project(':org.librarysimplified.audiobook.manifest_parser.api')
+  api project(':org.librarysimplified.audiobook.manifest_parser.webpub')
+  api project(':org.librarysimplified.audiobook.open_access')
   api project(':org.librarysimplified.audiobook.rbdigital')
+  api project(':org.librarysimplified.audiobook.views')
 
   api libraries.kotlinStdlib
   api libraries.junit

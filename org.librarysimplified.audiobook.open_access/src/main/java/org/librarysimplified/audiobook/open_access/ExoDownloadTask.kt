@@ -97,7 +97,7 @@ class ExoDownloadTask(
      */
 
     val uriFuture: FluentFuture<URI> =
-      when (this.spineElement.itemManifest.type) {
+      when (this.spineElement.itemManifest.type.fullType) {
         "vnd.librarysimplified/rbdigital-access-document+json" ->
           this.processRBDigitalAccessDocument(this.spineElement.itemManifest.uri)
         else ->

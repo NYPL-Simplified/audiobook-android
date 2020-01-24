@@ -12,7 +12,7 @@ dependencies {
   androidTestUtil libraries.androidXTestOrchestrator
 
   implementation project(':org.librarysimplified.audiobook.api')
-  implementation project(':org.librarysimplified.audiobook.manifest.nypl')
+  implementation project(':org.librarysimplified.audiobook.manifest_parser.webpub')
   implementation project(':org.librarysimplified.audiobook.mocking')
   implementation project(':org.librarysimplified.audiobook.open_access')
   implementation project(':org.librarysimplified.audiobook.views')

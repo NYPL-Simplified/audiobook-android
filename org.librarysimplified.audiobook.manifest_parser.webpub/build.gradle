@@ -1,0 +1,11 @@
+dependencies {
+  api project(":org.librarysimplified.audiobook.manifest_parser.api")
+
+  implementation libraries.irradiaFieldrushAPI
+  implementation libraries.irradiaFieldrushVanilla
+  implementation libraries.jodaTime
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+
+  compileOnly libraries.jcip
+}

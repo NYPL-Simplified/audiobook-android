@@ -5,8 +5,17 @@ package org.librarysimplified.audiobook.api
  */
 
 data class PlayerManifest(
-  val spine: List<PlayerManifestSpineItem>,
-  val metadata: PlayerManifestMetadata)
+  val readingOrder: List<PlayerManifestLink>,
+  val metadata: PlayerManifestMetadata,
+  val links: List<PlayerManifestLink>
+) {
+  @Deprecated(
+    message = "Use readingOrder",
+    replaceWith = ReplaceWith("readingOrder")
+  )
+  val spine: List<PlayerManifestLink> =
+    this.readingOrder
+}
 
 /**
  * The metadata section in a manifest.
@@ -15,7 +24,8 @@ data class PlayerManifest(
 data class PlayerManifestMetadata(
   val title: String,
   val identifier: String,
-  val encrypted: PlayerManifestEncrypted?)
+  val encrypted: PlayerManifestEncrypted?
+)
 
 /**
  * A section in a manifest dealing with encryption details.
@@ -23,14 +33,8 @@ data class PlayerManifestMetadata(
 
 data class PlayerManifestEncrypted(
   val scheme: String,
-  val values: Map<String, PlayerManifestScalar>)
-
-/**
- * A spine item.
- */
-
-data class PlayerManifestSpineItem(
-  val values: Map<String, PlayerManifestScalar>)
+  val values: Map<String, PlayerManifestScalar>
+)
 
 /**
  * A scalar value appearing in a manifest.

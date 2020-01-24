@@ -4,11 +4,13 @@ import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerManifest
-import org.librarysimplified.audiobook.api.PlayerManifests
+import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.open_access.ExoManifest
+import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
 import java.io.InputStream
+import java.net.URI
 
 /**
  * Tests for the {@link org.librarysimplified.audiobook.api.PlayerRawManifest} type.
@@ -20,12 +22,16 @@ abstract class ExoManifestContract {
 
   @Test
   fun testOkFlatlandGardeur() {
-    val result = PlayerManifests.parse(resource("flatland.audiobook-manifest.json"))
-    this.log().debug("result: {}", result)
-    assertTrue("Result is success", result is PlayerResult.Success)
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("urn:flatland"),
+        streams = { resource("flatland.audiobook-manifest.json") })
 
-    val success: PlayerResult.Success<PlayerManifest, Exception> =
-      result as PlayerResult.Success<PlayerManifest, Exception>
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
 
@@ -79,31 +85,31 @@ abstract class ExoManifestContract {
 
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[0].type)
+      exo.spineItems[0].type.fullType)
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[1].type)
+      exo.spineItems[1].type.fullType)
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[2].type)
+      exo.spineItems[2].type.fullType)
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[3].type)
+      exo.spineItems[3].type.fullType)
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[4].type)
+      exo.spineItems[4].type.fullType)
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[5].type)
+      exo.spineItems[5].type.fullType)
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[6].type)
+      exo.spineItems[6].type.fullType)
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[7].type)
+      exo.spineItems[7].type.fullType)
     Assert.assertEquals(
       "audio/mpeg",
-      exo.spineItems[8].type)
+      exo.spineItems[8].type.fullType)
 
     Assert.assertEquals(
       "1371.0",

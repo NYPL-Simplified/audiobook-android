@@ -5,10 +5,12 @@ import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
 import org.librarysimplified.audiobook.api.PlayerAudioEngines
 import org.librarysimplified.audiobook.api.PlayerManifest
-import org.librarysimplified.audiobook.api.PlayerManifests
 import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
+import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
 import java.io.InputStream
+import java.net.URI
 
 /**
  * Tests for the {@link org.librarysimplified.audiobook.api.PlayerAudioEngines} type.
@@ -35,10 +37,15 @@ abstract class PlayerAudioEnginesContract {
   }
 
   private fun parseManifest(file: String): PlayerManifest {
-    val result = PlayerManifests.parse(resource(file))
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("urn:${file}"),
+        streams = { resource(file) }
+      )
+
     this.log().debug("result: {}", result)
-    Assert.assertTrue("Result is success", result is PlayerResult.Success)
-    val manifest = (result as PlayerResult.Success).result
+    Assert.assertTrue("Result is success", result is ParseResult.Success)
+    val manifest = (result as ParseResult.Success).result
     return manifest
   }
 

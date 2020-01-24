@@ -1,0 +1,7 @@
+dependencies {
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+  implementation libraries.jodaTime
+
+  compileOnly libraries.jcip
+}

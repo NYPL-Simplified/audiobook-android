@@ -1,8 +1,9 @@
 dependencies {
-  api libraries.jacksonDatabind
-  api libraries.rxjava
   api libraries.googleGuava
+  api libraries.irradiaMimeAPI
+  api libraries.jacksonDatabind
   api libraries.jodaTime
+  api libraries.rxjava
 
   implementation libraries.kotlinStdlib
   implementation libraries.slf4j

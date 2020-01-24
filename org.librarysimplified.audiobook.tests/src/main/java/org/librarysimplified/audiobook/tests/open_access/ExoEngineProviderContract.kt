@@ -24,7 +24,7 @@ import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineEleme
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStarted
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStopped
 import org.librarysimplified.audiobook.api.PlayerManifest
-import org.librarysimplified.audiobook.api.PlayerManifests
+import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
@@ -33,6 +33,7 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
 import org.librarysimplified.audiobook.open_access.ExoEngineProvider
+import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.librarysimplified.audiobook.tests.DishonestDownloadProvider
 import org.librarysimplified.audiobook.tests.ResourceDownloadProvider
 import org.slf4j.Logger
@@ -665,10 +666,14 @@ abstract class ExoEngineProviderContract {
   }
 
   private fun parseManifest(file: String): PlayerManifest {
-    val result = PlayerManifests.parse(this.resource(file))
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("urn:$file"),
+        streams = { this.resource(file) }
+      )
     this.log().debug("parseManifest: result: {}", result)
-    Assert.assertTrue("Result is success", result is PlayerResult.Success)
-    val manifest = (result as PlayerResult.Success).result
+    Assert.assertTrue("Result is success", result is ParseResult.Success)
+    val manifest = (result as ParseResult.Success).result
     return manifest
   }
 

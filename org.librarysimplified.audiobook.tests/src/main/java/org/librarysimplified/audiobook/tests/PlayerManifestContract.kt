@@ -4,11 +4,13 @@ import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerManifest
-import org.librarysimplified.audiobook.api.PlayerManifests
+import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import java.net.URI
 
 /**
  * Tests for the {@link org.librarysimplified.audiobook.api.PlayerRawManifest} type.
@@ -21,44 +23,56 @@ abstract class PlayerManifestContract {
   @Test
   fun testEmptyManifest() {
     val stream = ByteArrayInputStream(ByteArray(0))
-    val result = PlayerManifests.parse(stream)
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("urn:empty"),
+        streams = { stream }
+      )
     this.log().debug("result: {}", result)
-    assertTrue("Result is failure", result is PlayerResult.Failure)
+    assertTrue("Result is failure", result is ParseResult.Failure)
   }
 
   @Test
   fun testErrorMinimal_0() {
-    val result = PlayerManifests.parse(resource("error_minimal_0.json"))
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("urn:minimal"),
+        streams = { resource("error_minimal_0.json") }
+      )
     this.log().debug("result: {}", result)
-    assertTrue("Result is failure", result is PlayerResult.Failure)
+    assertTrue("Result is failure", result is ParseResult.Failure)
   }
 
   @Test
   fun testOkMinimal_0() {
-    val result = PlayerManifests.parse(resource("ok_minimal_0.json"))
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("urn:minimal"),
+        streams = { resource("ok_minimal_0.json")}
+      )
     this.log().debug("result: {}", result)
-    assertTrue("Result is success", result is PlayerResult.Success)
+    assertTrue("Result is success", result is ParseResult.Success)
 
-    val success: PlayerResult.Success<PlayerManifest, Exception> =
-      result as PlayerResult.Success<PlayerManifest, Exception>
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
 
-    Assert.assertEquals(3, manifest.spine.size)
-    Assert.assertEquals("Track 0", manifest.spine[0].values["title"].toString())
-    Assert.assertEquals("100.0", manifest.spine[0].values["duration"].toString())
-    Assert.assertEquals("audio/mpeg", manifest.spine[0].values["type"].toString())
-    Assert.assertEquals("http://www.example.com/0.mp3", manifest.spine[0].values["href"].toString())
+    Assert.assertEquals(3, manifest.readingOrder.size)
+    Assert.assertEquals("Track 0", manifest.readingOrder[0].title.toString())
+    Assert.assertEquals("100.0", manifest.readingOrder[0].duration.toString())
+    Assert.assertEquals("audio/mpeg", manifest.readingOrder[0].type.toString())
+    Assert.assertEquals("http://www.example.com/0.mp3", manifest.readingOrder[0].hrefURI.toString())
 
-    Assert.assertEquals("Track 1", manifest.spine[1].values["title"].toString())
-    Assert.assertEquals("200.0", manifest.spine[1].values["duration"].toString())
-    Assert.assertEquals("audio/mpeg", manifest.spine[1].values["type"].toString())
-    Assert.assertEquals("http://www.example.com/1.mp3", manifest.spine[1].values["href"].toString())
+    Assert.assertEquals("Track 1", manifest.readingOrder[1].title.toString())
+    Assert.assertEquals("200.0", manifest.readingOrder[1].duration.toString())
+    Assert.assertEquals("audio/mpeg", manifest.readingOrder[1].type.toString())
+    Assert.assertEquals("http://www.example.com/1.mp3", manifest.readingOrder[1].hrefURI.toString())
 
-    Assert.assertEquals("Track 2", manifest.spine[2].values["title"].toString())
-    Assert.assertEquals("300.0", manifest.spine[2].values["duration"].toString())
-    Assert.assertEquals("audio/mpeg", manifest.spine[2].values["type"].toString())
-    Assert.assertEquals("http://www.example.com/2.mp3", manifest.spine[2].values["href"].toString())
+    Assert.assertEquals("Track 2", manifest.readingOrder[2].title.toString())
+    Assert.assertEquals("300.0", manifest.readingOrder[2].duration.toString())
+    Assert.assertEquals("audio/mpeg", manifest.readingOrder[2].type.toString())
+    Assert.assertEquals("http://www.example.com/2.mp3", manifest.readingOrder[2].hrefURI.toString())
 
     Assert.assertEquals("title", manifest.metadata.title)
     Assert.assertEquals("urn:id", manifest.metadata.identifier)
@@ -66,12 +80,16 @@ abstract class PlayerManifestContract {
 
   @Test
   fun testOkFlatlandGardeur() {
-    val result = PlayerManifests.parse(resource("flatland.audiobook-manifest.json"))
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("flatland"),
+        streams = { resource("flatland.audiobook-manifest.json") }
+      )
     this.log().debug("result: {}", result)
-    assertTrue("Result is success", result is PlayerResult.Success)
+    assertTrue("Result is success", result is ParseResult.Success)
 
-    val success: PlayerResult.Success<PlayerManifest, Exception> =
-      result as PlayerResult.Success<PlayerManifest, Exception>
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
 
@@ -84,119 +102,135 @@ abstract class PlayerManifestContract {
 
     Assert.assertEquals(
       9,
-      manifest.spine.size)
+      manifest.readingOrder.size)
 
     Assert.assertEquals(
       "Part 1, Sections 1 - 3",
-      manifest.spine[0].values["title"].toString())
+      manifest.readingOrder[0].title.toString())
     Assert.assertEquals(
       "Part 1, Sections 4 - 5",
-      manifest.spine[1].values["title"].toString())
+      manifest.readingOrder[1].title.toString())
     Assert.assertEquals(
       "Part 1, Sections 6 - 7",
-      manifest.spine[2].values["title"].toString())
+      manifest.readingOrder[2].title.toString())
     Assert.assertEquals(
       "Part 1, Sections 8 - 10",
-      manifest.spine[3].values["title"].toString())
+      manifest.readingOrder[3].title.toString())
     Assert.assertEquals(
       "Part 1, Sections 11 - 12",
-      manifest.spine[4].values["title"].toString())
+      manifest.readingOrder[4].title.toString())
     Assert.assertEquals(
       "Part 2, Sections 13 - 14",
-      manifest.spine[5].values["title"].toString())
+      manifest.readingOrder[5].title.toString())
     Assert.assertEquals(
       "Part 2, Sections 15 - 17",
-      manifest.spine[6].values["title"].toString())
+      manifest.readingOrder[6].title.toString())
     Assert.assertEquals(
       "Part 2, Sections 18 - 20",
-      manifest.spine[7].values["title"].toString())
+      manifest.readingOrder[7].title.toString())
     Assert.assertEquals(
       "Part 2, Sections 21 - 22",
-      manifest.spine[8].values["title"].toString())
+      manifest.readingOrder[8].title.toString())
 
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[0].values["type"].toString())
+      manifest.readingOrder[0].type.toString())
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[1].values["type"].toString())
+      manifest.readingOrder[1].type.toString())
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[2].values["type"].toString())
+      manifest.readingOrder[2].type.toString())
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[3].values["type"].toString())
+      manifest.readingOrder[3].type.toString())
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[4].values["type"].toString())
+      manifest.readingOrder[4].type.toString())
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[5].values["type"].toString())
+      manifest.readingOrder[5].type.toString())
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[6].values["type"].toString())
+      manifest.readingOrder[6].type.toString())
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[7].values["type"].toString())
+      manifest.readingOrder[7].type.toString())
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.spine[8].values["type"].toString())
+      manifest.readingOrder[8].type.toString())
 
     Assert.assertEquals(
-      "1371",
-      manifest.spine[0].values["duration"].toString())
+      "1371.0",
+      manifest.readingOrder[0].duration.toString())
     Assert.assertEquals(
-      "1669",
-      manifest.spine[1].values["duration"].toString())
+      "1669.0",
+      manifest.readingOrder[1].duration.toString())
     Assert.assertEquals(
-      "1506",
-      manifest.spine[2].values["duration"].toString())
+      "1506.0",
+      manifest.readingOrder[2].duration.toString())
     Assert.assertEquals(
-      "1798",
-      manifest.spine[3].values["duration"].toString())
+      "1798.0",
+      manifest.readingOrder[3].duration.toString())
     Assert.assertEquals(
-      "1225",
-      manifest.spine[4].values["duration"].toString())
+      "1225.0",
+      manifest.readingOrder[4].duration.toString())
     Assert.assertEquals(
-      "1659",
-      manifest.spine[5].values["duration"].toString())
+      "1659.0",
+      manifest.readingOrder[5].duration.toString())
     Assert.assertEquals(
-      "2086",
-      manifest.spine[6].values["duration"].toString())
+      "2086.0",
+      manifest.readingOrder[6].duration.toString())
     Assert.assertEquals(
-      "2662",
-      manifest.spine[7].values["duration"].toString())
+      "2662.0",
+      manifest.readingOrder[7].duration.toString())
     Assert.assertEquals(
-      "1177",
-      manifest.spine[8].values["duration"].toString())
+      "1177.0",
+      manifest.readingOrder[8].duration.toString())
 
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3",
-      manifest.spine[0].values["href"].toString())
+      manifest.readingOrder[0].hrefURI.toString())
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3",
-      manifest.spine[1].values["href"].toString())
+      manifest.readingOrder[1].hrefURI.toString())
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_3_abbott.mp3",
-      manifest.spine[2].values["href"].toString())
+      manifest.readingOrder[2].hrefURI.toString())
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_4_abbott.mp3",
-      manifest.spine[3].values["href"].toString())
+      manifest.readingOrder[3].hrefURI.toString())
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_5_abbott.mp3",
-      manifest.spine[4].values["href"].toString())
+      manifest.readingOrder[4].hrefURI.toString())
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_6_abbott.mp3",
-      manifest.spine[5].values["href"].toString())
+      manifest.readingOrder[5].hrefURI.toString())
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_7_abbott.mp3",
-      manifest.spine[6].values["href"].toString())
+      manifest.readingOrder[6].hrefURI.toString())
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_8_abbott.mp3",
-      manifest.spine[7].values["href"].toString())
+      manifest.readingOrder[7].hrefURI.toString())
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_9_abbott.mp3",
-      manifest.spine[8].values["href"].toString())
+      manifest.readingOrder[8].hrefURI.toString())
+  }
+
+  @Test
+  fun testOkFeedbooks_0() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("feedbooks"),
+        streams = { resource("feedbooks_0.json") }
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
   }
 
   private fun resource(name: String): InputStream {
