@@ -47,8 +47,6 @@ public final class ReadMe
         final var moduleName = properties.getProperty("POM_ARTIFACT_ID");
         final var rawDescription = properties.getProperty("POM_DESCRIPTION");
         var trimmed = rawDescription;
-        trimmed = trimmed.replace("Library Simplified (", "");
-        trimmed = trimmed.replace(")", "");
         System.out.printf("|[%s](%s)|%s|\n", moduleName, moduleDirectory, trimmed);
       }
     }

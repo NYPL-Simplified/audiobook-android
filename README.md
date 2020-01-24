@@ -25,18 +25,18 @@ is available to ease integration.
 
 |Module|Description|
 |------|-----------|
-|[org.librarysimplified.audiobook.api](org.librarysimplified.audiobook.api)|AudioBook API (API specification|
-|[org.librarysimplified.audiobook.downloads](org.librarysimplified.audiobook.downloads)|AudioBook API (Download provider|
-|[org.librarysimplified.audiobook.manifest_parser.api](org.librarysimplified.audiobook.manifest_parser.api)|AudioBook API (Manifest parser API|
-|[org.librarysimplified.audiobook.manifest_parser.webpub](org.librarysimplified.audiobook.manifest_parser.webpub)|AudioBook API (Readium WebPub manifest parser|
-|[org.librarysimplified.audiobook.mocking](org.librarysimplified.audiobook.mocking)|AudioBook API (Mock API implementation|
-|[org.librarysimplified.audiobook.open_access](org.librarysimplified.audiobook.open_access)|AudioBook API (Open access player implementation|
-|[org.librarysimplified.audiobook.parser.api](org.librarysimplified.audiobook.parser.api)|AudioBook API (Parser API|
-|[org.librarysimplified.audiobook.rbdigital](org.librarysimplified.audiobook.rbdigital)|AudioBook API (RBDigital-specific functionality|
-|[org.librarysimplified.audiobook.tests](org.librarysimplified.audiobook.tests)|AudioBook API (Test suite|
-|[org.librarysimplified.audiobook.tests.device](org.librarysimplified.audiobook.tests.device)|AudioBook API (On-device test suite|
-|[org.librarysimplified.audiobook.tests.sandbox](org.librarysimplified.audiobook.tests.sandbox)|AudioBook API (Sandbox|
-|[org.librarysimplified.audiobook.views](org.librarysimplified.audiobook.views)|AudioBook API (Standard UI components|
+|[org.librarysimplified.audiobook.api](org.librarysimplified.audiobook.api)|AudioBook API (API specification)|
+|[org.librarysimplified.audiobook.downloads](org.librarysimplified.audiobook.downloads)|AudioBook API (Download provider)|
+|[org.librarysimplified.audiobook.manifest_parser.api](org.librarysimplified.audiobook.manifest_parser.api)|AudioBook API (Manifest parser API)|
+|[org.librarysimplified.audiobook.manifest_parser.webpub](org.librarysimplified.audiobook.manifest_parser.webpub)|AudioBook API (Readium WebPub manifest parser)|
+|[org.librarysimplified.audiobook.mocking](org.librarysimplified.audiobook.mocking)|AudioBook API (Mock API implementation)|
+|[org.librarysimplified.audiobook.open_access](org.librarysimplified.audiobook.open_access)|AudioBook API (Open access player implementation)|
+|[org.librarysimplified.audiobook.parser.api](org.librarysimplified.audiobook.parser.api)|AudioBook API (Parser API)|
+|[org.librarysimplified.audiobook.rbdigital](org.librarysimplified.audiobook.rbdigital)|AudioBook API (RBDigital-specific functionality)|
+|[org.librarysimplified.audiobook.tests](org.librarysimplified.audiobook.tests)|AudioBook API (Test suite)|
+|[org.librarysimplified.audiobook.tests.device](org.librarysimplified.audiobook.tests.device)|AudioBook API (On-device test suite)|
+|[org.librarysimplified.audiobook.tests.sandbox](org.librarysimplified.audiobook.tests.sandbox)|AudioBook API (Sandbox)|
+|[org.librarysimplified.audiobook.views](org.librarysimplified.audiobook.views)|AudioBook API (Standard UI components)|
 
 ### Changelog
 
