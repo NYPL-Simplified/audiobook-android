@@ -27,7 +27,6 @@ is available to ease integration.
 |------|-----------|
 | [org.librarysimplified.audiobook.api](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.api) | Core API
 | [org.librarysimplified.audiobook.downloads](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.downloads) | A generic download provider for non-encrypted audio books
-| [org.librarysimplified.audiobook.manifest.nypl](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.manifest.nypl) | NYPL manifest parser
 | [org.librarysimplified.audiobook.mocking](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.mocking) | A mock implementation of the API for unit testing
 | [org.librarysimplified.audiobook.open_access](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.open_access) | ExoPlayer-based audio player provider for non-encrypted audio books
 | [org.librarysimplified.audiobook.rbdigital](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.rbdigital) | Functionality specific to RBDigital audio books
