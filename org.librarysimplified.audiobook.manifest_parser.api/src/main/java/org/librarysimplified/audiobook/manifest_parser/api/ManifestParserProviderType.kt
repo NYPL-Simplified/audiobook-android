@@ -14,10 +14,24 @@ import java.net.URI
 interface ManifestParserProviderType
   : ParserProviderType<InputStream, ManifestParserExtensionType, PlayerManifest> {
 
+  /**
+   * The base format supported by this parser provider.
+   */
+
+  val format: String
+
+  /**
+   * Return `true` if this parser is capable of parsing the given input.
+   */
+
   fun canParse(
     uri: URI,
     streams: () -> InputStream
   ): Boolean
+
+  /**
+   * Create a new parser for the given input.
+   */
 
   override fun createParser(
     uri: URI,

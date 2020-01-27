@@ -11,6 +11,13 @@ import org.librarysimplified.audiobook.api.PlayerVersion
 interface ManifestParserExtensionType {
 
   /**
+   * The base format supported by this extension provider. The extension can only be
+   * used with manifest parsers that support the same base format.
+   */
+
+  val format: String
+
+  /**
    * The name of the extension provider.
    */
 

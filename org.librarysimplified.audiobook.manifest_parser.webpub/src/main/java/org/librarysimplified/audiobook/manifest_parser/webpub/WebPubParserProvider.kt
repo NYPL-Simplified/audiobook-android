@@ -32,6 +32,9 @@ class WebPubParserProvider : ManifestParserProviderType {
   private fun isRecognizedContextType(type: String): Boolean =
     this.contextTypes.contains(type)
 
+  override val format: String =
+    WebPub.baseFormat
+
   override fun canParse(
     uri: URI,
     streams: () -> InputStream

@@ -114,6 +114,18 @@ class WebPubManifestParser(
     var extensionObjectsAvailable = 0
     var extensionObjectsUsed = 0
     for (extension in this.extensions) {
+      if (extension.format != WebPub.baseFormat) {
+        this.errors.add(
+          FRParseError(
+            extension.name,
+            context.jsonStream.currentPosition,
+            "The extension ${extension.name} has format ${extension.format}, which is not compatible with ${WebPub.baseFormat}",
+            IllegalStateException()
+          )
+        )
+        continue
+      }
+
       val extensionSchemas = extension.topLevelObjectSchemas()
       extensionObjectsAvailable += extensionSchemas.size
 

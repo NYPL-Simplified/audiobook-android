@@ -45,7 +45,9 @@ object ManifestParsers {
           return provider.createParser(
             uri = uri,
             streams = streams,
-            extensions = extensions,
+            extensions = extensions.filter {
+              extension -> extension.format == provider.format
+            },
             warningsAsErrors = false
           ).parse()
         }
