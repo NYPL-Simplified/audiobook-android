@@ -3,18 +3,18 @@ package org.librarysimplified.audiobook.tests
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.librarysimplified.audiobook.feedbooks.FeedbooksParserExtensions
 import org.librarysimplified.audiobook.feedbooks.FeedbooksRights
 import org.librarysimplified.audiobook.feedbooks.FeedbooksSignature
-import org.librarysimplified.audiobook.feedbooks.FeedbooksSignatureParser
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
+import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestParserExtensionType
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.net.URI
+import java.util.ServiceLoader
 
 /**
  * Tests for the {@link org.librarysimplified.audiobook.api.PlayerRawManifest} type.
@@ -64,7 +64,28 @@ abstract class PlayerManifestContract {
       result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
+    checkMinimalValues(manifest)
+  }
 
+  @Test
+  fun testOkMinimal0WithExtensions() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("urn:minimal"),
+        streams = { this.resource("ok_minimal_0.json") },
+        extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
+    checkMinimalValues(manifest)
+  }
+
+  private fun checkMinimalValues(manifest: PlayerManifest) {
     Assert.assertEquals(3, manifest.readingOrder.size)
     Assert.assertEquals("Track 0", manifest.readingOrder[0].title.toString())
     Assert.assertEquals("100.0", manifest.readingOrder[0].duration.toString())
@@ -100,129 +121,189 @@ abstract class PlayerManifestContract {
       result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
+    this.checkFlatlandValues(manifest)
+  }
 
+  @Test
+  fun testOkFlatlandGardeurWithExtensions() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("flatland"),
+        streams = { this.resource("flatland.audiobook-manifest.json") },
+        extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
+    this.checkFlatlandValues(manifest)
+  }
+
+  private fun checkFlatlandValues(manifest: PlayerManifest) {
     Assert.assertEquals(
       "Flatland: A Romance of Many Dimensions",
-      manifest.metadata.title)
+      manifest.metadata.title
+    )
     Assert.assertEquals(
       "https://librivox.org/flatland-a-romance-of-many-dimensions-by-edwin-abbott-abbott/",
-      manifest.metadata.identifier)
+      manifest.metadata.identifier
+    )
 
     Assert.assertEquals(
       9,
-      manifest.readingOrder.size)
+      manifest.readingOrder.size
+    )
 
     Assert.assertEquals(
       "Part 1, Sections 1 - 3",
-      manifest.readingOrder[0].title.toString())
+      manifest.readingOrder[0].title.toString()
+    )
     Assert.assertEquals(
       "Part 1, Sections 4 - 5",
-      manifest.readingOrder[1].title.toString())
+      manifest.readingOrder[1].title.toString()
+    )
     Assert.assertEquals(
       "Part 1, Sections 6 - 7",
-      manifest.readingOrder[2].title.toString())
+      manifest.readingOrder[2].title.toString()
+    )
     Assert.assertEquals(
       "Part 1, Sections 8 - 10",
-      manifest.readingOrder[3].title.toString())
+      manifest.readingOrder[3].title.toString()
+    )
     Assert.assertEquals(
       "Part 1, Sections 11 - 12",
-      manifest.readingOrder[4].title.toString())
+      manifest.readingOrder[4].title.toString()
+    )
     Assert.assertEquals(
       "Part 2, Sections 13 - 14",
-      manifest.readingOrder[5].title.toString())
+      manifest.readingOrder[5].title.toString()
+    )
     Assert.assertEquals(
       "Part 2, Sections 15 - 17",
-      manifest.readingOrder[6].title.toString())
+      manifest.readingOrder[6].title.toString()
+    )
     Assert.assertEquals(
       "Part 2, Sections 18 - 20",
-      manifest.readingOrder[7].title.toString())
+      manifest.readingOrder[7].title.toString()
+    )
     Assert.assertEquals(
       "Part 2, Sections 21 - 22",
-      manifest.readingOrder[8].title.toString())
+      manifest.readingOrder[8].title.toString()
+    )
 
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[0].type.toString())
+      manifest.readingOrder[0].type.toString()
+    )
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[1].type.toString())
+      manifest.readingOrder[1].type.toString()
+    )
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[2].type.toString())
+      manifest.readingOrder[2].type.toString()
+    )
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[3].type.toString())
+      manifest.readingOrder[3].type.toString()
+    )
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[4].type.toString())
+      manifest.readingOrder[4].type.toString()
+    )
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[5].type.toString())
+      manifest.readingOrder[5].type.toString()
+    )
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[6].type.toString())
+      manifest.readingOrder[6].type.toString()
+    )
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[7].type.toString())
+      manifest.readingOrder[7].type.toString()
+    )
     Assert.assertEquals(
       "audio/mpeg",
-      manifest.readingOrder[8].type.toString())
+      manifest.readingOrder[8].type.toString()
+    )
 
     Assert.assertEquals(
       "1371.0",
-      manifest.readingOrder[0].duration.toString())
+      manifest.readingOrder[0].duration.toString()
+    )
     Assert.assertEquals(
       "1669.0",
-      manifest.readingOrder[1].duration.toString())
+      manifest.readingOrder[1].duration.toString()
+    )
     Assert.assertEquals(
       "1506.0",
-      manifest.readingOrder[2].duration.toString())
+      manifest.readingOrder[2].duration.toString()
+    )
     Assert.assertEquals(
       "1798.0",
-      manifest.readingOrder[3].duration.toString())
+      manifest.readingOrder[3].duration.toString()
+    )
     Assert.assertEquals(
       "1225.0",
-      manifest.readingOrder[4].duration.toString())
+      manifest.readingOrder[4].duration.toString()
+    )
     Assert.assertEquals(
       "1659.0",
-      manifest.readingOrder[5].duration.toString())
+      manifest.readingOrder[5].duration.toString()
+    )
     Assert.assertEquals(
       "2086.0",
-      manifest.readingOrder[6].duration.toString())
+      manifest.readingOrder[6].duration.toString()
+    )
     Assert.assertEquals(
       "2662.0",
-      manifest.readingOrder[7].duration.toString())
+      manifest.readingOrder[7].duration.toString()
+    )
     Assert.assertEquals(
       "1177.0",
-      manifest.readingOrder[8].duration.toString())
+      manifest.readingOrder[8].duration.toString()
+    )
 
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3",
-      manifest.readingOrder[0].hrefURI.toString())
+      manifest.readingOrder[0].hrefURI.toString()
+    )
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3",
-      manifest.readingOrder[1].hrefURI.toString())
+      manifest.readingOrder[1].hrefURI.toString()
+    )
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_3_abbott.mp3",
-      manifest.readingOrder[2].hrefURI.toString())
+      manifest.readingOrder[2].hrefURI.toString()
+    )
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_4_abbott.mp3",
-      manifest.readingOrder[3].hrefURI.toString())
+      manifest.readingOrder[3].hrefURI.toString()
+    )
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_5_abbott.mp3",
-      manifest.readingOrder[4].hrefURI.toString())
+      manifest.readingOrder[4].hrefURI.toString()
+    )
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_6_abbott.mp3",
-      manifest.readingOrder[5].hrefURI.toString())
+      manifest.readingOrder[5].hrefURI.toString()
+    )
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_7_abbott.mp3",
-      manifest.readingOrder[6].hrefURI.toString())
+      manifest.readingOrder[6].hrefURI.toString()
+    )
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_8_abbott.mp3",
-      manifest.readingOrder[7].hrefURI.toString())
+      manifest.readingOrder[7].hrefURI.toString()
+    )
     Assert.assertEquals(
       "http://www.archive.org/download/flatland_rg_librivox/flatland_9_abbott.mp3",
-      manifest.readingOrder[8].hrefURI.toString())
+      manifest.readingOrder[8].hrefURI.toString()
+    )
   }
 
   @Test
@@ -249,9 +330,7 @@ abstract class PlayerManifestContract {
       ManifestParsers.parse(
         uri = URI.create("feedbooks"),
         streams = { this.resource("feedbooks_0.json") },
-        extensions = listOf(
-          FeedbooksParserExtensions()
-        )
+        extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
       )
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is ParseResult.Success)
@@ -264,14 +343,17 @@ abstract class PlayerManifestContract {
 
     val extensions = manifest.extensions
 
-    run {
+    this.run {
       val sig = extensions[0] as FeedbooksSignature
       Assert.assertEquals("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", sig.algorithm)
       Assert.assertEquals("https://www.cantookaudio.com", sig.issuer)
-      Assert.assertEquals("eKLux/4TtJc6VH6RTOi5lBMh9mT1j2y1z50OruWZgy8QjyPMjDV+aVZWUt7OUTinUHQfWNPBB6DxixgTZ07TQsix4uScL2dJZRQTjUKKHv3he7oJdOkcxjWDh51Q6U2KbDfC2MReG/+Qa4meoI5BN0Q8FKIEFMDZJ2KQTSRj13ZETaD0Nwz+8d6IN7csQGFJHvW/bBJthty+eZNzIr+VE0Kf02OS4yX+wvsExfRabvHlfimT1uUTWc89CgPAuM+Y7vdtjb+B3YFr7ibXATk6lQJkXzKol9ms6vkNwnvxzXwsQ+p1ZjejH1LOYADvedl/ItPrBGkhmq7bbUz91jUd+w==", sig.value)
+      Assert.assertEquals(
+        "eKLux/4TtJc6VH6RTOi5lBMh9mT1j2y1z50OruWZgy8QjyPMjDV+aVZWUt7OUTinUHQfWNPBB6DxixgTZ07TQsix4uScL2dJZRQTjUKKHv3he7oJdOkcxjWDh51Q6U2KbDfC2MReG/+Qa4meoI5BN0Q8FKIEFMDZJ2KQTSRj13ZETaD0Nwz+8d6IN7csQGFJHvW/bBJthty+eZNzIr+VE0Kf02OS4yX+wvsExfRabvHlfimT1uUTWc89CgPAuM+Y7vdtjb+B3YFr7ibXATk6lQJkXzKol9ms6vkNwnvxzXwsQ+p1ZjejH1LOYADvedl/ItPrBGkhmq7bbUz91jUd+w==",
+        sig.value
+      )
     }
 
-    run {
+    this.run {
       val rights = extensions[1] as FeedbooksRights
       Assert.assertEquals("2020-02-01T17:15:52.000", rights.validStart.toString())
       Assert.assertEquals("2020-03-29T17:15:52.000", rights.validEnd.toString())
