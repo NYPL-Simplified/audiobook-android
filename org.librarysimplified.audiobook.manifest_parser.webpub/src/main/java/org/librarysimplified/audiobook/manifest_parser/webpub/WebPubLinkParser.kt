@@ -8,6 +8,7 @@ import one.irradia.fieldrush.api.FRParserObjectSchema
 import one.irradia.fieldrush.vanilla.FRValueParsers
 import one.irradia.mime.api.MIMEType
 import org.librarysimplified.audiobook.api.PlayerManifestLink
+import org.librarysimplified.audiobook.api.PlayerManifestLinkProperties
 import org.slf4j.LoggerFactory
 import java.math.BigInteger
 import java.net.URI
@@ -29,6 +30,7 @@ class WebPubLinkParser(
   private var duration: Double? = null
   private var height: BigInteger? = null
   private var isTemplated: Boolean = false
+  private var properties: PlayerManifestLinkProperties? = null
   private var title: String? = null
   private var type: MIMEType? = null
   private var width: BigInteger? = null
@@ -121,12 +123,24 @@ class WebPubLinkParser(
         isOptional = true
       )
 
+    val propertiesSchema =
+      FRParserObjectFieldSchema(
+        name = "properties",
+        parser = {
+          WebPubLinkPropertiesParser { _, properties ->
+            this.properties = properties
+          }
+        },
+        isOptional = true
+      )
+
     return FRParserObjectSchema(
       listOf(
         bitrateSchema,
         durationSchema,
         heightSchema,
         hrefSchema,
+        propertiesSchema,
         relSchema,
         templatedSchema,
         titleSchema,
@@ -140,28 +154,30 @@ class WebPubLinkParser(
     return if (this.isTemplated) {
       FRParseResult.succeed(
         PlayerManifestLink.LinkTemplated(
+          bitrate = this.bitrate,
+          duration = this.duration,
+          height = this.height?.toInt(),
           href = this.href,
-          type = this.type,
+          properties = this.properties,
           relation = this.relations.toList(),
           title = this.title,
-          height = this.height?.toInt(),
-          width = this.width?.toInt(),
-          duration = this.duration,
-          bitrate = this.bitrate
+          type = this.type,
+          width = this.width?.toInt()
         )
       )
     } else {
       try {
         FRParseResult.succeed(
           PlayerManifestLink.LinkBasic(
+            bitrate = this.bitrate,
+            duration = this.duration,
+            height = this.height?.toInt(),
             href = URI(href),
-            type = this.type,
+            properties = this.properties,
             relation = this.relations.toList(),
             title = this.title,
-            height = this.height?.toInt(),
-            width = this.width?.toInt(),
-            duration = this.duration,
-            bitrate = this.bitrate
+            type = this.type,
+            width = this.width?.toInt()
           ) as PlayerManifestLink
         )
       } catch (e: Exception) {

@@ -4,6 +4,7 @@ import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.api.PlayerManifestScalar
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.parser.api.ParseResult
@@ -231,6 +232,74 @@ abstract class PlayerManifestContract {
       result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
+
+    Assert.assertEquals(
+      "http://archive.org/details/gleams_of_sunshine_1607_librivox",
+      manifest.metadata.identifier)
+    Assert.assertEquals(
+      "Gleams of Sunshine",
+      manifest.metadata.title)
+
+    Assert.assertEquals(1, manifest.readingOrder.size)
+
+    run {
+      Assert.assertEquals(
+        128.0,
+        manifest.readingOrder[0].duration)
+      Assert.assertEquals(
+        "01 - Invocation",
+        manifest.readingOrder[0].title)
+      Assert.assertEquals(
+        120.0,
+        manifest.readingOrder[0].bitrate)
+      Assert.assertEquals(
+        "audio/mpeg",
+        manifest.readingOrder[0].type?.fullType)
+      Assert.assertEquals(
+        "http://archive.org/download/gleams_of_sunshine_1607_librivox/gleamsofsunshine_01_chant.mp3",
+        manifest.readingOrder[0].hrefURI.toString())
+
+      val encrypted0 = manifest.readingOrder[0].properties!!.encrypted!!
+      Assert.assertEquals("http://www.feedbooks.com/audiobooks/access-restriction", encrypted0.scheme)
+      Assert.assertEquals("https://www.cantookaudio.com", (encrypted0.values["profile"] as PlayerManifestScalar.PlayerManifestScalarString).text)
+    }
+
+    Assert.assertEquals(3, manifest.links.size)
+    Assert.assertEquals(
+      "cover",
+      manifest.links[0].relation[0])
+    Assert.assertEquals(
+      180,
+      manifest.links[0].width)
+    Assert.assertEquals(
+      180,
+      manifest.links[0].height)
+    Assert.assertEquals(
+      "image/jpeg",
+      manifest.links[0].type?.fullType)
+    Assert.assertEquals(
+      "http://archive.org/services/img/gleams_of_sunshine_1607_librivox",
+      manifest.links[0].hrefURI.toString())
+
+    Assert.assertEquals(
+      "self",
+      manifest.links[1].relation[0])
+    Assert.assertEquals(
+      "application/audiobook+json",
+      manifest.links[1].type?.fullType)
+    Assert.assertEquals(
+      "https://api.archivelab.org/books/gleams_of_sunshine_1607_librivox/opds_audio_manifest",
+      manifest.links[1].hrefURI.toString())
+
+    Assert.assertEquals(
+      "license",
+      manifest.links[2].relation[0])
+    Assert.assertEquals(
+      "application/vnd.readium.license.status.v1.0+json",
+      manifest.links[2].type?.fullType)
+    Assert.assertEquals(
+      "http://example.com/license/status",
+      manifest.links[2].hrefURI.toString())
   }
 
   private fun resource(name: String): InputStream {
