@@ -1,0 +1,11 @@
+dependencies {
+  api project(":org.librarysimplified.audiobook.manifest.api")
+  api project(":org.librarysimplified.audiobook.license_check.spi")
+
+  api libraries.rxjava
+
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+
+  compileOnly libraries.jcip
+}
