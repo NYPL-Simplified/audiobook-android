@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.api
+package org.librarysimplified.audiobook.manifest.api
 
 /**
  * A raw audio book manifest, parsed and typed.
@@ -7,7 +7,8 @@ package org.librarysimplified.audiobook.api
 data class PlayerManifest(
   val readingOrder: List<PlayerManifestLink>,
   val metadata: PlayerManifestMetadata,
-  val links: List<PlayerManifestLink>
+  val links: List<PlayerManifestLink>,
+  val extensions: List<PlayerManifestExtensionValueType>
 ) {
   @Deprecated(
     message = "Use readingOrder",

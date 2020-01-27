@@ -3,7 +3,7 @@ package org.librarysimplified.audiobook.tests.open_access
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.open_access.ExoManifest
@@ -25,7 +25,9 @@ abstract class ExoManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:flatland"),
-        streams = { resource("flatland.audiobook-manifest.json") })
+        streams = { resource("flatland.audiobook-manifest.json") },
+        extensions = listOf()
+      )
 
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is ParseResult.Success)

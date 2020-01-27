@@ -1,5 +1,7 @@
 package org.librarysimplified.audiobook.api
 
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+
 /**
  * A request for an audio engine.
  */

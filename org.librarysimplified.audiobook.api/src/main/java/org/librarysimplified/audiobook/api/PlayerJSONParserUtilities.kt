@@ -12,10 +12,11 @@ import com.fasterxml.jackson.databind.node.JsonNodeType.OBJECT
 import com.fasterxml.jackson.databind.node.JsonNodeType.POJO
 import com.fasterxml.jackson.databind.node.JsonNodeType.STRING
 import com.fasterxml.jackson.databind.node.ObjectNode
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarBoolean
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarInteger
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarReal
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarString
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarBoolean
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarInteger
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarReal
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarString
 import java.math.BigInteger
 import java.net.URI
 import java.net.URISyntaxException

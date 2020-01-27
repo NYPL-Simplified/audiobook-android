@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.api
+package org.librarysimplified.audiobook.manifest.api
 
 /**
  * Extra properties associated with a link.

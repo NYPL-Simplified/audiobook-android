@@ -2,8 +2,9 @@ package org.librarysimplified.audiobook.manifest_parser.webpub
 
 import one.irradia.fieldrush.api.FRParseResult
 import one.irradia.fieldrush.vanilla.FRParsers
-import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParserProviderType
+import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestParserExtensionType
 import org.librarysimplified.audiobook.parser.api.ParserType
 import org.slf4j.LoggerFactory
 import java.io.InputStream
@@ -81,9 +82,11 @@ class WebPubParserProvider : ManifestParserProviderType {
   override fun createParser(
     uri: URI,
     streams: () -> InputStream,
+    extensions: List<ManifestParserExtensionType>,
     warningsAsErrors: Boolean
   ): ParserType<PlayerManifest> {
     return WebPubParser(
+      extensions = extensions,
       parsers = this.fieldRushParsers,
       stream = streams.invoke(),
       uri = uri

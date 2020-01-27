@@ -4,8 +4,9 @@ import one.irradia.fieldrush.api.FRParseError
 import one.irradia.fieldrush.api.FRParseResult.FRParseFailed
 import one.irradia.fieldrush.api.FRParseResult.FRParseSucceeded
 import one.irradia.fieldrush.api.FRParserProviderType
-import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParserType
+import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestParserExtensionType
 import org.librarysimplified.audiobook.parser.api.ParseError
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import java.io.InputStream
@@ -14,13 +15,17 @@ import java.net.URI
 class WebPubParser(
   private val parsers: FRParserProviderType,
   private val stream: InputStream,
+  private val extensions: List<ManifestParserExtensionType>,
   private val uri: URI
 ) : ManifestParserType {
 
   override fun parse(): ParseResult<PlayerManifest> {
     val result =
-      this.parsers.createParser(this.uri, this.stream, WebPubManifestParser())
-        .parse()
+      this.parsers.createParser(
+        uri = this.uri,
+        stream = this.stream,
+        rootParser = WebPubManifestParser(this.extensions)
+      ).parse()
 
     return when (result) {
       is FRParseSucceeded -> {
@@ -32,7 +37,7 @@ class WebPubParser(
       is FRParseFailed -> {
         ParseResult.Failure(
           warnings = listOf(),
-          errors = result.errors.map { error -> toParseError(error) },
+          errors = result.errors.map { error -> this.toParseError(error) },
           result = null
         )
       }

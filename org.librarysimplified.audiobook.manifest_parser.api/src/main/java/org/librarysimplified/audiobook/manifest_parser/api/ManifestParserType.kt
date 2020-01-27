@@ -1,6 +1,6 @@
 package org.librarysimplified.audiobook.manifest_parser.api
 
-import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.parser.api.ParserType
 
 /**

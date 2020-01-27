@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.api
+package org.librarysimplified.audiobook.manifest.api
 
 /**
  * The metadata section in a manifest.

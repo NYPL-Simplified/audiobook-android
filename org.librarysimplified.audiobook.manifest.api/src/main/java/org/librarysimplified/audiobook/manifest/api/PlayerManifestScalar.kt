@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.api
+package org.librarysimplified.audiobook.manifest.api
 
 /**
  * A scalar value appearing in a manifest.

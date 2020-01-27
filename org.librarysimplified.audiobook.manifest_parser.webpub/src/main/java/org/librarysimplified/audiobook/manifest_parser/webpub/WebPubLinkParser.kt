@@ -7,8 +7,8 @@ import one.irradia.fieldrush.api.FRParserObjectFieldSchema
 import one.irradia.fieldrush.api.FRParserObjectSchema
 import one.irradia.fieldrush.vanilla.FRValueParsers
 import one.irradia.mime.api.MIMEType
-import org.librarysimplified.audiobook.api.PlayerManifestLink
-import org.librarysimplified.audiobook.api.PlayerManifestLinkProperties
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestLinkProperties
 import org.slf4j.LoggerFactory
 import java.math.BigInteger
 import java.net.URI
@@ -30,7 +30,7 @@ class WebPubLinkParser(
   private var duration: Double? = null
   private var height: BigInteger? = null
   private var isTemplated: Boolean = false
-  private var properties: PlayerManifestLinkProperties? = null
+  private var properties: PlayerManifestLinkProperties = PlayerManifestLinkProperties(null)
   private var title: String? = null
   private var type: MIMEType? = null
   private var width: BigInteger? = null

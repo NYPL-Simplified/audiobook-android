@@ -1,15 +1,16 @@
 package org.librarysimplified.audiobook.api
 
 /**
- * The version of an engine provider.
+ * A semantic version number.
  */
 
-data class PlayerAudioEngineVersion(
+data class PlayerVersion(
   val major: Int,
   val minor: Int,
-  val patch: Int) : Comparable<PlayerAudioEngineVersion> {
+  val patch: Int
+) : Comparable<PlayerVersion> {
 
-  override fun compareTo(other: PlayerAudioEngineVersion): Int {
+  override fun compareTo(other: PlayerVersion): Int {
     val c_major = this.major.compareTo(other.major)
     if (c_major == 0) {
       val c_minor = this.minor.compareTo(other.minor)

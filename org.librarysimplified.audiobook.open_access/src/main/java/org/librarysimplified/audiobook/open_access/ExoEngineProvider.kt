@@ -3,7 +3,7 @@ package org.librarysimplified.audiobook.open_access
 import org.librarysimplified.audiobook.api.PlayerAudioBookProviderType
 import org.librarysimplified.audiobook.api.PlayerAudioEngineProviderType
 import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
-import org.librarysimplified.audiobook.api.PlayerAudioEngineVersion
+import org.librarysimplified.audiobook.api.PlayerVersion
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 import java.util.Properties
@@ -19,7 +19,7 @@ import java.util.concurrent.ScheduledExecutorService
 
 class ExoEngineProvider : PlayerAudioEngineProviderType {
 
-  private val version: PlayerAudioEngineVersion = parseVersionFromProperties()
+  private val version: PlayerVersion = parseVersionFromProperties()
 
   private val engineExecutor: ScheduledExecutorService =
     Executors.newSingleThreadScheduledExecutor({ r -> createEngineThread(r) })
@@ -55,7 +55,7 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
     return "org.librarysimplified.audiobook.open_access"
   }
 
-  override fun version(): PlayerAudioEngineVersion {
+  override fun version(): PlayerVersion {
     return this.version
   }
 
@@ -75,7 +75,7 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
 
     private val log = LoggerFactory.getLogger(ExoEngineProvider::class.java)
 
-    private fun parseVersionFromProperties(): PlayerAudioEngineVersion {
+    private fun parseVersionFromProperties(): PlayerVersion {
       try {
         val path = "#Automatically generated - DO NOT EDIT\n#Tue Aug 13 19:18:10 UTC 2019\nversion.minor=0\nversion.patch=0\nversion.major=3\n"
         val stream = ExoEngineProvider::class.java.getResourceAsStream(path)
@@ -85,17 +85,17 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
         return loadPropertiesFromStream(stream)
       } catch (e: Exception) {
         log.error("could not load properties: ", e)
-        return PlayerAudioEngineVersion(0, 0, 0)
+        return PlayerVersion(0, 0, 0)
       }
     }
 
-    private fun loadPropertiesFromStream(stream: InputStream): PlayerAudioEngineVersion {
+    private fun loadPropertiesFromStream(stream: InputStream): PlayerVersion {
       val props = Properties()
       props.load(stream)
       val major = Integer.parseInt(props.getProperty("version.major"))
       val minor = Integer.parseInt(props.getProperty("version.minor"))
       val patch = Integer.parseInt(props.getProperty("version.patch"))
-      return PlayerAudioEngineVersion(major, minor, patch)
+      return PlayerVersion(major, minor, patch)
     }
   }
 }

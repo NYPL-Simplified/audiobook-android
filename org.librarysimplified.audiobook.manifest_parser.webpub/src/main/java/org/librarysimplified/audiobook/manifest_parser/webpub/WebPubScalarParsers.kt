@@ -4,11 +4,11 @@ import one.irradia.fieldrush.api.FRParseResult
 import one.irradia.fieldrush.api.FRParserObjectMapType
 import one.irradia.fieldrush.api.FRValueParserType
 import one.irradia.fieldrush.vanilla.FRValueParsers
-import org.librarysimplified.audiobook.api.PlayerManifestScalar
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarBoolean
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarInteger
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarReal
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarString
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarBoolean
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarInteger
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarReal
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarString
 
 /**
  * A parser that parses objects consisting of string keys with scalar values.

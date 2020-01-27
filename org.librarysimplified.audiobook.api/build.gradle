@@ -1,6 +1,7 @@
 dependencies {
+  api project(":org.librarysimplified.audiobook.manifest.api")
+
   api libraries.googleGuava
-  api libraries.irradiaMimeAPI
   api libraries.jacksonDatabind
   api libraries.jodaTime
   api libraries.rxjava

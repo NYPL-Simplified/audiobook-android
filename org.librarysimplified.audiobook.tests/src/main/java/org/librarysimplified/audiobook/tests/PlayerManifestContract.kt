@@ -3,10 +3,9 @@ package org.librarysimplified.audiobook.tests
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.librarysimplified.audiobook.api.PlayerManifest
-import org.librarysimplified.audiobook.api.PlayerManifestScalar
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
-import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
 import java.io.ByteArrayInputStream
@@ -27,7 +26,8 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:empty"),
-        streams = { stream }
+        streams = { stream },
+        extensions = listOf()
       )
     this.log().debug("result: {}", result)
     assertTrue("Result is failure", result is ParseResult.Failure)
@@ -38,7 +38,8 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:minimal"),
-        streams = { resource("error_minimal_0.json") }
+        streams = { resource("error_minimal_0.json") },
+        extensions = listOf()
       )
     this.log().debug("result: {}", result)
     assertTrue("Result is failure", result is ParseResult.Failure)
@@ -49,7 +50,8 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:minimal"),
-        streams = { resource("ok_minimal_0.json")}
+        streams = { resource("ok_minimal_0.json")},
+        extensions = listOf()
       )
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is ParseResult.Success)
@@ -84,7 +86,8 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("flatland"),
-        streams = { resource("flatland.audiobook-manifest.json") }
+        streams = { resource("flatland.audiobook-manifest.json") },
+        extensions = listOf()
       )
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is ParseResult.Success)
@@ -223,7 +226,8 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("feedbooks"),
-        streams = { resource("feedbooks_0.json") }
+        streams = { resource("feedbooks_0.json") },
+        extensions = listOf()
       )
     this.log().debug("result: {}", result)
     assertTrue("Result is success", result is ParseResult.Success)

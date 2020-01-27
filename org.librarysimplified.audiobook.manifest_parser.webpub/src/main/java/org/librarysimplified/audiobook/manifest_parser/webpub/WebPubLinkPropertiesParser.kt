@@ -6,8 +6,8 @@ import one.irradia.fieldrush.api.FRParserContextType
 import one.irradia.fieldrush.api.FRParserObjectFieldSchema
 import one.irradia.fieldrush.api.FRParserObjectSchema
 import one.irradia.fieldrush.vanilla.FRValueParsers
-import org.librarysimplified.audiobook.api.PlayerManifestEncrypted
-import org.librarysimplified.audiobook.api.PlayerManifestLinkProperties
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestEncrypted
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestLinkProperties
 import org.slf4j.LoggerFactory
 
 /**
@@ -17,9 +17,6 @@ import org.slf4j.LoggerFactory
 class WebPubLinkPropertiesParser(
   onReceive: (FRParserContextType, PlayerManifestLinkProperties) -> Unit = FRValueParsers.ignoringReceiverWithContext()
 ) : FRAbstractParserObject<PlayerManifestLinkProperties>(onReceive) {
-
-  private val logger =
-    LoggerFactory.getLogger(WebPubLinkPropertiesParser::class.java)
 
   private var encrypted: PlayerManifestEncrypted? = null
 

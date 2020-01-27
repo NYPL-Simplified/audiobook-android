@@ -1,8 +1,8 @@
 package org.librarysimplified.audiobook.open_access
 
 import one.irradia.mime.api.MIMEType
-import org.librarysimplified.audiobook.api.PlayerManifest
-import org.librarysimplified.audiobook.api.PlayerManifestLink
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import org.librarysimplified.audiobook.api.PlayerResult
 import java.net.URI
 

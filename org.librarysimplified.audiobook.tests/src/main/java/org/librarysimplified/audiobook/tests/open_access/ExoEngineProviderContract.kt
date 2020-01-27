@@ -23,7 +23,7 @@ import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineEleme
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackProgressUpdate
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStarted
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStopped
-import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
@@ -669,7 +669,8 @@ abstract class ExoEngineProviderContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:$file"),
-        streams = { this.resource(file) }
+        streams = { this.resource(file) },
+        extensions = listOf()
       )
     this.log().debug("parseManifest: result: {}", result)
     Assert.assertTrue("Result is success", result is ParseResult.Success)

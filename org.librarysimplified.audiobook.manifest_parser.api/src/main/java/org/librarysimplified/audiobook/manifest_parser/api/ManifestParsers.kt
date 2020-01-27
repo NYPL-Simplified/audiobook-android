@@ -1,6 +1,7 @@
 package org.librarysimplified.audiobook.manifest_parser.api
 
-import org.librarysimplified.audiobook.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestParserExtensionType
 import org.librarysimplified.audiobook.parser.api.ParseError
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.LoggerFactory
@@ -25,8 +26,9 @@ object ManifestParsers {
 
   fun parse(
     uri: URI,
-    streams: () -> InputStream
-  ): ParseResult<PlayerManifest> {
+    streams: () -> InputStream,
+    extensions: List<ManifestParserExtensionType>
+    ): ParseResult<PlayerManifest> {
     try {
       val providers: List<ManifestParserProviderType> =
         ServiceLoader.load(ManifestParserProviderType::class.java)
@@ -40,8 +42,12 @@ object ManifestParsers {
 
         if (provider.canParse(uri, streams)) {
           this.logger.debug("parsing with provider {}", provider.javaClass.canonicalName)
-          return provider.createParser(uri, streams)
-            .parse()
+          return provider.createParser(
+            uri = uri,
+            streams = streams,
+            extensions = extensions,
+            warningsAsErrors = false
+          ).parse()
         }
       }
 

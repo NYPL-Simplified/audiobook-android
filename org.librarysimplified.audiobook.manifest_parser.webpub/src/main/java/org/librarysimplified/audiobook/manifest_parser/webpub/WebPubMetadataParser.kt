@@ -6,8 +6,8 @@ import one.irradia.fieldrush.api.FRParserContextType
 import one.irradia.fieldrush.api.FRParserObjectFieldSchema
 import one.irradia.fieldrush.api.FRParserObjectSchema
 import one.irradia.fieldrush.vanilla.FRValueParsers
-import org.librarysimplified.audiobook.api.PlayerManifestEncrypted
-import org.librarysimplified.audiobook.api.PlayerManifestMetadata
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestEncrypted
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestMetadata
 
 /**
  * A parser that parses metadata objects.

@@ -6,7 +6,7 @@ import java.net.URI
  * A generic provider of parsers.
  */
 
-interface ParserProviderType<S, T> {
+interface ParserProviderType<S, E, T> {
 
   /**
    * Create a new parser using the given input, and the given URI for diagnostic purposes.
@@ -15,6 +15,7 @@ interface ParserProviderType<S, T> {
   fun createParser(
     uri: URI,
     streams: () -> S,
+    extensions: List<E> = listOf(),
     warningsAsErrors: Boolean = false
   ): ParserType<T>
 

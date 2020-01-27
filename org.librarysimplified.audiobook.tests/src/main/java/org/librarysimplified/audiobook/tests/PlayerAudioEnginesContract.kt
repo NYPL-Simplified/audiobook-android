@@ -4,8 +4,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
 import org.librarysimplified.audiobook.api.PlayerAudioEngines
-import org.librarysimplified.audiobook.api.PlayerManifest
-import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
@@ -40,7 +39,8 @@ abstract class PlayerAudioEnginesContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:${file}"),
-        streams = { resource(file) }
+        streams = { resource(file) },
+        extensions = listOf()
       )
 
     this.log().debug("result: {}", result)

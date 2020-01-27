@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.api
+package org.librarysimplified.audiobook.manifest.api
 
 import one.irradia.mime.api.MIMEType
 import java.net.URI
@@ -61,7 +61,7 @@ sealed class PlayerManifestLink {
    * Extra properties for the link
    */
 
-  abstract val properties: PlayerManifestLinkProperties?
+  abstract val properties: PlayerManifestLinkProperties
 
   /**
    * A non-templated, basic link.
@@ -76,7 +76,7 @@ sealed class PlayerManifestLink {
     override val width: Int? = null,
     override val duration: Double? = null,
     override val bitrate: Double? = null,
-    override val properties: PlayerManifestLinkProperties? = null
+    override val properties: PlayerManifestLinkProperties
   ) : PlayerManifestLink() {
     override val hrefURI: URI?
       get() = this.href
@@ -95,7 +95,7 @@ sealed class PlayerManifestLink {
     override val width: Int? = null,
     override val duration: Double? = null,
     override val bitrate: Double? = null,
-    override val properties: PlayerManifestLinkProperties? = null
+    override val properties: PlayerManifestLinkProperties
   ) : PlayerManifestLink() {
     override val hrefURI: URI?
       get() = null
