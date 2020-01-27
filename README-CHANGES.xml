@@ -32,11 +32,12 @@
         <c:change compatible="false" date="2019-10-03T00:00:00+00:00" summary="All views are now AndroidX views"/>
       </c:changes>
     </c:release>
-    <c:release date="2020-01-27T12:24:22+00:00" ticket-system="org.nypl.jira" version="4.0.0">
+    <c:release date="2020-01-27T14:56:51+00:00" ticket-system="org.nypl.jira" version="4.0.0">
       <c:changes>
         <c:change compatible="false" date="2020-01-27T00:00:00+00:00" summary="Rename PlayerAudioEngineVersion to PlayerVersion"/>
         <c:change compatible="false" date="2020-01-27T00:00:00+00:00" summary="Move manifest types into their own org.librarysimplified.audiobook.manifest.api module"/>
-        <c:change compatible="false" date="2020-01-27T12:24:22+00:00" summary="Reimplement manifest parsers"/>
+        <c:change compatible="false" date="2020-01-27T00:00:00+00:00" summary="Reimplement manifest parsers"/>
+        <c:change date="2020-01-27T14:56:51+00:00" summary="Add support for Feedbooks audio books"/>
       </c:changes>
     </c:release>
   </c:releases>

@@ -21,6 +21,23 @@ object ManifestParsers {
 
   /**
    * Parse a manifest from the given input stream. This will try each of the available
+   * parser providers in turn until one claims that it can parse the resulting manifest. Parser
+   * extensions will be loaded from [ServiceLoader].
+   */
+
+  fun parse(
+    uri: URI,
+    streams: () -> InputStream
+  ): ParseResult<PlayerManifest> {
+    return this.parse(
+      uri = uri,
+      streams = streams,
+      extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
+    )
+  }
+
+  /**
+   * Parse a manifest from the given input stream. This will try each of the available
    * parser providers in turn until one claims that it can parse the resulting manifest.
    */
 
@@ -28,7 +45,7 @@ object ManifestParsers {
     uri: URI,
     streams: () -> InputStream,
     extensions: List<ManifestParserExtensionType>
-    ): ParseResult<PlayerManifest> {
+  ): ParseResult<PlayerManifest> {
     try {
       val providers: List<ManifestParserProviderType> =
         ServiceLoader.load(ManifestParserProviderType::class.java)
@@ -38,15 +55,16 @@ object ManifestParsers {
         this.logger.debug(
           "checking if provider {} can parse {}",
           provider.javaClass.canonicalName,
-          uri)
+          uri
+        )
 
         if (provider.canParse(uri, streams)) {
           this.logger.debug("parsing with provider {}", provider.javaClass.canonicalName)
           return provider.createParser(
             uri = uri,
             streams = streams,
-            extensions = extensions.filter {
-              extension -> extension.format == provider.format
+            extensions = extensions.filter { extension ->
+              extension.format == provider.format
             },
             warningsAsErrors = false
           ).parse()

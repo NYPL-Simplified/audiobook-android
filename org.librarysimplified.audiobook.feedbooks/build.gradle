@@ -1,0 +1,32 @@
+dependencies {
+  implementation project(":org.librarysimplified.audiobook.manifest_parser.extension_spi")
+  implementation project(":org.librarysimplified.audiobook.manifest_parser.webpub")
+
+  implementation libraries.irradiaFieldrushAPI
+  implementation libraries.irradiaFieldrushVanilla
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+}
+
+/*
+ * Generate a properties file based on various settings.
+ */
+
+task generatePropertiesResources {
+
+  def directory = new File(project.projectDir, "src/main/resources/org/librarysimplified/audiobook/feedbooks").absoluteFile
+  directory.mkdirs()
+  def file = new File(directory, "provider.properties")
+  file.createNewFile()
+
+  def properties = new Properties()
+  def major = version.split("\\.").getAt(0)
+  def minor = version.split("\\.").getAt(1)
+  def patch = version.split("\\.").getAt(2)
+  properties.setProperty("version.major", major)
+  properties.setProperty("version.minor", minor)
+  properties.setProperty("version.patch", patch)
+  properties.store(new FileOutputStream(file), "Automatically generated - DO NOT EDIT")
+}
+
+preBuild.dependsOn generatePropertiesResources

@@ -33,6 +33,8 @@ interface ManifestParserExtensionType {
    * A list of object schemas that will be registered whilst parsing the top-level object.
    */
 
-  fun topLevelObjectSchemas(): List<FRParserObjectFieldSchema<out PlayerManifestExtensionValueType>>
+  fun topLevelObjectSchemas(
+    onReceive: (PlayerManifestExtensionValueType) -> Unit
+  ): List<FRParserObjectFieldSchema<out PlayerManifestExtensionValueType>>
 
 }

@@ -1,6 +1,7 @@
 dependencies {
   api project(':org.librarysimplified.audiobook.api')
   api project(':org.librarysimplified.audiobook.downloads')
+  api project(':org.librarysimplified.audiobook.feedbooks')
   api project(':org.librarysimplified.audiobook.manifest_parser.api')
   api project(':org.librarysimplified.audiobook.manifest_parser.webpub')
   api project(':org.librarysimplified.audiobook.open_access')

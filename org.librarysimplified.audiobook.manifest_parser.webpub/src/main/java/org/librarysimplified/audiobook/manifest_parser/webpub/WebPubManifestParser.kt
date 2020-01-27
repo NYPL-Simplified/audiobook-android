@@ -126,8 +126,19 @@ class WebPubManifestParser(
         continue
       }
 
-      val extensionSchemas = extension.topLevelObjectSchemas()
+      val extensionSchemas =
+        extension.topLevelObjectSchemas(onReceive = {
+          extensionValue -> this.extensionValues.add(extensionValue)
+        })
+
       extensionObjectsAvailable += extensionSchemas.size
+
+      this.logger.debug(
+        "extension provider {} {} returned {} object schemas",
+        extension.name,
+        extension.version,
+        extensionSchemas.size
+      )
 
       for (extensionSchema in extensionSchemas) {
         if (!schemas.containsKey(extensionSchema.name)) {

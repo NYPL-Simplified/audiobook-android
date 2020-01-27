@@ -3,6 +3,10 @@ package org.librarysimplified.audiobook.tests
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.librarysimplified.audiobook.feedbooks.FeedbooksParserExtensions
+import org.librarysimplified.audiobook.feedbooks.FeedbooksRights
+import org.librarysimplified.audiobook.feedbooks.FeedbooksSignature
+import org.librarysimplified.audiobook.feedbooks.FeedbooksSignatureParser
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
@@ -34,11 +38,11 @@ abstract class PlayerManifestContract {
   }
 
   @Test
-  fun testErrorMinimal_0() {
+  fun testErrorMinimal0() {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:minimal"),
-        streams = { resource("error_minimal_0.json") },
+        streams = { this.resource("error_minimal_0.json") },
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -46,11 +50,11 @@ abstract class PlayerManifestContract {
   }
 
   @Test
-  fun testOkMinimal_0() {
+  fun testOkMinimal0() {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:minimal"),
-        streams = { resource("ok_minimal_0.json")},
+        streams = { this.resource("ok_minimal_0.json") },
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -86,7 +90,7 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("flatland"),
-        streams = { resource("flatland.audiobook-manifest.json") },
+        streams = { this.resource("flatland.audiobook-manifest.json") },
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -222,11 +226,11 @@ abstract class PlayerManifestContract {
   }
 
   @Test
-  fun testOkFeedbooks_0() {
+  fun testOkFeedbooks0() {
     val result =
       ManifestParsers.parse(
         uri = URI.create("feedbooks"),
-        streams = { resource("feedbooks_0.json") },
+        streams = { this.resource("feedbooks_0.json") },
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -236,74 +240,136 @@ abstract class PlayerManifestContract {
       result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
+    this.checkFeedbooks0Values(manifest)
+  }
 
+  @Test
+  fun testOkFeedbooks0WithExtensions() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("feedbooks"),
+        streams = { this.resource("feedbooks_0.json") },
+        extensions = listOf(
+          FeedbooksParserExtensions()
+        )
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
+    this.checkFeedbooks0Values(manifest)
+
+    val extensions = manifest.extensions
+
+    run {
+      val sig = extensions[0] as FeedbooksSignature
+      Assert.assertEquals("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", sig.algorithm)
+      Assert.assertEquals("https://www.cantookaudio.com", sig.issuer)
+      Assert.assertEquals("eKLux/4TtJc6VH6RTOi5lBMh9mT1j2y1z50OruWZgy8QjyPMjDV+aVZWUt7OUTinUHQfWNPBB6DxixgTZ07TQsix4uScL2dJZRQTjUKKHv3he7oJdOkcxjWDh51Q6U2KbDfC2MReG/+Qa4meoI5BN0Q8FKIEFMDZJ2KQTSRj13ZETaD0Nwz+8d6IN7csQGFJHvW/bBJthty+eZNzIr+VE0Kf02OS4yX+wvsExfRabvHlfimT1uUTWc89CgPAuM+Y7vdtjb+B3YFr7ibXATk6lQJkXzKol9ms6vkNwnvxzXwsQ+p1ZjejH1LOYADvedl/ItPrBGkhmq7bbUz91jUd+w==", sig.value)
+    }
+
+    run {
+      val rights = extensions[1] as FeedbooksRights
+      Assert.assertEquals("2020-02-01T17:15:52.000", rights.validStart.toString())
+      Assert.assertEquals("2020-03-29T17:15:52.000", rights.validEnd.toString())
+    }
+  }
+
+  private fun checkFeedbooks0Values(manifest: PlayerManifest) {
     Assert.assertEquals(
       "http://archive.org/details/gleams_of_sunshine_1607_librivox",
-      manifest.metadata.identifier)
+      manifest.metadata.identifier
+    )
     Assert.assertEquals(
       "Gleams of Sunshine",
-      manifest.metadata.title)
+      manifest.metadata.title
+    )
 
     Assert.assertEquals(1, manifest.readingOrder.size)
 
-    run {
+    this.run {
       Assert.assertEquals(
         128.0,
-        manifest.readingOrder[0].duration)
+        manifest.readingOrder[0].duration
+      )
       Assert.assertEquals(
         "01 - Invocation",
-        manifest.readingOrder[0].title)
+        manifest.readingOrder[0].title
+      )
       Assert.assertEquals(
         120.0,
-        manifest.readingOrder[0].bitrate)
+        manifest.readingOrder[0].bitrate
+      )
       Assert.assertEquals(
         "audio/mpeg",
-        manifest.readingOrder[0].type?.fullType)
+        manifest.readingOrder[0].type?.fullType
+      )
       Assert.assertEquals(
         "http://archive.org/download/gleams_of_sunshine_1607_librivox/gleamsofsunshine_01_chant.mp3",
-        manifest.readingOrder[0].hrefURI.toString())
+        manifest.readingOrder[0].hrefURI.toString()
+      )
 
-      val encrypted0 = manifest.readingOrder[0].properties!!.encrypted!!
-      Assert.assertEquals("http://www.feedbooks.com/audiobooks/access-restriction", encrypted0.scheme)
-      Assert.assertEquals("https://www.cantookaudio.com", (encrypted0.values["profile"] as PlayerManifestScalar.PlayerManifestScalarString).text)
+      val encrypted0 = manifest.readingOrder[0].properties.encrypted!!
+      Assert.assertEquals(
+        "http://www.feedbooks.com/audiobooks/access-restriction",
+        encrypted0.scheme
+      )
+      Assert.assertEquals(
+        "https://www.cantookaudio.com",
+        (encrypted0.values["profile"] as PlayerManifestScalar.PlayerManifestScalarString).text
+      )
     }
 
     Assert.assertEquals(3, manifest.links.size)
     Assert.assertEquals(
       "cover",
-      manifest.links[0].relation[0])
+      manifest.links[0].relation[0]
+    )
     Assert.assertEquals(
       180,
-      manifest.links[0].width)
+      manifest.links[0].width
+    )
     Assert.assertEquals(
       180,
-      manifest.links[0].height)
+      manifest.links[0].height
+    )
     Assert.assertEquals(
       "image/jpeg",
-      manifest.links[0].type?.fullType)
+      manifest.links[0].type?.fullType
+    )
     Assert.assertEquals(
       "http://archive.org/services/img/gleams_of_sunshine_1607_librivox",
-      manifest.links[0].hrefURI.toString())
+      manifest.links[0].hrefURI.toString()
+    )
 
     Assert.assertEquals(
       "self",
-      manifest.links[1].relation[0])
+      manifest.links[1].relation[0]
+    )
     Assert.assertEquals(
       "application/audiobook+json",
-      manifest.links[1].type?.fullType)
+      manifest.links[1].type?.fullType
+    )
     Assert.assertEquals(
       "https://api.archivelab.org/books/gleams_of_sunshine_1607_librivox/opds_audio_manifest",
-      manifest.links[1].hrefURI.toString())
+      manifest.links[1].hrefURI.toString()
+    )
 
     Assert.assertEquals(
       "license",
-      manifest.links[2].relation[0])
+      manifest.links[2].relation[0]
+    )
     Assert.assertEquals(
       "application/vnd.readium.license.status.v1.0+json",
-      manifest.links[2].type?.fullType)
+      manifest.links[2].type?.fullType
+    )
     Assert.assertEquals(
       "http://example.com/license/status",
-      manifest.links[2].hrefURI.toString())
+      manifest.links[2].hrefURI.toString()
+    )
   }
 
   private fun resource(name: String): InputStream {

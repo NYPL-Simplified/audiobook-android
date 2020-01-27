@@ -11,19 +11,19 @@ data class PlayerVersion(
 ) : Comparable<PlayerVersion> {
 
   override fun compareTo(other: PlayerVersion): Int {
-    val c_major = this.major.compareTo(other.major)
-    if (c_major == 0) {
-      val c_minor = this.minor.compareTo(other.minor)
-      if (c_minor == 0) {
-        val c_patch = this.patch.compareTo(other.patch)
-        if (c_patch == 0) {
+    val cMajor = this.major.compareTo(other.major)
+    if (cMajor == 0) {
+      val cMinor = this.minor.compareTo(other.minor)
+      if (cMinor == 0) {
+        val cPatch = this.patch.compareTo(other.patch)
+        if (cPatch == 0) {
           return 0
         }
-        return c_patch
+        return cPatch
       }
-      return c_minor
+      return cMinor
     }
-    return c_major
+    return cMajor
   }
 
   override fun toString(): String {
