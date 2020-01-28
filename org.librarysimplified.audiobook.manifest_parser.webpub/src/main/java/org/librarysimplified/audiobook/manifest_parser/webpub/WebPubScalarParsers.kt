@@ -20,9 +20,9 @@ object WebPubScalarParsers {
     text: String
   ): FRParseResult<PlayerManifestScalar> {
     return FRParseResult.succeed(
-      when (val double = text.toDoubleOrNull()) {
+      when (val integer = text.toIntOrNull()) {
         null ->
-          when (val integer = text.toIntOrNull()) {
+          when (val double = text.toDoubleOrNull()) {
             null ->
               when (text) {
                 "true" ->
@@ -33,10 +33,10 @@ object WebPubScalarParsers {
                   PlayerManifestScalarString(text)
               }
             else ->
-              PlayerManifestScalarInteger(integer)
+              PlayerManifestScalarReal(double)
           }
         else ->
-          PlayerManifestScalarReal(double)
+          PlayerManifestScalarInteger(integer)
       }
     )
   }

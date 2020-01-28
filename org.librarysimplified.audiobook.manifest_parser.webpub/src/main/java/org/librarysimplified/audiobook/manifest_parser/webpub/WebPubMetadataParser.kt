@@ -36,7 +36,9 @@ class WebPubMetadataParser(
       FRParserObjectFieldSchema(
         name = "title",
         parser = {
-          FRValueParsers.forString { title -> this.title = title }
+          FRValueParsers.forString { title ->
+            this.title = title
+          }
         }
       )
 
@@ -44,7 +46,9 @@ class WebPubMetadataParser(
       FRParserObjectFieldSchema(
         name = "identifier",
         parser = {
-          FRValueParsers.forString { identifier -> this.identifier = identifier }
+          FRValueParsers.forString { identifier ->
+            this.identifier = identifier
+          }
         }
       )
 
@@ -52,7 +56,9 @@ class WebPubMetadataParser(
       FRParserObjectFieldSchema(
         name = "encrypted",
         parser = {
-          WebPubEncryptedParsers.forEncrypted(context)
+          WebPubEncryptedParsers.forEncrypted(context) { encrypted ->
+            this.encrypted = encrypted
+          }
         },
         isOptional = true
       )

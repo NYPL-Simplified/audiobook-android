@@ -9,6 +9,7 @@ import one.irradia.fieldrush.vanilla.FRValueParsers
 import one.irradia.mime.api.MIMEType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLinkProperties
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar
 import org.slf4j.LoggerFactory
 import java.math.BigInteger
 import java.net.URI
@@ -30,7 +31,8 @@ class WebPubLinkParser(
   private var duration: Double? = null
   private var height: BigInteger? = null
   private var isTemplated: Boolean = false
-  private var properties: PlayerManifestLinkProperties = PlayerManifestLinkProperties(null)
+  private val extras: MutableMap<String, PlayerManifestScalar> = mutableMapOf()
+  private var properties: PlayerManifestLinkProperties = PlayerManifestLinkProperties()
   private var title: String? = null
   private var type: MIMEType? = null
   private var width: BigInteger? = null
@@ -135,7 +137,7 @@ class WebPubLinkParser(
       )
 
     return FRParserObjectSchema(
-      listOf(
+      fields = listOf(
         bitrateSchema,
         durationSchema,
         heightSchema,
@@ -146,11 +148,21 @@ class WebPubLinkParser(
         titleSchema,
         typeSchema,
         widthSchema
-      )
+      ),
+      unknownField = { _, name ->
+        WebPubScalarParsers.forManifestScalar { scalar ->
+          this.extras[name] = scalar
+        }
+      }
     )
   }
 
   override fun onCompleted(context: FRParserContextType): FRParseResult<PlayerManifestLink> {
+    this.extras.putAll(this.properties.extras)
+
+    val mergedProperties =
+      this.properties.copy(extras = this.extras.toMap())
+
     return if (this.isTemplated) {
       FRParseResult.succeed(
         PlayerManifestLink.LinkTemplated(
@@ -158,7 +170,7 @@ class WebPubLinkParser(
           duration = this.duration,
           height = this.height?.toInt(),
           href = this.href,
-          properties = this.properties,
+          properties = mergedProperties,
           relation = this.relations.toList(),
           title = this.title,
           type = this.type,
@@ -173,7 +185,7 @@ class WebPubLinkParser(
             duration = this.duration,
             height = this.height?.toInt(),
             href = URI(href),
-            properties = this.properties,
+            properties = mergedProperties,
             relation = this.relations.toList(),
             title = this.title,
             type = this.type,

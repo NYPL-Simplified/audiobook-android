@@ -36,5 +36,4 @@ interface ManifestParserExtensionType {
   fun topLevelObjectSchemas(
     onReceive: (PlayerManifestExtensionValueType) -> Unit
   ): List<FRParserObjectFieldSchema<out PlayerManifestExtensionValueType>>
-
 }

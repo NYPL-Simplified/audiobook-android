@@ -6,5 +6,5 @@ package org.librarysimplified.audiobook.manifest.api
 
 data class PlayerManifestEncrypted(
   val scheme: String,
-  val values: Map<String, PlayerManifestScalar>
+  val values: Map<String, PlayerManifestScalar> = mapOf()
 )

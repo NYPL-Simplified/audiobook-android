@@ -5,5 +5,6 @@ package org.librarysimplified.audiobook.manifest.api
  */
 
 data class PlayerManifestLinkProperties(
+  val extras: Map<String, PlayerManifestScalar> = mapOf(),
   val encrypted: PlayerManifestEncrypted? = null
 )

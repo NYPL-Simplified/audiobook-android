@@ -452,6 +452,68 @@ abstract class PlayerManifestContract {
     )
   }
 
+  @Test
+  fun testOkFindaway0() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("findaway"),
+        streams = this.resource("findaway.json"),
+        extensions = listOf()
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
+
+    Assert.assertEquals(
+      "Most Dangerous",
+      manifest.metadata.title
+    )
+    Assert.assertEquals(
+      "urn:librarysimplified.org/terms/id/Bibliotheca%20ID/hxaee89",
+      manifest.metadata.identifier
+    )
+
+    val encrypted = manifest.metadata.encrypted!!
+    Assert.assertEquals(
+      "http://librarysimplified.org/terms/drm/scheme/FAE",
+      encrypted.scheme
+    )
+
+    Assert.assertEquals(
+      "REDACTED0",
+      encrypted.values["findaway:accountId"].toString()
+    )
+    Assert.assertEquals(
+      "REDACTED1",
+      encrypted.values["findaway:checkoutId"].toString()
+    )
+    Assert.assertEquals(
+      "REDACTED2",
+      encrypted.values["findaway:sessionKey"].toString()
+    )
+    Assert.assertEquals(
+      "REDACTED3",
+      encrypted.values["findaway:fulfillmentId"].toString()
+    )
+    Assert.assertEquals(
+      "REDACTED4",
+      encrypted.values["findaway:licenseId"].toString()
+    )
+
+    Assert.assertEquals(
+      "1",
+      manifest.readingOrder[0].properties.extras["findaway:sequence"].toString()
+    )
+    Assert.assertEquals(
+      "0",
+      manifest.readingOrder[0].properties.extras["findaway:part"].toString()
+    )
+  }
+
   private fun resource(name: String): ByteArray {
     val path = "/org/librarysimplified/audiobook/tests/" + name
     return PlayerManifestContract::class.java.getResourceAsStream(path)?.readBytes()
