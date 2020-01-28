@@ -39,7 +39,7 @@ abstract class PlayerAudioEnginesContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:${file}"),
-        streams = { resource(file) },
+        streams = resource(file),
         extensions = listOf()
       )
 
@@ -49,9 +49,9 @@ abstract class PlayerAudioEnginesContract {
     return manifest
   }
 
-  private fun resource(name: String): InputStream {
+  private fun resource(name: String): ByteArray {
     val path = "/org/librarysimplified/audiobook/tests/" + name
-    return PlayerAudioEnginesContract::class.java.getResourceAsStream(path)
+    return PlayerAudioEnginesContract::class.java.getResourceAsStream(path) ?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
 

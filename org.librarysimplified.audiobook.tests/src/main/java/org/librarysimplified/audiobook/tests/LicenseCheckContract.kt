@@ -198,7 +198,7 @@ abstract class LicenseCheckContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create(name),
-        streams = { this.resource(name) },
+        streams = this.resource(name),
         extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
       )
     this.log().debug("result: {}", result)
@@ -212,9 +212,9 @@ abstract class LicenseCheckContract {
 
   private fun resource(
     name: String
-  ): InputStream {
+  ): ByteArray {
     val path = "/org/librarysimplified/audiobook/tests/" + name
-    return LicenseCheckContract::class.java.getResourceAsStream(path)
+    return LicenseCheckContract::class.java.getResourceAsStream(path) ?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
 }

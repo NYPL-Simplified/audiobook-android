@@ -14,7 +14,7 @@ interface ParserProviderType<S, E, T> {
 
   fun createParser(
     uri: URI,
-    streams: () -> S,
+    input: S,
     extensions: List<E> = listOf(),
     warningsAsErrors: Boolean = false
   ): ParserType<T>

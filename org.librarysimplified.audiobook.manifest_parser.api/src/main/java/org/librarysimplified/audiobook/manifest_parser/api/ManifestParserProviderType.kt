@@ -4,7 +4,6 @@ import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestParserExtensionType
 import org.librarysimplified.audiobook.parser.api.ParserProviderType
 import org.librarysimplified.audiobook.parser.api.ParserType
-import java.io.InputStream
 import java.net.URI
 
 /**
@@ -12,7 +11,7 @@ import java.net.URI
  */
 
 interface ManifestParserProviderType
-  : ParserProviderType<InputStream, ManifestParserExtensionType, PlayerManifest> {
+  : ParserProviderType<ByteArray, ManifestParserExtensionType, PlayerManifest> {
 
   /**
    * The base format supported by this parser provider.
@@ -26,7 +25,7 @@ interface ManifestParserProviderType
 
   fun canParse(
     uri: URI,
-    streams: () -> InputStream
+    input: ByteArray
   ): Boolean
 
   /**
@@ -35,7 +34,7 @@ interface ManifestParserProviderType
 
   override fun createParser(
     uri: URI,
-    streams: () -> InputStream,
+    input: ByteArray,
     extensions: List<ManifestParserExtensionType>,
     warningsAsErrors: Boolean
   ): ParserType<PlayerManifest>

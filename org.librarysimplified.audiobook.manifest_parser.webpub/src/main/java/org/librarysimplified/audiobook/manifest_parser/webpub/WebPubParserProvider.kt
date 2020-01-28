@@ -7,7 +7,7 @@ import org.librarysimplified.audiobook.manifest_parser.api.ManifestParserProvide
 import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestParserExtensionType
 import org.librarysimplified.audiobook.parser.api.ParserType
 import org.slf4j.LoggerFactory
-import java.io.InputStream
+import java.io.ByteArrayInputStream
 import java.net.URI
 
 /**
@@ -37,61 +37,59 @@ class WebPubParserProvider : ManifestParserProviderType {
 
   override fun canParse(
     uri: URI,
-    streams: () -> InputStream
+    input: ByteArray
   ): Boolean {
-    return streams.invoke().use { stream ->
-      val contextParser =
-        this.fieldRushParsers.createParser(
-          uri = uri,
-          stream = stream,
-          rootParser = WebPubContextFinderParser()
+    val contextParser =
+      this.fieldRushParsers.createParser(
+        uri = uri,
+        stream = ByteArrayInputStream(input),
+        rootParser = WebPubContextFinderParser()
+      )
+
+    return when (val parseResult = contextParser.parse()) {
+      is FRParseResult.FRParseSucceeded -> {
+        val receivedTypes = parseResult.result
+        for (type in receivedTypes) {
+          if (isRecognizedContextType(type)) {
+            return true
+          }
+        }
+
+        this.logger.error(
+          "none of the received types {} are present in {}",
+          receivedTypes,
+          this.contextTypes
         )
+        false
+      }
 
-      when (val parseResult = contextParser.parse()) {
-        is FRParseResult.FRParseSucceeded -> {
-          val receivedTypes = parseResult.result
-          for (type in receivedTypes) {
-            if (isRecognizedContextType(type)) {
-              return true
-            }
-          }
-
+      is FRParseResult.FRParseFailed -> {
+        for (error in parseResult.errors) {
           this.logger.error(
-            "none of the received types {} are present in {}",
-            receivedTypes,
-            this.contextTypes
+            "parse: {}: {}:{}:{}: {}: ",
+            error.producer,
+            error.position.source,
+            error.position.line,
+            error.position.column,
+            error.message,
+            error.exception
           )
-          false
         }
-
-        is FRParseResult.FRParseFailed -> {
-          for (error in parseResult.errors) {
-            this.logger.error(
-              "parse: {}: {}:{}:{}: {}: ",
-              error.producer,
-              error.position.source,
-              error.position.line,
-              error.position.column,
-              error.message,
-              error.exception
-            )
-          }
-          false
-        }
+        false
       }
     }
   }
 
   override fun createParser(
     uri: URI,
-    streams: () -> InputStream,
+    input: ByteArray,
     extensions: List<ManifestParserExtensionType>,
     warningsAsErrors: Boolean
   ): ParserType<PlayerManifest> {
     return WebPubParser(
       extensions = extensions,
       parsers = this.fieldRushParsers,
-      stream = streams.invoke(),
+      stream = ByteArrayInputStream(input),
       uri = uri
     )
   }

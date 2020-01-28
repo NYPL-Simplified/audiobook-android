@@ -12,7 +12,6 @@ import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestPar
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
 import java.io.ByteArrayInputStream
-import java.io.InputStream
 import java.net.URI
 import java.util.ServiceLoader
 
@@ -26,11 +25,10 @@ abstract class PlayerManifestContract {
 
   @Test
   fun testEmptyManifest() {
-    val stream = ByteArrayInputStream(ByteArray(0))
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:empty"),
-        streams = { stream },
+        streams = ByteArray(0),
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -42,7 +40,7 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:minimal"),
-        streams = { this.resource("error_minimal_0.json") },
+        streams = this.resource("error_minimal_0.json"),
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -54,7 +52,7 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:minimal"),
-        streams = { this.resource("ok_minimal_0.json") },
+        streams = this.resource("ok_minimal_0.json"),
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -72,7 +70,7 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("urn:minimal"),
-        streams = { this.resource("ok_minimal_0.json") },
+        streams = this.resource("ok_minimal_0.json"),
         extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
       )
     this.log().debug("result: {}", result)
@@ -111,7 +109,7 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("flatland"),
-        streams = { this.resource("flatland.audiobook-manifest.json") },
+        streams = this.resource("flatland.audiobook-manifest.json"),
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -129,7 +127,7 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("flatland"),
-        streams = { this.resource("flatland.audiobook-manifest.json") },
+        streams = this.resource("flatland.audiobook-manifest.json"),
         extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
       )
     this.log().debug("result: {}", result)
@@ -311,7 +309,7 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("feedbooks"),
-        streams = { this.resource("feedbooks_0.json") },
+        streams = this.resource("feedbooks_0.json"),
         extensions = listOf()
       )
     this.log().debug("result: {}", result)
@@ -329,7 +327,7 @@ abstract class PlayerManifestContract {
     val result =
       ManifestParsers.parse(
         uri = URI.create("feedbooks"),
-        streams = { this.resource("feedbooks_0.json") },
+        streams = this.resource("feedbooks_0.json"),
         extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
       )
     this.log().debug("result: {}", result)
@@ -454,9 +452,9 @@ abstract class PlayerManifestContract {
     )
   }
 
-  private fun resource(name: String): InputStream {
+  private fun resource(name: String): ByteArray {
     val path = "/org/librarysimplified/audiobook/tests/" + name
-    return PlayerManifestContract::class.java.getResourceAsStream(path)
+    return PlayerManifestContract::class.java.getResourceAsStream(path)?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
 

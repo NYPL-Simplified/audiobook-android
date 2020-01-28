@@ -6,7 +6,6 @@ import org.librarysimplified.audiobook.parser.api.ParseError
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.LoggerFactory
 import java.io.IOException
-import java.io.InputStream
 import java.net.URI
 import java.util.ServiceLoader
 
@@ -27,7 +26,7 @@ object ManifestParsers {
 
   fun parse(
     uri: URI,
-    streams: () -> InputStream
+    streams: ByteArray
   ): ParseResult<PlayerManifest> {
     return this.parse(
       uri = uri,
@@ -43,7 +42,7 @@ object ManifestParsers {
 
   fun parse(
     uri: URI,
-    streams: () -> InputStream,
+    streams: ByteArray,
     extensions: List<ManifestParserExtensionType>
   ): ParseResult<PlayerManifest> {
     try {
@@ -62,7 +61,7 @@ object ManifestParsers {
           this.logger.debug("parsing with provider {}", provider.javaClass.canonicalName)
           return provider.createParser(
             uri = uri,
-            streams = streams,
+            input = streams,
             extensions = extensions.filter { extension ->
               extension.format == provider.format
             },
