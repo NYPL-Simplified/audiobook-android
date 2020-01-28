@@ -46,7 +46,7 @@ sealed class SingleLicenseCheckResult {
 
   data class Failed(
     override val message: String,
-    val exception: Exception?
+    val exception: Exception? = null
   ) : SingleLicenseCheckResult() {
     override val shortName: String =
       "Failed"
