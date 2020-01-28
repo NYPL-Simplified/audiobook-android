@@ -5,6 +5,7 @@ package org.librarysimplified.audiobook.manifest.api
  */
 
 data class PlayerManifest(
+  val originalBytes: ByteArray,
   val readingOrder: List<PlayerManifestLink>,
   val metadata: PlayerManifestMetadata,
   val links: List<PlayerManifestLink>,

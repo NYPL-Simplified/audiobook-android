@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory
 
 class WebPubManifestParser(
   private val extensions: List<ManifestParserExtensionType>,
+  private val originalBytes: ByteArray,
   onReceive: (FRParserContextType, PlayerManifest) -> Unit = FRValueParsers.ignoringReceiverWithContext()
 ) : FRAbstractParserObject<PlayerManifest>(onReceive) {
 
@@ -36,6 +37,7 @@ class WebPubManifestParser(
     return FRParseResult.errorsOr(this.errors) {
       FRParseResult.succeed(
         PlayerManifest(
+          originalBytes = this.originalBytes,
           readingOrder = this.spineItems.toList(),
           metadata = this.metadata,
           links = this.links.toList(),

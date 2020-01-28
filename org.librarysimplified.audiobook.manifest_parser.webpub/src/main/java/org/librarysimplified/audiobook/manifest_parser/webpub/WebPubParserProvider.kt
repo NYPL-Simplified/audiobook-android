@@ -89,6 +89,7 @@ class WebPubParserProvider : ManifestParserProviderType {
     return WebPubParser(
       extensions = extensions,
       parsers = this.fieldRushParsers,
+      originalBytes = input,
       stream = ByteArrayInputStream(input),
       uri = uri
     )

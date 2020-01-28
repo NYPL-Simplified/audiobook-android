@@ -14,6 +14,7 @@ import java.net.URI
 
 class WebPubParser(
   private val parsers: FRParserProviderType,
+  private val originalBytes: ByteArray,
   private val stream: InputStream,
   private val extensions: List<ManifestParserExtensionType>,
   private val uri: URI
@@ -24,7 +25,10 @@ class WebPubParser(
       this.parsers.createParser(
         uri = this.uri,
         stream = this.stream,
-        rootParser = WebPubManifestParser(this.extensions)
+        rootParser = WebPubManifestParser(
+          extensions = this.extensions,
+          originalBytes = this.originalBytes
+        )
       ).parse()
 
     return when (result) {
