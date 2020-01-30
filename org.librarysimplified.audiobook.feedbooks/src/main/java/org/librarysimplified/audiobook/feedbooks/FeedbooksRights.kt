@@ -8,6 +8,6 @@ import org.librarysimplified.audiobook.manifest.api.PlayerManifestExtensionValue
  */
 
 data class FeedbooksRights(
-  val validStart: LocalDateTime,
-  val validEnd: LocalDateTime
+  val validStart: LocalDateTime?,
+  val validEnd: LocalDateTime?
 ): PlayerManifestExtensionValueType

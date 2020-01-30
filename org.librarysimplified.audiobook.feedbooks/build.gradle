@@ -1,4 +1,5 @@
 dependencies {
+  implementation project(":org.librarysimplified.audiobook.json_canon")
   implementation project(":org.librarysimplified.audiobook.license_check.spi")
   implementation project(":org.librarysimplified.audiobook.manifest_parser.extension_spi")
   implementation project(":org.librarysimplified.audiobook.manifest_parser.webpub")

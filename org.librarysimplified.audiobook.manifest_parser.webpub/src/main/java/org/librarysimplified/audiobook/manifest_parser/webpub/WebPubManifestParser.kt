@@ -69,7 +69,23 @@ class WebPubManifestParser(
             receiver = { spineItems ->
               this.spineItems.addAll(spineItems)
             })
-        }
+        },
+        isOptional = true
+      )
+
+    val spineSchema =
+      FRParserObjectFieldSchema(
+        name = "spine",
+        parser = {
+          FRValueParsers.forArrayMonomorphic(
+            forEach = {
+              WebPubLinkParser()
+            },
+            receiver = { spineItems ->
+              this.spineItems.addAll(spineItems)
+            })
+        },
+        isOptional = true
       )
 
     val linksSchema =
@@ -88,16 +104,18 @@ class WebPubManifestParser(
       )
 
     return finishSchema(
-      metadataSchema,
-      readingOrderSchema,
-      linksSchema,
-      context
+      context = context,
+      linksSchema = linksSchema,
+      metadataSchema = metadataSchema,
+      readingOrderSchema = readingOrderSchema,
+      spineSchema = spineSchema
     )
   }
 
   private fun finishSchema(
     metadataSchema: FRParserObjectFieldSchema<PlayerManifestMetadata>,
     readingOrderSchema: FRParserObjectFieldSchema<List<PlayerManifestLink>>,
+    spineSchema: FRParserObjectFieldSchema<List<PlayerManifestLink>>,
     linksSchema: FRParserObjectFieldSchema<List<PlayerManifestLink>>,
     context: FRParserContextType
   ): FRParserObjectSchema {
@@ -108,9 +126,10 @@ class WebPubManifestParser(
      */
 
     val schemas = mutableMapOf<String, FRParserObjectFieldSchema<*>>()
+    schemas[linksSchema.name] = linksSchema
     schemas[metadataSchema.name] = metadataSchema
     schemas[readingOrderSchema.name] = readingOrderSchema
-    schemas[linksSchema.name] = linksSchema
+    schemas[spineSchema.name] = spineSchema
 
     this.logger.debug("{} extensions registered", this.extensions.size)
     var extensionObjectsAvailable = 0

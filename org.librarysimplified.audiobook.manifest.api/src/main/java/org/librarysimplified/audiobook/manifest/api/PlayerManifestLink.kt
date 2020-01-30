@@ -64,6 +64,12 @@ sealed class PlayerManifestLink {
   abstract val properties: PlayerManifestLinkProperties
 
   /**
+   * Alternate link targets.
+   */
+
+  abstract val alternates: List<PlayerManifestLink>
+
+  /**
    * A non-templated, basic link.
    */
 
@@ -76,7 +82,8 @@ sealed class PlayerManifestLink {
     override val width: Int? = null,
     override val duration: Double? = null,
     override val bitrate: Double? = null,
-    override val properties: PlayerManifestLinkProperties
+    override val properties: PlayerManifestLinkProperties = PlayerManifestLinkProperties(),
+    override val alternates: List<PlayerManifestLink> = listOf()
   ) : PlayerManifestLink() {
     override val hrefURI: URI?
       get() = this.href
@@ -95,7 +102,8 @@ sealed class PlayerManifestLink {
     override val width: Int? = null,
     override val duration: Double? = null,
     override val bitrate: Double? = null,
-    override val properties: PlayerManifestLinkProperties
+    override val properties: PlayerManifestLinkProperties = PlayerManifestLinkProperties(),
+    override val alternates: List<PlayerManifestLink> = listOf()
   ) : PlayerManifestLink() {
     override val hrefURI: URI?
       get() = null

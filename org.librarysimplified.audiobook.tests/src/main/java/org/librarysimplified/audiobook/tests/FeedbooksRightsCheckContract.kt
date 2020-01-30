@@ -73,6 +73,28 @@ abstract class FeedbooksRightsCheckContract {
     Assert.assertTrue(failed.message.contains("exceeds"))
   }
 
+  @Test
+  fun testOKBeforeUnspecified() {
+    val manifest = this.manifest("feedbooks_rights_no_start.json")
+
+    val result =
+      FeedbooksRightsCheck(manifest, LocalDateTime.parse("2000-01-01T00:10:00.000"), { })
+        .execute()
+
+    Assert.assertTrue(result is SingleLicenseCheckResult.Succeeded)
+  }
+
+  @Test
+  fun testOKAfterUnspecified() {
+    val manifest = this.manifest("feedbooks_rights_no_end.json")
+
+    val result =
+      FeedbooksRightsCheck(manifest, LocalDateTime.parse("2000-01-01T00:10:00.000"), { })
+        .execute()
+
+    Assert.assertTrue(result is SingleLicenseCheckResult.Succeeded)
+  }
+
   private fun manifest(
     name: String
   ): PlayerManifest {

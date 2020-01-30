@@ -1,0 +1,9 @@
+dependencies {
+  api libraries.jacksonCore
+  api libraries.jacksonDatabind
+
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+
+  compileOnly libraries.jcip
+}

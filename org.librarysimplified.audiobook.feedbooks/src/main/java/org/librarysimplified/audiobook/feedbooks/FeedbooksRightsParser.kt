@@ -17,8 +17,8 @@ class FeedbooksRightsParser(
   onReceive: (FRParserContextType, FeedbooksRights) -> Unit = FRValueParsers.ignoringReceiverWithContext()
 ) : FRAbstractParserObject<FeedbooksRights>(onReceive) {
 
-  private lateinit var validStart: LocalDateTime
-  private lateinit var validEnd: LocalDateTime
+  private var validStart: LocalDateTime? = null
+  private var validEnd: LocalDateTime? = null
 
   override fun onCompleted(context: FRParserContextType): FRParseResult<FeedbooksRights> {
     return FRParseResult.succeed(
@@ -34,19 +34,27 @@ class FeedbooksRightsParser(
       FRParserObjectFieldSchema(
         name = "start",
         parser = {
-          FRValueParsers.forTimestamp { time ->
-            this.validStart = LocalDateTime(time, DateTimeZone.UTC)
-          }
-        })
+          context.parsers.acceptingNull(
+            context.parsers.forTimestamp { time ->
+              this.validStart = LocalDateTime(time, DateTimeZone.UTC)
+            }
+          )
+        },
+        isOptional = true
+      )
 
     val validEndSchema =
       FRParserObjectFieldSchema(
         name = "end",
         parser = {
-          FRValueParsers.forTimestamp { time ->
-            this.validEnd = LocalDateTime(time, DateTimeZone.UTC)
-          }
-        })
+          context.parsers.acceptingNull(
+            context.parsers.forTimestamp { time ->
+              this.validEnd = LocalDateTime(time, DateTimeZone.UTC)
+            }
+          )
+        },
+        isOptional = true
+      )
 
     return FRParserObjectSchema(listOf(validStartSchema, validEndSchema))
   }

@@ -62,7 +62,7 @@ abstract class PlayerManifestContract {
       result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
-    checkMinimalValues(manifest)
+    this.checkMinimalValues(manifest)
   }
 
   @Test
@@ -80,7 +80,7 @@ abstract class PlayerManifestContract {
       result as ParseResult.Success<PlayerManifest>
 
     val manifest = success.result
-    checkMinimalValues(manifest)
+    this.checkMinimalValues(manifest)
   }
 
   private fun checkMinimalValues(manifest: PlayerManifest) {
@@ -512,6 +512,61 @@ abstract class PlayerManifestContract {
       "0",
       manifest.readingOrder[0].properties.extras["findaway:part"].toString()
     )
+  }
+
+  @Test
+  fun testOkFeedbooks1() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("feedbooks"),
+        streams = this.resource("feedbooks_1.json"),
+        extensions = listOf()
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
+    this.checkFeedbooks1Values(manifest)
+  }
+
+  @Test
+  fun testOkFeedbooks1WithExtensions() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("feedbooks"),
+        streams = this.resource("feedbooks_1.json"),
+        extensions = ServiceLoader.load(ManifestParserExtensionType::class.java).toList()
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
+    this.checkFeedbooks1Values(manifest)
+  }
+
+  private fun checkFeedbooks1Values(manifest: PlayerManifest) {
+    Assert.assertEquals(
+      "urn:uuid:35c5e499-9cb9-46e0-9e47-c517973f9e7f",
+      manifest.metadata.identifier
+    )
+    Assert.assertEquals(
+      "Rise of the Dragons, Book 1",
+      manifest.metadata.title
+    )
+
+    /*
+     * I don't think we really need to check the contents of all 41 spine items.
+     * The rest of the test suite should hopefully cover this sufficiently.
+     */
+
+    Assert.assertEquals(41, manifest.readingOrder.size)
+    Assert.assertEquals(3, manifest.links.size)
   }
 
   private fun resource(name: String): ByteArray {

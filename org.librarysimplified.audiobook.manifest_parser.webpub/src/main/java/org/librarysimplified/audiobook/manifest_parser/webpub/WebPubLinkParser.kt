@@ -5,6 +5,7 @@ import one.irradia.fieldrush.api.FRParseResult
 import one.irradia.fieldrush.api.FRParserContextType
 import one.irradia.fieldrush.api.FRParserObjectFieldSchema
 import one.irradia.fieldrush.api.FRParserObjectSchema
+import one.irradia.fieldrush.api.FRValueParserType
 import one.irradia.fieldrush.vanilla.FRValueParsers
 import one.irradia.mime.api.MIMEType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
@@ -36,6 +37,7 @@ class WebPubLinkParser(
   private var title: String? = null
   private var type: MIMEType? = null
   private var width: BigInteger? = null
+  private val alternates: MutableList<PlayerManifestLink> = mutableListOf()
 
   override fun schema(context: FRParserContextType): FRParserObjectSchema {
     val hrefSchema =
@@ -129,15 +131,40 @@ class WebPubLinkParser(
       FRParserObjectFieldSchema(
         name = "properties",
         parser = {
-          WebPubLinkPropertiesParser { _, properties ->
-            this.properties = properties
-          }
+          FRValueParsers.forScalarOrObject(
+            forScalar = {
+              FRValueParsers.forScalarOrNull({ _ ->
+                FRParseResult.succeed(PlayerManifestLinkProperties())
+              })
+            },
+            forObject = {
+              WebPubLinkPropertiesParser { _, properties ->
+                this.properties = properties
+              } as FRValueParserType<PlayerManifestLinkProperties?>
+            }
+          )
+        },
+        isOptional = true
+      )
+
+    val alternatesSchema =
+      FRParserObjectFieldSchema(
+        name = "alternates",
+        parser = {
+          FRValueParsers.forArrayOrSingle(
+            {
+              WebPubLinkParser { _, alternate ->
+                this.alternates.add(alternate)
+              }
+            }
+          )
         },
         isOptional = true
       )
 
     return FRParserObjectSchema(
       fields = listOf(
+        alternatesSchema,
         bitrateSchema,
         durationSchema,
         heightSchema,
@@ -166,6 +193,7 @@ class WebPubLinkParser(
     return if (this.isTemplated) {
       FRParseResult.succeed(
         PlayerManifestLink.LinkTemplated(
+          alternates = this.alternates.toList(),
           bitrate = this.bitrate,
           duration = this.duration,
           height = this.height?.toInt(),
@@ -181,6 +209,7 @@ class WebPubLinkParser(
       try {
         FRParseResult.succeed(
           PlayerManifestLink.LinkBasic(
+            alternates = this.alternates.toList(),
             bitrate = this.bitrate,
             duration = this.duration,
             height = this.height?.toInt(),

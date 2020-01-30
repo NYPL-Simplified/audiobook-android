@@ -21,18 +21,25 @@ class FeedbooksRightsCheck(
       } as FeedbooksRights?
         ?: return SingleLicenseCheckResult.NotApplicable("No rights information was provided.")
 
-    if (this.timeNow.isBefore(rights.validStart)) {
-      return SingleLicenseCheckResult.Failed(
-        "The current time precedes the start of the rights date range.")
+    if (rights.validStart != null) {
+      if (this.timeNow.isBefore(rights.validStart)) {
+        return SingleLicenseCheckResult.Failed(
+          "The current time precedes the start of the rights date range."
+        )
+      }
     }
 
-    if (this.timeNow.isAfter(rights.validEnd)) {
-      return SingleLicenseCheckResult.Failed(
-        "The current time exceeds the end of the rights date range.")
+    if (rights.validEnd != null) {
+      if (this.timeNow.isAfter(rights.validEnd)) {
+        return SingleLicenseCheckResult.Failed(
+          "The current time exceeds the end of the rights date range."
+        )
+      }
     }
 
     return SingleLicenseCheckResult.Succeeded(
-      "The current time is within the specified date range")
+      "The current time is within the specified date range"
+    )
   }
 
   private fun event(message: String) {
