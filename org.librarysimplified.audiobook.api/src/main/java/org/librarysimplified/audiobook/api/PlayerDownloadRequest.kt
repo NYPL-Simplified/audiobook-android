@@ -11,7 +11,8 @@ data class PlayerDownloadRequest(
   val uri: URI,
   val outputFile: File,
   val credentials: PlayerDownloadRequestCredentials?,
-  val onProgress: (Int) -> Unit)
+  val onProgress: (Int) -> Unit
+)
 
 /**
  * The credentials that can be used for downloads.
@@ -25,7 +26,8 @@ sealed class PlayerDownloadRequestCredentials {
 
   data class PlayerDownloadRequestCredentialsBasic(
     val user: String,
-    val password: String) : PlayerDownloadRequestCredentials()
+    val password: String
+  ) : PlayerDownloadRequestCredentials()
 
 }
 

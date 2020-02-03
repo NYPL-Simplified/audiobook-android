@@ -18,3 +18,4 @@ include ':org.librarysimplified.audiobook.tests'
 include ':org.librarysimplified.audiobook.tests.device'
 include ':org.librarysimplified.audiobook.tests.sandbox'
 include ':org.librarysimplified.audiobook.views'
+

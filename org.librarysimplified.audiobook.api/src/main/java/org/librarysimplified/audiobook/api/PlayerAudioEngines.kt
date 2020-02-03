@@ -9,32 +9,32 @@ import java.util.ServiceLoader
 
 object PlayerAudioEngines : PlayerAudioEnginesType {
 
-  private val log = LoggerFactory.getLogger(PlayerAudioEngines::class.java)
+  private val logger = LoggerFactory.getLogger(PlayerAudioEngines::class.java)
 
   private val providers: MutableList<PlayerAudioEngineProviderType> =
     ServiceLoader.load(PlayerAudioEngineProviderType::class.java).toMutableList()
 
   override fun findAllFor(request: PlayerAudioEngineRequest): List<PlayerEngineAndBookProvider> {
-    val results = ArrayList<PlayerEngineAndBookProvider>(providers.size)
-    for (engine_provider in providers) {
+    val results = ArrayList<PlayerEngineAndBookProvider>(this.providers.size)
+    for (engineProvider in this.providers) {
       try {
-        val book_provider = engine_provider.tryRequest(request)
-        if (book_provider != null) {
-          if (request.filter(engine_provider)) {
+        val bookProvider = engineProvider.tryRequest(request)
+        if (bookProvider != null) {
+          if (request.filter(engineProvider)) {
             results.add(PlayerEngineAndBookProvider(
-              engineProvider = engine_provider,
-              bookProvider = book_provider))
+              engineProvider = engineProvider,
+              bookProvider = bookProvider))
           }
         }
       } catch (e: Exception) {
         try {
-          log.error(
+          this.logger.error(
             "exception raised by provider {}:{} when examining manifest: ",
-            engine_provider.name(),
-            engine_provider.version(),
+            engineProvider.name(),
+            engineProvider.version(),
             e)
         } catch (e: Exception) {
-          log.error("exception raised when talking to provider: ", e)
+          this.logger.error("exception raised when talking to provider: ", e)
         }
       }
     }

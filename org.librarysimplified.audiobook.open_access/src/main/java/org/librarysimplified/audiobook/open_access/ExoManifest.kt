@@ -60,7 +60,8 @@ data class ExoManifest(
         chapter = index,
         type = type,
         duration = duration,
-        uri = uri
+        uri = uri,
+        originalLink = item
       )
     }
 
@@ -91,16 +92,3 @@ data class ExoManifest(
     }
   }
 }
-
-/**
- * A spine item transformed to expose the information critical to the ExoPlayer engine.
- */
-
-data class ExoManifestSpineItem(
-  val title: String,
-  val part: Int,
-  val chapter: Int,
-  val type: MIMEType,
-  val duration: Double,
-  val uri: URI
-)

@@ -9,6 +9,7 @@ import org.librarysimplified.audiobook.api.PlayerDownloadWholeBookTaskType
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
+import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
 import org.slf4j.LoggerFactory
 import rx.subjects.PublishSubject
 import java.io.File
@@ -30,8 +31,8 @@ class ExoAudioBook private constructor(
   override val spineByPartAndChapter: SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>,
   override val spineElementDownloadStatus: PublishSubject<PlayerSpineElementDownloadStatus>,
   override val id: PlayerBookID,
-  private val engineProvider: ExoEngineProvider)
-  : PlayerAudioBookType {
+  private val engineProvider: ExoEngineProvider
+) : PlayerAudioBookType {
 
   private val isClosedNow = AtomicBoolean(false)
   private val wholeBookTask = ExoDownloadWholeBookTask(this)
@@ -43,7 +44,8 @@ class ExoAudioBook private constructor(
       book = this,
       engineProvider = this.engineProvider,
       context = this.context,
-      engineExecutor = this.engineExecutor)
+      engineExecutor = this.engineExecutor
+    )
   }
 
   override val supportsStreaming: Boolean
@@ -70,8 +72,9 @@ class ExoAudioBook private constructor(
       context: Context,
       engineExecutor: ScheduledExecutorService,
       manifest: ExoManifest,
-      downloadProvider: PlayerDownloadProviderType): PlayerAudioBookType {
-
+      downloadProvider: PlayerDownloadProviderType,
+      extensions: List<PlayerExtensionType>
+    ): PlayerAudioBookType {
       val bookId = PlayerBookID.transform(manifest.id)
       val directory = findDirectoryFor(context, bookId)
       log.debug("book directory: {}", directory)
@@ -96,17 +99,19 @@ class ExoAudioBook private constructor(
 
         val element =
           ExoSpineElement(
-            downloadStatusEvents = statusEvents,
             bookID = bookId,
             bookManifest = manifest,
-            itemManifest = spine_item,
-            partFile = partFile,
             downloadProvider = downloadProvider,
-            index = index,
-            nextElement = null,
-            previousElement = spineItemPrevious,
+            downloadStatusEvents = statusEvents,
             duration = duration,
-            engineExecutor = engineExecutor)
+            engineExecutor = engineExecutor,
+            extensions = extensions,
+            index = index,
+            itemManifest = spine_item,
+            nextElement = null,
+            partFile = partFile,
+            previousElement = spineItemPrevious
+          )
 
         elements.add(element)
         elementsById.put(element.id, element)
@@ -133,7 +138,8 @@ class ExoAudioBook private constructor(
         spine = elements,
         spineByID = elementsById,
         spineByPartAndChapter = elementsByPart as SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>,
-        spineElementDownloadStatus = statusEvents)
+        spineElementDownloadStatus = statusEvents
+      )
 
       for (e in elements) {
         e.setBook(book)
@@ -148,7 +154,8 @@ class ExoAudioBook private constructor(
 
     private fun addElementByPartAndChapter(
       elementsByPart: TreeMap<Int, TreeMap<Int, PlayerSpineElementType>>,
-      element: ExoSpineElement) {
+      element: ExoSpineElement
+    ) {
 
       val partChapters: TreeMap<Int, PlayerSpineElementType> =
         if (elementsByPart.containsKey(element.itemManifest.part)) {

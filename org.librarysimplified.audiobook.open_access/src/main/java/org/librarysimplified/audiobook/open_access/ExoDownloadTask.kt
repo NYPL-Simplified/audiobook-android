@@ -1,6 +1,5 @@
 package org.librarysimplified.audiobook.open_access
 
-import com.google.common.base.Function
 import com.google.common.util.concurrent.AsyncFunction
 import com.google.common.util.concurrent.FluentFuture
 import com.google.common.util.concurrent.FutureCallback
@@ -15,14 +14,12 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
+import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
+import org.librarysimplified.audiobook.api.extensions.PlayerXDownloadSubstitution
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloaded
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloading
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Initial
-import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser
-import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseFailed
-import org.librarysimplified.audiobook.rbdigital.RBDigitalLinkDocumentParser.ParseResult.ParseSuccess
 import org.slf4j.LoggerFactory
-import java.io.File
 import java.net.URI
 import java.util.concurrent.CancellationException
 import java.util.concurrent.ExecutorService
@@ -35,8 +32,9 @@ class ExoDownloadTask(
   private val downloadStatusExecutor: ExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
   private val manifest: ExoManifest,
-  private val spineElement: ExoSpineElement)
-  : PlayerDownloadTaskType {
+  private val spineElement: ExoSpineElement,
+  private val extensions: List<PlayerExtensionType>
+) : PlayerDownloadTaskType {
 
   private val log = LoggerFactory.getLogger(ExoDownloadTask::class.java)
 
@@ -88,35 +86,59 @@ class ExoDownloadTask(
     this.spineElement.setDownloadStatus(PlayerSpineElementDownloaded(this.spineElement))
   }
 
+  private fun onStartDownloadGetURI(): FluentFuture<PlayerXDownloadSubstitution> {
+    for (extension in this.extensions) {
+      val future =
+        extension.onDownloadLink(
+          statusExecutor = this.downloadStatusExecutor,
+          downloadProvider = this.downloadProvider,
+          link = this.spineElement.itemManifest.originalLink
+        )
+      if (future != null) {
+        this.log.debug("extension {} provided a download substitution", extension.name)
+        return future
+      }
+    }
+
+    return FluentFuture.from(
+      Futures.immediateFuture(
+        PlayerXDownloadSubstitution.DownloadURI(
+          this.spineElement.itemManifest.uri
+        ) as PlayerXDownloadSubstitution
+      )
+    )
+  }
+
   private fun onStartDownload(): ListenableFuture<Unit> {
     this.log.debug("starting download")
 
-    /*
-     * If the spine element requires going through an RBDigital access document, download
-     * and parse that first.
-     */
-
-    val uriFuture: FluentFuture<URI> =
-      when (this.spineElement.itemManifest.type.fullType) {
-        "vnd.librarysimplified/rbdigital-access-document+json" ->
-          this.processRBDigitalAccessDocument(this.spineElement.itemManifest.uri)
-        else ->
-          FluentFuture.from(Futures.immediateFuture(this.spineElement.itemManifest.uri))
-      }
-
-    return uriFuture.transformAsync(
-      AsyncFunction<URI, Unit>{ targetURI -> this.onStartDownloadDirect(targetURI!!) },
-      MoreExecutors.directExecutor())
+    return this.onStartDownloadGetURI().transformAsync(
+      AsyncFunction<PlayerXDownloadSubstitution, Unit> { substitution ->
+        when (substitution) {
+          is PlayerXDownloadSubstitution.DownloadURI -> {
+            this.onStartDownloadDirect(substitution.uri)
+          }
+          null -> {
+            this.log.error("download substitution returned null")
+            Futures.immediateFailedFuture<Unit>(
+              IllegalStateException("Download substitution returned null"))
+          }
+        }
+      },
+      MoreExecutors.directExecutor()
+    )
   }
 
   private fun onStartDownloadDirect(targetURI: URI): ListenableFuture<Unit> {
     this.log.debug("download: {}", targetURI)
 
-    val future = this.downloadProvider.download(PlayerDownloadRequest(
-      uri = targetURI,
-      credentials = null,
-      outputFile = this.spineElement.partFile,
-      onProgress = { percent -> this.onDownloading(percent) }))
+    val future = this.downloadProvider.download(
+      PlayerDownloadRequest(
+        uri = targetURI,
+        credentials = null,
+        outputFile = this.spineElement.partFile,
+        onProgress = { percent -> this.onDownloading(percent) })
+    )
 
     this.stateSetCurrent(Downloading(future))
     this.onBroadcastState()
@@ -143,38 +165,6 @@ class ExoDownloadTask(
     return future
   }
 
-  private fun processRBDigitalAccessDocument(targetURI: URI): FluentFuture<URI> {
-    this.log.debug("downloading rbdigital link document: {}", targetURI)
-
-    val tempFile =
-      File.createTempFile("org.librarysimplified.audiobook.open_access.download-", "tmp")
-        .absoluteFile
-
-    this.log.debug("downloading rbdigital temporary: {}", tempFile)
-
-    val future =
-      FluentFuture.from(
-        this.downloadProvider.download(PlayerDownloadRequest(
-          uri = targetURI,
-          credentials = null,
-          outputFile = tempFile,
-          onProgress = { percent -> this.log.debug("downloading rbdigital link: {}%", percent) })))
-
-    return future.transform(Function<Unit, URI> {
-      val uri = this.parseRBDigitalLinkDocument(tempFile)
-      tempFile.delete()
-      uri
-    }, this.downloadStatusExecutor)
-  }
-
-  private fun parseRBDigitalLinkDocument(tempFile: File): URI {
-    val result = RBDigitalLinkDocumentParser().parseFromFile(tempFile)
-    return when (result) {
-      is ParseSuccess -> result.document.uri
-      is ParseFailed -> throw result.exception
-    }
-  }
-
   private fun onDownloadCancelled() {
     this.log.error("onDownloadCancelled")
     this.stateSetCurrent(Initial)
@@ -186,7 +176,9 @@ class ExoDownloadTask(
     this.stateSetCurrent(Initial)
     this.spineElement.setDownloadStatus(
       PlayerSpineElementDownloadFailed(
-        this.spineElement, e, e.message ?: "Missing exception message"))
+        this.spineElement, e, e.message ?: "Missing exception message"
+      )
+    )
   }
 
   private fun onDownloadCompleted() {
@@ -219,8 +211,7 @@ class ExoDownloadTask(
   override fun delete() {
     this.log.debug("delete")
 
-    val current = this.stateGetCurrent()
-    return when (current) {
+    return when (val current = this.stateGetCurrent()) {
       Initial -> this.onBroadcastState()
       Downloaded -> this.onDeleteDownloaded()
       is Downloading -> this.onDeleteDownloading(current)

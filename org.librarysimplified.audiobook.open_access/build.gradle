@@ -1,6 +1,5 @@
 dependencies {
   api project(':org.librarysimplified.audiobook.api')
-  api project(':org.librarysimplified.audiobook.rbdigital')
 
   implementation libraries.googleExoplayer
   implementation libraries.jodaTime
