@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit
  */
 
 class DownloadProvider private constructor(
-  private val executor: ListeningExecutorService)
-  : PlayerDownloadProviderType {
+  private val executor: ListeningExecutorService
+) : PlayerDownloadProviderType {
 
   private val log = LoggerFactory.getLogger(DownloadProvider::class.java)
 
@@ -59,7 +59,10 @@ class DownloadProvider private constructor(
     return result
   }
 
-  private fun reportProgress(request: PlayerDownloadRequest, percent: Int) {
+  private fun reportProgress(
+    request: PlayerDownloadRequest,
+    percent: Int
+  ) {
     try {
       request.onProgress(percent)
     } catch (e: Throwable) {
@@ -74,7 +77,8 @@ class DownloadProvider private constructor(
 
   private fun doDownload(
     request: PlayerDownloadRequest,
-    result: SettableFuture<Unit>) {
+    result: SettableFuture<Unit>
+  ) {
     this.log.debug("downloading {} to {}", request.uri, request.outputFile)
 
     this.reportProgress(request, 0)
@@ -93,8 +97,7 @@ class DownloadProvider private constructor(
      * Use basic auth if a username and password were given.
      */
 
-    val credentials = request.credentials
-    when (credentials) {
+    when (val credentials = request.credentials) {
       null -> {
         this.log.debug("not using authentication")
       }
@@ -102,7 +105,8 @@ class DownloadProvider private constructor(
         this.log.debug("using basic auth")
         httpRequestBuilder.header(
           "Authorization",
-          Credentials.basic(credentials.user, credentials.password))
+          Credentials.basic(credentials.user, credentials.password)
+        )
       }
     }
 
@@ -112,14 +116,16 @@ class DownloadProvider private constructor(
 
     call.execute().use { response ->
       if (!response.isSuccessful) {
-        throw IOException(StringBuilder(128)
-          .append("Server returned an error response.\n")
-          .append("  Response: ")
-          .append(response.code())
-          .append(' ')
-          .append(response.message())
-          .append('\n')
-          .toString())
+        throw IOException(
+          StringBuilder(128)
+            .append("Server returned an error response.\n")
+            .append("  Response: ")
+            .append(response.code())
+            .append(' ')
+            .append(response.message())
+            .append('\n')
+            .toString()
+        )
       }
 
       this.handleSuccessfulResponse(response, request, result)
@@ -129,7 +135,8 @@ class DownloadProvider private constructor(
   private fun handleSuccessfulResponse(
     response: Response,
     request: PlayerDownloadRequest,
-    result: SettableFuture<Unit>) {
+    result: SettableFuture<Unit>
+  ) {
 
     /*
      * Check if the future has been cancelled. If it has, don't start copying.
@@ -167,15 +174,17 @@ class DownloadProvider private constructor(
 
     val receivedSize = request.outputFile.length()
     if (receivedSize != expectedLength) {
-      throw IOException(StringBuilder(128)
-        .append("Resulting file size does not match the expected size.\n")
-        .append("  Expected size: ")
-        .append(expectedLength)
-        .append('\n')
-        .append("  Received size: ")
-        .append(receivedSize)
-        .append('\n')
-        .toString())
+      throw IOException(
+        StringBuilder(128)
+          .append("Resulting file size does not match the expected size.\n")
+          .append("  Expected size: ")
+          .append(expectedLength)
+          .append('\n')
+          .append("  Received size: ")
+          .append(receivedSize)
+          .append('\n')
+          .toString()
+      )
     }
   }
 
@@ -184,7 +193,8 @@ class DownloadProvider private constructor(
     inputStream: InputStream,
     outputStream: FileOutputStream,
     expectedLength: Long,
-    result: SettableFuture<Unit>) {
+    result: SettableFuture<Unit>
+  ) {
 
     var progressPrevious = 0.0
     var progressCurrent = 0.0
