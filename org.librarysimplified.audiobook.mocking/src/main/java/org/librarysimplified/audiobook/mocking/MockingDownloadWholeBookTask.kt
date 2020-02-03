@@ -7,8 +7,9 @@ import org.slf4j.LoggerFactory
  * A fake download task.
  */
 
-class MockingDownloadWholeBookTask(private val audioBook: MockingAudioBook)
-  : PlayerDownloadWholeBookTaskType {
+class MockingDownloadWholeBookTask(
+  private val audioBook: MockingAudioBook
+) : PlayerDownloadWholeBookTaskType {
 
   private val log = LoggerFactory.getLogger(MockingDownloadWholeBookTask::class.java)
 
@@ -30,5 +31,4 @@ class MockingDownloadWholeBookTask(private val audioBook: MockingAudioBook)
   private fun calculateProgress(): Double {
     return this.audioBook.spine.sumByDouble { item -> item.downloadTask().progress } / this.audioBook.spine.size
   }
-
 }

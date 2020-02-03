@@ -16,4 +16,5 @@ data class PlayerFragmentParameters(
   @Deprecated(
     message = "Colors should now be taken from the colorPrimary attribute of the current application theme",
     level = DeprecationLevel.WARNING)
-  @ColorInt val primaryColor: Int? = null) : Serializable
+  @ColorInt val primaryColor: Int? = null
+) : Serializable

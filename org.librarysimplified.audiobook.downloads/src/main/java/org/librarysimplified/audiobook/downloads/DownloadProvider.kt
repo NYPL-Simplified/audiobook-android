@@ -235,5 +235,4 @@ class DownloadProvider private constructor(
     }
     outputStream.flush()
   }
-
 }

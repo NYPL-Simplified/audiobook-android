@@ -61,7 +61,7 @@ internal object ResourceFileIO {
    * Rename the file `from` to `to`.
    *
    * @param from The source file
-   * @param to   The target file
+   * @param to The target file
    *
    * @throws IOException On I/O errors
    */
@@ -69,7 +69,8 @@ internal object ResourceFileIO {
   @Throws(IOException::class)
   fun fileRename(
     from: File,
-    to: File) {
+    to: File
+  ) {
 
     if (!from.renameTo(to)) {
       if (!from.isFile) {

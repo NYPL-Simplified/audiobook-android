@@ -22,8 +22,8 @@ sealed class PlayerSleepTimerEvent {
 
   data class PlayerSleepTimerRunning(
     val paused: Boolean,
-    val remaining: Duration?)
-    : PlayerSleepTimerEvent()
+    val remaining: Duration?
+  ) : PlayerSleepTimerEvent()
 
   /**
    * The user cancelled the sleep timer countdown. If a duration was specified when the timer was
@@ -31,13 +31,12 @@ sealed class PlayerSleepTimerEvent {
    */
 
   data class PlayerSleepTimerCancelled(
-    val remaining: Duration?)
-    : PlayerSleepTimerEvent()
+    val remaining: Duration?
+  ) : PlayerSleepTimerEvent()
 
   /**
    * The sleep timer ran to completion.
    */
 
   object PlayerSleepTimerFinished : PlayerSleepTimerEvent()
-
 }

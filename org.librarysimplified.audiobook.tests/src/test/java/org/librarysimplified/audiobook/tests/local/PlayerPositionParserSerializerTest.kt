@@ -20,5 +20,4 @@ class PlayerPositionParserSerializerTest : PlayerPositionParserSerializerContrac
   override fun createSerializer(): PlayerPositionSerializerType {
     return PlayerPositions
   }
-
 }

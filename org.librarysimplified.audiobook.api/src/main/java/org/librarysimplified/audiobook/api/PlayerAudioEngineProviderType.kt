@@ -27,5 +27,4 @@ interface PlayerAudioEngineProviderType {
    */
 
   fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType?
-
 }

@@ -21,5 +21,4 @@ interface LicenseCheckProviderType {
     manifest: PlayerManifest,
     checks: List<SingleLicenseCheckProviderType>
   ): LicenseCheckType
-
 }

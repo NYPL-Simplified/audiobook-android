@@ -21,5 +21,4 @@ interface LicenseCheckType : Closeable {
    */
 
   fun execute(): LicenseCheckResult
-
 }

@@ -10,4 +10,4 @@ data class FeedbooksSignature(
   val algorithm: String,
   val issuer: String,
   val value: String
-): PlayerManifestExtensionValueType
+) : PlayerManifestExtensionValueType

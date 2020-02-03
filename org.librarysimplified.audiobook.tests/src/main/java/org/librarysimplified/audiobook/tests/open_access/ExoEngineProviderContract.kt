@@ -767,5 +767,4 @@ abstract class ExoEngineProviderContract {
     return ExoEngineProviderContract::class.java.getResourceAsStream(path)?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
-
 }

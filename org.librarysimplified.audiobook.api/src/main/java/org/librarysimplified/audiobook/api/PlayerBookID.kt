@@ -21,5 +21,4 @@ data class PlayerBookID private constructor(val value: String) {
       return PlayerBookID(sb.toString())
     }
   }
-
 }

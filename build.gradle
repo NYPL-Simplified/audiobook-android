@@ -102,6 +102,7 @@ subprojects { project ->
       apply plugin: "java"
       apply plugin: "java-library"
       apply plugin: "kotlin"
+      apply from: file("$rootDir/ktlint.gradle")
 
       /*
        * Apply the Animal Sniffer plugin to check that code is Android compatible.
@@ -134,6 +135,7 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
 
       apply plugin: "com.android.application"
       apply plugin: "kotlin-android"
+      apply from: file("$rootDir/ktlint.gradle")
 
       android {
         compileSdkVersion androidCompileSDKVersion
@@ -155,6 +157,7 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
 
       apply plugin: "com.android.library"
       apply plugin: "kotlin-android"
+      apply from: file("$rootDir/ktlint.gradle")
 
       android {
         compileSdkVersion androidCompileSDKVersion

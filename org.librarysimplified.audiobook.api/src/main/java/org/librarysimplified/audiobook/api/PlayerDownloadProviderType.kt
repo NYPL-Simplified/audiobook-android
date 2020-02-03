@@ -30,5 +30,4 @@ interface PlayerDownloadProviderType {
    */
 
   fun download(request: PlayerDownloadRequest): ListenableFuture<Unit>
-
 }

@@ -7,6 +7,4 @@ import org.librarysimplified.audiobook.tests.PlayerResultContract
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class PlayerResultTest : PlayerResultContract() {
-
-}
+class PlayerResultTest : PlayerResultContract()

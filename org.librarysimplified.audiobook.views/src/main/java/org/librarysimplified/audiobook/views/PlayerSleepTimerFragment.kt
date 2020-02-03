@@ -44,7 +44,8 @@ class PlayerSleepTimerFragment : DialogFragment() {
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
-    state: Bundle?): View? {
+    state: Bundle?
+  ): View? {
 
     val view: RecyclerView =
       inflater.inflate(R.layout.player_sleep_timer_view, container, false) as RecyclerView
@@ -76,7 +77,6 @@ class PlayerSleepTimerFragment : DialogFragment() {
           context = context,
           rates = this.enabledSleepTimerConfigurations(),
           onSelect = { item -> this.onSleepTimerSelected(item) })
-
     } else {
       throw ClassCastException(
         StringBuilder(64)
@@ -164,5 +164,4 @@ class PlayerSleepTimerFragment : DialogFragment() {
       return fragment
     }
   }
-
 }

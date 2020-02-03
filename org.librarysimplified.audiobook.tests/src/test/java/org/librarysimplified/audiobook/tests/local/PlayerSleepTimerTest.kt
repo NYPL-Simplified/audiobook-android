@@ -19,5 +19,4 @@ class PlayerSleepTimerTest : PlayerSleepTimerContract() {
   override fun create(): PlayerSleepTimerType {
     return PlayerSleepTimer.create()
   }
-
 }

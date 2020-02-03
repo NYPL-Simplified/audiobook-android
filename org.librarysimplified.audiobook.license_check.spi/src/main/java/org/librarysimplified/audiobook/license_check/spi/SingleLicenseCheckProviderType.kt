@@ -23,5 +23,4 @@ interface SingleLicenseCheckProviderType {
     manifest: PlayerManifest,
     onStatusChanged: (SingleLicenseCheckStatus) -> Unit
   ): SingleLicenseCheckType
-
 }

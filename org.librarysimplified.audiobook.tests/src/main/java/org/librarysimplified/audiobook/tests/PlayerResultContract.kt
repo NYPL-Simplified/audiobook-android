@@ -48,5 +48,4 @@ open class PlayerResultContract {
       m.flatMap(f).flatMap(g),
       m.flatMap({ x -> f(x).flatMap(g) }))
   }
-
 }

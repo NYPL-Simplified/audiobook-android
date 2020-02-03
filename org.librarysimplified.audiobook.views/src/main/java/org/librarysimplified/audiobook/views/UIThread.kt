@@ -48,13 +48,14 @@ internal class UIThread private constructor() {
     /**
      * Run the given Runnable on the UI thread after the specified delay.
      *
-     * @param r  The runnable
+     * @param r The runnable
      * @param ms The delay in milliseconds
      */
 
     fun runOnUIThreadDelayed(
       r: Runnable,
-      ms: Long) {
+      ms: Long
+    ) {
 
       val looper = Looper.getMainLooper()
       val h = Handler(looper)

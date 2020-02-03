@@ -14,5 +14,5 @@ sealed class PlayerXDownloadSubstitution {
 
   data class DownloadURI(
     val uri: URI
-  ): PlayerXDownloadSubstitution()
+  ) : PlayerXDownloadSubstitution()
 }

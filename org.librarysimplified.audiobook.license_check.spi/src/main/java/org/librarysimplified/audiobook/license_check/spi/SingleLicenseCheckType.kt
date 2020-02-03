@@ -11,5 +11,4 @@ interface SingleLicenseCheckType {
    */
 
   fun execute(): SingleLicenseCheckResult
-
 }

@@ -20,5 +20,4 @@ interface PlayerAudioBookProviderType {
     context: Context,
     extensions: List<PlayerExtensionType> = listOf()
   ): PlayerResult<PlayerAudioBookType, Exception>
-
 }

@@ -72,7 +72,7 @@ data class ExoManifest(
       return when (val duration = link.duration) {
         null ->
           throw IllegalArgumentException(
-            "Spine item ${index} is missing the required 'duration' field"
+            "Spine item $index is missing the required 'duration' field"
           )
         else ->
           duration
@@ -87,7 +87,7 @@ data class ExoManifest(
         is PlayerManifestLink.LinkBasic ->
           link.href
         is PlayerManifestLink.LinkTemplated ->
-          throw IllegalArgumentException("Spine item ${index} has a templated 'href' field")
+          throw IllegalArgumentException("Spine item $index has a templated 'href' field")
       }
     }
   }

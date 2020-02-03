@@ -6,4 +6,5 @@ package org.librarysimplified.audiobook.api
 
 data class PlayerEngineAndBookProvider(
   val engineProvider: PlayerAudioEngineProviderType,
-  val bookProvider: PlayerAudioBookProviderType)
+  val bookProvider: PlayerAudioBookProviderType
+)

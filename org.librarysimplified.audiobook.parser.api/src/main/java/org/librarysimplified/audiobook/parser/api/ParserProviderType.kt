@@ -18,5 +18,4 @@ interface ParserProviderType<S, E, T> {
     extensions: List<E> = listOf(),
     warningsAsErrors: Boolean = false
   ): ParserType<T>
-
 }

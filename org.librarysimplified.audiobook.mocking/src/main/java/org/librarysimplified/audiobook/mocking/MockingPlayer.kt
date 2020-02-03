@@ -1,7 +1,7 @@
 package org.librarysimplified.audiobook.mocking
 
 import org.librarysimplified.audiobook.api.PlayerEvent
-import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.*
+import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement
 import org.librarysimplified.audiobook.api.PlayerPlaybackRate
 import org.librarysimplified.audiobook.api.PlayerPosition
 import org.librarysimplified.audiobook.api.PlayerType
@@ -49,7 +49,8 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
 
   fun error(
     exception: Exception?,
-    errorCode: Int) {
+    errorCode: Int
+  ) {
 
     this.statusEvents.onNext(PlayerEvent.PlayerEventError(
       spineElement = null,
@@ -59,7 +60,7 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
   }
 
   fun buffering() {
-    this.statusEvents.onNext(PlayerEventPlaybackBuffering(
+    this.statusEvents.onNext(PlayerEventWithSpineElement.PlayerEventPlaybackBuffering(
       spineElement = this.book.spine.first(),
       offsetMilliseconds = 0L))
   }
@@ -120,7 +121,7 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
       element -> element.position.chapter == chapter
     }
     if (element != null) {
-      this.statusEvents.onNext(PlayerEventPlaybackStarted(element, 0))
+      this.statusEvents.onNext(PlayerEventWithSpineElement.PlayerEventPlaybackStarted(element, 0))
     }
   }
 

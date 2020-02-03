@@ -10,8 +10,8 @@ import java.net.URI
  * The type of manifest parser providers.
  */
 
-interface ManifestParserProviderType
-  : ParserProviderType<ByteArray, ManifestParserExtensionType, PlayerManifest> {
+interface ManifestParserProviderType :
+  ParserProviderType<ByteArray, ManifestParserExtensionType, PlayerManifest> {
 
   /**
    * The base format supported by this parser provider.
@@ -38,5 +38,4 @@ interface ManifestParserProviderType
     extensions: List<ManifestParserExtensionType>,
     warningsAsErrors: Boolean
   ): ParserType<PlayerManifest>
-
 }

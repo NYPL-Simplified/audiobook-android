@@ -95,7 +95,7 @@ class ExoAudioBook private constructor(
         val duration =
           Duration.standardSeconds(Math.floor(spine_item.duration).toLong())
         val partFile =
-          File(directory, "${index}.part")
+          File(directory, "$index.part")
 
         val element =
           ExoSpineElement(

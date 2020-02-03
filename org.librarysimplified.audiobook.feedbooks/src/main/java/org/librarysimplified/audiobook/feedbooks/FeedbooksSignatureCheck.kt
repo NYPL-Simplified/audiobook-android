@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
 import org.librarysimplified.audiobook.json_canon.JSONCanonicalization
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckResult
-import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckResult.*
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
@@ -21,7 +20,7 @@ class FeedbooksSignatureCheck(
       this.manifest.extensions.find { extension ->
         extension is FeedbooksSignature
       } as FeedbooksSignature?
-        ?: return NotApplicable("No signature information supplied.")
+        ?: return SingleLicenseCheckResult.NotApplicable("No signature information supplied.")
 
     this.event("Deserializing manifest bytes")
     val objectMapper = ObjectMapper()
@@ -31,7 +30,7 @@ class FeedbooksSignatureCheck(
     this.event("Canonicalizing manifest")
     val canonBytes = JSONCanonicalization.canonicalize(objectNode)
 
-    return Failed("Not implemented!")
+    return SingleLicenseCheckResult.Failed("Not implemented!")
   }
 
   private fun event(message: String) {

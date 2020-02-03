@@ -5,7 +5,6 @@ import org.junit.Assert
 import org.junit.Test
 import org.librarysimplified.audiobook.views.PlayerTimeStrings
 
-
 abstract class PlayerTimeStringsContract {
 
   private val spokenEnglish =
@@ -130,7 +129,6 @@ abstract class PlayerTimeStringsContract {
       "59:59",
       PlayerTimeStrings.minuteSecondTextFromDuration(time))
   }
-
 
   @Test
   fun testHourMinuteSecondsSpokenEnglishFromMillis_0() {

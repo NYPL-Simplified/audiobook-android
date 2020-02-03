@@ -28,7 +28,4 @@ sealed class PlayerDownloadRequestCredentials {
     val user: String,
     val password: String
   ) : PlayerDownloadRequestCredentials()
-
 }
-
-

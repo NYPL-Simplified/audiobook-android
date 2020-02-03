@@ -58,5 +58,4 @@ object PlayerPositions : PlayerPositionParserType, PlayerPositionSerializerType 
     node.set<ObjectNode>("position", positionNode)
     return node
   }
-
 }

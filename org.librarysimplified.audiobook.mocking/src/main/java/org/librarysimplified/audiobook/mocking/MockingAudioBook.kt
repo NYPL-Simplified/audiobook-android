@@ -9,7 +9,6 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import rx.Observable
 import rx.subjects.BehaviorSubject
-import java.lang.IllegalStateException
 import java.util.SortedMap
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.atomic.AtomicBoolean
@@ -22,7 +21,8 @@ class MockingAudioBook(
   override val id: PlayerBookID,
   val downloadStatusExecutor: ExecutorService,
   val downloadProvider: PlayerDownloadProviderType,
-  val players: (MockingAudioBook) -> MockingPlayer) : PlayerAudioBookType {
+  val players: (MockingAudioBook) -> MockingPlayer
+) : PlayerAudioBookType {
 
   val statusEvents: BehaviorSubject<PlayerSpineElementDownloadStatus> = BehaviorSubject.create()
   val spineItems: MutableList<MockingSpineElement> = mutableListOf()
@@ -78,5 +78,4 @@ class MockingAudioBook(
 
   override val isClosed: Boolean
     get() = this.isClosedNow.get()
-
 }

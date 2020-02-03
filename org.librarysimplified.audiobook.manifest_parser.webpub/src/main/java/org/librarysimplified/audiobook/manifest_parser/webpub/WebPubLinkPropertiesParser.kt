@@ -8,7 +8,6 @@ import one.irradia.fieldrush.api.FRParserObjectSchema
 import one.irradia.fieldrush.vanilla.FRValueParsers
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestEncrypted
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLinkProperties
-import org.slf4j.LoggerFactory
 
 /**
  * A parser that parses extra properties for a link object in a WebPub manifest.

@@ -22,7 +22,8 @@ internal object PlayerColors {
   @ColorInt
   fun resolveColorAttribute(
     theme: Resources.Theme,
-    @AttrRes attribute: Int): Int {
+    @AttrRes attribute: Int
+  ): Int {
     val typedValue = TypedValue()
     theme.resolveAttribute(attribute, typedValue, true)
     return typedValue.data
@@ -37,7 +38,8 @@ internal object PlayerColors {
   @ColorInt
   fun primaryColor(
     context: Context,
-    @ColorInt providedColor: Int?): Int {
+    @ColorInt providedColor: Int?
+  ): Int {
     return providedColor ?: resolveColorAttribute(context.theme, R.attr.colorPrimary)
   }
 }

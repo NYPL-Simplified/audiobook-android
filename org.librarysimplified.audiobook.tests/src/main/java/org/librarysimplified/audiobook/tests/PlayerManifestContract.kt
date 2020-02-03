@@ -11,7 +11,6 @@ import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestParserExtensionType
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
-import java.io.ByteArrayInputStream
 import java.net.URI
 import java.util.ServiceLoader
 
@@ -574,5 +573,4 @@ abstract class PlayerManifestContract {
     return PlayerManifestContract::class.java.getResourceAsStream(path)?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
-
 }

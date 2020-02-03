@@ -48,7 +48,8 @@ object PlayerTimeStrings {
      * The word for "second" in the current language.
      */
 
-    val secondText: String) {
+    val secondText: String
+  ) {
 
     fun minutes(minutes: Long): String =
       if (minutes > 1) this.minutesText else this.minuteText
@@ -99,7 +100,8 @@ object PlayerTimeStrings {
 
   fun hourMinuteSecondSpokenFromMilliseconds(
     translations: SpokenTranslations,
-    milliseconds: Long): String {
+    milliseconds: Long
+  ): String {
     return hourMinuteSecondSpokenFromDuration(translations, Duration.millis(milliseconds))
   }
 
@@ -109,7 +111,8 @@ object PlayerTimeStrings {
 
   fun hourMinuteSecondSpokenFromDuration(
     translations: SpokenTranslations,
-    duration: Duration): String {
+    duration: Duration
+  ): String {
 
     val builder = StringBuilder(64)
     var period = duration.toPeriod()
@@ -148,7 +151,8 @@ object PlayerTimeStrings {
 
   fun minuteSecondSpokenFromDuration(
     translations: SpokenTranslations,
-    duration: Duration): String {
+    duration: Duration
+  ): String {
 
     val builder = StringBuilder(64)
     var period = duration.toPeriod()

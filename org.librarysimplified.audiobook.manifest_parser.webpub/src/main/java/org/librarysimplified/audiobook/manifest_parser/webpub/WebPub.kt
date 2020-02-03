@@ -12,5 +12,4 @@ object WebPub {
 
   const val baseFormat =
     "https://readium.org/webpub-manifest/"
-
 }

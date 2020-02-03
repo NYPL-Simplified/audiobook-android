@@ -26,7 +26,7 @@ class PlayerJSONParseException : IOException {
    * Construct an exception.
    *
    * @param message The message
-   * @param cause   The cause
+   * @param cause The cause
    */
 
   constructor(message: String, cause: Throwable) : super(message, cause)

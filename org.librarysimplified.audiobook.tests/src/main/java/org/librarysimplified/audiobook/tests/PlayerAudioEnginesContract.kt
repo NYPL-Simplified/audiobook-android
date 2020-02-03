@@ -8,7 +8,6 @@ import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.slf4j.Logger
-import java.io.InputStream
 import java.net.URI
 
 /**
@@ -38,7 +37,7 @@ abstract class PlayerAudioEnginesContract {
   private fun parseManifest(file: String): PlayerManifest {
     val result =
       ManifestParsers.parse(
-        uri = URI.create("urn:${file}"),
+        uri = URI.create("urn:$file"),
         streams = resource(file),
         extensions = listOf()
       )
@@ -54,5 +53,4 @@ abstract class PlayerAudioEnginesContract {
     return PlayerAudioEnginesContract::class.java.getResourceAsStream(path) ?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
-
 }

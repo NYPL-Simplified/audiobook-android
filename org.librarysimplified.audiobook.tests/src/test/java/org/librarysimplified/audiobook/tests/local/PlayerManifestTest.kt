@@ -13,5 +13,4 @@ class PlayerManifestTest : PlayerManifestContract() {
   override fun log(): Logger {
     return LoggerFactory.getLogger(PlayerManifestTest::class.java)
   }
-
 }

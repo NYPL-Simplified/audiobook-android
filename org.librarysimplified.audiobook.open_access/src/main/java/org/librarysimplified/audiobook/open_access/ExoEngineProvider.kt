@@ -6,8 +6,6 @@ import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
 import org.librarysimplified.audiobook.api.PlayerVersion
 import org.librarysimplified.audiobook.api.PlayerVersions
 import org.slf4j.LoggerFactory
-import java.io.InputStream
-import java.util.Properties
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 

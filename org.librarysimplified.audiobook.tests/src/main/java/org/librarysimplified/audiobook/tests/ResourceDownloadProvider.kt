@@ -18,8 +18,9 @@ import java.util.concurrent.CancellationException
 
 class ResourceDownloadProvider private constructor(
   private val executor: ListeningExecutorService,
-  private val resources: Map<URI, () -> InputStream>)
-  : PlayerDownloadProviderType {
+  private val resources: Map<URI, () -> InputStream>
+) :
+  PlayerDownloadProviderType {
 
   private val log = LoggerFactory.getLogger(ResourceDownloadProvider::class.java)
 
@@ -31,8 +32,10 @@ class ResourceDownloadProvider private constructor(
      * @param executor A listening executor that will be used for download tasks
      */
 
-    fun create(executor: ListeningExecutorService,
-               resources: Map<URI, () -> InputStream>): PlayerDownloadProviderType {
+    fun create(
+      executor: ListeningExecutorService,
+      resources: Map<URI, () -> InputStream>
+    ): PlayerDownloadProviderType {
       return ResourceDownloadProvider(executor, resources)
     }
   }
@@ -71,7 +74,8 @@ class ResourceDownloadProvider private constructor(
 
   private fun doDownload(
     request: PlayerDownloadRequest,
-    result: SettableFuture<Unit>) {
+    result: SettableFuture<Unit>
+  ) {
     this.log.debug("downloading {} to {}", request.uri, request.outputFile)
 
     this.reportProgress(request, 0)
@@ -115,7 +119,8 @@ class ResourceDownloadProvider private constructor(
     inputStream: InputStream,
     outputStream: FileOutputStream,
     expectedLength: Long,
-    result: SettableFuture<Unit>) {
+    result: SettableFuture<Unit>
+  ) {
 
     var progressPrevious = 0.0
     var progressCurrent = 0.0
@@ -156,5 +161,4 @@ class ResourceDownloadProvider private constructor(
     }
     outputStream.flush()
   }
-
 }

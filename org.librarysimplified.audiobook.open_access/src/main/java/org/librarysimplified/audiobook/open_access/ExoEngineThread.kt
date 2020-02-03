@@ -12,7 +12,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class ExoEngineThread(
   runnable: Runnable,
-  private val prepared: AtomicBoolean = AtomicBoolean(false)) : Thread(Runnable {
+  private val prepared: AtomicBoolean = AtomicBoolean(false)
+) : Thread(Runnable {
   if (prepared.compareAndSet(false, true)) {
     Looper.prepare()
   }
@@ -29,7 +30,7 @@ class ExoEngineThread(
       return Thread.currentThread() is ExoEngineThread
     }
 
-    fun checkIsExoEngineThread(): Unit {
+    fun checkIsExoEngineThread() {
       if (!isExoEngineThread()) {
         throw IllegalStateException(
           StringBuilder(128)
@@ -40,6 +41,5 @@ class ExoEngineThread(
             .toString())
       }
     }
-
   }
 }

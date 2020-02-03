@@ -61,7 +61,8 @@ interface PlayerAudioBookType : Closeable {
 
   fun spineElementForPartAndChapter(
     part: Int,
-    chapter: Int): PlayerSpineElementType? {
+    chapter: Int
+  ): PlayerSpineElementType? {
     if (this.spineByPartAndChapter.containsKey(part)) {
       val chapters = this.spineByPartAndChapter[part]!!
       return chapters[chapter]

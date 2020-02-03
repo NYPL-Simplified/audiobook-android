@@ -61,7 +61,7 @@ internal object DownloadFileIO {
    * Rename the file `from` to `to`.
    *
    * @param from The source file
-   * @param to   The target file
+   * @param to The target file
    *
    * @throws IOException On I/O errors
    */

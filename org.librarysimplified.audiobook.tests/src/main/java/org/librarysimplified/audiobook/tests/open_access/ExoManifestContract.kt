@@ -287,5 +287,4 @@ abstract class ExoManifestContract {
     return ExoManifestContract::class.java.getResourceAsStream(path)?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
-
 }

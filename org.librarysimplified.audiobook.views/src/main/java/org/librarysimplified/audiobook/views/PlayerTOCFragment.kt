@@ -56,7 +56,8 @@ class PlayerTOCFragment : Fragment() {
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
-    state: Bundle?): View? {
+    state: Bundle?
+  ): View? {
 
     val view: RecyclerView =
       inflater.inflate(R.layout.player_toc_view, container, false) as RecyclerView
@@ -129,7 +130,6 @@ class PlayerTOCFragment : Fragment() {
           { event -> this.onPlayerEvent(event) },
           { error -> this.onPlayerError(error) },
           { })
-
     } else {
       throw ClassCastException(
         StringBuilder(64)
@@ -255,14 +255,12 @@ class PlayerTOCFragment : Fragment() {
         if (this.book.supportsStreaming) {
           this.playItemAndClose(item)
         } else {
-
         }
 
       is PlayerSpineElementDownloading ->
         if (this.book.supportsStreaming) {
           this.playItemAndClose(item)
         } else {
-
         }
 
       is PlayerSpineElementDownloaded ->
@@ -272,7 +270,6 @@ class PlayerTOCFragment : Fragment() {
         if (this.book.supportsStreaming) {
           this.playItemAndClose(item)
         } else {
-
         }
     }
   }
