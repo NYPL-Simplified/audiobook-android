@@ -1,0 +1,12 @@
+dependencies {
+  api project(":org.librarysimplified.audiobook.parser.api")
+
+  implementation project(":org.librarysimplified.audiobook.json_canon")
+
+  implementation libraries.irradiaFieldrushAPI
+  implementation libraries.irradiaFieldrushVanilla
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+
+  compileOnly libraries.jcip
+}

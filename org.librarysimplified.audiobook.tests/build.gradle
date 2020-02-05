@@ -2,6 +2,7 @@ dependencies {
   api project(':org.librarysimplified.audiobook.api')
   api project(':org.librarysimplified.audiobook.downloads')
   api project(':org.librarysimplified.audiobook.feedbooks')
+  api project(':org.librarysimplified.audiobook.json_web_token')
   api project(':org.librarysimplified.audiobook.license_check.api')
   api project(':org.librarysimplified.audiobook.license_check.spi')
   api project(':org.librarysimplified.audiobook.manifest_parser.api')
@@ -10,6 +11,7 @@ dependencies {
   api project(':org.librarysimplified.audiobook.rbdigital')
   api project(':org.librarysimplified.audiobook.views')
 
+  api libraries.quicktheories
   api libraries.kotlinStdlib
   api libraries.junit
   api libraries.slf4j

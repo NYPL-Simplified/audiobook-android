@@ -75,6 +75,7 @@ ext.libraries = [
   okhttp                     : "com.squareup.okhttp3:okhttp:3.14.1",
   OSGiBundleAnnotation       : "org.osgi:org.osgi.annotation.bundle:1.0.0",
   OSGiBundleVersionAnnotation: "org.osgi:org.osgi.annotation.versioning:1.0.0",
+  quicktheories              : 'org.quicktheories:quicktheories:0.26',
   rxjava                     : "io.reactivex:rxjava:1.3.8",
   slf4j                      : "org.slf4j:slf4j-api:1.7.25",
 ]
