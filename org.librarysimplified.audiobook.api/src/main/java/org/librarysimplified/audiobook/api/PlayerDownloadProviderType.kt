@@ -29,5 +29,7 @@ interface PlayerDownloadProviderType {
    * @return A future representing the download in progress.
    */
 
-  fun download(request: PlayerDownloadRequest): ListenableFuture<Unit>
+  fun download(
+    request: PlayerDownloadRequest
+  ): ListenableFuture<Unit>
 }

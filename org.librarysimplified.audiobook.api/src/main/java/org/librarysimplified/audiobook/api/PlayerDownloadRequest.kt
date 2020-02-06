@@ -24,8 +24,16 @@ sealed class PlayerDownloadRequestCredentials {
    * Credentials for basic HTTP auth.
    */
 
-  data class PlayerDownloadRequestCredentialsBasic(
+  data class Basic(
     val user: String,
     val password: String
+  ) : PlayerDownloadRequestCredentials()
+
+  /**
+   * Credentials for bearer token HTTP auth.
+   */
+
+  data class BearerToken(
+    val token: String
   ) : PlayerDownloadRequestCredentials()
 }

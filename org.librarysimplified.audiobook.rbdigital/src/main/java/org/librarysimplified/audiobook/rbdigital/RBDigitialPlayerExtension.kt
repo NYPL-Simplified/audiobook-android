@@ -1,12 +1,12 @@
 package org.librarysimplified.audiobook.rbdigital
 
-import com.google.common.base.Function
+import com.google.common.util.concurrent.AsyncFunction
 import com.google.common.util.concurrent.FluentFuture
 import com.google.common.util.concurrent.Futures
+import com.google.common.util.concurrent.ListenableFuture
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadRequest
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
-import org.librarysimplified.audiobook.api.extensions.PlayerXDownloadSubstitution
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -24,11 +24,16 @@ class RBDigitialPlayerExtension : PlayerExtensionType {
   override fun onDownloadLink(
     statusExecutor: ExecutorService,
     downloadProvider: PlayerDownloadProviderType,
+    originalRequest: PlayerDownloadRequest,
     link: PlayerManifestLink
-  ): FluentFuture<PlayerXDownloadSubstitution>? {
-
+  ): ListenableFuture<Unit>? {
     return if (link.type?.fullType == "vnd.librarysimplified/rbdigital-access-document+json") {
-      this.processRBDigitalAccessDocument(statusExecutor, downloadProvider, link)
+      this.processRBDigitalAccessDocument(
+        statusExecutor = statusExecutor,
+        downloadProvider = downloadProvider,
+        originalRequest = originalRequest,
+        link = link
+      )
     } else {
       return null
     }
@@ -37,8 +42,9 @@ class RBDigitialPlayerExtension : PlayerExtensionType {
   private fun processRBDigitalAccessDocument(
     statusExecutor: ExecutorService,
     downloadProvider: PlayerDownloadProviderType,
+    originalRequest: PlayerDownloadRequest,
     link: PlayerManifestLink
-  ): FluentFuture<PlayerXDownloadSubstitution> {
+  ): FluentFuture<Unit> {
 
     if (link !is PlayerManifestLink.LinkBasic) {
       return FluentFuture.from(
@@ -81,10 +87,10 @@ class RBDigitialPlayerExtension : PlayerExtensionType {
         )
       )
 
-    return future.transform(Function<Unit, PlayerXDownloadSubstitution> {
+    return future.transformAsync(AsyncFunction<Unit, Unit> {
       val uri = this.parseRBDigitalLinkDocument(tempFile)
       tempFile.delete()
-      PlayerXDownloadSubstitution.DownloadURI(uri)
+      downloadProvider.download(originalRequest.copy(uri = uri))
     }, statusExecutor)
   }
 

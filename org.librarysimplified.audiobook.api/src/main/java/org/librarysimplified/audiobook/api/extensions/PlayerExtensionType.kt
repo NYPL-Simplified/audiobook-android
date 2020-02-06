@@ -1,7 +1,8 @@
 package org.librarysimplified.audiobook.api.extensions
 
-import com.google.common.util.concurrent.FluentFuture
+import com.google.common.util.concurrent.ListenableFuture
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerDownloadRequest
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import java.util.concurrent.ExecutorService
 
@@ -25,18 +26,16 @@ interface PlayerExtensionType {
   /**
    * Called when a chapter is about to be downloaded.
    *
-   * Implementations should return a future that returns a download substitution. If no
-   * replacement of the existing player functionality is required, implementations of this
-   * method are permitted to return `null`.
-   *
-   * @param statusExecutor An executor used for publishing status updates
-   * @param downloadProvider The download provider being used
-   * @param link The chapter link
+   * This method gives extensions the opportunity to override calls made to the given download
+   * provider in order to implement special behaviour such as proprietary authentication schemes.
+   * If the extension does not require any special behaviour for downloads, this method MUST return
+   * `null`.
    */
 
   fun onDownloadLink(
     statusExecutor: ExecutorService,
     downloadProvider: PlayerDownloadProviderType,
+    originalRequest: PlayerDownloadRequest,
     link: PlayerManifestLink
-  ): FluentFuture<PlayerXDownloadSubstitution>?
+  ): ListenableFuture<Unit>?
 }

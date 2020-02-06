@@ -9,7 +9,8 @@ import okhttp3.Request
 import okhttp3.Response
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadRequest
-import org.librarysimplified.audiobook.api.PlayerDownloadRequestCredentials.PlayerDownloadRequestCredentialsBasic
+import org.librarysimplified.audiobook.api.PlayerDownloadRequestCredentials.Basic
+import org.librarysimplified.audiobook.api.PlayerDownloadRequestCredentials.BearerToken
 import org.slf4j.LoggerFactory
 import java.io.FileOutputStream
 import java.io.IOException
@@ -93,23 +94,7 @@ class DownloadProvider private constructor(
       Request.Builder()
         .url(request.uri.toURL())
 
-    /*
-     * Use basic auth if a username and password were given.
-     */
-
-    when (val credentials = request.credentials) {
-      null -> {
-        this.log.debug("not using authentication")
-      }
-      is PlayerDownloadRequestCredentialsBasic -> {
-        this.log.debug("using basic auth")
-        httpRequestBuilder.header(
-          "Authorization",
-          Credentials.basic(credentials.user, credentials.password)
-        )
-      }
-    }
-
+    this.configureRequestCredentials(request, httpRequestBuilder)
     val httpRequest = httpRequestBuilder.build()
     val call = client.newCall(httpRequest)
     this.log.debug("executing http request")
@@ -129,6 +114,33 @@ class DownloadProvider private constructor(
       }
 
       this.handleSuccessfulResponse(response, request, result)
+    }
+  }
+
+  private fun configureRequestCredentials(
+    request: PlayerDownloadRequest,
+    httpRequestBuilder: Request.Builder
+  ) {
+    return when (val credentials = request.credentials) {
+      null -> {
+        this.log.debug("not using authentication")
+      }
+      is Basic -> {
+        this.log.debug("using basic auth")
+        httpRequestBuilder.header(
+          "Authorization",
+          Credentials.basic(credentials.user, credentials.password)
+        )
+        Unit
+      }
+      is BearerToken -> {
+        this.log.debug("using bearer token auth")
+        httpRequestBuilder.header(
+          "Authorization",
+          "Bearer ${credentials.token}"
+        )
+        Unit
+      }
     }
   }
 

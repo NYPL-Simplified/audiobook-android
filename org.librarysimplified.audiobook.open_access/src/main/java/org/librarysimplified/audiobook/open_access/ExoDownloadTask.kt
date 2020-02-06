@@ -1,11 +1,8 @@
 package org.librarysimplified.audiobook.open_access
 
-import com.google.common.util.concurrent.AsyncFunction
-import com.google.common.util.concurrent.FluentFuture
 import com.google.common.util.concurrent.FutureCallback
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
-import com.google.common.util.concurrent.MoreExecutors
 import net.jcip.annotations.GuardedBy
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadRequest
@@ -15,7 +12,7 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
-import org.librarysimplified.audiobook.api.extensions.PlayerXDownloadSubstitution
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloaded
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloading
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Initial
@@ -86,59 +83,18 @@ class ExoDownloadTask(
     this.spineElement.setDownloadStatus(PlayerSpineElementDownloaded(this.spineElement))
   }
 
-  private fun onStartDownloadGetURI(): FluentFuture<PlayerXDownloadSubstitution> {
-    for (extension in this.extensions) {
-      val future =
-        extension.onDownloadLink(
-          statusExecutor = this.downloadStatusExecutor,
-          downloadProvider = this.downloadProvider,
-          link = this.spineElement.itemManifest.originalLink
-        )
-      if (future != null) {
-        this.log.debug("extension {} provided a download substitution", extension.name)
-        return future
-      }
-    }
+  private fun onStartDownload(targetLink: PlayerManifestLink): ListenableFuture<Unit> {
+    this.log.debug("download: {}", targetLink.hrefURI)
 
-    return FluentFuture.from(
-      Futures.immediateFuture(
-        PlayerXDownloadSubstitution.DownloadURI(
-          this.spineElement.itemManifest.uri
-        ) as PlayerXDownloadSubstitution
-      )
-    )
-  }
-
-  private fun onStartDownload(): ListenableFuture<Unit> {
-    this.log.debug("starting download")
-
-    return this.onStartDownloadGetURI().transformAsync(
-      AsyncFunction<PlayerXDownloadSubstitution, Unit> { substitution ->
-        when (substitution) {
-          is PlayerXDownloadSubstitution.DownloadURI -> {
-            this.onStartDownloadDirect(substitution.uri)
-          }
-          null -> {
-            this.log.error("download substitution returned null")
-            Futures.immediateFailedFuture<Unit>(
-              IllegalStateException("Download substitution returned null"))
-          }
-        }
-      },
-      MoreExecutors.directExecutor()
-    )
-  }
-
-  private fun onStartDownloadDirect(targetURI: URI): ListenableFuture<Unit> {
-    this.log.debug("download: {}", targetURI)
-
-    val future = this.downloadProvider.download(
+    val request =
       PlayerDownloadRequest(
-        uri = targetURI,
+        uri = targetLink.hrefURI ?: URI.create("urn:missing"),
         credentials = null,
         outputFile = this.spineElement.partFile,
         onProgress = { percent -> this.onDownloading(percent) })
-    )
+
+    val future =
+      this.onStartDownloadForRequest(request, targetLink)
 
     this.stateSetCurrent(Downloading(future))
     this.onBroadcastState()
@@ -163,6 +119,27 @@ class ExoDownloadTask(
     }, this.downloadStatusExecutor)
 
     return future
+  }
+
+  private fun onStartDownloadForRequest(
+    request: PlayerDownloadRequest,
+    targetLink: PlayerManifestLink
+  ): ListenableFuture<Unit> {
+    for (extension in this.extensions) {
+      val future =
+        extension.onDownloadLink(
+          statusExecutor = this.downloadStatusExecutor,
+          downloadProvider = this.downloadProvider,
+          originalRequest = request,
+          link = targetLink
+        )
+      if (future != null) {
+        this.log.debug("extension {} provided a download substitution", extension.name)
+        return future
+      }
+    }
+
+    return this.downloadProvider.download(request)
   }
 
   private fun onDownloadCancelled() {
@@ -222,7 +199,7 @@ class ExoDownloadTask(
     this.log.debug("fetch")
 
     when (this.stateGetCurrent()) {
-      Initial -> this.onStartDownload()
+      Initial -> this.onStartDownload(this.spineElement.itemManifest.originalLink)
       Downloaded -> this.onDownloaded()
       is Downloading -> this.onDownloading(this.percent)
     }
