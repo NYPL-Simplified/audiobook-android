@@ -27,7 +27,14 @@ is available to ease integration.
 |------|-----------|
 |[org.librarysimplified.audiobook.api](org.librarysimplified.audiobook.api)|AudioBook API (API specification)|
 |[org.librarysimplified.audiobook.downloads](org.librarysimplified.audiobook.downloads)|AudioBook API (Download provider)|
+|[org.librarysimplified.audiobook.feedbooks](org.librarysimplified.audiobook.feedbooks)|AudioBook API (Feedbooks-specific functionality)|
+|[org.librarysimplified.audiobook.json_canon](org.librarysimplified.audiobook.json_canon)|AudioBook API (JSON canonicalization functionality)|
+|[org.librarysimplified.audiobook.json_web_token](org.librarysimplified.audiobook.json_web_token)|AudioBook API (JSON web token functionality)|
+|[org.librarysimplified.audiobook.license_check.api](org.librarysimplified.audiobook.license_check.api)|AudioBook API (License check API)|
+|[org.librarysimplified.audiobook.license_check.spi](org.librarysimplified.audiobook.license_check.spi)|AudioBook API (License check SPI)|
+|[org.librarysimplified.audiobook.manifest.api](org.librarysimplified.audiobook.manifest.api)|AudioBook API (Manifest types)|
 |[org.librarysimplified.audiobook.manifest_parser.api](org.librarysimplified.audiobook.manifest_parser.api)|AudioBook API (Manifest parser API)|
+|[org.librarysimplified.audiobook.manifest_parser.extension_spi](org.librarysimplified.audiobook.manifest_parser.extension_spi)|AudioBook API (Manifest parser extension SPI)|
 |[org.librarysimplified.audiobook.manifest_parser.webpub](org.librarysimplified.audiobook.manifest_parser.webpub)|AudioBook API (Readium WebPub manifest parser)|
 |[org.librarysimplified.audiobook.mocking](org.librarysimplified.audiobook.mocking)|AudioBook API (Mock API implementation)|
 |[org.librarysimplified.audiobook.open_access](org.librarysimplified.audiobook.open_access)|AudioBook API (Open access player implementation)|
@@ -38,6 +45,7 @@ is available to ease integration.
 |[org.librarysimplified.audiobook.tests.sandbox](org.librarysimplified.audiobook.tests.sandbox)|AudioBook API (Sandbox)|
 |[org.librarysimplified.audiobook.views](org.librarysimplified.audiobook.views)|AudioBook API (Standard UI components)|
 
+
 ### Changelog
 
 The project currently uses [com.io7m.changelog](https://www.io7m.com/software/changelog/)
@@ -47,8 +55,10 @@ to manage release changelogs.
 
 1. Download (or synthesize) an [audio book manifest](#manifest_parsers). [Hadrien Gardeur](https://github.com/HadrienGardeur/audiobook-manifest/) publishes many example manifests in formats supported by the API.
 2. Ask the API to [parse the manifest](#using_manifest_parsers).
-3. Ask the API to [create an audio engine](#using_audio_engines) from the parsed manifest.
-4. Make calls to the resulting [audio book](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/PlayerAudioBookType.kt) to download and play individual parts of the book.
+3. (Optional) Ask the API to [perform license checks](#license_checking).
+4. (Optional) Configure any [player extensions](#player_extensions) you may want to use.
+5. Ask the API to [create an audio engine](#using_audio_engines) from the parsed manifest.
+6. Make calls to the resulting [audio book](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/PlayerAudioBookType.kt) to download and play individual parts of the book.
 
 See the provided [example project](https://github.com/NYPL-Simplified/audiobook-demo-android) for a
 complete example that is capable of downloading and playing audio books.
@@ -57,8 +67,8 @@ complete example that is capable of downloading and playing audio books.
 
 At a minimum, applications will need the Core API, one or more [manifest parser](#manifest_parsers)
 implementations, and one or more [audio engine](#audio_engines) implementations. Use the following
-Gradle dependencies to get a manifest parser that can parse the NYPL manifest format, and an audio
-engine that can play non-encrypted audio books:
+Gradle dependencies to get a manifest parser that can parse the Readium WebPub manifest format, and 
+an audio engine that can play non-encrypted audio books:
 
 ```
 ext {
@@ -66,7 +76,7 @@ ext {
 }
 
 dependencies {
-  implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.manifest.nypl:${nypl_audiobook_api_version}"
+  implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.manifest_parser.webpub:${nypl_audiobook_api_version}"
   implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.api:${nypl_audiobook_api_version}"
   implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.open_access:${nypl_audiobook_api_version}"
 }
@@ -96,12 +106,12 @@ defined in the Core API.
 
 #### Using Manifest Parsers <a id="using_manifest_parsers"/>
 
-Programmers should make calls to the [PlayerManifests](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/PlayerManifests.kt)
-class, passing in an input stream representing the raw bytes of a manifest. The methods return a
-`PlayerResult` value providing either the parsed manifest or an exception indicating why parsing
-failed. The `PlayerManifests` class asks each registered [manifest parser](#creating_manifest_parsers)
+Programmers should make calls to the [PlayerManifests](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest_parser.api/src/main/java/org/librarysimplified/audiobook/manifest_parser/api/ManifestParsers.kt)
+class, passing in a byte array representing (typically) the raw text of a JSON manifest. The methods return a
+`PlayerResult` value providing either the parsed manifest or a list of errors indicating why parsing
+failed. The `ManifestParsers` class asks each registered [manifest parser](#creating_manifest_parsers)
 whether or not it can parse the given raw data and picks the first one that claims that it can.
-Programmers are not intended to have to use instances of the [PlayerManifestParserType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/PlayerManifestParserType.kt)
+Programmers are not intended to have to use instances of the [PlayerManifestParserType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest_parser.api/src/main/java/org/librarysimplified/audiobook/manifest_parser/api/ManifestParserType.kt)
 directly.
 
 #### Creating Manifest Parsers <a id="creating_manifest_parsers"/>
@@ -112,12 +122,12 @@ However, applications needing to use a new and unsupported manifest format will 
 provide and register new manifest parser implementations.
 
 In order to add a new manifest parser, it's necessary to define a new class that implements
-the [PlayerManifestParserType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/PlayerManifestParserType.kt)
+the [PlayerManifestParserType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest_parser.api/src/main/java/org/librarysimplified/audiobook/manifest_parser/api/ManifestParserProviderType.kt)
 and defines a public, no-argument constructor. It's then necessary to register this class so that
 `ServiceLoader` can find it by creating a resource file at
-`META-INF/services/org.librarysimplified.audiobook.api.PlayerManifestParserType` containing the fully
-qualified name of the new class. The standard [PlayerManifestParserNYPL](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest.nypl/src/main/java/org/librarysimplified/audiobook/manifest/nypl/PlayerManifestParserNYPL.kt)
-class and its associated [service file](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest.nypl/src/main/resources/META-INF/services/org.librarysimplified.audiobook.api.PlayerManifestParserType)
+`META-INF/services/org.librarysimplified.audiobook.manifest_parser.api.ManifestParserProviderType` containing the fully
+qualified name of the new class. The standard [WebPubParserProvider](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest_parser.webpub/src/main/java/org/librarysimplified/audiobook/manifest_parser/webpub/WebPubParserProvider.kt)
+class and its associated [service file](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest_parser.webpub/src/main/resources/META-INF/services/org.librarysimplified.audiobook.manifest_parser.api.ManifestParserProviderType)
 serve as minimal examples for new parser implementations. When a `jar` (or `aar`) file is placed on
 the classpath containing both the class and the service file, `ServiceLoader` will find the
 implementation automatically when the user asks for parser implementations.
@@ -130,6 +140,21 @@ turn if the implementation can parse the given JSON, and the first implementatio
 affirmative will be used. Implementations should take care to be honest; an implementation that
 always claimed to be able to parse the given JSON would prevent other (possibly more suitable)
 implementations from being considered.
+
+### License Checking <a id="license_checking"/>
+
+The API allows for opt-in _license checking_. Once a manifest has been
+parsed, programmers can execute license checks on the manifest to verify
+if the listening party actually has permission to hear the given audio
+book.
+
+Individual license checks are provided as implementations of the
+[SingleLicenseCheckProviderType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.license_check.spi/src/main/java/org/librarysimplified/audiobook/license_check/spi/SingleLicenseCheckProviderType.kt)
+type. Programmers should pass in a list of desired single license check providers
+to the [LicenseChecks](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.license_check.api/src/main/java/org/librarysimplified/audiobook/license_check/api/LicenseChecks.kt)
+API for execution. The `LicenseChecks` API returns a list of the results
+of license checks, and provides a simple `true/false` value indicating
+whether or not playing should be permitted.
 
 ### Audio Engines <a id="audio_engines"/>
 
@@ -162,6 +187,17 @@ abstracted out into a [PlayerDownloadProviderType](https://github.com/NYPL-Simpl
 interface that audio engine implementations can call in order to perform the work of actually
 downloading books. Implementations of this interface are actually provided by the calling programmer
 as this kind of code is generally provided by the application using the audio engine.
+
+#### Player Extensions <a id="player_extensions"/>
+
+Audio engines may support [extensions](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/extensions/PlayerExtensionType.kt)
+that allow for augmenting the behaviour of existing implementations. This
+is primarily useful for, for example, adding unusual authentication
+mechanisms that may be required by book distributors when downloading
+book chapters. A list of extensions may be passed in to the `create`
+method of the [PlayerAudioBookProviderType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/PlayerAudioBookProviderType.kt)
+interface. Extensions _must_ be explicitly passed in in order to be
+used; passing in an empty list results in no extensions being used.
 
 ### Player UI <a id="player_ui"/>
 
