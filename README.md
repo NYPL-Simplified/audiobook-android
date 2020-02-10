@@ -30,6 +30,7 @@ is available to ease integration.
 |[org.librarysimplified.audiobook.feedbooks](org.librarysimplified.audiobook.feedbooks)|AudioBook API (Feedbooks-specific functionality)|
 |[org.librarysimplified.audiobook.json_canon](org.librarysimplified.audiobook.json_canon)|AudioBook API (JSON canonicalization functionality)|
 |[org.librarysimplified.audiobook.json_web_token](org.librarysimplified.audiobook.json_web_token)|AudioBook API (JSON web token functionality)|
+|[org.librarysimplified.audiobook.lcp.license_status](org.librarysimplified.audiobook.lcp.license_status)|AudioBook API (LCP License Status document support)|
 |[org.librarysimplified.audiobook.license_check.api](org.librarysimplified.audiobook.license_check.api)|AudioBook API (License check API)|
 |[org.librarysimplified.audiobook.license_check.spi](org.librarysimplified.audiobook.license_check.spi)|AudioBook API (License check SPI)|
 |[org.librarysimplified.audiobook.manifest.api](org.librarysimplified.audiobook.manifest.api)|AudioBook API (Manifest types)|
@@ -44,7 +45,6 @@ is available to ease integration.
 |[org.librarysimplified.audiobook.tests.device](org.librarysimplified.audiobook.tests.device)|AudioBook API (On-device test suite)|
 |[org.librarysimplified.audiobook.tests.sandbox](org.librarysimplified.audiobook.tests.sandbox)|AudioBook API (Sandbox)|
 |[org.librarysimplified.audiobook.views](org.librarysimplified.audiobook.views)|AudioBook API (Standard UI components)|
-
 
 ### Changelog
 
@@ -72,7 +72,7 @@ an audio engine that can play non-encrypted audio books:
 
 ```
 ext {
-  nypl_audiobook_api_version = "3.0.0-beta001"
+  nypl_audiobook_api_version = "4.0.0-SNAPSHOT"
 }
 
 dependencies {
@@ -117,7 +117,7 @@ directly.
 #### Creating Manifest Parsers <a id="creating_manifest_parsers"/>
 
 Programmers will generally not need to create new manifest parsers, but will instead use one or
-more of the [provided implementations](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.manifest.nypl).
+more of the [provided implementations](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.manifest_parser.webpub).
 However, applications needing to use a new and unsupported manifest format will need to
 provide and register new manifest parser implementations.
 
