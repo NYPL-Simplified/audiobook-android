@@ -1,1 +1,3 @@
 org.librarysimplified.audiobook.feedbooks.FeedbooksRightsChecks
+org.librarysimplified.audiobook.feedbooks.FeedbooksSignatureChecks
+org.librarysimplified.audiobook.feedbooks.FeedbooksStatusChecks

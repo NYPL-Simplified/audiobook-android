@@ -30,7 +30,7 @@ class FeedbooksSignatureCheck(
     this.event("Canonicalizing manifest")
     val canonBytes = JSONCanonicalization.canonicalize(objectNode)
 
-    return SingleLicenseCheckResult.Failed("Not implemented!")
+    return SingleLicenseCheckResult.NotApplicable("Not implemented!")
   }
 
   private fun event(message: String) {

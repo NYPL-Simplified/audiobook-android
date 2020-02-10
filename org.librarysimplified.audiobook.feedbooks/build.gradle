@@ -1,6 +1,7 @@
 dependencies {
   implementation project(":org.librarysimplified.audiobook.json_canon")
   implementation project(":org.librarysimplified.audiobook.json_web_token")
+  implementation project(":org.librarysimplified.audiobook.lcp.license_status")
   implementation project(":org.librarysimplified.audiobook.license_check.spi")
   implementation project(":org.librarysimplified.audiobook.manifest_parser.extension_spi")
   implementation project(":org.librarysimplified.audiobook.manifest_parser.webpub")
@@ -8,6 +9,7 @@ dependencies {
   implementation libraries.irradiaFieldrushAPI
   implementation libraries.irradiaFieldrushVanilla
   implementation libraries.kotlinStdlib
+  implementation libraries.okhttp
   implementation libraries.slf4j
 }
 
