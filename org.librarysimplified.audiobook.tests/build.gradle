@@ -6,16 +6,20 @@ dependencies {
   api project(':org.librarysimplified.audiobook.lcp.license_status')
   api project(':org.librarysimplified.audiobook.license_check.api')
   api project(':org.librarysimplified.audiobook.license_check.spi')
+  api project(':org.librarysimplified.audiobook.manifest_fulfill.api')
+  api project(':org.librarysimplified.audiobook.manifest_fulfill.basic')
+  api project(':org.librarysimplified.audiobook.manifest_fulfill.spi')
   api project(':org.librarysimplified.audiobook.manifest_parser.api')
   api project(':org.librarysimplified.audiobook.manifest_parser.webpub')
   api project(':org.librarysimplified.audiobook.open_access')
   api project(':org.librarysimplified.audiobook.rbdigital')
   api project(':org.librarysimplified.audiobook.views')
 
-  api libraries.mockito
-  api libraries.quicktheories
-  api libraries.kotlinStdlib
   api libraries.junit
+  api libraries.kotlinStdlib
+  api libraries.mockito
+  api libraries.okhttp
+  api libraries.quicktheories
   api libraries.slf4j
 
   implementation libraries.logbackClassic
@@ -25,7 +29,7 @@ dependencies {
  * Log unit test executions.
  */
 
-tasks.matching {it instanceof Test}.all {
+tasks.matching { it instanceof Test }.all {
   testLogging.events = ["failed", "passed", "skipped"]
   testLogging.exceptionFormat = "full"
 }

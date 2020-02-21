@@ -1,0 +1,9 @@
+dependencies {
+  api project(":org.librarysimplified.audiobook.manifest_fulfill.spi")
+
+  implementation libraries.kotlinStdlib
+  implementation libraries.okhttp
+  implementation libraries.slf4j
+
+  compileOnly libraries.jcip
+}

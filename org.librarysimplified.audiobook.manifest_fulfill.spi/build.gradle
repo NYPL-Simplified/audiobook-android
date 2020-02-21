@@ -1,0 +1,7 @@
+dependencies {
+  api project(":org.librarysimplified.audiobook.api")
+
+  implementation libraries.kotlinStdlib
+
+  compileOnly libraries.jcip
+}
