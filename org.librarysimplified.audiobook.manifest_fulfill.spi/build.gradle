@@ -1,5 +1,6 @@
 dependencies {
   api project(":org.librarysimplified.audiobook.api")
+  api project(":org.librarysimplified.audiobook.parser.api")
 
   implementation libraries.kotlinStdlib
 

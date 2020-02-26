@@ -50,7 +50,7 @@ abstract class PlayerAudioEnginesContract {
 
   private fun resource(name: String): ByteArray {
     val path = "/org/librarysimplified/audiobook/tests/" + name
-    return PlayerAudioEnginesContract::class.java.getResourceAsStream(path) ?.readBytes()
+    return PlayerAudioEnginesContract::class.java.getResourceAsStream(path)?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
 }

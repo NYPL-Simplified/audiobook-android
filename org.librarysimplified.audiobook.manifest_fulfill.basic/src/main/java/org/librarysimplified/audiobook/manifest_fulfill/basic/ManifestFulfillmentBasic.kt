@@ -4,7 +4,7 @@ import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.librarysimplified.audiobook.api.PlayerResult
-import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentError
+import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentErrorType
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentEvent
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentStrategyType
 import org.slf4j.LoggerFactory
@@ -29,7 +29,7 @@ class ManifestFulfillmentBasic(
   override val events: Observable<ManifestFulfillmentEvent> =
     this.eventSubject
 
-  override fun execute(): PlayerResult<ByteArray, ManifestFulfillmentError> {
+  override fun execute(): PlayerResult<ByteArray, ManifestFulfillmentErrorType> {
     this.logger.debug("fulfilling manifest: {}", this.configuration.uri)
 
     this.eventSubject.onNext(
@@ -71,11 +71,13 @@ class ManifestFulfillmentBasic(
 
     if (!response.isSuccessful) {
       return PlayerResult.Failure(
-        ManifestFulfillmentError.HTTPRequestFailed(
-          code = responseCode,
+        HTTPRequestFailed(
           message = responseMessage,
-          receivedBody = bodyData,
-          receivedContentType = response.header("Content-Type") ?: "application/octet-stream"
+          serverData = ManifestFulfillmentErrorType.ServerData(
+            code = responseCode,
+            receivedBody = bodyData,
+            receivedContentType = response.header("Content-Type") ?: "application/octet-stream"
+          )
         )
       )
     }

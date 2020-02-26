@@ -13,7 +13,6 @@ import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicParameters
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicProvider
-import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentError
 import org.mockito.Mockito
 import java.net.URI
 import java.net.URL
@@ -71,12 +70,12 @@ abstract class ManifestFulfillmentBasicContract {
     val result =
       strategy.execute() as PlayerResult.Failure
 
-    val error =
-      result.failure as ManifestFulfillmentError.HTTPRequestFailed
-    Assert.assertEquals(404, error.code)
+    val error = result.failure
+    val serverData = error.serverData!!
+    Assert.assertEquals(404, serverData.code)
     Assert.assertEquals("NOT FOUND", error.message)
-    Assert.assertArrayEquals(ByteArray(0), error.receivedBody)
-    Assert.assertEquals("application/octet-stream", error.receivedContentType)
+    Assert.assertArrayEquals(ByteArray(0), serverData.receivedBody)
+    Assert.assertEquals("application/octet-stream", serverData.receivedContentType)
   }
 
   /**

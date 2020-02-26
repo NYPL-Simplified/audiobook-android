@@ -213,7 +213,7 @@ abstract class LicenseCheckContract {
     name: String
   ): ByteArray {
     val path = "/org/librarysimplified/audiobook/tests/" + name
-    return LicenseCheckContract::class.java.getResourceAsStream(path) ?.readBytes()
+    return LicenseCheckContract::class.java.getResourceAsStream(path)?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
 }

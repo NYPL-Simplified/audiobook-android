@@ -109,7 +109,13 @@ class ResourceDownloadProvider private constructor(
        */
 
       FileOutputStream(request.outputFile, false).use { output_stream ->
-        this.copyStream(request, input_stream, output_stream, input_stream.available().toLong(), result)
+        this.copyStream(
+          request,
+          input_stream,
+          output_stream,
+          input_stream.available().toLong(),
+          result
+        )
       }
     }
   }

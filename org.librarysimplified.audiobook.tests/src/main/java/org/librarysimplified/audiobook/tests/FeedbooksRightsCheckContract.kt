@@ -116,7 +116,7 @@ abstract class FeedbooksRightsCheckContract {
     name: String
   ): ByteArray {
     val path = "/org/librarysimplified/audiobook/tests/" + name
-    return FeedbooksRightsCheckContract::class.java.getResourceAsStream(path) ?.readBytes()
+    return FeedbooksRightsCheckContract::class.java.getResourceAsStream(path)?.readBytes()
       ?: throw AssertionError("Missing resource file: " + path)
   }
 }
