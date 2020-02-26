@@ -8,4 +8,10 @@ sealed class ManifestFulfillmentError {
     val receivedBody: ByteArray,
     val receivedContentType: String
   ) : ManifestFulfillmentError()
+
+  data class ServerDataValidityError(
+    val message: String,
+    val receivedBody: ByteArray,
+    val receivedContentType: String
+  ) : ManifestFulfillmentError()
 }

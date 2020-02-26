@@ -1,7 +1,6 @@
 package org.librarysimplified.audiobook.manifest_fulfill.basic
 
 import okhttp3.OkHttpClient
-import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentStrategyProviderType
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentStrategyType
 
 /**
@@ -12,7 +11,7 @@ import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentS
 
 class ManifestFulfillmentBasicProvider(
   private val client: OkHttpClient
-) : ManifestFulfillmentStrategyProviderType<ManifestFulfillmentBasicParameters> {
+) : ManifestFulfillmentBasicType {
 
   constructor() : this(OkHttpClient())
 

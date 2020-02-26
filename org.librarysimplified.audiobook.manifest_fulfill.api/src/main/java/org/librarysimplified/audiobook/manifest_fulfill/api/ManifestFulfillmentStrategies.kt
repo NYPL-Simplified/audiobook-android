@@ -12,9 +12,6 @@ object ManifestFulfillmentStrategies : ManifestFulfillmentStrategyRegistryType {
   override fun <T : ManifestFulfillmentStrategyProviderType<*>> findStrategy(
     clazz: Class<T>
   ): T? {
-    return ServiceLoader.load(ManifestFulfillmentStrategyProviderType::class.java)
-      .toList()
-      .find { provider -> provider.javaClass == clazz }
-      as T?
+    return ServiceLoader.load(clazz).toList().firstOrNull()
   }
 }

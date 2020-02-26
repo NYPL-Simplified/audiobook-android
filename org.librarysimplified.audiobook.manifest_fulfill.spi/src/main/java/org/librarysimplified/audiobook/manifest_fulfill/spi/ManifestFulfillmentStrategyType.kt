@@ -1,6 +1,8 @@
 package org.librarysimplified.audiobook.manifest_fulfill.spi
 
 import org.librarysimplified.audiobook.api.PlayerResult
+import rx.Observable
+import java.io.Closeable
 
 /**
  * The type of strategies for fulfilling manifests.
@@ -9,7 +11,13 @@ import org.librarysimplified.audiobook.api.PlayerResult
  * returning the raw bytes representing the manifest.
  */
 
-interface ManifestFulfillmentStrategyType {
+interface ManifestFulfillmentStrategyType : Closeable {
+
+  /**
+   * An observable source of events published during fulfillment.
+   */
+
+  val events: Observable<ManifestFulfillmentEvent>
 
   /**
    * Execute the strategy, returning the raw bytes of the manifest.
