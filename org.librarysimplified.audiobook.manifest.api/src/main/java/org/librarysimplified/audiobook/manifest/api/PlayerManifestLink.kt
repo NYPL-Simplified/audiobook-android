@@ -70,6 +70,12 @@ sealed class PlayerManifestLink {
   abstract val alternates: List<PlayerManifestLink>
 
   /**
+   * `true` if the link may expire.
+   */
+
+  abstract val expires: Boolean
+
+  /**
    * A non-templated, basic link.
    */
 
@@ -83,7 +89,8 @@ sealed class PlayerManifestLink {
     override val duration: Double? = null,
     override val bitrate: Double? = null,
     override val properties: PlayerManifestLinkProperties = PlayerManifestLinkProperties(),
-    override val alternates: List<PlayerManifestLink> = listOf()
+    override val alternates: List<PlayerManifestLink> = listOf(),
+    override val expires: Boolean = false
   ) : PlayerManifestLink() {
     override val hrefURI: URI?
       get() = this.href
@@ -103,7 +110,8 @@ sealed class PlayerManifestLink {
     override val duration: Double? = null,
     override val bitrate: Double? = null,
     override val properties: PlayerManifestLinkProperties = PlayerManifestLinkProperties(),
-    override val alternates: List<PlayerManifestLink> = listOf()
+    override val alternates: List<PlayerManifestLink> = listOf(),
+    override val expires: Boolean = false
   ) : PlayerManifestLink() {
     override val hrefURI: URI?
       get() = null
