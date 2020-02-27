@@ -106,7 +106,7 @@ defined in the Core API.
 
 #### Using Manifest Parsers <a id="using_manifest_parsers"/>
 
-Programmers should make calls to the [PlayerManifests](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest_parser.api/src/main/java/org/librarysimplified/audiobook/manifest_parser/api/ManifestParsers.kt)
+Programmers should make calls to the [ManifestParsers](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.manifest_parser.api/src/main/java/org/librarysimplified/audiobook/manifest_parser/api/ManifestParsers.kt)
 class, passing in a byte array representing (typically) the raw text of a JSON manifest. The methods return a
 `PlayerResult` value providing either the parsed manifest or a list of errors indicating why parsing
 failed. The `ManifestParsers` class asks each registered [manifest parser](#creating_manifest_parsers)
