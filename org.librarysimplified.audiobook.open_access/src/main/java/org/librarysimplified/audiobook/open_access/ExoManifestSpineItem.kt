@@ -14,6 +14,19 @@ data class ExoManifestSpineItem(
   val chapter: Int,
   val type: MIMEType,
   val duration: Double,
-  val uri: URI,
-  val originalLink: PlayerManifestLink
-)
+  var uri: URI,
+  var originalLink: PlayerManifestLink
+) {
+
+  /**
+   * Update the link in the spine item.
+   */
+
+  fun updateLink(
+    originalLink: PlayerManifestLink,
+    uri: URI
+  ) {
+    this.originalLink = originalLink
+    this.uri = uri
+  }
+}

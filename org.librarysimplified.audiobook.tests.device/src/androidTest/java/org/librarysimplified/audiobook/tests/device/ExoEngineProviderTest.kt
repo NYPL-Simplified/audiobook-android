@@ -30,4 +30,8 @@ class ExoEngineProviderTest : ExoEngineProviderContract() {
   override fun context(): Context {
     return this.instrumentationContext!!
   }
+
+  override fun onRealDevice(): Boolean {
+    return true
+  }
 }

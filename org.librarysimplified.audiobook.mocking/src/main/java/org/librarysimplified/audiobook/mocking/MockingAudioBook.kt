@@ -1,5 +1,7 @@
 package org.librarysimplified.audiobook.mocking
 
+import com.google.common.util.concurrent.ListenableFuture
+import com.google.common.util.concurrent.SettableFuture
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerBookID
@@ -7,6 +9,7 @@ import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadWholeBookTaskType
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.util.SortedMap
@@ -63,6 +66,14 @@ class MockingAudioBook(
 
   override val wholeBookDownloadTask: PlayerDownloadWholeBookTaskType
     get() = this.wholeTask
+
+  override fun replaceManifest(
+    manifest: PlayerManifest
+  ): ListenableFuture<Unit> {
+    val future = SettableFuture.create<Unit>()
+    future.set(Unit)
+    return future
+  }
 
   override fun createPlayer(): MockingPlayer {
     check(!this.isClosed) { "Audio book has been closed" }
