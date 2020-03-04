@@ -28,6 +28,7 @@ import org.librarysimplified.audiobook.api.PlayerPlaybackRate
 import org.librarysimplified.audiobook.api.PlayerPlaybackRate.NORMAL_TIME
 import org.librarysimplified.audiobook.api.PlayerPosition
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadExpired
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
@@ -366,6 +367,7 @@ class ExoAudioBookPlayer private constructor(
           when (status) {
             is PlayerSpineElementNotDownloaded,
             is PlayerSpineElementDownloading,
+            is PlayerSpineElementDownloadExpired,
             is PlayerSpineElementDownloadFailed -> {
               this.log.debug("spine element status changed, stopping playback")
               this.playNothing()
@@ -386,6 +388,7 @@ class ExoAudioBookPlayer private constructor(
           when (status) {
             is PlayerSpineElementNotDownloaded,
             is PlayerSpineElementDownloading,
+            is PlayerSpineElementDownloadExpired,
             is PlayerSpineElementDownloadFailed -> {
               this.log.debug("spine element status changed, stopping playback")
               this.playNothing()
@@ -406,6 +409,7 @@ class ExoAudioBookPlayer private constructor(
           when (status) {
             is PlayerSpineElementNotDownloaded,
             is PlayerSpineElementDownloading,
+            is PlayerSpineElementDownloadExpired,
             is PlayerSpineElementDownloadFailed -> Unit
             is PlayerSpineElementDownloaded -> {
               this.log.debug("spine element status changed, trying to start playback")
@@ -544,6 +548,7 @@ class ExoAudioBookPlayer private constructor(
     return when (downloadStatus) {
       is PlayerSpineElementNotDownloaded,
       is PlayerSpineElementDownloading,
+      is PlayerSpineElementDownloadExpired,
       is PlayerSpineElementDownloadFailed -> {
         this.log.debug("playSpineElementIfAvailable: spine element {} is not downloaded ({}), cannot continue",
           element.index, downloadStatus)

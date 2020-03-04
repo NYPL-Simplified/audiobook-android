@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerEvent
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadExpired
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
@@ -178,6 +179,7 @@ class PlayerTOCFragment : Fragment() {
 
   private fun isCancellable(item: PlayerSpineElementType): Boolean {
     return when (item.downloadStatus) {
+      is PlayerSpineElementDownloadExpired -> false
       is PlayerSpineElementDownloadFailed -> false
       is PlayerSpineElementNotDownloaded -> false
       is PlayerSpineElementDownloading -> true
@@ -187,6 +189,7 @@ class PlayerTOCFragment : Fragment() {
 
   private fun isRefreshable(item: PlayerSpineElementType): Boolean {
     return when (item.downloadStatus) {
+      is PlayerSpineElementDownloadExpired -> false
       is PlayerSpineElementDownloadFailed -> true
       is PlayerSpineElementNotDownloaded -> true
       is PlayerSpineElementDownloading -> false
@@ -267,6 +270,12 @@ class PlayerTOCFragment : Fragment() {
         this.playItemAndClose(item)
 
       is PlayerSpineElementDownloadFailed ->
+        if (this.book.supportsStreaming) {
+          this.playItemAndClose(item)
+        } else {
+        }
+
+      is PlayerSpineElementDownloadExpired ->
         if (this.book.supportsStreaming) {
           this.playItemAndClose(item)
         } else {

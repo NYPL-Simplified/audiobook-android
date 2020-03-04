@@ -48,4 +48,15 @@ sealed class PlayerSpineElementDownloadStatus {
     val exception: Exception?,
     val message: String
   ) : PlayerSpineElementDownloadStatus()
+
+  /**
+   * Downloading this part of the book failed due to an (apparently) expired link. The download
+   * will likely succeed if the manifest is reloaded containing a fresh set of links.
+   */
+
+  data class PlayerSpineElementDownloadExpired(
+    override val spineElement: PlayerSpineElementType,
+    val exception: Exception?,
+    val message: String
+  ) : PlayerSpineElementDownloadStatus()
 }
