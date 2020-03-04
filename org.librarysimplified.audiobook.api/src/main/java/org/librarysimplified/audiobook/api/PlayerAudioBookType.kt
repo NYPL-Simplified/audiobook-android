@@ -1,5 +1,7 @@
 package org.librarysimplified.audiobook.api
 
+import com.google.common.util.concurrent.ListenableFuture
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import rx.Observable
 import java.io.Closeable
 import java.util.SortedMap
@@ -87,4 +89,26 @@ interface PlayerAudioBookType : Closeable {
    */
 
   val wholeBookDownloadTask: PlayerDownloadWholeBookTaskType
+
+  /**
+   * Replace the current manifest with a new manifest.
+   *
+   * Implementations are permitted to ignore new manifests if the underlying audio engine does not
+   * support replacing manifests.
+   *
+   * Implementations are permitted to ignore any information in the new manifest that cannot be
+   * reasonably expected to replace existing information.
+   *
+   * Implementations are permitted to ignore manifests that are in some way invalid, such as not
+   * having the same number of spine elements as the existing loaded manifest.
+   *
+   * Implementations are required to reject manifests that do not have the same identifier as the
+   * old manifest.
+   *
+   * @see [id]
+   */
+
+  fun replaceManifest(
+    manifest: PlayerManifest
+  ): ListenableFuture<Unit>
 }

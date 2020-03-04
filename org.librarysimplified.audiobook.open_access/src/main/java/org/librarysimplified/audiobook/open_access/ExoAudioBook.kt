@@ -1,15 +1,19 @@
 package org.librarysimplified.audiobook.open_access
 
 import android.content.Context
+import com.google.common.util.concurrent.ListenableFuture
+import com.google.common.util.concurrent.SettableFuture
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerBookID
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadWholeBookTaskType
+import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.slf4j.LoggerFactory
 import rx.subjects.PublishSubject
 import java.io.File
@@ -34,6 +38,7 @@ class ExoAudioBook private constructor(
   private val engineProvider: ExoEngineProvider
 ) : PlayerAudioBookType {
 
+  private val logger = LoggerFactory.getLogger(ExoAudioBook::class.java)
   private val isClosedNow = AtomicBoolean(false)
   private val wholeBookTask = ExoDownloadWholeBookTask(this)
 
@@ -57,6 +62,56 @@ class ExoAudioBook private constructor(
   override val wholeBookDownloadTask: PlayerDownloadWholeBookTaskType
     get() = this.wholeBookTask
 
+  override fun replaceManifest(
+    manifest: PlayerManifest
+  ): ListenableFuture<Unit> {
+    val future = SettableFuture.create<Unit>()
+    this.engineExecutor.execute {
+      try {
+        this.replaceManifestTransform(manifest)
+        future.set(Unit)
+      } catch (e: Exception) {
+        future.setException(e)
+      }
+    }
+    return future
+  }
+
+  private fun replaceManifestTransform(
+    manifest: PlayerManifest
+  ) {
+    this.logger.debug("replacing manifest")
+    return when (val result = ExoManifest.transform(manifest)) {
+      is PlayerResult.Success ->
+        this.replaceManifestWith(result.result)
+      is PlayerResult.Failure ->
+        throw result.failure
+    }
+  }
+
+  private fun replaceManifestWith(
+    exoManifest: ExoManifest
+  ) {
+    if (exoManifest.id != this.manifest.id) {
+      throw IllegalArgumentException(
+        "Manifest ID ${exoManifest.id} does not match existing id ${this.manifest.id}"
+      )
+    }
+
+    if (exoManifest.spineItems.size != this.manifest.spineItems.size) {
+      throw IllegalArgumentException(
+        "Manifest spine item count ${exoManifest.spineItems.size} does not match existing count ${this.manifest.spineItems.size}"
+      )
+    }
+
+    for (index in exoManifest.spineItems.indices) {
+      this.logger.debug("[{}] updated URI", index)
+      val oldSpine = this.manifest.spineItems[index]
+      val newSpine = exoManifest.spineItems[index]
+      oldSpine.updateLink(newSpine.originalLink, newSpine.uri)
+    }
+  }
+
   companion object {
 
     private val log = LoggerFactory.getLogger(ExoAudioBook::class.java)
@@ -76,8 +131,8 @@ class ExoAudioBook private constructor(
       extensions: List<PlayerExtensionType>
     ): PlayerAudioBookType {
       val bookId = PlayerBookID.transform(manifest.id)
-      val directory = findDirectoryFor(context, bookId)
-      log.debug("book directory: {}", directory)
+      val directory = this.findDirectoryFor(context, bookId)
+      this.log.debug("book directory: {}", directory)
 
       /*
        * Set up all the various bits of state required.
@@ -115,7 +170,7 @@ class ExoAudioBook private constructor(
 
         elements.add(element)
         elementsById.put(element.id, element)
-        addElementByPartAndChapter(elementsByPart, element)
+        this.addElementByPartAndChapter(elementsByPart, element)
         ++index
 
         /*
@@ -129,17 +184,18 @@ class ExoAudioBook private constructor(
         spineItemPrevious = element
       }
 
-      val book = ExoAudioBook(
-        engineProvider = engineProvider,
-        context = context,
-        engineExecutor = engineExecutor,
-        id = bookId,
-        manifest = manifest,
-        spine = elements,
-        spineByID = elementsById,
-        spineByPartAndChapter = elementsByPart as SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>,
-        spineElementDownloadStatus = statusEvents
-      )
+      val book =
+        ExoAudioBook(
+          engineProvider = engineProvider,
+          context = context,
+          engineExecutor = engineExecutor,
+          id = bookId,
+          manifest = manifest,
+          spine = elements,
+          spineByID = elementsById,
+          spineByPartAndChapter = elementsByPart as SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>,
+          spineElementDownloadStatus = statusEvents
+        )
 
       for (e in elements) {
         e.setBook(book)
@@ -171,7 +227,7 @@ class ExoAudioBook private constructor(
 
   override fun close() {
     if (this.isClosedNow.compareAndSet(false, true)) {
-      log.debug("closed audio book")
+      this.logger.debug("closed audio book")
       this.spineElementDownloadStatus.onCompleted()
     }
   }

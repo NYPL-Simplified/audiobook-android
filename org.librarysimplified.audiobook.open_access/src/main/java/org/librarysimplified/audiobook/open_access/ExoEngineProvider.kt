@@ -16,7 +16,13 @@ import java.util.concurrent.ScheduledExecutorService
  * java.util.ServiceLoader.
  */
 
-class ExoEngineProvider : PlayerAudioEngineProviderType {
+class ExoEngineProvider(
+  private val threadFactory: (Runnable) -> ExoEngineThread
+) : PlayerAudioEngineProviderType {
+
+  constructor() : this({
+    runnable -> ExoEngineThread.create(runnable)
+  })
 
   private val log = LoggerFactory.getLogger(ExoEngineProvider::class.java)
 
@@ -27,19 +33,7 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
     ) ?: PlayerVersion(0, 0, 0)
 
   private val engineExecutor: ScheduledExecutorService =
-    Executors.newSingleThreadScheduledExecutor({ r -> this.createEngineThread(r) })
-
-  /**
-   * Create a thread suitable for use with the ExoPlayer audio engine.
-   */
-
-  private fun createEngineThread(r: Runnable?): Thread {
-    val thread = ExoEngineThread(r ?: Runnable { })
-    thread.setUncaughtExceptionHandler { t, e ->
-      this.log.error("uncaught exception on engine thread {}: ", t, e)
-    }
-    return thread
-  }
+    Executors.newSingleThreadScheduledExecutor(this.threadFactory::invoke)
 
   override fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType? {
     val manifest = request.manifest
