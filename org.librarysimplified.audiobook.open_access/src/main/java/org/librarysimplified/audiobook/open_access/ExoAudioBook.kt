@@ -42,14 +42,19 @@ class ExoAudioBook private constructor(
   private val isClosedNow = AtomicBoolean(false)
   private val wholeBookTask = ExoDownloadWholeBookTask(this)
 
+  private val manifestUpdates =
+    PublishSubject.create<Unit>()
+      .toSerialized()
+
   override fun createPlayer(): PlayerType {
     check(!this.isClosed) { "Audio book has been closed" }
 
     return ExoAudioBookPlayer.create(
       book = this,
-      engineProvider = this.engineProvider,
       context = this.context,
-      engineExecutor = this.engineExecutor
+      engineExecutor = this.engineExecutor,
+      engineProvider = this.engineProvider,
+      manifestUpdates = this.manifestUpdates
     )
   }
 
@@ -110,6 +115,9 @@ class ExoAudioBook private constructor(
       val newSpine = exoManifest.spineItems[index]
       oldSpine.updateLink(newSpine.originalLink, newSpine.uri)
     }
+
+    this.logger.debug("sending manifest update event")
+    this.manifestUpdates.onNext(Unit)
   }
 
   companion object {
@@ -228,6 +236,7 @@ class ExoAudioBook private constructor(
   override fun close() {
     if (this.isClosedNow.compareAndSet(false, true)) {
       this.logger.debug("closed audio book")
+      this.manifestUpdates.onCompleted()
       this.spineElementDownloadStatus.onCompleted()
     }
   }

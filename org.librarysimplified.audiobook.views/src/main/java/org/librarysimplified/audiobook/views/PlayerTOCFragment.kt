@@ -302,6 +302,7 @@ class PlayerTOCFragment : Fragment() {
       is PlayerEvent.PlayerEventWithSpineElement ->
         this.onPlayerSpineElement(event.spineElement.index)
       is PlayerEvent.PlayerEventError -> Unit
+      PlayerEvent.PlayerEventManifestUpdated -> Unit
     }
   }
 

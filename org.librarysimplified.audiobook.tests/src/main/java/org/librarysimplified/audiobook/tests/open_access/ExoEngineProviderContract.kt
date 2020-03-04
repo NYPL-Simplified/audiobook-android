@@ -766,6 +766,8 @@ abstract class ExoEngineProviderContract {
         "playbackStopped ${event.spineElement.index} ${event.offsetMilliseconds}"
       is PlayerEvent.PlayerEventError ->
         "playbackError ${event.spineElement?.index} ${event.exception?.javaClass?.canonicalName} ${event.errorCode} ${event.offsetMilliseconds}"
+      PlayerEvent.PlayerEventManifestUpdated ->
+        "playerManifestUpdated"
     }
   }
 
@@ -982,6 +984,65 @@ abstract class ExoEngineProviderContract {
       audioBook.spine[0].downloadStatus is PlayerSpineElementDownloadExpired)
     Assert.assertTrue(
       audioBook.spine[1].downloadStatus is PlayerSpineElementDownloadFailed)
+  }
+
+  /**
+   * Test that manifest update events are delivered.
+   */
+
+  @Test // (timeout = 20_000L)
+  fun testManifestUpdatedEvents() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
+    val manifest0 =
+      PlayerManifest(
+        originalBytes = ByteArray(0),
+        readingOrder = listOf(
+          PlayerManifestLink.LinkBasic(
+            href = URI.create("http://www.example.com"),
+            duration = 100.0,
+            expires = true
+          )
+        ),
+        metadata = PlayerManifestMetadata(
+          title = "Example",
+          identifier = "e8b38387-154a-4b7f-8124-8c6e0b6d30bb",
+          encrypted = null
+        ),
+        links = listOf(),
+        extensions = listOf()
+      )
+
+    val request =
+      PlayerAudioEngineRequest(
+        manifest0,
+        filter = { true },
+        downloadProvider = FailingDownloadProvider()
+      )
+
+    val engineProvider =
+      ExoEngineProvider()
+    val bookProvider =
+      engineProvider.tryRequest(request)!!
+    val result =
+      bookProvider.create(this.context())
+    val audioBook =
+      (result as PlayerResult.Success).result
+    val player =
+      audioBook.createPlayer()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    audioBook.replaceManifest(manifest0)
+    Thread.sleep(1_000L)
+    player.close()
+    waitLatch.await()
+
+    this.showEvents(events)
+    Assert.assertTrue("1 events must be logged (${events.size})", events.size == 1)
+    Assert.assertEquals("playerManifestUpdated", events.removeAt(0))
   }
 
   private fun resourceStream(name: String): InputStream {
