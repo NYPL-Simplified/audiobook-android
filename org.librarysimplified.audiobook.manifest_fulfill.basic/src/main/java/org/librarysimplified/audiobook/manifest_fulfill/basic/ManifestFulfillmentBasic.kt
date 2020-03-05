@@ -38,15 +38,16 @@ class ManifestFulfillmentBasic(
       )
     )
 
-    val credential =
-      Credentials.basic(
-        this.configuration.userName,
-        this.configuration.password
-      )
+    val requestBuilder = Request.Builder()
+    val credentials = this.configuration.credentials
+    if (credentials != null) {
+      val credential =
+        Credentials.basic(credentials.userName, credentials.password)
+      requestBuilder.header("Authorization", credential)
+    }
 
     val request =
-      Request.Builder()
-        .header("Authorization", credential)
+      requestBuilder
         .url(this.configuration.uri.toURL())
         .build()
 

@@ -11,6 +11,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicCredentials
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicParameters
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicProvider
 import org.mockito.Mockito
@@ -62,8 +63,10 @@ abstract class ManifestFulfillmentBasicContract {
       provider.create(
         configuration = ManifestFulfillmentBasicParameters(
           uri = URI.create("http://www.example.com"),
-          userName = "user",
-          password = "password"
+          credentials = ManifestFulfillmentBasicCredentials(
+            userName = "user",
+            password = "password"
+          )
         )
       )
 
@@ -116,8 +119,10 @@ abstract class ManifestFulfillmentBasicContract {
       provider.create(
         configuration = ManifestFulfillmentBasicParameters(
           uri = URI.create("http://www.example.com"),
-          userName = "user",
-          password = "password"
+          credentials = ManifestFulfillmentBasicCredentials(
+            userName = "user",
+            password = "password"
+          )
         )
       )
 
