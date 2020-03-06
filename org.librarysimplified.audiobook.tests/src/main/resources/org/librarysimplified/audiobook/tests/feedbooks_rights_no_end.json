@@ -1,9 +1,6 @@
 {
   "@context": "http://readium.org/webpub-manifest/context.jsonld",
-  "http://www.feedbooks.com/audiobooks/rights": {
-    "start": "2000-01-01T00:00:00Z",
-    "end": null
-  },
+
   "readingOrder": [
     {
       "duration": 128,
@@ -45,6 +42,11 @@
     "tracks": 172,
     "duration": 22173,
     "title": "Gleams of Sunshine",
-    "language": "en"
+    "language": "en",
+
+    "http://www.feedbooks.com/audiobooks/rights": {
+      "start": "2000-01-01T00:00:00Z",
+      "end": null
+    }
   }
 }

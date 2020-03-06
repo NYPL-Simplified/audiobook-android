@@ -1,9 +1,6 @@
 {
   "@context": "http://readium.org/webpub-manifest/context.jsonld",
-  "http://www.feedbooks.com/audiobooks/rights": {
-    "start": "2000-01-01T00:00:00Z",
-    "end": "2000-02-01T00:00:00Z"
-  },
+
   "readingOrder": [
     {
       "duration": 128,
@@ -19,6 +16,7 @@
       }
     }
   ],
+
   "links": [
     {
       "href": "http://archive.org/services/img/gleams_of_sunshine_1607_librivox",
@@ -38,6 +36,7 @@
       "rel": "license"
     }
   ],
+
   "metadata": {
     "identifier": "http://archive.org/details/gleams_of_sunshine_1607_librivox",
     "@type": "https://schema.org/Audiobook",
@@ -45,6 +44,11 @@
     "tracks": 172,
     "duration": 22173,
     "title": "Gleams of Sunshine",
-    "language": "en"
+    "language": "en",
+
+    "http://www.feedbooks.com/audiobooks/rights": {
+      "start": "2000-01-01T00:00:00Z",
+      "end": "2000-02-01T00:00:00Z"
+    }
   }
 }

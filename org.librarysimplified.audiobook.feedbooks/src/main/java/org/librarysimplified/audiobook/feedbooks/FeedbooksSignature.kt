@@ -8,6 +8,6 @@ import org.librarysimplified.audiobook.manifest.api.PlayerManifestExtensionValue
 
 data class FeedbooksSignature(
   val algorithm: String,
-  val issuer: String,
+  val issuer: String?,
   val value: String
 ) : PlayerManifestExtensionValueType
