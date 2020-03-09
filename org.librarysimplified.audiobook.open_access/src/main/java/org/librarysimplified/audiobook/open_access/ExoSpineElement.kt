@@ -68,7 +68,6 @@ class ExoSpineElement(
     ExoDownloadTask(
       downloadStatusExecutor = this.engineExecutor,
       downloadProvider = this.downloadProvider,
-      manifest = this.bookManifest,
       spineElement = this,
       extensions = this.extensions
     )

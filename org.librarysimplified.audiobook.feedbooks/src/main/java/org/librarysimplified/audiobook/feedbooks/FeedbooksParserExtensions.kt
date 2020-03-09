@@ -28,6 +28,12 @@ class FeedbooksParserExtensions : ManifestParserExtensionType {
   override fun topLevelObjectSchemas(
     onReceive: (PlayerManifestExtensionValueType) -> Unit
   ): List<FRParserObjectFieldSchema<out PlayerManifestExtensionValueType>> {
+    return listOf()
+  }
+
+  override fun metadataObjectSchemas(
+    onReceive: (PlayerManifestExtensionValueType) -> Unit
+  ): List<FRParserObjectFieldSchema<out PlayerManifestExtensionValueType>> {
 
     val signatureSchema =
       FRParserObjectFieldSchema(

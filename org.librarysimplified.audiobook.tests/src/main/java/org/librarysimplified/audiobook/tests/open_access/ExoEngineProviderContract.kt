@@ -27,6 +27,7 @@ import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineEleme
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStarted
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStopped
 import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadExpired
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
@@ -34,17 +35,19 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestMetadata
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.open_access.ExoEngineProvider
 import org.librarysimplified.audiobook.open_access.ExoEngineThread
 import org.librarysimplified.audiobook.open_access.ExoSpineElement
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.librarysimplified.audiobook.tests.DishonestDownloadProvider
+import org.librarysimplified.audiobook.tests.FailingDownloadProvider
 import org.librarysimplified.audiobook.tests.ResourceDownloadProvider
 import org.slf4j.Logger
 import java.io.ByteArrayInputStream
 import java.io.InputStream
-import java.lang.IllegalArgumentException
 import java.net.URI
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutionException
@@ -763,6 +766,8 @@ abstract class ExoEngineProviderContract {
         "playbackStopped ${event.spineElement.index} ${event.offsetMilliseconds}"
       is PlayerEvent.PlayerEventError ->
         "playbackError ${event.spineElement?.index} ${event.exception?.javaClass?.canonicalName} ${event.errorCode} ${event.offsetMilliseconds}"
+      PlayerEvent.PlayerEventManifestUpdated ->
+        "playerManifestUpdated"
     }
   }
 
@@ -825,25 +830,31 @@ abstract class ExoEngineProviderContract {
 
     Assert.assertEquals(
       URI.create("http://www.example.com/0.mp3"),
-      (audioBook.spine[0] as ExoSpineElement).itemManifest.uri)
+      (audioBook.spine[0] as ExoSpineElement).itemManifest.uri
+    )
     Assert.assertEquals(
       URI.create("http://www.example.com/1.mp3"),
-      (audioBook.spine[1] as ExoSpineElement).itemManifest.uri)
+      (audioBook.spine[1] as ExoSpineElement).itemManifest.uri
+    )
     Assert.assertEquals(
       URI.create("http://www.example.com/2.mp3"),
-      (audioBook.spine[2] as ExoSpineElement).itemManifest.uri)
+      (audioBook.spine[2] as ExoSpineElement).itemManifest.uri
+    )
 
     audioBook.replaceManifest(manifest1).get()
 
     Assert.assertEquals(
       URI.create("http://www.example.com/0r.mp3"),
-      (audioBook.spine[0] as ExoSpineElement).itemManifest.uri)
+      (audioBook.spine[0] as ExoSpineElement).itemManifest.uri
+    )
     Assert.assertEquals(
       URI.create("http://www.example.com/1r.mp3"),
-      (audioBook.spine[1] as ExoSpineElement).itemManifest.uri)
+      (audioBook.spine[1] as ExoSpineElement).itemManifest.uri
+    )
     Assert.assertEquals(
       URI.create("http://www.example.com/2r.mp3"),
-      (audioBook.spine[2] as ExoSpineElement).itemManifest.uri)
+      (audioBook.spine[2] as ExoSpineElement).itemManifest.uri
+    )
   }
 
   /**
@@ -916,6 +927,122 @@ abstract class ExoEngineProviderContract {
     this.expectedException.expectCause(instanceOf(IllegalArgumentException::class.java))
     this.expectedException.expectMessage(StringContains("count 1 does not match existing count 3"))
     audioBook.replaceManifest(manifest2).get()
+  }
+
+  /**
+   * Test that expiring links are detected correctly.
+   */
+
+  @Test
+  fun testExpiringLinks() {
+    val manifest0 =
+      PlayerManifest(
+        originalBytes = ByteArray(0),
+        readingOrder = listOf(
+          PlayerManifestLink.LinkBasic(
+            href = URI.create("http://www.example.com"),
+            duration = 100.0,
+            expires = true
+          ),
+          PlayerManifestLink.LinkBasic(
+            href = URI.create("http://www.example.com"),
+            duration = 100.0,
+            expires = false
+          )
+        ),
+        metadata = PlayerManifestMetadata(
+          title = "Example",
+          identifier = "e8b38387-154a-4b7f-8124-8c6e0b6d30bb",
+          encrypted = null
+        ),
+        links = listOf(),
+        extensions = listOf()
+      )
+
+    val request =
+      PlayerAudioEngineRequest(
+        manifest0,
+        filter = { true },
+        downloadProvider = FailingDownloadProvider()
+      )
+
+    val engineProvider =
+      ExoEngineProvider(threadFactory = ExoEngineThread.Companion::createWithoutPreparation)
+    val bookProvider =
+      engineProvider.tryRequest(request)!!
+    val result =
+      bookProvider.create(this.context())
+    val audioBook =
+      (result as PlayerResult.Success).result
+
+    audioBook.spine[0].downloadTask().fetch()
+    audioBook.spine[1].downloadTask().fetch()
+
+    Thread.sleep(1_000L)
+
+    Assert.assertTrue(
+      audioBook.spine[0].downloadStatus is PlayerSpineElementDownloadExpired)
+    Assert.assertTrue(
+      audioBook.spine[1].downloadStatus is PlayerSpineElementDownloadFailed)
+  }
+
+  /**
+   * Test that manifest update events are delivered.
+   */
+
+  @Test // (timeout = 20_000L)
+  fun testManifestUpdatedEvents() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
+    val manifest0 =
+      PlayerManifest(
+        originalBytes = ByteArray(0),
+        readingOrder = listOf(
+          PlayerManifestLink.LinkBasic(
+            href = URI.create("http://www.example.com"),
+            duration = 100.0,
+            expires = true
+          )
+        ),
+        metadata = PlayerManifestMetadata(
+          title = "Example",
+          identifier = "e8b38387-154a-4b7f-8124-8c6e0b6d30bb",
+          encrypted = null
+        ),
+        links = listOf(),
+        extensions = listOf()
+      )
+
+    val request =
+      PlayerAudioEngineRequest(
+        manifest0,
+        filter = { true },
+        downloadProvider = FailingDownloadProvider()
+      )
+
+    val engineProvider =
+      ExoEngineProvider()
+    val bookProvider =
+      engineProvider.tryRequest(request)!!
+    val result =
+      bookProvider.create(this.context())
+    val audioBook =
+      (result as PlayerResult.Success).result
+    val player =
+      audioBook.createPlayer()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    audioBook.replaceManifest(manifest0)
+    Thread.sleep(1_000L)
+    player.close()
+    waitLatch.await()
+
+    this.showEvents(events)
+    Assert.assertTrue("1 events must be logged (${events.size})", events.size == 1)
+    Assert.assertEquals("playerManifestUpdated", events.removeAt(0))
   }
 
   private fun resourceStream(name: String): InputStream {

@@ -12,7 +12,6 @@ import org.librarysimplified.audiobook.manifest.api.PlayerManifestExtensionValue
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestMetadata
 import org.librarysimplified.audiobook.manifest_parser.extension_spi.ManifestParserExtensionType
-import org.slf4j.LoggerFactory
 
 /**
  * A parser that parses manifest objects.
@@ -23,9 +22,6 @@ class WebPubManifestParser(
   private val originalBytes: ByteArray,
   onReceive: (FRParserContextType, PlayerManifest) -> Unit = FRValueParsers.ignoringReceiverWithContext()
 ) : FRAbstractParserObject<PlayerManifest>(onReceive) {
-
-  private val logger =
-    LoggerFactory.getLogger(WebPubManifestParser::class.java)
 
   private lateinit var metadata: PlayerManifestMetadata
   private val spineItems = mutableListOf<PlayerManifestLink>()
@@ -52,9 +48,14 @@ class WebPubManifestParser(
       FRParserObjectFieldSchema(
         name = "metadata",
         parser = {
-          WebPubMetadataParser { _, metadata ->
-            this.metadata = metadata
-          }
+          WebPubMetadataParser(
+            extensions = this.extensions,
+            onExtensionValueProvided = { extensionValue ->
+              this.extensionValues.add(extensionValue)
+            },
+            onReceive = { _, metadata ->
+              this.metadata = metadata
+            })
         }
       )
 
@@ -131,62 +132,19 @@ class WebPubManifestParser(
     schemas[readingOrderSchema.name] = readingOrderSchema
     schemas[spineSchema.name] = spineSchema
 
-    this.logger.debug("{} extensions registered", this.extensions.size)
-    var extensionObjectsAvailable = 0
-    var extensionObjectsUsed = 0
-    for (extension in this.extensions) {
-      if (extension.format != WebPub.baseFormat) {
-        this.errors.add(
-          FRParseError(
-            extension.name,
-            context.jsonStream.currentPosition,
-            "The extension ${extension.name} has format ${extension.format}, which is not compatible with ${WebPub.baseFormat}",
-            IllegalStateException()
-          )
-        )
-        continue
-      }
-
-      val extensionSchemas =
-        extension.topLevelObjectSchemas(onReceive = {
-          extensionValue -> this.extensionValues.add(extensionValue)
-        })
-
-      extensionObjectsAvailable += extensionSchemas.size
-
-      this.logger.debug(
-        "extension provider {} {} returned {} object schemas",
-        extension.name,
-        extension.version,
-        extensionSchemas.size
-      )
-
-      for (extensionSchema in extensionSchemas) {
-        if (!schemas.containsKey(extensionSchema.name)) {
-          schemas[extensionSchema.name] = extensionSchema
-          extensionObjectsUsed += 1
-          continue
+    WebPubParserExtensions.addToSchemas(
+      context = context,
+      containerName = "top-level",
+      extensions = this.extensions,
+      schemas = schemas,
+      extensionMethod = { extension ->
+        extension.topLevelObjectSchemas { extensionValue ->
+          this.extensionValues.add(extensionValue)
         }
-
-        /*
-         * It is always a bug to register two object schemas with the same name.
-         */
-
-        this.errors.add(
-          FRParseError(
-            extension.name,
-            context.jsonStream.currentPosition,
-            "An object schema for the top-level field '${extensionSchema.name}' is already registered",
-            IllegalStateException()
-          )
-        )
+      },
+      onError = { error ->
+        this.errors.add(error)
       }
-    }
-
-    this.logger.debug(
-      "registered {} of {} available top-level extension object schemas",
-      extensionObjectsUsed,
-      extensionObjectsAvailable
     )
     return FRParserObjectSchema(schemas.values.toList())
   }

@@ -15,6 +15,12 @@ sealed class PlayerEvent {
   ) : PlayerEvent()
 
   /**
+   * The player's manifest was successfully updated.
+   */
+
+  object PlayerEventManifestUpdated : PlayerEvent()
+
+  /**
    * An error occurred during playback. The error is expected to reflect an error in the
    * underlying audio engine and, as such, the specifics of the errors themselves are vague.
    */

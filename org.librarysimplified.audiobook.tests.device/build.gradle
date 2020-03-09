@@ -1,14 +1,13 @@
 dependencies {
-  implementation libraries.androidXAppCompat
-  implementation libraries.junit
-  implementation libraries.kotlinStdlib
-  implementation libraries.logbackAndroid
-  implementation libraries.slf4j
-
+  androidTestImplementation libraries.androidXAppCompat
   androidTestImplementation libraries.androidXTestEspresso
   androidTestImplementation libraries.androidXTestExtJunit
   androidTestImplementation libraries.androidXTestRules
   androidTestImplementation libraries.androidXTestRunner
+  androidTestImplementation libraries.junit
+  androidTestImplementation libraries.kotlinStdlib
+  androidTestImplementation libraries.logbackAndroid
+  androidTestImplementation libraries.slf4j
   androidTestUtil libraries.androidXTestOrchestrator
 
   implementation project(':org.librarysimplified.audiobook.api')
@@ -19,6 +18,12 @@ dependencies {
 
   implementation (project(':org.librarysimplified.audiobook.tests')) {
     exclude group: 'ch.qos.logback', module: 'logback-classic'
+  }
+}
+
+configurations.all {
+  resolutionStrategy {
+    force libraries.slf4j
   }
 }
 

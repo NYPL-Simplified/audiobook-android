@@ -16,7 +16,7 @@ class FeedbooksSignatureParser(
 ) : FRAbstractParserObject<FeedbooksSignature>(onReceive) {
 
   private lateinit var value: String
-  private lateinit var issuer: String
+  private var issuer: String? = null
   private lateinit var algorithm: String
 
   override fun onCompleted(context: FRParserContextType): FRParseResult<FeedbooksSignature> {
@@ -46,7 +46,8 @@ class FeedbooksSignatureParser(
           FRValueParsers.forString { name ->
             this.issuer = name
           }
-        })
+        },
+        isOptional = true)
 
     val valueSchema =
       FRParserObjectFieldSchema(

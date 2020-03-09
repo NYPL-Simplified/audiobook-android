@@ -502,6 +502,8 @@ class PlayerFragment : Fragment() {
         this.onPlayerEventPlaybackRateChanged(event)
       is PlayerEventError ->
         this.onPlayerEventError(event)
+      PlayerEvent.PlayerEventManifestUpdated ->
+        this.onPlayerEventManifestUpdated()
     }
   }
 
@@ -623,6 +625,9 @@ class PlayerFragment : Fragment() {
       this.playerWaiting.text = ""
       this.onEventUpdateTimeRelatedUI(event.spineElement, event.offsetMilliseconds)
     })
+  }
+
+  private fun onPlayerEventManifestUpdated() {
   }
 
   private fun onEventUpdateTimeRelatedUI(

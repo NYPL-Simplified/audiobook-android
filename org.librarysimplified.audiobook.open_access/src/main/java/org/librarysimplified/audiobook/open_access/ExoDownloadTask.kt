@@ -7,6 +7,7 @@ import net.jcip.annotations.GuardedBy
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadRequest
 import org.librarysimplified.audiobook.api.PlayerDownloadTaskType
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadExpired
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
@@ -28,7 +29,6 @@ import java.util.concurrent.ExecutorService
 class ExoDownloadTask(
   private val downloadStatusExecutor: ExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
-  private val manifest: ExoManifest,
   private val spineElement: ExoSpineElement,
   private val extensions: List<PlayerExtensionType>
 ) : PlayerDownloadTaskType {
@@ -83,7 +83,9 @@ class ExoDownloadTask(
     this.spineElement.setDownloadStatus(PlayerSpineElementDownloaded(this.spineElement))
   }
 
-  private fun onStartDownload(targetLink: PlayerManifestLink): ListenableFuture<Unit> {
+  private fun onStartDownload(
+    targetLink: PlayerManifestLink
+  ): ListenableFuture<Unit> {
     this.log.debug("download: {}", targetLink.hrefURI)
 
     val request =
@@ -112,8 +114,13 @@ class ExoDownloadTask(
         when (exception) {
           is CancellationException ->
             this@ExoDownloadTask.onDownloadCancelled()
-          else ->
-            this@ExoDownloadTask.onDownloadFailed(Exception(exception))
+          else -> {
+            if (targetLink.expires) {
+              this@ExoDownloadTask.onDownloadExpired(Exception(exception))
+            } else {
+              this@ExoDownloadTask.onDownloadFailed(Exception(exception))
+            }
+          }
         }
       }
     }, this.downloadStatusExecutor)
@@ -148,12 +155,22 @@ class ExoDownloadTask(
     this.onDeleteDownloaded()
   }
 
-  private fun onDownloadFailed(e: Exception) {
-    this.log.error("onDownloadFailed: ", e)
+  private fun onDownloadExpired(exception: Exception) {
+    this.log.error("onDownloadExpired: ", exception)
+    this.stateSetCurrent(Initial)
+    this.spineElement.setDownloadStatus(
+      PlayerSpineElementDownloadExpired(
+        this.spineElement, exception, exception.message ?: "Missing exception message"
+      )
+    )
+  }
+
+  private fun onDownloadFailed(exception: Exception) {
+    this.log.error("onDownloadFailed: ", exception)
     this.stateSetCurrent(Initial)
     this.spineElement.setDownloadStatus(
       PlayerSpineElementDownloadFailed(
-        this.spineElement, e, e.message ?: "Missing exception message"
+        this.spineElement, exception, exception.message ?: "Missing exception message"
       )
     )
   }
