@@ -130,6 +130,6 @@ abstract class ManifestFulfillmentBasicContract {
       strategy.execute() as PlayerResult.Success
 
     val data = result.result
-    Assert.assertEquals("Some text.", String(data))
+    Assert.assertEquals("Some text.", String(data.data))
   }
 }

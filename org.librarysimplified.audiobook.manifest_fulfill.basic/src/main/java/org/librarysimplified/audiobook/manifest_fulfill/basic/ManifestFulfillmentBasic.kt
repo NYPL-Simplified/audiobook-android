@@ -3,7 +3,9 @@ package org.librarysimplified.audiobook.manifest_fulfill.basic
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import one.irradia.mime.vanilla.MIMEParser
 import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfilled
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentErrorType
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentEvent
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentStrategyType
@@ -29,7 +31,7 @@ class ManifestFulfillmentBasic(
   override val events: Observable<ManifestFulfillmentEvent> =
     this.eventSubject
 
-  override fun execute(): PlayerResult<ByteArray, ManifestFulfillmentErrorType> {
+  override fun execute(): PlayerResult<ManifestFulfilled, ManifestFulfillmentErrorType> {
     this.logger.debug("fulfilling manifest: {}", this.configuration.uri)
 
     this.eventSubject.onNext(
@@ -56,12 +58,14 @@ class ManifestFulfillmentBasic(
     val bodyData = response.body()?.bytes() ?: ByteArray(0)
     val responseCode = response.code()
     val responseMessage = response.message()
+    val contentType = response.header("Content-Type") ?: "application/octet-stream"
 
     this.logger.debug(
-      "received: {} {} for {}",
+      "received: {} {} for {} ({})",
       responseCode,
       responseMessage,
-      this.configuration.uri
+      this.configuration.uri,
+      contentType
     )
 
     this.eventSubject.onNext(
@@ -77,13 +81,18 @@ class ManifestFulfillmentBasic(
           serverData = ManifestFulfillmentErrorType.ServerData(
             code = responseCode,
             receivedBody = bodyData,
-            receivedContentType = response.header("Content-Type") ?: "application/octet-stream"
+            receivedContentType = contentType
           )
         )
       )
     }
 
-    return PlayerResult.unit(bodyData)
+    return PlayerResult.unit(
+      ManifestFulfilled(
+        contentType = MIMEParser.parseRaisingException(contentType),
+        data = bodyData
+      )
+    )
   }
 
   override fun close() {
