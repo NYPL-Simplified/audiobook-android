@@ -12,7 +12,7 @@ data class JSONBase64String(
 ) : Serializable {
 
   init {
-    Base64Variants.MIME.decode(this.text)
+    mimeVariant.decode(this.text)
   }
 
   /**
@@ -20,17 +20,19 @@ data class JSONBase64String(
    */
 
   fun decode(): ByteArray {
-    return Base64Variants.MIME_NO_LINEFEEDS.decode(this.text)
+    return mimeVariant.decode(this.text)
   }
 
   companion object {
+
+    private val mimeVariant = Base64Variants.MODIFIED_FOR_URL
 
     /**
      * Encode the byte array as a Base64URL string.
      */
 
     fun encode(data: ByteArray): JSONBase64String {
-      return JSONBase64String(Base64Variants.MIME_NO_LINEFEEDS.encode(data))
+      return JSONBase64String(this.mimeVariant.encode(data))
     }
   }
 }

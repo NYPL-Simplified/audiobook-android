@@ -60,9 +60,9 @@ abstract class JSONWebTokenClaimsContract {
         .withFixedSeed(0xdeadbeefL)
 
     val mapStringGenerator =
-      SourceDSL.strings().basicLatinAlphabet().ofLengthBetween(0, 256)
+      SourceDSL.strings().basicLatinAlphabet().ofLengthBetween(1, 256)
     val mapGenerator =
-      SourceDSL.maps().of(mapStringGenerator, mapStringGenerator).ofSizeBetween(0, 256)
+      SourceDSL.maps().of(mapStringGenerator, mapStringGenerator).ofSizeBetween(1, 256)
 
     theory.forAll(mapGenerator).check { map ->
       val originalHeader = JSONWebTokenClaims(map.toMap())

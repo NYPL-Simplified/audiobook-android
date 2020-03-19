@@ -24,11 +24,11 @@ abstract class JSONWebSignatureContract {
         .withFixedSeed(0xdeadbeefL)
 
     val mapStringGenerator =
-      SourceDSL.strings().basicLatinAlphabet().ofLengthBetween(0, 256)
+      SourceDSL.strings().basicLatinAlphabet().ofLengthBetween(1, 256)
     val mapGenerator0 =
-      SourceDSL.maps().of(mapStringGenerator, mapStringGenerator).ofSizeBetween(0, 256)
+      SourceDSL.maps().of(mapStringGenerator, mapStringGenerator).ofSizeBetween(1, 256)
     val mapGenerator1 =
-      SourceDSL.maps().of(mapStringGenerator, mapStringGenerator).ofSizeBetween(0, 256)
+      SourceDSL.maps().of(mapStringGenerator, mapStringGenerator).ofSizeBetween(1, 256)
     val mapPairGenerator =
       mapGenerator0.flatMap { map0 ->
         mapGenerator1.flatMap { map1 ->
