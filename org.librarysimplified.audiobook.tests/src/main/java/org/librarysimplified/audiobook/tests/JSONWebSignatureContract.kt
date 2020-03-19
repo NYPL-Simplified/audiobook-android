@@ -16,7 +16,7 @@ abstract class JSONWebSignatureContract {
    * Signing produces a verifiable signature.
    */
 
-  @Test
+  @Test(timeout = 10_000L)
   fun testVerification() {
     val theory =
       QuickTheory.qt()
@@ -39,7 +39,7 @@ abstract class JSONWebSignatureContract {
       }
 
     val signatureAlgorithm =
-      JSONWebSignatureAlgorithmHMACSha256.withSecret("ne cede malis")
+      JSONWebSignatureAlgorithmHMACSha256.withSecret("ne cede malis".toByteArray())
 
     theory.forAll(mapPairGenerator).check { maps ->
       val origHeader =

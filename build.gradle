@@ -45,6 +45,17 @@ ext {
   }
 }
 
+subprojects {
+  // Force version 1.0.2 of appcompat. A bug in 1.1.0 causes a crash on API 21.
+  //
+  // https://issuetracker.google.com/issues/141132133#comment42
+  //
+  // TODO: Remove once appcompat:1.2.0 is available.
+  configurations.all {
+    resolutionStrategy.force 'androidx.appcompat:appcompat:1.0.2'
+  }
+}
+
 ext.libraries = [
   androidMaterial            : "com.google.android.material:material:1.0.0",
   androidXActivity           : "androidx.activity:activity-ktx:1.0.0-alpha06",

@@ -94,7 +94,7 @@ class FeedbooksPlayerExtension : PlayerExtensionType {
       )
 
     val newRequest =
-      originalRequest.copy(credentials = BearerToken(token.encode().text))
+      originalRequest.copy(credentials = BearerToken(token.encode()))
 
     return downloadProvider.download(newRequest)
   }

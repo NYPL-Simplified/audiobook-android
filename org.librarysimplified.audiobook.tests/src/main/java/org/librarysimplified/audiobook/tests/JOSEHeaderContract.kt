@@ -52,7 +52,7 @@ abstract class JOSEHeaderContract {
    * Encoding and decoding are inverses of each other.
    */
 
-  @Test
+  @Test(timeout = 10_000L)
   fun testIdentity() {
     val theory =
       QuickTheory.qt()

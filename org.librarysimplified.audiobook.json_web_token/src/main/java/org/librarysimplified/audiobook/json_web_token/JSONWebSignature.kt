@@ -18,14 +18,14 @@ data class JSONWebSignature(
    * @see "https://tools.ietf.org/html/rfc7519"
    */
 
-  fun encode(): JSONBase64String {
+  fun encode(): String {
     val text = StringBuilder(128)
     text.append(JOSEHeader.encode(header).text)
     text.append('.')
     text.append(JSONBase64String.encode(this.payload).text)
     text.append('.')
     text.append(this.signature.text)
-    return JSONBase64String(text.toString())
+    return text.toString()
   }
 
   /**

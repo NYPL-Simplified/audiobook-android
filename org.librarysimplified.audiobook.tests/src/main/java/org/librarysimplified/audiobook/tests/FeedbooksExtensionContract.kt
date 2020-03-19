@@ -144,7 +144,7 @@ abstract class FeedbooksExtensionContract {
 
     extension.configuration =
       FeedbooksPlayerExtensionConfiguration(
-        bearerTokenSecret = "confound delivery",
+        bearerTokenSecret = "confound delivery".toByteArray(),
         issuerURL = "http://www.example.com"
       )
 
