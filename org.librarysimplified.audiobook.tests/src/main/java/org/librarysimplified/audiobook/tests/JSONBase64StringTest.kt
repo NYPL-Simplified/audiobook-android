@@ -8,8 +8,7 @@ import java.security.SecureRandom
 class JSONBase64StringTest {
 
   @Test
-  fun testDecodeSomething0()
-  {
+  fun testDecodeSomething0() {
     val rng = SecureRandom()
     val decoded = ByteArray(32)
     rng.nextBytes(decoded)
