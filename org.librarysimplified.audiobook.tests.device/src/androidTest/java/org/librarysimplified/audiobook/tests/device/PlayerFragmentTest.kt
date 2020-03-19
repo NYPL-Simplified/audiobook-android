@@ -205,5 +205,4 @@ class PlayerFragmentTest {
       { })
     return calls
   }
-
 }

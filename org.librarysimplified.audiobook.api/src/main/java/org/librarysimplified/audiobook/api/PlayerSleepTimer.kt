@@ -34,8 +34,8 @@ import javax.annotation.concurrent.ThreadSafe
 @ThreadSafe
 class PlayerSleepTimer private constructor(
   private val statusEvents: BehaviorSubject<PlayerSleepTimerEvent>,
-  private val executor: ExecutorService)
-  : PlayerSleepTimerType {
+  private val executor: ExecutorService
+) : PlayerSleepTimerType {
 
   /**
    * The type of requests that can be made to the timer.
@@ -73,8 +73,8 @@ class PlayerSleepTimer private constructor(
      */
 
     class PlayerTimerRequestStart(
-      val duration: Duration?)
-      : PlayerTimerRequest()
+      val duration: Duration?
+    ) : PlayerTimerRequest()
 
     /**
      * Request that the timer stop.
@@ -103,7 +103,8 @@ class PlayerSleepTimer private constructor(
    */
 
   private class PlayerSleepTimerTask(
-    private val timer: PlayerSleepTimer) : Runnable {
+    private val timer: PlayerSleepTimer
+  ) : Runnable {
 
     internal val latch: CountDownLatch = CountDownLatch(1)
 
@@ -352,5 +353,4 @@ class PlayerSleepTimer private constructor(
 
   override val isRunning: Running?
     get() = this.task.running
-
 }

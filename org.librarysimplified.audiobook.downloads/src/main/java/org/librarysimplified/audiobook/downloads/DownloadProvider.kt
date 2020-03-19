@@ -9,7 +9,8 @@ import okhttp3.Request
 import okhttp3.Response
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadRequest
-import org.librarysimplified.audiobook.api.PlayerDownloadRequestCredentials.PlayerDownloadRequestCredentialsBasic
+import org.librarysimplified.audiobook.api.PlayerDownloadRequestCredentials.Basic
+import org.librarysimplified.audiobook.api.PlayerDownloadRequestCredentials.BearerToken
 import org.slf4j.LoggerFactory
 import java.io.FileOutputStream
 import java.io.IOException
@@ -22,8 +23,8 @@ import java.util.concurrent.TimeUnit
  */
 
 class DownloadProvider private constructor(
-  private val executor: ListeningExecutorService)
-  : PlayerDownloadProviderType {
+  private val executor: ListeningExecutorService
+) : PlayerDownloadProviderType {
 
   private val log = LoggerFactory.getLogger(DownloadProvider::class.java)
 
@@ -59,7 +60,10 @@ class DownloadProvider private constructor(
     return result
   }
 
-  private fun reportProgress(request: PlayerDownloadRequest, percent: Int) {
+  private fun reportProgress(
+    request: PlayerDownloadRequest,
+    percent: Int
+  ) {
     try {
       request.onProgress(percent)
     } catch (e: Throwable) {
@@ -74,7 +78,8 @@ class DownloadProvider private constructor(
 
   private fun doDownload(
     request: PlayerDownloadRequest,
-    result: SettableFuture<Unit>) {
+    result: SettableFuture<Unit>
+  ) {
     this.log.debug("downloading {} to {}", request.uri, request.outputFile)
 
     this.reportProgress(request, 0)
@@ -89,47 +94,61 @@ class DownloadProvider private constructor(
       Request.Builder()
         .url(request.uri.toURL())
 
-    /*
-     * Use basic auth if a username and password were given.
-     */
-
-    val credentials = request.credentials
-    when (credentials) {
-      null -> {
-        this.log.debug("not using authentication")
-      }
-      is PlayerDownloadRequestCredentialsBasic -> {
-        this.log.debug("using basic auth")
-        httpRequestBuilder.header(
-          "Authorization",
-          Credentials.basic(credentials.user, credentials.password))
-      }
-    }
-
+    this.configureRequestCredentials(request, httpRequestBuilder)
     val httpRequest = httpRequestBuilder.build()
     val call = client.newCall(httpRequest)
     this.log.debug("executing http request")
 
     call.execute().use { response ->
       if (!response.isSuccessful) {
-        throw IOException(StringBuilder(128)
-          .append("Server returned an error response.\n")
-          .append("  Response: ")
-          .append(response.code())
-          .append(' ')
-          .append(response.message())
-          .append('\n')
-          .toString())
+        throw IOException(
+          StringBuilder(128)
+            .append("Server returned an error response.\n")
+            .append("  Response: ")
+            .append(response.code())
+            .append(' ')
+            .append(response.message())
+            .append('\n')
+            .toString()
+        )
       }
 
       this.handleSuccessfulResponse(response, request, result)
     }
   }
 
+  private fun configureRequestCredentials(
+    request: PlayerDownloadRequest,
+    httpRequestBuilder: Request.Builder
+  ) {
+    return when (val credentials = request.credentials) {
+      null -> {
+        this.log.debug("not using authentication")
+      }
+      is Basic -> {
+        this.log.debug("using basic auth")
+        httpRequestBuilder.header(
+          "Authorization",
+          Credentials.basic(credentials.user, credentials.password)
+        )
+        Unit
+      }
+      is BearerToken -> {
+        this.log.debug("using bearer token auth")
+        httpRequestBuilder.header(
+          "Authorization",
+          "Bearer ${credentials.token}"
+        )
+        Unit
+      }
+    }
+  }
+
   private fun handleSuccessfulResponse(
     response: Response,
     request: PlayerDownloadRequest,
-    result: SettableFuture<Unit>) {
+    result: SettableFuture<Unit>
+  ) {
 
     /*
      * Check if the future has been cancelled. If it has, don't start copying.
@@ -167,15 +186,17 @@ class DownloadProvider private constructor(
 
     val receivedSize = request.outputFile.length()
     if (receivedSize != expectedLength) {
-      throw IOException(StringBuilder(128)
-        .append("Resulting file size does not match the expected size.\n")
-        .append("  Expected size: ")
-        .append(expectedLength)
-        .append('\n')
-        .append("  Received size: ")
-        .append(receivedSize)
-        .append('\n')
-        .toString())
+      throw IOException(
+        StringBuilder(128)
+          .append("Resulting file size does not match the expected size.\n")
+          .append("  Expected size: ")
+          .append(expectedLength)
+          .append('\n')
+          .append("  Received size: ")
+          .append(receivedSize)
+          .append('\n')
+          .toString()
+      )
     }
   }
 
@@ -184,7 +205,8 @@ class DownloadProvider private constructor(
     inputStream: InputStream,
     outputStream: FileOutputStream,
     expectedLength: Long,
-    result: SettableFuture<Unit>) {
+    result: SettableFuture<Unit>
+  ) {
 
     var progressPrevious = 0.0
     var progressCurrent = 0.0
@@ -225,5 +247,4 @@ class DownloadProvider private constructor(
     }
     outputStream.flush()
   }
-
 }

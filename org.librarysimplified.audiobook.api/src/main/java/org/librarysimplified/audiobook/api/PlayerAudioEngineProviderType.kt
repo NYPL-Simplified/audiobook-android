@@ -16,7 +16,7 @@ interface PlayerAudioEngineProviderType {
    * @return The version of the audio engine provider
    */
 
-  fun version(): PlayerAudioEngineVersion
+  fun version(): PlayerVersion
 
   /**
    * Determine if the given manifest refers to a book that can be played by this audio engine
@@ -27,5 +27,4 @@ interface PlayerAudioEngineProviderType {
    */
 
   fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType?
-
 }

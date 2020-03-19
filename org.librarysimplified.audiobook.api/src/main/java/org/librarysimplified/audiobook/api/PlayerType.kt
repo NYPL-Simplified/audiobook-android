@@ -120,7 +120,8 @@ interface PlayerType : AutoCloseable {
    */
 
   fun playAtLocation(
-    location: PlayerPosition)
+    location: PlayerPosition
+  )
 
   /**
    * Move playhead but do not start playback. This is useful for state restoration where we want
@@ -130,7 +131,8 @@ interface PlayerType : AutoCloseable {
    */
 
   fun movePlayheadToLocation(
-    location: PlayerPosition)
+    location: PlayerPosition
+  )
 
   /**
    * Move playhead to the start of the book and immediately start playing.

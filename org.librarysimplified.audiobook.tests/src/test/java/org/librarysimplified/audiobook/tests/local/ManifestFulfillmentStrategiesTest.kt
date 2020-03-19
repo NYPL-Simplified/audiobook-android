@@ -1,0 +1,5 @@
+package org.librarysimplified.audiobook.tests.local
+
+import org.librarysimplified.audiobook.tests.ManifestFulfillmentStrategiesContract
+
+class ManifestFulfillmentStrategiesTest : ManifestFulfillmentStrategiesContract()

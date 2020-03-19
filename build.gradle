@@ -1,9 +1,9 @@
 buildscript {
-  if ("$gradle.gradleVersion" != "5.6.2") {
-    throw new GradleException("Gradle version 5.6.2 is required (received $gradle.gradleVersion)")
+  if ("$gradle.gradleVersion" != "6.2.1") {
+    throw new GradleException("Gradle version 6.2.1 is required (received $gradle.gradleVersion)")
   }
 
-  ext.kotlin_version = "1.3.50"
+  ext.kotlin_version = "1.3.61"
 
   repositories {
     mavenCentral()
@@ -12,20 +12,20 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.5.1'
+    classpath 'com.android.tools.build:gradle:3.6.1'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath "digital.wup:android-maven-publish:3.6.2"
-    classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.1"
+    classpath "digital.wup:android-maven-publish:3.6.3"
+    classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2"
     classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.15.0"
-    classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:4.3.0"
+    classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.0.0"
   }
 }
 
 plugins {
-  id "com.github.ben-manes.versions" version "0.25.0"
+  id "com.github.ben-manes.versions" version "0.27.0"
   id "com.vanniktech.android.junit.jacoco" version "0.15.0"
-  id "digital.wup.android-maven-publish" version "3.6.2"
-  id "io.codearte.nexus-staging" version "0.21.1"
+  id "digital.wup.android-maven-publish" version "3.6.3"
+  id "io.codearte.nexus-staging" version "0.21.2"
   id "ru.vyarus.animalsniffer" version "1.5.0"
 }
 
@@ -45,6 +45,17 @@ ext {
   }
 }
 
+subprojects {
+  // Force version 1.0.2 of appcompat. A bug in 1.1.0 causes a crash on API 21.
+  //
+  // https://issuetracker.google.com/issues/141132133#comment42
+  //
+  // TODO: Remove once appcompat:1.2.0 is available.
+  configurations.all {
+    resolutionStrategy.force 'androidx.appcompat:appcompat:1.0.2'
+  }
+}
+
 ext.libraries = [
   androidMaterial            : "com.google.android.material:material:1.0.0",
   androidXActivity           : "androidx.activity:activity-ktx:1.0.0-alpha06",
@@ -59,10 +70,14 @@ ext.libraries = [
   androidXTestRunner         : "androidx.test:runner:1.3.0-alpha02",
   googleExoplayer            : "com.google.android.exoplayer:exoplayer:r1.5.15",
   googleGuava                : "com.google.guava:guava:27.1-android",
-  jacksonCore                : "com.fasterxml.jackson.core:jackson-core:2.10.0",
-  jacksonDatabind            : "com.fasterxml.jackson.core:jackson-databind:2.10.0",
+  irradiaFieldrushAPI        : "one.irradia.fieldrush:one.irradia.fieldrush.api:0.0.8",
+  irradiaFieldrushVanilla    : "one.irradia.fieldrush:one.irradia.fieldrush.vanilla:0.0.8",
+  irradiaMimeAPI             : "one.irradia.mime:one.irradia.mime.api:1.0.0",
+  irradiaMimeVanilla         : "one.irradia.mime:one.irradia.mime.vanilla:1.0.0",
+  jacksonCore                : "com.fasterxml.jackson.core:jackson-core:2.10.2",
+  jacksonDatabind            : "com.fasterxml.jackson.core:jackson-databind:2.10.2",
   jcip                       : "com.io7m.jcip:jcip-annotations:1.0.2",
-  jodaTime                   : "joda-time:joda-time:2.10.4",
+  jodaTime                   : "joda-time:joda-time:2.10.5",
   junit                      : "junit:junit:4.12",
   kotlinReflect              : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
   kotlinStdlib               : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
@@ -72,6 +87,7 @@ ext.libraries = [
   okhttp                     : "com.squareup.okhttp3:okhttp:3.14.1",
   OSGiBundleAnnotation       : "org.osgi:org.osgi.annotation.bundle:1.0.0",
   OSGiBundleVersionAnnotation: "org.osgi:org.osgi.annotation.versioning:1.0.0",
+  quicktheories              : 'org.quicktheories:quicktheories:0.26',
   rxjava                     : "io.reactivex:rxjava:1.3.8",
   slf4j                      : "org.slf4j:slf4j-api:1.7.25",
 ]
@@ -99,6 +115,7 @@ subprojects { project ->
       apply plugin: "java"
       apply plugin: "java-library"
       apply plugin: "kotlin"
+      apply from: file("$rootDir/ktlint.gradle")
 
       /*
        * Apply the Animal Sniffer plugin to check that code is Android compatible.
@@ -131,27 +148,7 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
 
       apply plugin: "com.android.application"
       apply plugin: "kotlin-android"
-
-      android {
-        compileSdkVersion androidCompileSDKVersion
-        buildToolsVersion androidBuildToolsVersion
-
-        defaultConfig {
-          minSdkVersion androidMinimumSDKVersion
-          targetSdkVersion androidTargetSDKVersion
-        }
-        compileOptions {
-          sourceCompatibility JavaVersion.VERSION_1_8
-          targetCompatibility JavaVersion.VERSION_1_8
-        }
-      }
-      break
-
-    case "aar":
-      logger.info("Configuring ${project} (${POM_PACKAGING}) as Android library project")
-
-      apply plugin: "com.android.library"
-      apply plugin: "kotlin-android"
+      apply from: file("$rootDir/ktlint.gradle")
 
       android {
         compileSdkVersion androidCompileSDKVersion
@@ -167,7 +164,34 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           targetCompatibility JavaVersion.VERSION_1_8
         }
         testOptions {
-          execution "ANDROID_TEST_ORCHESTRATOR"
+          execution "ANDROIDX_TEST_ORCHESTRATOR"
+          animationsDisabled = true
+        }
+      }
+      break
+
+    case "aar":
+      logger.info("Configuring ${project} (${POM_PACKAGING}) as Android library project")
+
+      apply plugin: "com.android.library"
+      apply plugin: "kotlin-android"
+      apply from: file("$rootDir/ktlint.gradle")
+
+      android {
+        compileSdkVersion androidCompileSDKVersion
+        buildToolsVersion androidBuildToolsVersion
+
+        defaultConfig {
+          minSdkVersion androidMinimumSDKVersion
+          targetSdkVersion androidTargetSDKVersion
+          testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        }
+        compileOptions {
+          sourceCompatibility JavaVersion.VERSION_1_8
+          targetCompatibility JavaVersion.VERSION_1_8
+        }
+        testOptions {
+          execution "ANDROIDX_TEST_ORCHESTRATOR"
           animationsDisabled = true
         }
       }
@@ -259,6 +283,20 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
   signing {
     useGpgCmd()
     sign publishing.publications.basicJar
+  }
+
+  tasks.withType(Sign) { task ->
+    def isSnapshot = version.endsWith("SNAPSHOT")
+
+    // Sign release versions only; not snapshots
+    onlyIf {
+      if (isSnapshot) {
+        logger.warn("$POM_NAME: '$version' is a snapshot version; artifacts will not be signed")
+      } else {
+        logger.info("$POM_NAME: '$version' is a release version; artifacts will be signed")
+      }
+      return !isSnapshot
+    }
   }
 
   repositories {

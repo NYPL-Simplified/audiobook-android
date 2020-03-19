@@ -11,8 +11,14 @@ sealed class PlayerEvent {
    */
 
   data class PlayerEventPlaybackRateChanged(
-    val rate: PlayerPlaybackRate)
-    : PlayerEvent()
+    val rate: PlayerPlaybackRate
+  ) : PlayerEvent()
+
+  /**
+   * The player's manifest was successfully updated.
+   */
+
+  object PlayerEventManifestUpdated : PlayerEvent()
 
   /**
    * An error occurred during playback. The error is expected to reflect an error in the
@@ -23,8 +29,8 @@ sealed class PlayerEvent {
     val spineElement: PlayerSpineElementType?,
     val offsetMilliseconds: Long,
     val exception: java.lang.Exception?,
-    val errorCode: Int)
-    : PlayerEvent()
+    val errorCode: Int
+  ) : PlayerEvent()
 
   sealed class PlayerEventWithSpineElement : PlayerEvent() {
 
@@ -40,8 +46,8 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackStarted(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Long)
-      : PlayerEventWithSpineElement()
+      val offsetMilliseconds: Long
+    ) : PlayerEventWithSpineElement()
 
     /**
      * Playback is currently buffering for the given spine element. This can happen at any time
@@ -50,8 +56,8 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackBuffering(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Long)
-      : PlayerEventWithSpineElement()
+      val offsetMilliseconds: Long
+    ) : PlayerEventWithSpineElement()
 
     /**
      * The given spine item is playing, and this event is a progress update indicating how far
@@ -60,8 +66,8 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackProgressUpdate(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Long)
-      : PlayerEventWithSpineElement()
+      val offsetMilliseconds: Long
+    ) : PlayerEventWithSpineElement()
 
     /**
      * Playback of the given spine element has just completed, and playback will continue to the
@@ -69,8 +75,8 @@ sealed class PlayerEvent {
      */
 
     data class PlayerEventChapterCompleted(
-      override val spineElement: PlayerSpineElementType)
-      : PlayerEventWithSpineElement()
+      override val spineElement: PlayerSpineElementType
+    ) : PlayerEventWithSpineElement()
 
     /**
      * The player is currently waiting for the given spine element to become available before
@@ -78,8 +84,8 @@ sealed class PlayerEvent {
      */
 
     data class PlayerEventChapterWaiting(
-      override val spineElement: PlayerSpineElementType)
-      : PlayerEventWithSpineElement()
+      override val spineElement: PlayerSpineElementType
+    ) : PlayerEventWithSpineElement()
 
     /**
      * Playback of the given spine element has paused.
@@ -87,8 +93,8 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackPaused(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Long)
-      : PlayerEventWithSpineElement()
+      val offsetMilliseconds: Long
+    ) : PlayerEventWithSpineElement()
 
     /**
      * Playback of the given spine element has stopped.
@@ -96,8 +102,7 @@ sealed class PlayerEvent {
 
     data class PlayerEventPlaybackStopped(
       override val spineElement: PlayerSpineElementType,
-      val offsetMilliseconds: Long)
-      : PlayerEventWithSpineElement()
-
+      val offsetMilliseconds: Long
+    ) : PlayerEventWithSpineElement()
   }
 }

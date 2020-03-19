@@ -49,12 +49,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running"
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running"
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })
@@ -100,12 +102,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running"
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running"
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })
@@ -151,12 +155,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running"
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running"
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })
@@ -207,12 +213,14 @@ abstract class PlayerSleepTimerContract {
     timer.status.subscribe { event ->
       logger.debug("event: {}", event)
 
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running " + event.remaining
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running " + event.remaining
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     }
 
     logger.debug("starting timer")
@@ -254,12 +262,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running " + event.remaining
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running " + event.remaining
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })
@@ -307,12 +317,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running " + event.remaining
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running " + event.remaining
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })
@@ -362,12 +374,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running " + event.remaining
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running " + event.remaining
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })
@@ -410,12 +424,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })
@@ -465,12 +481,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })
@@ -529,12 +547,14 @@ abstract class PlayerSleepTimerContract {
 
     timer.status.subscribe({ event ->
       logger.debug("event: {}", event)
-      events.add(when (event) {
-        PlayerSleepTimerStopped -> "stopped"
-        is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
-        is PlayerSleepTimerCancelled -> "cancelled"
-        PlayerSleepTimerFinished -> "finished"
-      })
+      events.add(
+        when (event) {
+          PlayerSleepTimerStopped -> "stopped"
+          is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+          is PlayerSleepTimerCancelled -> "cancelled"
+          PlayerSleepTimerFinished -> "finished"
+        }
+      )
     },
       { waitLatch.countDown() },
       { waitLatch.countDown() })

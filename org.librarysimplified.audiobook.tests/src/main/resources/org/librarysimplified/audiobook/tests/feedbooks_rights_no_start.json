@@ -1,0 +1,52 @@
+{
+  "@context": "http://readium.org/webpub-manifest/context.jsonld",
+
+  "readingOrder": [
+    {
+      "duration": 128,
+      "title": "01 - Invocation",
+      "href": "http://archive.org/download/gleams_of_sunshine_1607_librivox/gleamsofsunshine_01_chant.mp3",
+      "bitrate": "120",
+      "type": "audio/mpeg",
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    }
+  ],
+  "links": [
+    {
+      "href": "http://archive.org/services/img/gleams_of_sunshine_1607_librivox",
+      "rel": "cover",
+      "width": 180,
+      "height": 180,
+      "type": "image/jpeg"
+    },
+    {
+      "rel": "self",
+      "href": "https://api.archivelab.org/books/gleams_of_sunshine_1607_librivox/opds_audio_manifest",
+      "type": "application/audiobook+json"
+    },
+    {
+      "href": "http://example.com/license/status",
+      "type": "application/vnd.readium.license.status.v1.0+json",
+      "rel": "license"
+    }
+  ],
+  "metadata": {
+    "identifier": "http://archive.org/details/gleams_of_sunshine_1607_librivox",
+    "@type": "https://schema.org/Audiobook",
+    "author": "Joseph Horatio Chant",
+    "tracks": 172,
+    "duration": 22173,
+    "title": "Gleams of Sunshine",
+    "language": "en",
+
+    "http://www.feedbooks.com/audiobooks/rights": {
+      "start": null,
+      "end": "2000-02-01T00:00:00Z"
+    }
+  }
+}

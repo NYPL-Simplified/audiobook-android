@@ -46,7 +46,7 @@ open class PlayerResultContract {
 
     Assert.assertEquals(
       m.flatMap(f).flatMap(g),
-      m.flatMap({ x -> f(x).flatMap(g) }))
+      m.flatMap({ x -> f(x).flatMap(g) })
+    )
   }
-
 }

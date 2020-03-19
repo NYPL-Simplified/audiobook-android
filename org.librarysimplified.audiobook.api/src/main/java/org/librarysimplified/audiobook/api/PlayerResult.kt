@@ -11,16 +11,16 @@ sealed class PlayerResult<S : Any, F : Any> {
    */
 
   data class Success<S : Any, F : Any>(
-    val result: S)
-    : PlayerResult<S, F>()
+    val result: S
+  ) : PlayerResult<S, F>()
 
   /**
    * A failure value.
    */
 
   data class Failure<S : Any, F : Any>(
-    val failure: F)
-    : PlayerResult<S, F>()
+    val failure: F
+  ) : PlayerResult<S, F>()
 
   /**
    * Monadic bind.
@@ -50,7 +50,8 @@ sealed class PlayerResult<S : Any, F : Any> {
 
     fun <A : Any, B : Any, F : Any> flatMap(
       r: PlayerResult<A, F>,
-      f: (A) -> PlayerResult<B, F>): PlayerResult<B, F> {
+      f: (A) -> PlayerResult<B, F>
+    ): PlayerResult<B, F> {
       return when (r) {
         is Success -> f(r.result)
         is Failure -> Failure(r.failure)
@@ -65,7 +66,8 @@ sealed class PlayerResult<S : Any, F : Any> {
 
     fun <A : Any, B : Any, F : Any> map(
       r: PlayerResult<A, F>,
-      f: (A) -> B): PlayerResult<B, F> {
+      f: (A) -> B
+    ): PlayerResult<B, F> {
       return when (r) {
         is Success -> Success(f(r.result))
         is Failure -> Failure(r.failure)
@@ -78,7 +80,5 @@ sealed class PlayerResult<S : Any, F : Any> {
 
     fun <A : Any, F : Any> unit(x: A): PlayerResult<A, F> =
       Success(x)
-
   }
 }
-

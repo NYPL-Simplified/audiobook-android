@@ -35,5 +35,4 @@ interface PlayerDownloadWholeBookTaskType : PlayerDownloadTaskType {
    */
 
   override val progress: Double
-
 }

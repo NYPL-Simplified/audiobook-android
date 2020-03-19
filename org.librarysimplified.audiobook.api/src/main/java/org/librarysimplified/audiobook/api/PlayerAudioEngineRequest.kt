@@ -1,5 +1,7 @@
 package org.librarysimplified.audiobook.api
 
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+
 /**
  * A request for an audio engine.
  */
@@ -17,7 +19,10 @@ data class PlayerAudioEngineRequest(
    * is included in the list of providers that can service the given request.
    */
 
-  val filter: (PlayerAudioEngineProviderType) -> Boolean = { true },
+  val filter: (PlayerAudioEngineProviderType) -> Boolean =
+    {
+      true
+    },
 
   /**
    * A provider of downloads for book parts. Depending on the audio engine used, this provider
@@ -25,4 +30,5 @@ data class PlayerAudioEngineRequest(
    * allow for using a custom implementation).
    */
 
-  val downloadProvider: PlayerDownloadProviderType)
+  val downloadProvider: PlayerDownloadProviderType
+)

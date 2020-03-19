@@ -31,8 +31,9 @@ class PlayerTOCAdapter(
   private val spineElements: List<PlayerSpineElementType>,
   private val parameters: PlayerTOCFragmentParameters,
   private val onSelect: (PlayerSpineElementType) -> Unit,
-  private val primaryColor: () -> Int)
-  : RecyclerView.Adapter<PlayerTOCAdapter.ViewHolder>() {
+  private val primaryColor: () -> Int
+) :
+  RecyclerView.Adapter<PlayerTOCAdapter.ViewHolder>() {
 
   private val listener: View.OnClickListener
   private var currentSpineElement: Int = -1
@@ -58,7 +59,8 @@ class PlayerTOCAdapter(
 
   override fun onCreateViewHolder(
     parent: ViewGroup,
-    viewType: Int): ViewHolder {
+    viewType: Int
+  ): ViewHolder {
 
     UIThread.checkIsUIThread()
 
@@ -71,7 +73,8 @@ class PlayerTOCAdapter(
 
   override fun onBindViewHolder(
     holder: ViewHolder,
-    position: Int) {
+    position: Int
+  ) {
 
     UIThread.checkIsUIThread()
 
@@ -116,7 +119,6 @@ class PlayerTOCAdapter(
             holder.notDownloadedStreamableRefresh.contentDescription = null
             holder.notDownloadedStreamableRefresh.isEnabled = false
           }
-
         } else {
           holder.buttonsNotDownloadedNotStreamable.visibility = VISIBLE
           holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
@@ -208,7 +210,7 @@ class PlayerTOCAdapter(
         title = item.title,
         duration = item.duration,
         playing = position == this.currentSpineElement,
-        requiresDownload =  requiresDownload,
+        requiresDownload = requiresDownload,
         failedDownload = failedDownload,
         downloading = downloading)
 
@@ -226,7 +228,8 @@ class PlayerTOCAdapter(
     playing: Boolean,
     requiresDownload: Boolean,
     failedDownload: Boolean,
-    downloading: Boolean): String {
+    downloading: Boolean
+  ): String {
 
     val builder = StringBuilder(128)
 

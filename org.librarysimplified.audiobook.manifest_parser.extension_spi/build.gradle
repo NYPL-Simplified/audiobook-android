@@ -1,0 +1,10 @@
+dependencies {
+  api project(":org.librarysimplified.audiobook.api")
+
+  api libraries.irradiaFieldrushAPI
+
+  implementation libraries.kotlinStdlib
+  implementation libraries.slf4j
+
+  compileOnly libraries.jcip
+}

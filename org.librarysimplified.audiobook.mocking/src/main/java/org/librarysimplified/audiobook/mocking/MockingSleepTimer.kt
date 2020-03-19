@@ -51,5 +51,4 @@ class MockingSleepTimer : PlayerSleepTimerType {
 
   override val isRunning: PlayerSleepTimerType.Running?
     get() = this.running
-
 }

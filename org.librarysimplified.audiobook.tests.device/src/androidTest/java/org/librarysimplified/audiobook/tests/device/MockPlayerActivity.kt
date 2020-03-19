@@ -85,7 +85,6 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   }
 
   override fun onPlayerWantsCoverImage(view: ImageView) {
-
   }
 
   override fun onPlayerWantsTitle(): String {
@@ -143,6 +142,5 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   }
 
   override fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent) {
-
   }
 }

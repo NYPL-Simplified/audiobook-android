@@ -15,8 +15,8 @@ import java.util.concurrent.CancellationException
 
 class MockingDownloadProvider(
   private val shouldFail: (PlayerDownloadRequest) -> Boolean,
-  private val executorService: ListeningExecutorService)
-  : PlayerDownloadProviderType {
+  private val executorService: ListeningExecutorService
+) : PlayerDownloadProviderType {
 
   override fun download(request: PlayerDownloadRequest): ListenableFuture<Unit> {
     val result = SettableFuture.create<Unit>()
@@ -32,7 +32,6 @@ class MockingDownloadProvider(
         doDownload(request, result)
         result.set(Unit)
       } catch (e: CancellationException) {
-
       } catch (e: Throwable) {
         result.setException(e)
       }

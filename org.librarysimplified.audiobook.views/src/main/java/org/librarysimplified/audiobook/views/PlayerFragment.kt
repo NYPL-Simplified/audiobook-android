@@ -316,7 +316,8 @@ class PlayerFragment : Fragment() {
 
   private fun sleepTimerContentDescriptionForTime(
     paused: Boolean,
-    remaining: Duration): String {
+    remaining: Duration
+  ): String {
     val builder = java.lang.StringBuilder(128)
     builder.append(this.resources.getString(R.string.audiobook_accessibility_menu_sleep_timer_icon))
     builder.append(". ")
@@ -376,7 +377,8 @@ class PlayerFragment : Fragment() {
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
-    state: Bundle?): View? {
+    state: Bundle?
+  ): View? {
     this.log.debug("onCreateView")
     return inflater.inflate(R.layout.player_view, container, false)
   }
@@ -500,6 +502,8 @@ class PlayerFragment : Fragment() {
         this.onPlayerEventPlaybackRateChanged(event)
       is PlayerEventError ->
         this.onPlayerEventError(event)
+      PlayerEvent.PlayerEventManifestUpdated ->
+        this.onPlayerEventManifestUpdated()
     }
   }
 
@@ -623,9 +627,13 @@ class PlayerFragment : Fragment() {
     })
   }
 
+  private fun onPlayerEventManifestUpdated() {
+  }
+
   private fun onEventUpdateTimeRelatedUI(
     spineElement: PlayerSpineElementType,
-    offsetMilliseconds: Long) {
+    offsetMilliseconds: Long
+  ) {
 
     this.playerPosition.max = spineElement.duration.standardSeconds.toInt()
     this.playerPosition.isEnabled = true
@@ -659,7 +667,8 @@ class PlayerFragment : Fragment() {
 
   private fun playerTimeRemainingSpoken(
     offsetMilliseconds: Long,
-    duration: Duration): String {
+    duration: Duration
+  ): String {
 
     val remaining =
       duration.minus(Duration.millis(offsetMilliseconds))
@@ -710,7 +719,7 @@ class PlayerFragment : Fragment() {
         val accessibleMessage = this.getString(R.string.audiobook_accessibility_player_buffering)
         this.playerWaiting.contentDescription = accessibleMessage
         this.playerWaiting.setText(R.string.audiobook_player_buffering)
-        this.playerWaiting.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+        this.playerWaiting.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         this.listener.onPlayerAccessibilityEvent(PlayerAccessibilityIsBuffering(accessibleMessage))
       }
     })

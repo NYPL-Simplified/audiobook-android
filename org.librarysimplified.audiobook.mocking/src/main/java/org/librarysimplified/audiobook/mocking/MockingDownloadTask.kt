@@ -23,8 +23,8 @@ import java.util.concurrent.ExecutorService
 class MockingDownloadTask(
   private val downloadStatusExecutor: ExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
-  private val spineElement: MockingSpineElement)
-  : PlayerDownloadTaskType {
+  private val spineElement: MockingSpineElement
+) : PlayerDownloadTaskType {
 
   private val log = LoggerFactory.getLogger(MockingDownloadTask::class.java)
 

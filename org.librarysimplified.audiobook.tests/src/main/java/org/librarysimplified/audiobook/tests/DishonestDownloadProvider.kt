@@ -19,5 +19,4 @@ class DishonestDownloadProvider : PlayerDownloadProviderType {
       request.onProgress.invoke(100)
     }, Unit)
   }
-
 }

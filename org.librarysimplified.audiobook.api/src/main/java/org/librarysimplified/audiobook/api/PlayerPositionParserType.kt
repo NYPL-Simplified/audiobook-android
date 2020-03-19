@@ -16,5 +16,4 @@ interface PlayerPositionParserType {
    */
 
   fun parseFromObjectNode(node: ObjectNode): PlayerResult<PlayerPosition, Exception>
-
 }

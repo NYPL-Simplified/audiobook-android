@@ -12,10 +12,11 @@ import com.fasterxml.jackson.databind.node.JsonNodeType.OBJECT
 import com.fasterxml.jackson.databind.node.JsonNodeType.POJO
 import com.fasterxml.jackson.databind.node.JsonNodeType.STRING
 import com.fasterxml.jackson.databind.node.ObjectNode
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarBoolean
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarInteger
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarReal
-import org.librarysimplified.audiobook.api.PlayerManifestScalar.PlayerManifestScalarString
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarBoolean
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarInteger
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarNumber.PlayerManifestScalarReal
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestScalar.PlayerManifestScalarString
 import java.math.BigInteger
 import java.net.URI
 import java.net.URISyntaxException
@@ -37,7 +38,7 @@ class PlayerJSONParserUtilities private constructor() {
      * Check that `n` is an object.
      *
      * @param key An optional advisory key to be used in error messages
-     * @param n   A node
+     * @param n A node
      *
      * @return `n` as an [ObjectNode]
      *
@@ -47,7 +48,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun checkObject(
       key: String?,
-      n: JsonNode): ObjectNode {
+      n: JsonNode
+    ): ObjectNode {
 
       when (n.nodeType) {
         null,
@@ -84,7 +86,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param s   A node
+     * @param s A node
      *
      * @return An array from key `key`
      *
@@ -94,7 +96,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getArray(
       s: ObjectNode,
-      key: String): ArrayNode {
+      key: String
+    ): ArrayNode {
 
       val n = getNode(s, key)
       when (n.nodeType) {
@@ -124,7 +127,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param o   A node
+     * @param o A node
      *
      * @return A boolean value from key `key`
      *
@@ -134,7 +137,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getBoolean(
       o: ObjectNode,
-      key: String): Boolean {
+      key: String
+    ): Boolean {
 
       val v = getNode(o, key)
       when (v.nodeType) {
@@ -164,7 +168,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
+     * @param n A node
      *
      * @return An integer value from key `key`
      *
@@ -174,7 +178,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getInteger(
       n: ObjectNode,
-      key: String): Int {
+      key: String
+    ): Int {
 
       val v = getNode(n, key)
       when (v.nodeType) {
@@ -204,7 +209,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param s   A node
+     * @param s A node
      *
      * @return An arbitrary json node from key `key`
      *
@@ -214,7 +219,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getNode(
       s: ObjectNode,
-      key: String): JsonNode {
+      key: String
+    ): JsonNode {
 
       if (s.has(key)) {
         return s.get(key)
@@ -230,7 +236,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param s   A node
+     * @param s A node
      *
      * @return An object value from key `key`
      *
@@ -240,7 +246,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getObject(
       s: ObjectNode,
-      key: String): ObjectNode {
+      key: String
+    ): ObjectNode {
 
       val n = getNode(s, key)
       return checkObject(key, n)
@@ -248,7 +255,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param s   A node
+     * @param s A node
      *
      * @return An object value from key `key`, if the key exists
      *
@@ -258,7 +265,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getObjectOptional(
       s: ObjectNode,
-      key: String): ObjectNode? {
+      key: String
+    ): ObjectNode? {
 
       return if (s.has(key)) {
         getObject(s, key)
@@ -267,7 +275,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param s   A node
+     * @param s A node
      *
      * @return A string value from key `key`
      *
@@ -277,7 +285,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getString(
       s: ObjectNode,
-      key: String): String {
+      key: String
+    ): String {
 
       val v = getNode(s, key)
       when (v.nodeType) {
@@ -307,7 +316,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
+     * @param n A node
      *
      * @return An integer value from key `key`, if the key exists
      *
@@ -317,7 +326,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getIntegerOptional(
       n: ObjectNode,
-      key: String): Int? {
+      key: String
+    ): Int? {
 
       return if (n.has(key)) {
         getInteger(n, key)
@@ -326,7 +336,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
+     * @param n A node
      *
      * @return A string value from key `key`, if the key exists
      *
@@ -336,7 +346,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getStringOptional(
       n: ObjectNode,
-      key: String): String? {
+      key: String
+    ): String? {
 
       return if (n.has(key)) {
         getString(n, key)
@@ -345,7 +356,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
+     * @param n A node
      *
      * @return A URI value from key `key`
      *
@@ -355,7 +366,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getURI(
       n: ObjectNode,
-      key: String): URI {
+      key: String
+    ): URI {
 
       try {
         return URI(getString(n, key))
@@ -366,8 +378,8 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
-     * @param v   A default value
+     * @param n A node
+     * @param v A default value
      *
      * @return A boolean from key `key`, or `v` if the key does not
      * exist
@@ -379,7 +391,8 @@ class PlayerJSONParserUtilities private constructor() {
     fun getBooleanDefault(
       n: ObjectNode,
       key: String,
-      v: Boolean): Boolean {
+      v: Boolean
+    ): Boolean {
 
       return if (n.has(key)) {
         getBoolean(n, key)
@@ -388,7 +401,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
+     * @param n A node
      *
      * @return A big integer value from key `key`, if the key exists
      *
@@ -398,7 +411,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getBigIntegerOptional(
       n: ObjectNode,
-      key: String): BigInteger? {
+      key: String
+    ): BigInteger? {
 
       return if (n.has(key)) {
         getBigInteger(n, key)
@@ -407,7 +421,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
+     * @param n A node
      *
      * @return A big integer value from key `key`
      *
@@ -417,7 +431,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getBigInteger(
       n: ObjectNode,
-      key: String): BigInteger {
+      key: String
+    ): BigInteger {
 
       val v = getNode(n, key)
       when (v.nodeType) {
@@ -449,10 +464,9 @@ class PlayerJSONParserUtilities private constructor() {
       }
     }
 
-
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
+     * @param n A node
      *
      * @return A big integer value from key `key`, if the key exists
      *
@@ -462,7 +476,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getDoubleOptional(
       n: ObjectNode,
-      key: String): Double? {
+      key: String
+    ): Double? {
 
       return if (n.has(key)) {
         getDouble(n, key)
@@ -471,7 +486,7 @@ class PlayerJSONParserUtilities private constructor() {
 
     /**
      * @param key A key assumed to be holding a value
-     * @param n   A node
+     * @param n A node
      *
      * @return A big integer value from key `key`
      *
@@ -481,7 +496,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getDouble(
       n: ObjectNode,
-      key: String): Double {
+      key: String
+    ): Double {
 
       val v = getNode(n, key)
       when (v.nodeType) {
@@ -510,7 +526,7 @@ class PlayerJSONParserUtilities private constructor() {
     }
 
     /**
-     * @param n   A node
+     * @param n A node
      *
      * @return A scalar value from the given node
      *
@@ -520,7 +536,8 @@ class PlayerJSONParserUtilities private constructor() {
     @Throws(PlayerJSONParseException::class)
     fun getScalar(
       n: ObjectNode,
-      key: String): PlayerManifestScalar? {
+      key: String
+    ): PlayerManifestScalar? {
 
       val v = getNode(n, key)
       when (v.nodeType) {

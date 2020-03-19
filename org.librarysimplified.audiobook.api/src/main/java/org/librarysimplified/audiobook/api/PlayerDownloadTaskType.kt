@@ -35,5 +35,4 @@ interface PlayerDownloadTaskType {
    */
 
   val progress: Double
-
 }

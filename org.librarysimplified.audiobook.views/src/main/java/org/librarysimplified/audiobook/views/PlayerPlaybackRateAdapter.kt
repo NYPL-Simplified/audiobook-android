@@ -26,8 +26,9 @@ class PlayerPlaybackRateAdapter(
   private val rates: List<PlayerPlaybackRate>,
   private val parameters: PlayerFragmentParameters,
   private val primaryColor: () -> Int,
-  private val onSelect: (PlayerPlaybackRate) -> Unit)
-  : RecyclerView.Adapter<PlayerPlaybackRateAdapter.ViewHolder>() {
+  private val onSelect: (PlayerPlaybackRate) -> Unit
+) :
+  RecyclerView.Adapter<PlayerPlaybackRateAdapter.ViewHolder>() {
 
   private val listener: View.OnClickListener
   private var currentRate: PlayerPlaybackRate = NORMAL_TIME
@@ -50,7 +51,8 @@ class PlayerPlaybackRateAdapter(
 
     fun menuItemContentDescriptionOfRate(
       resources: Resources,
-      item: PlayerPlaybackRate): String {
+      item: PlayerPlaybackRate
+    ): String {
 
       return StringBuilder(128)
         .append(resources.getString(R.string.audiobook_accessibility_playback_speed_set_to))
@@ -61,7 +63,8 @@ class PlayerPlaybackRateAdapter(
 
     fun contentDescriptionOfRate(
       resources: Resources,
-      item: PlayerPlaybackRate): String {
+      item: PlayerPlaybackRate
+    ): String {
       return when (item) {
         THREE_QUARTERS_TIME ->
           resources.getString(R.string.audiobook_accessibility_menu_playback_speed_0p75)
@@ -78,7 +81,8 @@ class PlayerPlaybackRateAdapter(
 
     fun hasBeenSetToContentDescriptionOfRate(
       resources: Resources,
-      item: PlayerPlaybackRate): String {
+      item: PlayerPlaybackRate
+    ): String {
       return StringBuilder(128)
         .append(resources.getString(R.string.audiobook_accessibility_playback_speed_has_been_set))
         .append(" ")
@@ -88,7 +92,8 @@ class PlayerPlaybackRateAdapter(
 
     fun menuItemSelectedContentDescriptionOfRate(
       resources: Resources,
-      item: PlayerPlaybackRate): String {
+      item: PlayerPlaybackRate
+    ): String {
       return StringBuilder(128)
         .append(menuItemContentDescriptionOfRate(resources, item))
         .append(". ")
@@ -99,7 +104,8 @@ class PlayerPlaybackRateAdapter(
 
   override fun onCreateViewHolder(
     parent: ViewGroup,
-    viewType: Int): ViewHolder {
+    viewType: Int
+  ): ViewHolder {
 
     UIThread.checkIsUIThread()
 
@@ -112,7 +118,8 @@ class PlayerPlaybackRateAdapter(
 
   override fun onBindViewHolder(
     holder: ViewHolder,
-    position: Int) {
+    position: Int
+  ) {
 
     UIThread.checkIsUIThread()
 

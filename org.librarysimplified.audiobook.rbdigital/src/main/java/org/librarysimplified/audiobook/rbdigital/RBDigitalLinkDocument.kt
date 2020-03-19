@@ -18,4 +18,5 @@ data class RBDigitalLinkDocument(
    * The URI of the target.
    */
 
-  val uri: URI)
+  val uri: URI
+)

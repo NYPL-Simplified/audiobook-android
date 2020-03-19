@@ -8,7 +8,8 @@ import java.io.InputStreamReader
  */
 
 class SandboxLoremIpsum private constructor(
-  val lines: List<String>) {
+  val lines: List<String>
+) {
 
   companion object {
 

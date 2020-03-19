@@ -3,10 +3,9 @@ package org.librarysimplified.audiobook.open_access
 import org.librarysimplified.audiobook.api.PlayerAudioBookProviderType
 import org.librarysimplified.audiobook.api.PlayerAudioEngineProviderType
 import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
-import org.librarysimplified.audiobook.api.PlayerAudioEngineVersion
+import org.librarysimplified.audiobook.api.PlayerVersion
+import org.librarysimplified.audiobook.api.PlayerVersions
 import org.slf4j.LoggerFactory
-import java.io.InputStream
-import java.util.Properties
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 
@@ -17,30 +16,30 @@ import java.util.concurrent.ScheduledExecutorService
  * java.util.ServiceLoader.
  */
 
-class ExoEngineProvider : PlayerAudioEngineProviderType {
+class ExoEngineProvider(
+  private val threadFactory: (Runnable) -> ExoEngineThread
+) : PlayerAudioEngineProviderType {
 
-  private val version: PlayerAudioEngineVersion = parseVersionFromProperties()
+  constructor() : this({
+    runnable -> ExoEngineThread.create(runnable)
+  })
+
+  private val log = LoggerFactory.getLogger(ExoEngineProvider::class.java)
+
+  private val version: PlayerVersion =
+    PlayerVersions.ofPropertiesClassOrNull(
+      clazz = ExoEngineProvider::class.java,
+      path = "/org/librarysimplified/audiobook/rbdigital/provider.properties"
+    ) ?: PlayerVersion(0, 0, 0)
 
   private val engineExecutor: ScheduledExecutorService =
-    Executors.newSingleThreadScheduledExecutor({ r -> createEngineThread(r) })
-
-  /**
-   * Create a thread suitable for use with the ExoPlayer audio engine.
-   */
-
-  private fun createEngineThread(r: Runnable?): Thread {
-    val thread = ExoEngineThread(r ?: Runnable { })
-    thread.setUncaughtExceptionHandler { t, e ->
-      log.error("uncaught exception on engine thread {}: ", t, e)
-    }
-    return thread
-  }
+    Executors.newSingleThreadScheduledExecutor(this.threadFactory::invoke)
 
   override fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType? {
     val manifest = request.manifest
     val encrypted = manifest.metadata.encrypted
     if (encrypted != null) {
-      log.debug("cannot open encrypted books")
+      this.log.debug("cannot open encrypted books")
       return null
     }
 
@@ -55,7 +54,7 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
     return "org.librarysimplified.audiobook.open_access"
   }
 
-  override fun version(): PlayerAudioEngineVersion {
+  override fun version(): PlayerVersion {
     return this.version
   }
 
@@ -69,33 +68,5 @@ class ExoEngineProvider : PlayerAudioEngineProviderType {
       .append('.')
       .append(this.version.patch)
       .toString()
-  }
-
-  companion object {
-
-    private val log = LoggerFactory.getLogger(ExoEngineProvider::class.java)
-
-    private fun parseVersionFromProperties(): PlayerAudioEngineVersion {
-      try {
-        val path = "#Automatically generated - DO NOT EDIT\n#Tue Aug 13 19:18:10 UTC 2019\nversion.minor=0\nversion.patch=0\nversion.major=3\n"
-        val stream = ExoEngineProvider::class.java.getResourceAsStream(path)
-        if (stream == null) {
-          throw IllegalStateException("Unable to load properties from: " + path)
-        }
-        return loadPropertiesFromStream(stream)
-      } catch (e: Exception) {
-        log.error("could not load properties: ", e)
-        return PlayerAudioEngineVersion(0, 0, 0)
-      }
-    }
-
-    private fun loadPropertiesFromStream(stream: InputStream): PlayerAudioEngineVersion {
-      val props = Properties()
-      props.load(stream)
-      val major = Integer.parseInt(props.getProperty("version.major"))
-      val minor = Integer.parseInt(props.getProperty("version.minor"))
-      val patch = Integer.parseInt(props.getProperty("version.patch"))
-      return PlayerAudioEngineVersion(major, minor, patch)
-    }
   }
 }

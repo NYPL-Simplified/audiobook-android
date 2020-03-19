@@ -3,10 +3,13 @@ package org.librarysimplified.audiobook.tests.open_access
 import android.content.Context
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
+import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.core.StringContains
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Assert
+import org.junit.Assume
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,22 +26,31 @@ import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineEleme
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackProgressUpdate
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStarted
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStopped
-import org.librarysimplified.audiobook.api.PlayerManifest
-import org.librarysimplified.audiobook.api.PlayerManifests
 import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadExpired
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
+import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
+import org.librarysimplified.audiobook.manifest.api.PlayerManifestMetadata
+import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.open_access.ExoEngineProvider
+import org.librarysimplified.audiobook.open_access.ExoEngineThread
+import org.librarysimplified.audiobook.open_access.ExoSpineElement
+import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.librarysimplified.audiobook.tests.DishonestDownloadProvider
+import org.librarysimplified.audiobook.tests.FailingDownloadProvider
 import org.librarysimplified.audiobook.tests.ResourceDownloadProvider
 import org.slf4j.Logger
+import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.net.URI
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
 
 /**
@@ -50,6 +62,15 @@ abstract class ExoEngineProviderContract {
   abstract fun log(): Logger
 
   abstract fun context(): Context
+
+  /**
+   * Check to see if the current test is executing as an instrumented test on a hardware or
+   * emulated device, or if it's running as a local unit test with mocked Android components.
+   *
+   * @return `true` if the current test is running on a hardware or emulated device
+   */
+
+  abstract fun onRealDevice(): Boolean
 
   private lateinit var exec: ListeningExecutorService
   private lateinit var timeThen: Instant
@@ -81,7 +102,11 @@ abstract class ExoEngineProviderContract {
   @Test
   fun testAudioEnginesTrivial() {
     val manifest = this.parseManifest("ok_minimal_0.json")
-    val request = PlayerAudioEngineRequest(manifest, filter = { true }, downloadProvider = DishonestDownloadProvider())
+    val request = PlayerAudioEngineRequest(
+      manifest,
+      filter = { true },
+      downloadProvider = DishonestDownloadProvider()
+    )
     val engine_provider = ExoEngineProvider()
     val book_provider = engine_provider.tryRequest(request)
     Assert.assertNotNull("Engine must handle manifest", book_provider)
@@ -98,7 +123,11 @@ abstract class ExoEngineProviderContract {
   @Test
   fun testAudioEnginesFlatland() {
     val manifest = this.parseManifest("flatland.audiobook-manifest.json")
-    val request = PlayerAudioEngineRequest(manifest, filter = { true }, downloadProvider = DishonestDownloadProvider())
+    val request = PlayerAudioEngineRequest(
+      manifest,
+      filter = { true },
+      downloadProvider = DishonestDownloadProvider()
+    )
     val engine_provider = ExoEngineProvider()
     val book_provider = engine_provider.tryRequest(request)
     Assert.assertNotNull("Engine must handle manifest", book_provider)
@@ -124,6 +153,8 @@ abstract class ExoEngineProviderContract {
 
   @Test
   fun testPlayerOpenClose() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book = this.createBook("ok_minimal_0.json")
 
     val player = book.createPlayer()
@@ -138,6 +169,8 @@ abstract class ExoEngineProviderContract {
 
   @Test
   fun testPlayerClosedPlay() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book = this.createBook("ok_minimal_0.json")
 
     val player = book.createPlayer()
@@ -155,6 +188,8 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerWaitingForChapter() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book = this.createBook("ok_minimal_0.json")
 
     val player = book.createPlayer()
@@ -179,12 +214,19 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerPlayWhenDownloaded() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
             Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resource("noise.mp3") }))))
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -212,7 +254,11 @@ abstract class ExoEngineProviderContract {
     Assert.assertEquals("playbackStopped 0 0", events[6])
   }
 
-  private fun subscribeToEvents(player: PlayerType, events: ArrayList<String>, waitLatch: CountDownLatch) {
+  private fun subscribeToEvents(
+    player: PlayerType,
+    events: ArrayList<String>,
+    waitLatch: CountDownLatch
+  ) {
     player.events.subscribe(
       { event -> events.add(this.eventToString(event)) },
       { waitLatch.countDown() },
@@ -225,12 +271,19 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerPlayAlreadyDownloaded() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
             Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resource("noise.mp3") }))))
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -262,12 +315,19 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerPlayPausePlay() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
             Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resource("noise.mp3") }))))
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -307,12 +367,23 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 40_000L)
   fun testPlayerPlayNextChapter() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("noise.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("noise.mp3") }))))
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }),
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -361,12 +432,19 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerPlayDeletePlaying() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
             Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resource("noise.mp3") }))))
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -400,12 +478,23 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerSkipNext() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("noise.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("noise.mp3") }))))
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }),
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -451,12 +540,23 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerSkipPrevious() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("noise.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("noise.mp3") }))))
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }),
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -510,12 +610,23 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerPlayAtLocation() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("noise.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("noise.mp3") }))))
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }),
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -556,12 +667,23 @@ abstract class ExoEngineProviderContract {
 
   @Test(timeout = 20_000L)
   fun testPlayerPlayAtBookStart() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
     val book =
-      this.createBook("flatland.audiobook-manifest.json",
-        ResourceDownloadProvider.create(this.exec,
+      this.createBook(
+        "flatland.audiobook-manifest.json",
+        ResourceDownloadProvider.create(
+          this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"), { this.resource("noise.mp3") }),
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"), { this.resource("noise.mp3") }))))
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }),
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
+              { this.resourceStream("noise.mp3") })
+          )
+        )
+      )
 
     val player = book.createPlayer()
     val waitLatch = CountDownLatch(1)
@@ -644,15 +766,19 @@ abstract class ExoEngineProviderContract {
         "playbackStopped ${event.spineElement.index} ${event.offsetMilliseconds}"
       is PlayerEvent.PlayerEventError ->
         "playbackError ${event.spineElement?.index} ${event.exception?.javaClass?.canonicalName} ${event.errorCode} ${event.offsetMilliseconds}"
+      PlayerEvent.PlayerEventManifestUpdated ->
+        "playerManifestUpdated"
     }
   }
 
   private fun createBook(
     name: String,
-    downloadProvider: PlayerDownloadProviderType = DishonestDownloadProvider()): PlayerAudioBookType {
+    downloadProvider: PlayerDownloadProviderType = DishonestDownloadProvider()
+  ): PlayerAudioBookType {
 
     val manifest = this.parseManifest(name)
-    val request = PlayerAudioEngineRequest(manifest, filter = { true }, downloadProvider = downloadProvider)
+    val request =
+      PlayerAudioEngineRequest(manifest, filter = { true }, downloadProvider = downloadProvider)
     val engine_provider = ExoEngineProvider()
     val book_provider = engine_provider.tryRequest(request)
     Assert.assertNotNull("Engine must handle manifest", book_provider)
@@ -665,17 +791,267 @@ abstract class ExoEngineProviderContract {
   }
 
   private fun parseManifest(file: String): PlayerManifest {
-    val result = PlayerManifests.parse(this.resource(file))
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("urn:$file"),
+        streams = this.resource(file),
+        extensions = listOf()
+      )
     this.log().debug("parseManifest: result: {}", result)
-    Assert.assertTrue("Result is success", result is PlayerResult.Success)
-    val manifest = (result as PlayerResult.Success).result
+    Assert.assertTrue("Result is success", result is ParseResult.Success)
+    val manifest = (result as ParseResult.Success).result
     return manifest
   }
 
-  private fun resource(name: String): InputStream {
-    val path = "/org/librarysimplified/audiobook/tests/" + name
-    return ExoEngineProviderContract::class.java.getResourceAsStream(path)
-      ?: throw AssertionError("Missing resource file: " + path)
+  /**
+   * Test that manifest reloading works.
+   */
+
+  @Test
+  fun testManifestReloading() {
+    val manifest0 =
+      this.parseManifest("ok_minimal_0.json")
+    val manifest1 =
+      this.parseManifest("ok_minimal_1.json")
+
+    val request =
+      PlayerAudioEngineRequest(
+        manifest0,
+        filter = { true },
+        downloadProvider = DishonestDownloadProvider()
+      )
+
+    val engineProvider =
+      ExoEngineProvider(threadFactory = ExoEngineThread.Companion::createWithoutPreparation)
+    val bookProvider =
+      engineProvider.tryRequest(request)!!
+    val audioBook =
+      (bookProvider.create(this.context()) as PlayerResult.Success).result
+
+    Assert.assertEquals(
+      URI.create("http://www.example.com/0.mp3"),
+      (audioBook.spine[0] as ExoSpineElement).itemManifest.uri
+    )
+    Assert.assertEquals(
+      URI.create("http://www.example.com/1.mp3"),
+      (audioBook.spine[1] as ExoSpineElement).itemManifest.uri
+    )
+    Assert.assertEquals(
+      URI.create("http://www.example.com/2.mp3"),
+      (audioBook.spine[2] as ExoSpineElement).itemManifest.uri
+    )
+
+    audioBook.replaceManifest(manifest1).get()
+
+    Assert.assertEquals(
+      URI.create("http://www.example.com/0r.mp3"),
+      (audioBook.spine[0] as ExoSpineElement).itemManifest.uri
+    )
+    Assert.assertEquals(
+      URI.create("http://www.example.com/1r.mp3"),
+      (audioBook.spine[1] as ExoSpineElement).itemManifest.uri
+    )
+    Assert.assertEquals(
+      URI.create("http://www.example.com/2r.mp3"),
+      (audioBook.spine[2] as ExoSpineElement).itemManifest.uri
+    )
   }
 
+  /**
+   * Test that manifests with the wrong ID are rejected.
+   */
+
+  @Test
+  fun testManifestReloadingWrongID() {
+    val manifest0 =
+      this.parseManifest("ok_minimal_0.json")
+    val manifest1 =
+      this.parseManifest("ok_minimal_1.json")
+    val manifest2 =
+      manifest1.copy(
+        metadata = manifest1.metadata.copy(
+          identifier = "8d4a0b6b-5f4b-4249-b27c-9a02c769d231"
+        )
+      )
+
+    val request =
+      PlayerAudioEngineRequest(
+        manifest0,
+        filter = { true },
+        downloadProvider = DishonestDownloadProvider()
+      )
+
+    val engineProvider =
+      ExoEngineProvider(threadFactory = ExoEngineThread.Companion::createWithoutPreparation)
+    val bookProvider =
+      engineProvider.tryRequest(request)!!
+    val audioBook =
+      (bookProvider.create(this.context()) as PlayerResult.Success).result
+
+    this.expectedException.expect(ExecutionException::class.java)
+    this.expectedException.expectCause(instanceOf(IllegalArgumentException::class.java))
+    this.expectedException.expectMessage(StringContains("8d4a0b6b-5f4b-4249-b27c-9a02c769d231"))
+    audioBook.replaceManifest(manifest2).get()
+  }
+
+  /**
+   * Test that manifests with a wrong chapter count are rejected.
+   */
+
+  @Test
+  fun testManifestReloadingWrongChapters() {
+    val manifest0 =
+      this.parseManifest("ok_minimal_0.json")
+    val manifest1 =
+      this.parseManifest("ok_minimal_1.json")
+    val manifest2 =
+      manifest1.copy(
+        readingOrder = manifest1.readingOrder.take(1)
+      )
+
+    val request =
+      PlayerAudioEngineRequest(
+        manifest0,
+        filter = { true },
+        downloadProvider = DishonestDownloadProvider()
+      )
+
+    val engineProvider =
+      ExoEngineProvider(threadFactory = ExoEngineThread.Companion::createWithoutPreparation)
+    val bookProvider =
+      engineProvider.tryRequest(request)!!
+    val audioBook =
+      (bookProvider.create(this.context()) as PlayerResult.Success).result
+
+    this.expectedException.expect(ExecutionException::class.java)
+    this.expectedException.expectCause(instanceOf(IllegalArgumentException::class.java))
+    this.expectedException.expectMessage(StringContains("count 1 does not match existing count 3"))
+    audioBook.replaceManifest(manifest2).get()
+  }
+
+  /**
+   * Test that expiring links are detected correctly.
+   */
+
+  @Test
+  fun testExpiringLinks() {
+    val manifest0 =
+      PlayerManifest(
+        originalBytes = ByteArray(0),
+        readingOrder = listOf(
+          PlayerManifestLink.LinkBasic(
+            href = URI.create("http://www.example.com"),
+            duration = 100.0,
+            expires = true
+          ),
+          PlayerManifestLink.LinkBasic(
+            href = URI.create("http://www.example.com"),
+            duration = 100.0,
+            expires = false
+          )
+        ),
+        metadata = PlayerManifestMetadata(
+          title = "Example",
+          identifier = "e8b38387-154a-4b7f-8124-8c6e0b6d30bb",
+          encrypted = null
+        ),
+        links = listOf(),
+        extensions = listOf()
+      )
+
+    val request =
+      PlayerAudioEngineRequest(
+        manifest0,
+        filter = { true },
+        downloadProvider = FailingDownloadProvider()
+      )
+
+    val engineProvider =
+      ExoEngineProvider(threadFactory = ExoEngineThread.Companion::createWithoutPreparation)
+    val bookProvider =
+      engineProvider.tryRequest(request)!!
+    val result =
+      bookProvider.create(this.context())
+    val audioBook =
+      (result as PlayerResult.Success).result
+
+    audioBook.spine[0].downloadTask().fetch()
+    audioBook.spine[1].downloadTask().fetch()
+
+    Thread.sleep(1_000L)
+
+    Assert.assertTrue(
+      audioBook.spine[0].downloadStatus is PlayerSpineElementDownloadExpired)
+    Assert.assertTrue(
+      audioBook.spine[1].downloadStatus is PlayerSpineElementDownloadFailed)
+  }
+
+  /**
+   * Test that manifest update events are delivered.
+   */
+
+  @Test // (timeout = 20_000L)
+  fun testManifestUpdatedEvents() {
+    Assume.assumeTrue("Test is running on a real device", this.onRealDevice())
+
+    val manifest0 =
+      PlayerManifest(
+        originalBytes = ByteArray(0),
+        readingOrder = listOf(
+          PlayerManifestLink.LinkBasic(
+            href = URI.create("http://www.example.com"),
+            duration = 100.0,
+            expires = true
+          )
+        ),
+        metadata = PlayerManifestMetadata(
+          title = "Example",
+          identifier = "e8b38387-154a-4b7f-8124-8c6e0b6d30bb",
+          encrypted = null
+        ),
+        links = listOf(),
+        extensions = listOf()
+      )
+
+    val request =
+      PlayerAudioEngineRequest(
+        manifest0,
+        filter = { true },
+        downloadProvider = FailingDownloadProvider()
+      )
+
+    val engineProvider =
+      ExoEngineProvider()
+    val bookProvider =
+      engineProvider.tryRequest(request)!!
+    val result =
+      bookProvider.create(this.context())
+    val audioBook =
+      (result as PlayerResult.Success).result
+    val player =
+      audioBook.createPlayer()
+
+    val waitLatch = CountDownLatch(1)
+    val events = ArrayList<String>()
+    this.subscribeToEvents(player, events, waitLatch)
+
+    audioBook.replaceManifest(manifest0)
+    Thread.sleep(1_000L)
+    player.close()
+    waitLatch.await()
+
+    this.showEvents(events)
+    Assert.assertTrue("1 events must be logged (${events.size})", events.size == 1)
+    Assert.assertEquals("playerManifestUpdated", events.removeAt(0))
+  }
+
+  private fun resourceStream(name: String): InputStream {
+    return ByteArrayInputStream(this.resource(name))
+  }
+
+  private fun resource(name: String): ByteArray {
+    val path = "/org/librarysimplified/audiobook/tests/" + name
+    return ExoEngineProviderContract::class.java.getResourceAsStream(path)?.readBytes()
+      ?: throw AssertionError("Missing resource file: " + path)
+  }
 }

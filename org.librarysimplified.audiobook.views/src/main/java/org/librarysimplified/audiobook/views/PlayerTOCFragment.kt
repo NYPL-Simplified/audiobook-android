@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerEvent
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
+import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadExpired
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
@@ -56,7 +57,8 @@ class PlayerTOCFragment : Fragment() {
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
-    state: Bundle?): View? {
+    state: Bundle?
+  ): View? {
 
     val view: RecyclerView =
       inflater.inflate(R.layout.player_toc_view, container, false) as RecyclerView
@@ -129,7 +131,6 @@ class PlayerTOCFragment : Fragment() {
           { event -> this.onPlayerEvent(event) },
           { error -> this.onPlayerError(error) },
           { })
-
     } else {
       throw ClassCastException(
         StringBuilder(64)
@@ -178,6 +179,7 @@ class PlayerTOCFragment : Fragment() {
 
   private fun isCancellable(item: PlayerSpineElementType): Boolean {
     return when (item.downloadStatus) {
+      is PlayerSpineElementDownloadExpired -> false
       is PlayerSpineElementDownloadFailed -> false
       is PlayerSpineElementNotDownloaded -> false
       is PlayerSpineElementDownloading -> true
@@ -187,6 +189,7 @@ class PlayerTOCFragment : Fragment() {
 
   private fun isRefreshable(item: PlayerSpineElementType): Boolean {
     return when (item.downloadStatus) {
+      is PlayerSpineElementDownloadExpired -> false
       is PlayerSpineElementDownloadFailed -> true
       is PlayerSpineElementNotDownloaded -> true
       is PlayerSpineElementDownloading -> false
@@ -255,14 +258,12 @@ class PlayerTOCFragment : Fragment() {
         if (this.book.supportsStreaming) {
           this.playItemAndClose(item)
         } else {
-
         }
 
       is PlayerSpineElementDownloading ->
         if (this.book.supportsStreaming) {
           this.playItemAndClose(item)
         } else {
-
         }
 
       is PlayerSpineElementDownloaded ->
@@ -272,7 +273,12 @@ class PlayerTOCFragment : Fragment() {
         if (this.book.supportsStreaming) {
           this.playItemAndClose(item)
         } else {
+        }
 
+      is PlayerSpineElementDownloadExpired ->
+        if (this.book.supportsStreaming) {
+          this.playItemAndClose(item)
+        } else {
         }
     }
   }
@@ -296,6 +302,7 @@ class PlayerTOCFragment : Fragment() {
       is PlayerEvent.PlayerEventWithSpineElement ->
         this.onPlayerSpineElement(event.spineElement.index)
       is PlayerEvent.PlayerEventError -> Unit
+      PlayerEvent.PlayerEventManifestUpdated -> Unit
     }
   }
 

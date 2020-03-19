@@ -95,7 +95,8 @@ interface PlayerSleepTimerType : AutoCloseable {
 
   data class Running(
     val paused: Boolean,
-    val duration: Duration?)
+    val duration: Duration?
+  )
 
   /**
    * A non-null value of type {@link Running} if the timer is running, and null if it is not.

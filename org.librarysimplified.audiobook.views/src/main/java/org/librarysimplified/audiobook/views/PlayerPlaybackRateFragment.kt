@@ -34,7 +34,8 @@ class PlayerPlaybackRateFragment : DialogFragment() {
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
-    state: Bundle?): View? {
+    state: Bundle?
+  ): View? {
 
     val view: RecyclerView =
       inflater.inflate(R.layout.player_rate_view, container, false) as RecyclerView
@@ -69,7 +70,6 @@ class PlayerPlaybackRateFragment : DialogFragment() {
           onSelect = { item -> this.onPlaybackRateSelected(item) })
 
       this.adapter.setCurrentPlaybackRate(this.player.playbackRate)
-
     } else {
       throw ClassCastException(
         StringBuilder(64)
@@ -113,5 +113,4 @@ class PlayerPlaybackRateFragment : DialogFragment() {
       return fragment
     }
   }
-
 }

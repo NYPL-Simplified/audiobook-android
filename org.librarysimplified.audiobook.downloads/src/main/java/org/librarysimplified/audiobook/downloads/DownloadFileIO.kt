@@ -61,7 +61,7 @@ internal object DownloadFileIO {
    * Rename the file `from` to `to`.
    *
    * @param from The source file
-   * @param to   The target file
+   * @param to The target file
    *
    * @throws IOException On I/O errors
    */
@@ -69,7 +69,8 @@ internal object DownloadFileIO {
   @Throws(IOException::class)
   fun fileRename(
     from: File,
-    to: File) {
+    to: File
+  ) {
 
     if (!from.renameTo(to)) {
       if (!from.isFile) {
@@ -78,14 +79,14 @@ internal object DownloadFileIO {
             "Could not rename '%s' to '%s' ('%s' does not exist or is not a " + "file)", from, to, from))
       }
 
-      val to_parent = to.parentFile
-      if (!to_parent.isDirectory) {
+      val toParent = to.parentFile
+      if (!toParent.isDirectory) {
         throw IOException(
           String.format(
             "Could not rename '%s' to '%s' ('%s' is not a directory)",
             from,
             to,
-            to_parent))
+            toParent))
       }
 
       throw IOException(

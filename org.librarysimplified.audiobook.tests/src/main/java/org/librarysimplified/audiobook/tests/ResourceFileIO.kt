@@ -61,7 +61,7 @@ internal object ResourceFileIO {
    * Rename the file `from` to `to`.
    *
    * @param from The source file
-   * @param to   The target file
+   * @param to The target file
    *
    * @throws IOException On I/O errors
    */
@@ -69,13 +69,19 @@ internal object ResourceFileIO {
   @Throws(IOException::class)
   fun fileRename(
     from: File,
-    to: File) {
+    to: File
+  ) {
 
     if (!from.renameTo(to)) {
       if (!from.isFile) {
         throw IOException(
           String.format(
-            "Could not rename '%s' to '%s' ('%s' does not exist or is not a " + "file)", from, to, from))
+            "Could not rename '%s' to '%s' ('%s' does not exist or is not a " + "file)",
+            from,
+            to,
+            from
+          )
+        )
       }
 
       val to_parent = to.parentFile
@@ -85,12 +91,16 @@ internal object ResourceFileIO {
             "Could not rename '%s' to '%s' ('%s' is not a directory)",
             from,
             to,
-            to_parent))
+            to_parent
+          )
+        )
       }
 
       throw IOException(
         String.format(
-          "Could not rename '%s' to '%s'", from, to))
+          "Could not rename '%s' to '%s'", from, to
+        )
+      )
     }
   }
 }

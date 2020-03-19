@@ -22,8 +22,9 @@ import org.librarysimplified.audiobook.views.PlayerSleepTimerConfiguration.OFF
 class PlayerSleepTimerAdapter(
   private val context: Context,
   private val rates: List<PlayerSleepTimerConfiguration>,
-  private val onSelect: (PlayerSleepTimerConfiguration) -> Unit)
-  : RecyclerView.Adapter<PlayerSleepTimerAdapter.ViewHolder>() {
+  private val onSelect: (PlayerSleepTimerConfiguration) -> Unit
+) :
+  RecyclerView.Adapter<PlayerSleepTimerAdapter.ViewHolder>() {
 
   private val listener: View.OnClickListener
 
@@ -37,7 +38,8 @@ class PlayerSleepTimerAdapter(
 
     fun textOfConfiguration(
       resources: Resources,
-      item: PlayerSleepTimerConfiguration): String {
+      item: PlayerSleepTimerConfiguration
+    ): String {
       return when (item) {
         END_OF_CHAPTER ->
           resources.getString(R.string.audiobook_player_sleep_end_of_chapter)
@@ -58,7 +60,8 @@ class PlayerSleepTimerAdapter(
 
     private fun menuItemContentDescription(
       resources: Resources,
-      item: PlayerSleepTimerConfiguration): String {
+      item: PlayerSleepTimerConfiguration
+    ): String {
 
       return when (item) {
         OFF ->
@@ -80,7 +83,8 @@ class PlayerSleepTimerAdapter(
 
     fun hasBeenSetToContentDescriptionOf(
       resources: Resources,
-      item: PlayerSleepTimerConfiguration): String {
+      item: PlayerSleepTimerConfiguration
+    ): String {
       return StringBuilder(64)
         .append(resources.getString(R.string.audiobook_accessibility_sleep_timer_has_been_set))
         .append(" ")
@@ -91,7 +95,8 @@ class PlayerSleepTimerAdapter(
 
   override fun onCreateViewHolder(
     parent: ViewGroup,
-    viewType: Int): ViewHolder {
+    viewType: Int
+  ): ViewHolder {
 
     UIThread.checkIsUIThread()
 
@@ -104,7 +109,8 @@ class PlayerSleepTimerAdapter(
 
   override fun onBindViewHolder(
     holder: ViewHolder,
-    position: Int) {
+    position: Int
+  ) {
 
     UIThread.checkIsUIThread()
 

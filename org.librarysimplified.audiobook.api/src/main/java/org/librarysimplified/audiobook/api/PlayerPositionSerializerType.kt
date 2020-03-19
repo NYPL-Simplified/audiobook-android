@@ -16,5 +16,4 @@ interface PlayerPositionSerializerType {
    */
 
   fun serializeToObjectNode(position: PlayerPosition): ObjectNode
-
 }

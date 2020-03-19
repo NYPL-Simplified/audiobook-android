@@ -22,7 +22,8 @@ class MockingSpineElement(
   override val index: Int,
   override val duration: Duration,
   override val id: String,
-  override val title: String) : PlayerSpineElementType {
+  override val title: String
+) : PlayerSpineElementType {
 
   var downloadTasksAreSupported = true
 
