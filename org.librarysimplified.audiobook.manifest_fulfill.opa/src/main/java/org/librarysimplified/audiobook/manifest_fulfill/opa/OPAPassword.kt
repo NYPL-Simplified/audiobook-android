@@ -1,10 +1,12 @@
 package org.librarysimplified.audiobook.manifest_fulfill.opa
 
+import java.io.Serializable
+
 /**
  * An Overdrive Patron Authentication password.
  */
 
-sealed class OPAPassword {
+sealed class OPAPassword : Serializable {
 
   /**
    * A password is not required.
