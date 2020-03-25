@@ -97,7 +97,7 @@ apply plugin: "com.vanniktech.android.junit.jacoco"
 
 nexusStaging {
   packageGroup = "org.librarysimplified"
-  numberOfRetries = 32
+  numberOfRetries = 256
   delayBetweenRetriesInMillis = 2000
 }
 
