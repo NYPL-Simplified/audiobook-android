@@ -3,7 +3,10 @@ package org.librarysimplified.audiobook.tests
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.librarysimplified.audiobook.api.PlayerUserAgent
+import org.librarysimplified.audiobook.license_check.api.LicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.api.LicenseCheckProviderType
+import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckProviderType
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckResult
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
@@ -39,8 +42,15 @@ abstract class LicenseCheckContract {
     val checks = this.licenseChecks()
     val manifest = this.manifest("ok_minimal_0.json")
 
+    val parameters =
+      LicenseCheckParameters(
+        manifest = manifest,
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+        checks = listOf()
+      )
+
     val result =
-      checks.createLicenseCheck(manifest, listOf()).use { check ->
+      checks.createLicenseCheck(parameters).use { check ->
         check.events.subscribe { event -> this.eventLog.add(event) }
         check.execute()
       }
@@ -58,15 +68,20 @@ abstract class LicenseCheckContract {
     val checks = this.licenseChecks()
     val manifest = this.manifest("ok_minimal_0.json")
 
-    val result =
-      checks.createLicenseCheck(
-        manifest, listOf(
+    val parameters =
+      LicenseCheckParameters(
+        manifest = manifest,
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+        checks = listOf(
           SucceedingTest(),
           SucceedingTest(),
           FailingTest(),
           SucceedingTest()
         )
-      ).use { check ->
+      )
+
+    val result =
+      checks.createLicenseCheck(parameters).use { check ->
         check.events.subscribe { event -> this.eventLog.add(event) }
         check.execute()
       }
@@ -84,15 +99,20 @@ abstract class LicenseCheckContract {
     val checks = this.licenseChecks()
     val manifest = this.manifest("ok_minimal_0.json")
 
-    val result =
-      checks.createLicenseCheck(
-        manifest, listOf(
+    val parameters =
+      LicenseCheckParameters(
+        manifest = manifest,
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+        checks = listOf(
           SucceedingTest(),
           SucceedingTest(),
           CrashingTest(),
           SucceedingTest()
         )
-      ).use { check ->
+      )
+
+    val result =
+      checks.createLicenseCheck(parameters).use { check ->
         check.events.subscribe { event -> this.eventLog.add(event) }
         check.execute()
       }
@@ -110,15 +130,20 @@ abstract class LicenseCheckContract {
     val checks = this.licenseChecks()
     val manifest = this.manifest("ok_minimal_0.json")
 
-    val result =
-      checks.createLicenseCheck(
-        manifest, listOf(
+    val parameters =
+      LicenseCheckParameters(
+        manifest = manifest,
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+        checks = listOf(
           NonApplicableTest(),
           NonApplicableTest(),
           NonApplicableTest(),
           NonApplicableTest()
         )
-      ).use { check ->
+      )
+
+    val result =
+      checks.createLicenseCheck(parameters).use { check ->
         check.events.subscribe { event -> this.eventLog.add(event) }
         check.execute()
       }
@@ -136,8 +161,7 @@ abstract class LicenseCheckContract {
       get() = "NonApplicable"
 
     override fun createLicenseCheck(
-      manifest: PlayerManifest,
-      onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+      parameters: SingleLicenseCheckParameters
     ): SingleLicenseCheckType {
       return this
     }
@@ -152,8 +176,7 @@ abstract class LicenseCheckContract {
       get() = "Succeeding"
 
     override fun createLicenseCheck(
-      manifest: PlayerManifest,
-      onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+      parameters: SingleLicenseCheckParameters
     ): SingleLicenseCheckType {
       return this
     }
@@ -168,8 +191,7 @@ abstract class LicenseCheckContract {
       get() = "Failing"
 
     override fun createLicenseCheck(
-      manifest: PlayerManifest,
-      onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+      parameters: SingleLicenseCheckParameters
     ): SingleLicenseCheckType {
       return this
     }
@@ -184,8 +206,7 @@ abstract class LicenseCheckContract {
       get() = "Crashing"
 
     override fun createLicenseCheck(
-      manifest: PlayerManifest,
-      onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+      parameters: SingleLicenseCheckParameters
     ): SingleLicenseCheckType {
       return this
     }

@@ -10,6 +10,7 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.net.URI
@@ -74,11 +75,16 @@ class MockingDownloadTask(
   private fun onStartDownload(): ListenableFuture<Unit> {
     this.log.debug("starting download")
 
-    val future = this.downloadProvider.download(PlayerDownloadRequest(
-      uri = URI.create("urn:" + this.spineElement.index),
-      credentials = null,
-      outputFile = File("/"),
-      onProgress = { percent -> this.onDownloading(percent) }))
+    val future =
+      this.downloadProvider.download(
+        PlayerDownloadRequest(
+          uri = URI.create("urn:" + this.spineElement.index),
+          credentials = null,
+          outputFile = File("/"),
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.mocking 1.0.0"),
+          onProgress = { percent -> this.onDownloading(percent) }
+        )
+      )
 
     this.stateSetCurrent(State.Downloading(future))
     this.onBroadcastState()
@@ -118,7 +124,9 @@ class MockingDownloadTask(
     this.onBroadcastState()
     this.spineElement.setDownloadStatus(
       PlayerSpineElementDownloadFailed(
-        this.spineElement, e, e.message ?: "Missing exception message"))
+        this.spineElement, e, e.message ?: "Missing exception message"
+      )
+    )
   }
 
   private fun onDownloadCompleted() {

@@ -12,6 +12,7 @@ import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.slf4j.LoggerFactory
@@ -136,7 +137,8 @@ class ExoAudioBook private constructor(
       engineExecutor: ScheduledExecutorService,
       manifest: ExoManifest,
       downloadProvider: PlayerDownloadProviderType,
-      extensions: List<PlayerExtensionType>
+      extensions: List<PlayerExtensionType>,
+      userAgent: PlayerUserAgent
     ): PlayerAudioBookType {
       val bookId = PlayerBookID.transform(manifest.id)
       val directory = this.findDirectoryFor(context, bookId)
@@ -162,18 +164,19 @@ class ExoAudioBook private constructor(
 
         val element =
           ExoSpineElement(
+            downloadStatusEvents = statusEvents,
             bookID = bookId,
             bookManifest = manifest,
+            itemManifest = spine_item,
+            partFile = partFile,
+            extensions = extensions,
             downloadProvider = downloadProvider,
-            downloadStatusEvents = statusEvents,
+            index = index,
+            nextElement = null,
+            previousElement = spineItemPrevious,
             duration = duration,
             engineExecutor = engineExecutor,
-            extensions = extensions,
-            index = index,
-            itemManifest = spine_item,
-            nextElement = null,
-            partFile = partFile,
-            previousElement = spineItemPrevious
+            userAgent = userAgent
           )
 
         elements.add(element)

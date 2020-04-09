@@ -1,9 +1,8 @@
 package org.librarysimplified.audiobook.feedbooks
 
+import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckProviderType
-import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckType
-import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 
 class FeedbooksSignatureChecks : SingleLicenseCheckProviderType {
 
@@ -11,12 +10,8 @@ class FeedbooksSignatureChecks : SingleLicenseCheckProviderType {
     "FeedbooksSignatureCheck"
 
   override fun createLicenseCheck(
-    manifest: PlayerManifest,
-    onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+    parameters: SingleLicenseCheckParameters
   ): SingleLicenseCheckType {
-    return FeedbooksSignatureCheck(
-      manifest = manifest,
-      onStatusChanged = onStatusChanged
-    )
+    return FeedbooksSignatureCheck(parameters)
   }
 }

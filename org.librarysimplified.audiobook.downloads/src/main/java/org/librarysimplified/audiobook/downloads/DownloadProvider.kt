@@ -92,6 +92,7 @@ class DownloadProvider private constructor(
 
     val httpRequestBuilder =
       Request.Builder()
+        .header("User-Agent", request.userAgent.userAgent)
         .url(request.uri.toURL())
 
     this.configureRequestCredentials(request, httpRequestBuilder)

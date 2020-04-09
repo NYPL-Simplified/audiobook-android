@@ -1,22 +1,21 @@
 package org.librarysimplified.audiobook.feedbooks
 
 import org.joda.time.LocalDateTime
+import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckResult
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckType
-import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 
 class FeedbooksRightsCheck(
-  private val manifest: PlayerManifest,
-  private val timeNow: LocalDateTime,
-  private val onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+  private val parameters: SingleLicenseCheckParameters,
+  private val timeNow: LocalDateTime
 ) : SingleLicenseCheckType {
 
   override fun execute(): SingleLicenseCheckResult {
     this.event("Started check")
 
     val rights =
-      this.manifest.extensions.find { extension ->
+      this.parameters.manifest.extensions.find { extension ->
         extension is FeedbooksRights
       } as FeedbooksRights?
         ?: return SingleLicenseCheckResult.NotApplicable("No rights information was provided.")
@@ -43,7 +42,7 @@ class FeedbooksRightsCheck(
   }
 
   private fun event(message: String) {
-    this.onStatusChanged.invoke(
+    this.parameters.onStatusChanged.invoke(
       SingleLicenseCheckStatus(
         source = "FeedbooksRightsCheck",
         message = message

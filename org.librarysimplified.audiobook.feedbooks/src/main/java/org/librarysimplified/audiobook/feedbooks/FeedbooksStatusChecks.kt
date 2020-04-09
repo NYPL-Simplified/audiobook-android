@@ -2,10 +2,9 @@ package org.librarysimplified.audiobook.feedbooks
 
 import okhttp3.OkHttpClient
 import org.librarysimplified.audiobook.lcp.license_status.LicenseStatusParsers
+import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckProviderType
-import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckType
-import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 
 class FeedbooksStatusChecks : SingleLicenseCheckProviderType {
 
@@ -13,14 +12,12 @@ class FeedbooksStatusChecks : SingleLicenseCheckProviderType {
     "FeedbooksRightsCheck"
 
   override fun createLicenseCheck(
-    manifest: PlayerManifest,
-    onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+    parameters: SingleLicenseCheckParameters
   ): SingleLicenseCheckType {
     return FeedbooksStatusCheck(
       httpClient = OkHttpClient(),
       parsers = LicenseStatusParsers,
-      manifest = manifest,
-      onStatusChanged = onStatusChanged
+      parameters = parameters
     )
   }
 }

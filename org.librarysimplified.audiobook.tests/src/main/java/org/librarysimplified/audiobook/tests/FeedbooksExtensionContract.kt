@@ -11,6 +11,7 @@ import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadRequest
 import org.librarysimplified.audiobook.api.PlayerDownloadRequestCredentials
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.feedbooks.FeedbooksPlayerExtension
 import org.librarysimplified.audiobook.feedbooks.FeedbooksPlayerExtensionConfiguration
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestEncrypted
@@ -71,7 +72,8 @@ abstract class FeedbooksExtensionContract {
         outputFile = file,
         onProgress = {
           this.logger.debug("progress: {}", it)
-        }
+        },
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
       )
 
     val future =
@@ -104,7 +106,8 @@ abstract class FeedbooksExtensionContract {
         outputFile = file,
         onProgress = {
           this.logger.debug("progress: {}", it)
-        }
+        },
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
       )
 
     val future =
@@ -155,7 +158,8 @@ abstract class FeedbooksExtensionContract {
         outputFile = file,
         onProgress = {
           this.logger.debug("progress: {}", it)
-        }
+        },
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
       )
 
     val future =

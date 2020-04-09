@@ -47,7 +47,9 @@ class ExoEngineProvider(
       engineProvider = this,
       engineExecutor = this.engineExecutor,
       downloadProvider = request.downloadProvider,
-      manifest = manifest)
+      manifest = manifest,
+      userAgent = request.userAgent
+    )
   }
 
   override fun name(): String {

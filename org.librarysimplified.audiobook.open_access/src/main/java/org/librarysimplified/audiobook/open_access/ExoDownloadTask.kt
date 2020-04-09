@@ -12,6 +12,7 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloading
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import org.librarysimplified.audiobook.open_access.ExoDownloadTask.State.Downloaded
@@ -30,6 +31,7 @@ class ExoDownloadTask(
   private val downloadStatusExecutor: ExecutorService,
   private val downloadProvider: PlayerDownloadProviderType,
   private val spineElement: ExoSpineElement,
+  private val userAgent: PlayerUserAgent,
   private val extensions: List<PlayerExtensionType>
 ) : PlayerDownloadTaskType {
 
@@ -93,7 +95,9 @@ class ExoDownloadTask(
         uri = targetLink.hrefURI ?: URI.create("urn:missing"),
         credentials = null,
         outputFile = this.spineElement.partFile,
-        onProgress = { percent -> this.onDownloading(percent) })
+        userAgent = this.userAgent,
+        onProgress = { percent -> this.onDownloading(percent) }
+      )
 
     val future =
       this.onStartDownloadForRequest(request, targetLink)

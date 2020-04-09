@@ -11,6 +11,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.librarysimplified.audiobook.api.PlayerResult
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicCredentials
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicParameters
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicProvider
@@ -62,6 +63,7 @@ abstract class ManifestFulfillmentBasicContract {
     val strategy =
       provider.create(
         configuration = ManifestFulfillmentBasicParameters(
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
           uri = URI.create("http://www.example.com"),
           credentials = ManifestFulfillmentBasicCredentials(
             userName = "user",
@@ -118,6 +120,7 @@ abstract class ManifestFulfillmentBasicContract {
     val strategy =
       provider.create(
         configuration = ManifestFulfillmentBasicParameters(
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
           uri = URI.create("http://www.example.com"),
           credentials = ManifestFulfillmentBasicCredentials(
             userName = "user",

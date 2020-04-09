@@ -34,6 +34,7 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestMetadata
@@ -105,7 +106,8 @@ abstract class ExoEngineProviderContract {
     val request = PlayerAudioEngineRequest(
       manifest,
       filter = { true },
-      downloadProvider = DishonestDownloadProvider()
+      downloadProvider = DishonestDownloadProvider(),
+      userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
     )
     val engine_provider = ExoEngineProvider()
     val book_provider = engine_provider.tryRequest(request)
@@ -126,7 +128,8 @@ abstract class ExoEngineProviderContract {
     val request = PlayerAudioEngineRequest(
       manifest,
       filter = { true },
-      downloadProvider = DishonestDownloadProvider()
+      downloadProvider = DishonestDownloadProvider(),
+      userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
     )
     val engine_provider = ExoEngineProvider()
     val book_provider = engine_provider.tryRequest(request)
@@ -778,7 +781,12 @@ abstract class ExoEngineProviderContract {
 
     val manifest = this.parseManifest(name)
     val request =
-      PlayerAudioEngineRequest(manifest, filter = { true }, downloadProvider = downloadProvider)
+      PlayerAudioEngineRequest(
+        manifest = manifest,
+        filter = { true },
+        downloadProvider = downloadProvider,
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
+      )
     val engine_provider = ExoEngineProvider()
     val book_provider = engine_provider.tryRequest(request)
     Assert.assertNotNull("Engine must handle manifest", book_provider)
@@ -818,7 +826,8 @@ abstract class ExoEngineProviderContract {
       PlayerAudioEngineRequest(
         manifest0,
         filter = { true },
-        downloadProvider = DishonestDownloadProvider()
+        downloadProvider = DishonestDownloadProvider(),
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
       )
 
     val engineProvider =
@@ -878,7 +887,8 @@ abstract class ExoEngineProviderContract {
       PlayerAudioEngineRequest(
         manifest0,
         filter = { true },
-        downloadProvider = DishonestDownloadProvider()
+        downloadProvider = DishonestDownloadProvider(),
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
       )
 
     val engineProvider =
@@ -913,7 +923,8 @@ abstract class ExoEngineProviderContract {
       PlayerAudioEngineRequest(
         manifest0,
         filter = { true },
-        downloadProvider = DishonestDownloadProvider()
+        downloadProvider = DishonestDownloadProvider(),
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
       )
 
     val engineProvider =
@@ -963,7 +974,8 @@ abstract class ExoEngineProviderContract {
       PlayerAudioEngineRequest(
         manifest0,
         filter = { true },
-        downloadProvider = FailingDownloadProvider()
+        downloadProvider = FailingDownloadProvider(),
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
       )
 
     val engineProvider =
@@ -1017,7 +1029,8 @@ abstract class ExoEngineProviderContract {
       PlayerAudioEngineRequest(
         manifest0,
         filter = { true },
-        downloadProvider = FailingDownloadProvider()
+        downloadProvider = FailingDownloadProvider(),
+        userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
       )
 
     val engineProvider =

@@ -1,5 +1,8 @@
 package org.librarysimplified.audiobook.manifest_fulfill.opa
 
+import org.librarysimplified.audiobook.api.PlayerUserAgent
+import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentStrategyParametersType
+
 /**
  * Parameters for Overdrive Patron Authentication.
  *
@@ -11,5 +14,6 @@ data class OPAParameters(
   val password: OPAPassword,
   val clientKey: String,
   val clientPass: String,
-  val targetURI: OPAManifestURI
-)
+  val targetURI: OPAManifestURI,
+  override val userAgent: PlayerUserAgent
+) : ManifestFulfillmentStrategyParametersType
