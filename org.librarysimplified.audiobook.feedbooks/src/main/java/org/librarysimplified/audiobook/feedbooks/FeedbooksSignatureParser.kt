@@ -47,7 +47,8 @@ class FeedbooksSignatureParser(
             this.issuer = name
           }
         },
-        isOptional = true)
+        isOptional = true
+      )
 
     val valueSchema =
       FRParserObjectFieldSchema(

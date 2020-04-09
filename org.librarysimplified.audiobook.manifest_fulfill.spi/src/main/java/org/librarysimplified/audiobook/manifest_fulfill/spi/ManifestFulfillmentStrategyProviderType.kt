@@ -6,7 +6,7 @@ package org.librarysimplified.audiobook.manifest_fulfill.spi
  * @see [ManifestFulfillmentStrategyType]
  */
 
-interface ManifestFulfillmentStrategyProviderType<T : Any> {
+interface ManifestFulfillmentStrategyProviderType<T : ManifestFulfillmentStrategyParametersType> {
 
   /**
    * Create a new manifest fulfillment strategy.

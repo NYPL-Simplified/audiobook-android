@@ -51,6 +51,7 @@ class ManifestFulfillmentBasic(
     val request =
       requestBuilder
         .url(this.configuration.uri.toURL())
+        .header("User-Agent", this.configuration.userAgent.userAgent)
         .build()
 
     val call = this.client.newCall(request)

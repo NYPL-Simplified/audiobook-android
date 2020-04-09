@@ -10,6 +10,7 @@ import org.librarysimplified.audiobook.api.PlayerPosition
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
 import rx.subjects.PublishSubject
 import java.io.File
@@ -21,17 +22,18 @@ import java.util.concurrent.ExecutorService
 
 class ExoSpineElement(
   private val downloadStatusEvents: PublishSubject<PlayerSpineElementDownloadStatus>,
-  val bookID: PlayerBookID,
-  val bookManifest: ExoManifest,
+  private val bookID: PlayerBookID,
+  private val bookManifest: ExoManifest,
   val itemManifest: ExoManifestSpineItem,
-  val partFile: File,
+  internal val partFile: File,
   private val extensions: List<PlayerExtensionType>,
   private val downloadProvider: PlayerDownloadProviderType,
   override val index: Int,
   internal var nextElement: PlayerSpineElementType?,
   internal var previousElement: PlayerSpineElementType?,
   override val duration: Duration,
-  val engineExecutor: ExecutorService
+  private val engineExecutor: ExecutorService,
+  private val userAgent: PlayerUserAgent
 ) : PlayerSpineElementType {
 
   /**
@@ -69,7 +71,8 @@ class ExoSpineElement(
       downloadStatusExecutor = this.engineExecutor,
       downloadProvider = this.downloadProvider,
       spineElement = this,
-      extensions = this.extensions
+      extensions = this.extensions,
+      userAgent = this.userAgent
     )
 
   override fun downloadTask(): PlayerDownloadTaskType {

@@ -15,6 +15,12 @@ data class PlayerAudioEngineRequest(
   val manifest: PlayerManifest,
 
   /**
+   * The user agent used to make HTTP requests.
+   */
+
+  val userAgent: PlayerUserAgent,
+
+  /**
    * A filter for audio engine providers. If the function returns `true`, then the engine provider
    * is included in the list of providers that can service the given request.
    */

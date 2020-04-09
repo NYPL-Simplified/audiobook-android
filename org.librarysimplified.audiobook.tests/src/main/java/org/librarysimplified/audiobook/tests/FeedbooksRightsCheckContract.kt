@@ -4,7 +4,9 @@ import org.joda.time.LocalDateTime
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.feedbooks.FeedbooksRightsCheck
+import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckResult
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
@@ -31,8 +33,14 @@ abstract class FeedbooksRightsCheckContract {
     val manifest = this.manifest("ok_minimal_0.json")
 
     val result =
-      FeedbooksRightsCheck(manifest, LocalDateTime.now(), { })
-        .execute()
+      FeedbooksRightsCheck(
+        parameters = SingleLicenseCheckParameters(
+          manifest = manifest,
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+          onStatusChanged = { }
+        ),
+        timeNow = LocalDateTime.now()
+      ).execute()
 
     Assert.assertTrue(result is SingleLicenseCheckResult.NotApplicable)
   }
@@ -42,8 +50,14 @@ abstract class FeedbooksRightsCheckContract {
     val manifest = this.manifest("feedbooks_rights_ok.json")
 
     val result =
-      FeedbooksRightsCheck(manifest, LocalDateTime.parse("2000-01-01T00:10:00.000"), { })
-        .execute()
+      FeedbooksRightsCheck(
+        parameters = SingleLicenseCheckParameters(
+          manifest = manifest,
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+          onStatusChanged = { }
+        ),
+        timeNow = LocalDateTime.parse("2000-01-01T00:10:00.000")
+      ).execute()
 
     Assert.assertTrue(result is SingleLicenseCheckResult.Succeeded)
   }
@@ -53,8 +67,14 @@ abstract class FeedbooksRightsCheckContract {
     val manifest = this.manifest("feedbooks_rights_ok.json")
 
     val result =
-      FeedbooksRightsCheck(manifest, LocalDateTime.parse("1999-01-01T00:10:00.000"), { })
-        .execute()
+      FeedbooksRightsCheck(
+        parameters = SingleLicenseCheckParameters(
+          manifest = manifest,
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+          onStatusChanged = { }
+        ),
+        timeNow = LocalDateTime.parse("1999-01-01T00:10:00.000")
+      ).execute()
 
     val failed = result as SingleLicenseCheckResult.Failed
     Assert.assertTrue(failed.message.contains("precedes"))
@@ -65,8 +85,14 @@ abstract class FeedbooksRightsCheckContract {
     val manifest = this.manifest("feedbooks_rights_ok.json")
 
     val result =
-      FeedbooksRightsCheck(manifest, LocalDateTime.parse("2002-01-01T00:10:00.000"), { })
-        .execute()
+      FeedbooksRightsCheck(
+        parameters = SingleLicenseCheckParameters(
+          manifest = manifest,
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+          onStatusChanged = { }
+        ),
+        timeNow = LocalDateTime.parse("2002-01-01T00:10:00.000")
+      ).execute()
 
     val failed = result as SingleLicenseCheckResult.Failed
     Assert.assertTrue(failed.message.contains("exceeds"))
@@ -77,8 +103,14 @@ abstract class FeedbooksRightsCheckContract {
     val manifest = this.manifest("feedbooks_rights_no_start.json")
 
     val result =
-      FeedbooksRightsCheck(manifest, LocalDateTime.parse("2000-01-01T00:10:00.000"), { })
-        .execute()
+      FeedbooksRightsCheck(
+        parameters = SingleLicenseCheckParameters(
+          manifest = manifest,
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+          onStatusChanged = { }
+        ),
+        timeNow = LocalDateTime.parse("2000-01-01T00:10:00.000")
+      ).execute()
 
     Assert.assertTrue(result is SingleLicenseCheckResult.Succeeded)
   }
@@ -88,8 +120,14 @@ abstract class FeedbooksRightsCheckContract {
     val manifest = this.manifest("feedbooks_rights_no_end.json")
 
     val result =
-      FeedbooksRightsCheck(manifest, LocalDateTime.parse("2000-01-01T00:10:00.000"), { })
-        .execute()
+      FeedbooksRightsCheck(
+        parameters = SingleLicenseCheckParameters(
+          manifest = manifest,
+          userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
+          onStatusChanged = { }
+        ),
+        timeNow = LocalDateTime.parse("2000-01-01T00:10:00.000")
+      ).execute()
 
     Assert.assertTrue(result is SingleLicenseCheckResult.Succeeded)
   }

@@ -83,7 +83,9 @@ class RBDigitialPlayerExtension : PlayerExtensionType {
             outputFile = tempFile,
             onProgress = { percent ->
               this.logger.debug("downloading rbdigital link: {}%", percent)
-            })
+            },
+            userAgent = originalRequest.userAgent
+          )
         )
       )
 

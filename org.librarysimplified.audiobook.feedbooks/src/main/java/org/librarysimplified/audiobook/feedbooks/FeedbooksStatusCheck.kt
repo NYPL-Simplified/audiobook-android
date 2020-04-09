@@ -10,10 +10,10 @@ import org.librarysimplified.audiobook.lcp.license_status.LicenseStatusDocument.
 import org.librarysimplified.audiobook.lcp.license_status.LicenseStatusDocument.Status.RETURNED
 import org.librarysimplified.audiobook.lcp.license_status.LicenseStatusDocument.Status.REVOKED
 import org.librarysimplified.audiobook.lcp.license_status.LicenseStatusParserProviderType
+import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckResult
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckType
-import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest.api.PlayerManifestLink
 import org.librarysimplified.audiobook.parser.api.ParseResult
 import org.librarysimplified.audiobook.parser.api.ParserType
@@ -27,15 +27,14 @@ import java.net.URI
 class FeedbooksStatusCheck(
   private val httpClient: OkHttpClient,
   private val parsers: LicenseStatusParserProviderType,
-  private val manifest: PlayerManifest,
-  private val onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+  private val parameters: SingleLicenseCheckParameters
 ) : SingleLicenseCheckType {
 
   private val logger =
     LoggerFactory.getLogger(FeedbooksStatusCheck::class.java)
 
   override fun execute(): SingleLicenseCheckResult {
-    return when (val link = this.manifest.links.find(this::linkIsLicenseLink)) {
+    return when (val link = this.parameters.manifest.links.find(this::linkIsLicenseLink)) {
       null ->
         SingleLicenseCheckResult.NotApplicable("No license link.")
       is PlayerManifestLink.LinkBasic ->
@@ -51,7 +50,7 @@ class FeedbooksStatusCheck(
   private fun checkLink(target: URI): SingleLicenseCheckResult {
     this.logger.debug("fetching license document")
 
-    this.onStatusChanged.invoke(
+    this.parameters.onStatusChanged.invoke(
       SingleLicenseCheckStatus(
         source = "org.librarysimplified.audiobook.feedbooks.FeedbooksStatusCheck",
         message = "Fetching license document $target..."
@@ -61,6 +60,7 @@ class FeedbooksStatusCheck(
     val request =
       Request.Builder()
         .url(target.toURL())
+        .header("User-Agent", this.parameters.userAgent.userAgent)
         .build()
 
     return this.httpClient.newCall(request).execute().use { response ->

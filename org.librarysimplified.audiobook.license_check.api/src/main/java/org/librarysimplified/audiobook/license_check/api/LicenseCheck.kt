@@ -1,16 +1,14 @@
 package org.librarysimplified.audiobook.license_check.api
 
-import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckProviderType
+import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckResult
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
-import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.slf4j.LoggerFactory
 import rx.Observable
 import rx.subjects.PublishSubject
 
 internal class LicenseCheck internal constructor(
-  private val manifest: PlayerManifest,
-  private val checks: List<SingleLicenseCheckProviderType>
+  private val parameters: LicenseCheckParameters
 ) : LicenseCheckType {
 
   private val logger =
@@ -24,12 +22,18 @@ internal class LicenseCheck internal constructor(
 
   override fun execute(): LicenseCheckResult {
     val results = mutableListOf<SingleLicenseCheckResult>()
-    for (checkProvider in this.checks) {
+    for (checkProvider in this.parameters.checks) {
       this.logger.debug("[{}]: executing", checkProvider.name)
 
       val checkResult = try {
         val singleCheck =
-          checkProvider.createLicenseCheck(this.manifest, this.eventSubject::onNext)
+          checkProvider.createLicenseCheck(
+            SingleLicenseCheckParameters(
+              manifest = this.parameters.manifest,
+              userAgent = this.parameters.userAgent,
+              onStatusChanged = this.eventSubject::onNext
+            )
+          )
         singleCheck.execute()
       } catch (e: Exception) {
         this.logger.error("[{}]: failed: ", checkProvider.name, e)
@@ -48,7 +52,7 @@ internal class LicenseCheck internal constructor(
       results.add(checkResult)
     }
 
-    assert(results.size == this.checks.size)
+    assert(results.size == this.parameters.checks.size)
     return LicenseCheckResult(
       results.toList()
     )

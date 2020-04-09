@@ -1,7 +1,5 @@
 package org.librarysimplified.audiobook.license_check.spi
 
-import org.librarysimplified.audiobook.manifest.api.PlayerManifest
-
 /**
  * A provider of license checks.
  */
@@ -20,7 +18,6 @@ interface SingleLicenseCheckProviderType {
    */
 
   fun createLicenseCheck(
-    manifest: PlayerManifest,
-    onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+    parameters: SingleLicenseCheckParameters
   ): SingleLicenseCheckType
 }
