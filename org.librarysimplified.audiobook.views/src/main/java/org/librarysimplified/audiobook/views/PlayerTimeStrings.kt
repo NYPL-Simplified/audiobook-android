@@ -105,6 +105,10 @@ object PlayerTimeStrings {
     return hourMinuteSecondSpokenFromDuration(translations, Duration.millis(milliseconds))
   }
 
+  fun hourMinuteSecondTextFromDurationOptional(duration: Duration?): String {
+    return duration?.let { time -> hourMinuteSecondTextFromDuration(time) } ?: ""
+  }
+
   fun hourMinuteSecondTextFromDuration(duration: Duration): String {
     return hourMinuteSecondFormatter.print(duration.toPeriod())
   }

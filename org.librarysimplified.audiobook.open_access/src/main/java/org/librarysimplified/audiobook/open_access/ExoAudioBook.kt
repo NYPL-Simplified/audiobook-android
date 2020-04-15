@@ -155,10 +155,12 @@ class ExoAudioBook private constructor(
 
       var index = 0
       var spineItemPrevious: ExoSpineElement? = null
-      manifest.spineItems.forEach { spine_item ->
+      manifest.spineItems.forEach { spineItem ->
 
         val duration =
-          Duration.standardSeconds(Math.floor(spine_item.duration).toLong())
+          spineItem.duration?.let { time ->
+            Duration.standardSeconds(Math.floor(time).toLong())
+          }
         val partFile =
           File(directory, "$index.part")
 
@@ -167,7 +169,7 @@ class ExoAudioBook private constructor(
             downloadStatusEvents = statusEvents,
             bookID = bookId,
             bookManifest = manifest,
-            itemManifest = spine_item,
+            itemManifest = spineItem,
             partFile = partFile,
             extensions = extensions,
             downloadProvider = downloadProvider,

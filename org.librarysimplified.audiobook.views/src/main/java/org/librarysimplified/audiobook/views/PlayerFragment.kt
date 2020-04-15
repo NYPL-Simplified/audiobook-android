@@ -65,7 +65,7 @@ class PlayerFragment : Fragment() {
     @JvmStatic
     fun newInstance(parameters: PlayerFragmentParameters): PlayerFragment {
       val args = Bundle()
-      args.putSerializable(parametersKey, parameters)
+      args.putSerializable(this.parametersKey, parameters)
       val fragment = PlayerFragment()
       fragment.arguments = args
       return fragment
@@ -113,7 +113,7 @@ class PlayerFragment : Fragment() {
     super.onCreate(state)
 
     this.parameters =
-      this.arguments!!.getSerializable(parametersKey)
+      this.arguments!!.getSerializable(org.librarysimplified.audiobook.views.PlayerFragment.Companion.parametersKey)
         as PlayerFragmentParameters
     this.timeStrings =
       PlayerTimeStrings.SpokenTranslations.createFromResources(this.resources)
@@ -413,7 +413,7 @@ class PlayerFragment : Fragment() {
     this.playerWaiting.contentDescription = null
 
     val primaryColorResolved =
-      PlayerColors.primaryColor(requireActivity(), this.parameters.primaryColor)
+      PlayerColors.primaryColor(this.requireActivity(), this.parameters.primaryColor)
 
     this.playerPosition = view.findViewById(R.id.player_progress)!!
     this.playerPosition.thumbTintList =
@@ -455,7 +455,7 @@ class PlayerFragment : Fragment() {
       val target = spine.position.copy(
         offsetMilliseconds =
         TimeUnit.MILLISECONDS.convert(this.playerPosition.progress.toLong(), TimeUnit.SECONDS))
-      if (player.isPlaying) {
+      if (this.player.isPlaying) {
         this.player.playAtLocation(target)
       } else {
         this.player.movePlayheadToLocation(target)
@@ -635,7 +635,9 @@ class PlayerFragment : Fragment() {
     offsetMilliseconds: Long
   ) {
 
-    this.playerPosition.max = spineElement.duration.standardSeconds.toInt()
+    this.playerPosition.max =
+      spineElement.duration?.standardSeconds?.toInt() ?: Int.MAX_VALUE
+
     this.playerPosition.isEnabled = true
 
     this.playerPositionCurrentSpine = spineElement
@@ -647,9 +649,9 @@ class PlayerFragment : Fragment() {
     }
 
     this.playerTimeMaximum.text =
-      PlayerTimeStrings.hourMinuteSecondTextFromDuration(spineElement.duration)
+      PlayerTimeStrings.hourMinuteSecondTextFromDurationOptional(spineElement.duration)
     this.playerTimeMaximum.contentDescription =
-      this.playerTimeRemainingSpoken(offsetMilliseconds, spineElement.duration)
+      this.playerTimeRemainingSpokenOptional(offsetMilliseconds, spineElement.duration)
 
     this.playerTimeCurrent.text =
       PlayerTimeStrings.hourMinuteSecondTextFromMilliseconds(offsetMilliseconds)
@@ -676,6 +678,15 @@ class PlayerFragment : Fragment() {
     return this.getString(
       R.string.audiobook_accessibility_player_time_remaining,
       PlayerTimeStrings.hourMinuteSecondSpokenFromDuration(this.timeStrings, remaining))
+  }
+
+  private fun playerTimeRemainingSpokenOptional(
+    offsetMilliseconds: Long,
+    duration: Duration?
+  ): String {
+    return duration?.let {
+        time -> this.playerTimeRemainingSpoken(offsetMilliseconds, time)
+    } ?: ""
   }
 
   private fun spineElementText(spineElement: PlayerSpineElementType): String {

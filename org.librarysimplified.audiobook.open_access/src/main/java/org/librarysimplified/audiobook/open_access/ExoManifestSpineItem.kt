@@ -13,7 +13,7 @@ data class ExoManifestSpineItem(
   val part: Int,
   val chapter: Int,
   val type: MIMEType,
-  val duration: Double,
+  val duration: Double?,
   var uri: URI,
   var originalLink: PlayerManifestLink
 ) {

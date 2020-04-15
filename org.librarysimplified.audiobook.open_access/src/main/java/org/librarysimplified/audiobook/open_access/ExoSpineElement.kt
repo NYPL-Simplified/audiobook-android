@@ -31,7 +31,7 @@ class ExoSpineElement(
   override val index: Int,
   internal var nextElement: PlayerSpineElementType?,
   internal var previousElement: PlayerSpineElementType?,
-  override val duration: Duration,
+  @Volatile override var duration: Duration?,
   private val engineExecutor: ExecutorService,
   private val userAgent: PlayerUserAgent
 ) : PlayerSpineElementType {
