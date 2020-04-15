@@ -38,10 +38,10 @@ interface PlayerSpineElementType {
   val previous: PlayerSpineElementType?
 
   /**
-   * The length of the spine item.
+   * The length of the spine item, if available.
    */
 
-  val duration: Duration
+  val duration: Duration?
 
   /**
    * The unique identifier for the spine item.

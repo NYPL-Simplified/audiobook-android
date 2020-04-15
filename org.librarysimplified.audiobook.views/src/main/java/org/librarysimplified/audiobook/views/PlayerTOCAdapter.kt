@@ -173,7 +173,8 @@ class PlayerTOCAdapter(
         holder.view.setBackgroundColor(holder.backgroundColorNormal)
         holder.view.isEnabled = true
 
-        holder.downloadedDurationText.text = this.periodFormatter.print(item.duration.toPeriod())
+        holder.downloadedDurationText.text =
+          item.duration?.let { this.periodFormatter.print(it.toPeriod()) } ?: ""
       }
 
       is PlayerSpineElementDownloadFailed -> {
@@ -224,7 +225,7 @@ class PlayerTOCAdapter(
   private fun contentDescriptionOf(
     resources: Resources,
     title: String,
-    duration: Duration,
+    duration: Duration?,
     playing: Boolean,
     requiresDownload: Boolean,
     failedDownload: Boolean,
@@ -241,10 +242,14 @@ class PlayerTOCAdapter(
     builder.append(title)
     builder.append(". ")
 
-    builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_duration_is))
-    builder.append(" ")
-    builder.append(PlayerTimeStrings.hourMinuteSecondSpokenFromDuration(this.timeStrings, duration))
-    builder.append(". ")
+    if (duration != null) {
+      builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_duration_is))
+      builder.append(" ")
+      builder.append(
+        PlayerTimeStrings.hourMinuteSecondSpokenFromDuration(this.timeStrings, duration)
+      )
+      builder.append(". ")
+    }
 
     if (requiresDownload) {
       builder.append(resources.getString(R.string.audiobook_accessibility_toc_chapter_requires_download))

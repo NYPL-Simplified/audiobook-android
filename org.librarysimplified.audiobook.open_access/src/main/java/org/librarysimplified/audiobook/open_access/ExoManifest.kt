@@ -51,32 +51,16 @@ data class ExoManifest(
         item.type ?: this.OCTET_STREAM
       val uri =
         this.parseURI(item, index)
-      val duration =
-        this.parseDuration(item, index)
 
       return ExoManifestSpineItem(
         title = title,
         part = 0,
         chapter = index,
         type = type,
-        duration = duration,
         uri = uri,
-        originalLink = item
+        originalLink = item,
+        duration = item.duration
       )
-    }
-
-    private fun parseDuration(
-      link: PlayerManifestLink,
-      index: Int
-    ): Double {
-      return when (val duration = link.duration) {
-        null ->
-          throw IllegalArgumentException(
-            "Spine item $index is missing the required 'duration' field"
-          )
-        else ->
-          duration
-      }
     }
 
     private fun parseURI(

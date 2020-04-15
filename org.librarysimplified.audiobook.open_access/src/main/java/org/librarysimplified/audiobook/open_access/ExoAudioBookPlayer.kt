@@ -15,6 +15,7 @@ import com.google.android.exoplayer.upstream.Allocator
 import com.google.android.exoplayer.upstream.DefaultAllocator
 import com.google.android.exoplayer.upstream.DefaultUriDataSource
 import net.jcip.annotations.GuardedBy
+import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerEvent
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventError
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventPlaybackRateChanged
@@ -262,6 +263,7 @@ class ExoAudioBookPlayer private constructor(
       val duration = bookPlayer.exoPlayer.duration
       val position = bookPlayer.exoPlayer.currentPosition
       bookPlayer.log.debug("playback: {}/{}", position, duration)
+      this.spineElement.duration = Duration.millis(duration)
 
       /*
        * Perform the initial seek, if necessary.
@@ -297,7 +299,7 @@ class ExoAudioBookPlayer private constructor(
 
       if (position >= duration) {
         if (this.gracePeriod == 0) {
-          bookPlayer.currentPlaybackOffset = this.spineElement.duration.millis
+          bookPlayer.currentPlaybackOffset = bookPlayer.exoPlayer.duration
           bookPlayer.engineExecutor.execute {
             bookPlayer.opCurrentTrackFinished()
           }
@@ -378,8 +380,7 @@ class ExoAudioBookPlayer private constructor(
   private fun onDownloadStatusChanged(status: PlayerSpineElementDownloadStatus) {
     ExoEngineThread.checkIsExoEngineThread()
 
-    val currentState = this.stateGet()
-    return when (currentState) {
+    return when (val currentState = this.stateGet()) {
       ExoPlayerStateInitial -> Unit
 
       /*
@@ -486,8 +487,7 @@ class ExoAudioBookPlayer private constructor(
       this.stateSet(ExoPlayerStateInitial)
     }
 
-    val currentState = this.stateGet()
-    return when (currentState) {
+    return when (val currentState = this.stateGet()) {
       ExoPlayerStateInitial -> resetPlayer()
 
       is ExoPlayerStatePlaying -> {
@@ -569,8 +569,7 @@ class ExoAudioBookPlayer private constructor(
     this.log.debug("playSpineElementIfAvailable: {}", element.index)
     this.playNothing()
 
-    val downloadStatus = element.downloadStatus
-    return when (downloadStatus) {
+    return when (val downloadStatus = element.downloadStatus) {
       is PlayerSpineElementNotDownloaded,
       is PlayerSpineElementDownloading,
       is PlayerSpineElementDownloadExpired,
@@ -623,8 +622,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opPlay")
 
-    val state = this.stateGet()
-    return when (state) {
+    return when (val state = this.stateGet()) {
       is ExoPlayerStateInitial -> {
         this.playFirstSpineElementIfAvailable(offset = 0)
         Unit
@@ -670,8 +668,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opCurrentTrackFinished")
 
-    val state = this.stateGet()
-    return when (state) {
+    return when (val state = this.stateGet()) {
       is ExoPlayerStateInitial,
       is ExoPlayerStateWaitingForElement,
       is ExoPlayerStateStopped -> {
@@ -721,8 +718,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToNextChapter")
 
-    val state = this.stateGet()
-    return when (state) {
+    return when (val state = this.stateGet()) {
       is ExoPlayerStateInitial ->
         this.playFirstSpineElementIfAvailable(offset)
       is ExoPlayerStatePlaying ->
@@ -738,8 +734,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opSkipToPreviousChapter")
 
-    val state = this.stateGet()
-    return when (state) {
+    return when (val state = this.stateGet()) {
       ExoPlayerStateInitial ->
         this.playLastSpineElementIfAvailable(offset)
       is ExoPlayerStatePlaying ->
@@ -755,8 +750,7 @@ class ExoAudioBookPlayer private constructor(
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opPause")
 
-    val state = this.stateGet()
-    return when (state) {
+    return when (val state = this.stateGet()) {
       is ExoPlayerStateInitial ->
         this.log.debug("not pausing in the initial state")
       is ExoPlayerStatePlaying ->
@@ -799,11 +793,11 @@ class ExoAudioBookPlayer private constructor(
 
     assert(milliseconds > 0, { "Milliseconds must be positive" })
 
-    val offset = Math.min(this.exoPlayer.duration, this.exoPlayer.currentPosition + milliseconds)
+    val offset =
+      Math.min(this.exoPlayer.duration, this.exoPlayer.currentPosition + milliseconds)
     this.seek(offset)
 
-    val state = this.stateGet()
-    return when (state) {
+    return when (val state = this.stateGet()) {
       ExoPlayerStateInitial,
       is ExoPlayerStatePlaying,
       is ExoPlayerStateWaitingForElement -> Unit
@@ -835,8 +829,7 @@ class ExoAudioBookPlayer private constructor(
       this.seek(Math.max(0L, current + milliseconds))
     }
 
-    val state = this.stateGet()
-    return when (state) {
+    return when (val state = this.stateGet()) {
       ExoPlayerStateInitial,
       is ExoPlayerStatePlaying,
       is ExoPlayerStateWaitingForElement -> Unit
@@ -878,8 +871,7 @@ class ExoAudioBookPlayer private constructor(
   }
 
   private fun currentSpineElement(): ExoSpineElement? {
-    val state = this.stateGet()
-    return when (state) {
+    return when (val state = this.stateGet()) {
       ExoPlayerStateInitial -> null
       is ExoPlayerStatePlaying -> state.spineElement
       is ExoPlayerStateWaitingForElement -> null
