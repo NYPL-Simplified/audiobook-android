@@ -8,8 +8,20 @@ audiobook-android
 ### Compilation
 
 ```
+$ echo "org.gradle.internal.publish.checksums.insecure=true" >> "$HOME/.gradle/gradle.properties"
+
 $ ./gradlew clean assembleDebug test publishToMavenLocal
 ```
+
+#### Insecure checksums?
+
+Astute readers may have noticed the `org.gradle.internal.publish.checksums.insecure` property
+in the initial build instructions. This is necessary because Gradle 6 currently publishes
+checksums that [Maven Central doesn't like](https://github.com/gradle/gradle/issues/11308#issuecomment-554317655).
+Until Maven Central is updated to accept SHA256 and SHA512 checksums, this flag is necessary.
+As all artifacts published to Maven Central are PGP signed, this is not a serious issue; PGP
+signatures combine integrity checking and authentication, so checksum files are essentially
+redundant nowadays.
 
 ### Project Structure
 
