@@ -13,18 +13,12 @@ import java.util.ServiceLoader
  * Functions to parse manifests.
  */
 
-object ManifestParsers {
+object ManifestParsers : ManifestParsersType {
 
   private val logger =
     LoggerFactory.getLogger(ManifestParsers::class.java)
 
-  /**
-   * Parse a manifest from the given input stream. This will try each of the available
-   * parser providers in turn until one claims that it can parse the resulting manifest. Parser
-   * extensions will be loaded from [ServiceLoader].
-   */
-
-  fun parse(
+  override fun parse(
     uri: URI,
     streams: ByteArray
   ): ParseResult<PlayerManifest> {
@@ -35,12 +29,7 @@ object ManifestParsers {
     )
   }
 
-  /**
-   * Parse a manifest from the given input stream. This will try each of the available
-   * parser providers in turn until one claims that it can parse the resulting manifest.
-   */
-
-  fun parse(
+  override fun parse(
     uri: URI,
     streams: ByteArray,
     extensions: List<ManifestParserExtensionType>
