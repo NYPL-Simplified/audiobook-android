@@ -1,5 +1,7 @@
 package org.librarysimplified.audiobook.manifest_fulfill.spi
 
+import java.net.URI
+
 /**
  * The type of errors encountered during manifest fulfillment.
  */
@@ -19,6 +21,7 @@ interface ManifestFulfillmentErrorType {
   val serverData: ServerData?
 
   data class ServerData(
+    val uri: URI,
     val code: Int,
     val receivedBody: ByteArray,
     val receivedContentType: String

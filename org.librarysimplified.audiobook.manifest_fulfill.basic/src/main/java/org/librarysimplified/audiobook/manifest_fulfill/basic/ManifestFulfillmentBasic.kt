@@ -80,6 +80,7 @@ class ManifestFulfillmentBasic(
         HTTPRequestFailed(
           message = responseMessage,
           serverData = ManifestFulfillmentErrorType.ServerData(
+            uri = this.configuration.uri,
             code = responseCode,
             receivedBody = bodyData,
             receivedContentType = contentType
