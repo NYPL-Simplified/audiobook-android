@@ -1,4 +1,5 @@
 dependencies {
+  implementation project(":org.librarysimplified.audiobook.http")
   implementation project(":org.librarysimplified.audiobook.json_canon")
   implementation project(":org.librarysimplified.audiobook.json_web_token")
   implementation project(":org.librarysimplified.audiobook.lcp.license_status")

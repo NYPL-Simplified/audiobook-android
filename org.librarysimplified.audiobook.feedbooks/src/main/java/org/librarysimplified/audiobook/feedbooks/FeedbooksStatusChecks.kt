@@ -1,6 +1,6 @@
 package org.librarysimplified.audiobook.feedbooks
 
-import okhttp3.OkHttpClient
+import org.librarysimplified.audiobook.http.AudioBookHTTPClients
 import org.librarysimplified.audiobook.lcp.license_status.LicenseStatusParsers
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckProviderType
@@ -15,7 +15,7 @@ class FeedbooksStatusChecks : SingleLicenseCheckProviderType {
     parameters: SingleLicenseCheckParameters
   ): SingleLicenseCheckType {
     return FeedbooksStatusCheck(
-      httpClient = OkHttpClient(),
+      httpClient = AudioBookHTTPClients.defaultClient(),
       parsers = LicenseStatusParsers,
       parameters = parameters
     )
