@@ -59,6 +59,15 @@ subprojects {
   configurations.all {
     resolutionStrategy.force 'androidx.appcompat:appcompat:1.0.2'
   }
+
+  //
+  // We currently have transitive dependencies that specify dependencies on newer versions
+  // of SLF4J. These are subtly incompatible with Logback-Android, and it will be a while before
+  // new versions appear of both artifacts. Remove this when both are updated!
+  //
+  configurations.all {
+    resolutionStrategy.force libraries.slf4j
+  }
 }
 
 ext.libraries = [

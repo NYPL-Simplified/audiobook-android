@@ -1,6 +1,7 @@
 package org.librarysimplified.audiobook.manifest_fulfill.basic
 
 import okhttp3.OkHttpClient
+import org.librarysimplified.audiobook.http.AudioBookHTTPClients
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentStrategyType
 
 /**
@@ -13,7 +14,7 @@ class ManifestFulfillmentBasicProvider(
   private val client: OkHttpClient
 ) : ManifestFulfillmentBasicType {
 
-  constructor() : this(OkHttpClient())
+  constructor() : this(AudioBookHTTPClients.defaultClient())
 
   override fun create(
     configuration: ManifestFulfillmentBasicParameters
