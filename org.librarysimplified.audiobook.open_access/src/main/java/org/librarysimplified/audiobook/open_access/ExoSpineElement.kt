@@ -61,7 +61,8 @@ class ExoSpineElement(
       this.itemManifest.title,
       this.itemManifest.part,
       this.itemManifest.chapter,
-      0)
+      0
+    )
 
   override val title: String
     get() = this.itemManifest.title

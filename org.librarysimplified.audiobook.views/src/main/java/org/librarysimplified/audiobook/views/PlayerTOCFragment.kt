@@ -104,7 +104,7 @@ class PlayerTOCFragment : Fragment() {
 
     this.parameters =
       this.arguments!!.getSerializable(parametersKey)
-        as PlayerTOCFragmentParameters
+      as PlayerTOCFragmentParameters
 
     if (context is PlayerFragmentListenerType) {
       this.listener = context
@@ -118,19 +118,22 @@ class PlayerTOCFragment : Fragment() {
           spineElements = this.book.spine,
           parameters = this.parameters,
           primaryColor = { PlayerColors.primaryColor(requireActivity(), this.parameters.primaryColor) },
-          onSelect = { item -> this.onTOCItemSelected(item) })
+          onSelect = { item -> this.onTOCItemSelected(item) }
+        )
 
       this.bookSubscription =
         this.book.spineElementDownloadStatus.subscribe(
           { status -> this.onSpineElementStatusChanged(status) },
           { error -> this.onSpineElementStatusError(error) },
-          { })
+          { }
+        )
 
       this.playerSubscription =
         this.player.events.subscribe(
           { event -> this.onPlayerEvent(event) },
           { error -> this.onPlayerError(error) },
-          { })
+          { }
+        )
     } else {
       throw ClassCastException(
         StringBuilder(64)
@@ -141,7 +144,8 @@ class PlayerTOCFragment : Fragment() {
           .append("  Required interface: ")
           .append(PlayerFragmentListenerType::class.java.canonicalName)
           .append('\n')
-          .toString())
+          .toString()
+      )
     }
   }
 
@@ -224,10 +228,12 @@ class PlayerTOCFragment : Fragment() {
         .setMessage(R.string.audiobook_player_toc_menu_stop_all_confirm)
         .setPositiveButton(
           R.string.audiobook_part_download_stop,
-          { _: DialogInterface, _: Int -> onMenuStopAllSelectedConfirmed() })
+          { _: DialogInterface, _: Int -> onMenuStopAllSelectedConfirmed() }
+        )
         .setNegativeButton(
           R.string.audiobook_part_download_continue,
-          { _: DialogInterface, _: Int -> })
+          { _: DialogInterface, _: Int -> }
+        )
         .create()
     dialog.show()
   }
@@ -248,7 +254,9 @@ class PlayerTOCFragment : Fragment() {
     try {
       this.listener.onPlayerAccessibilityEvent(
         PlayerAccessibilityChapterSelected(
-          this.context!!.getString(R.string.audiobook_accessibility_toc_selected, item.index + 1)))
+          this.context!!.getString(R.string.audiobook_accessibility_toc_selected, item.index + 1)
+        )
+      )
     } catch (ex: Exception) {
       this.log.debug("ignored exception in event handler: ", ex)
     }
@@ -307,9 +315,11 @@ class PlayerTOCFragment : Fragment() {
   }
 
   private fun onPlayerSpineElement(index: Int) {
-    UIThread.runOnUIThread(Runnable {
-      this.adapter.setCurrentSpineElement(index)
-    })
+    UIThread.runOnUIThread(
+      Runnable {
+        this.adapter.setCurrentSpineElement(index)
+      }
+    )
   }
 
   private fun onSpineElementStatusError(error: Throwable?) {
@@ -317,11 +327,13 @@ class PlayerTOCFragment : Fragment() {
   }
 
   private fun onSpineElementStatusChanged(status: PlayerSpineElementDownloadStatus) {
-    UIThread.runOnUIThread(Runnable {
-      val spineElement = status.spineElement
-      this.adapter.notifyItemChanged(spineElement.index)
-      this.menusConfigureVisibility()
-    })
+    UIThread.runOnUIThread(
+      Runnable {
+        val spineElement = status.spineElement
+        this.adapter.notifyItemChanged(spineElement.index)
+        this.menusConfigureVisibility()
+      }
+    )
   }
 
   companion object {

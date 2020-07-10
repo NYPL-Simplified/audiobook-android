@@ -54,7 +54,7 @@ class PlayerPlaybackRateFragment : DialogFragment() {
 
     this.parameters =
       this.arguments!!.getSerializable(parametersKey)
-        as PlayerFragmentParameters
+      as PlayerFragmentParameters
 
     if (context is PlayerFragmentListenerType) {
       this.listener = context
@@ -67,7 +67,8 @@ class PlayerPlaybackRateFragment : DialogFragment() {
           rates = PlayerPlaybackRate.values().toList(),
           parameters = this.parameters,
           primaryColor = { PlayerColors.primaryColor(requireActivity(), this.parameters.primaryColor) },
-          onSelect = { item -> this.onPlaybackRateSelected(item) })
+          onSelect = { item -> this.onPlaybackRateSelected(item) }
+        )
 
       this.adapter.setCurrentPlaybackRate(this.player.playbackRate)
     } else {
@@ -80,7 +81,8 @@ class PlayerPlaybackRateFragment : DialogFragment() {
           .append("  Required interface: ")
           .append(PlayerFragmentListenerType::class.java.canonicalName)
           .append('\n')
-          .toString())
+          .toString()
+      )
     }
   }
 
@@ -88,8 +90,11 @@ class PlayerPlaybackRateFragment : DialogFragment() {
     this.log.debug("onPlaybackRateSelected: {}", item)
 
     try {
-      this.listener.onPlayerAccessibilityEvent(PlayerAccessibilityPlaybackRateChanged(
-        PlayerPlaybackRateAdapter.hasBeenSetToContentDescriptionOfRate(resources, item)))
+      this.listener.onPlayerAccessibilityEvent(
+        PlayerAccessibilityPlaybackRateChanged(
+          PlayerPlaybackRateAdapter.hasBeenSetToContentDescriptionOfRate(resources, item)
+        )
+      )
     } catch (ex: Exception) {
       this.log.debug("ignored exception in handler: ", ex)
     }

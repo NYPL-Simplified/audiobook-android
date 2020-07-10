@@ -93,20 +93,24 @@ class MockingDownloadTask(
      * Add a callback to the future that will report download success and failure.
      */
 
-    Futures.addCallback(future, object : FutureCallback<Unit> {
-      override fun onSuccess(result: Unit?) {
-        this@MockingDownloadTask.onDownloadCompleted()
-      }
-
-      override fun onFailure(exception: Throwable?) {
-        when (exception) {
-          is CancellationException ->
-            this@MockingDownloadTask.onDownloadCancelled()
-          else ->
-            this@MockingDownloadTask.onDownloadFailed(kotlin.Exception(exception))
+    Futures.addCallback(
+      future,
+      object : FutureCallback<Unit> {
+        override fun onSuccess(result: Unit?) {
+          this@MockingDownloadTask.onDownloadCompleted()
         }
-      }
-    }, this.downloadStatusExecutor)
+
+        override fun onFailure(exception: Throwable?) {
+          when (exception) {
+            is CancellationException ->
+              this@MockingDownloadTask.onDownloadCancelled()
+            else ->
+              this@MockingDownloadTask.onDownloadFailed(kotlin.Exception(exception))
+          }
+        }
+      },
+      this.downloadStatusExecutor
+    )
 
     return future
   }

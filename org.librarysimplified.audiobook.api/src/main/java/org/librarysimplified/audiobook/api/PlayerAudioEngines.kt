@@ -21,9 +21,12 @@ object PlayerAudioEngines : PlayerAudioEnginesType {
         val bookProvider = engineProvider.tryRequest(request)
         if (bookProvider != null) {
           if (request.filter(engineProvider)) {
-            results.add(PlayerEngineAndBookProvider(
-              engineProvider = engineProvider,
-              bookProvider = bookProvider))
+            results.add(
+              PlayerEngineAndBookProvider(
+                engineProvider = engineProvider,
+                bookProvider = bookProvider
+              )
+            )
           }
         }
       } catch (e: Exception) {
@@ -32,7 +35,8 @@ object PlayerAudioEngines : PlayerAudioEnginesType {
             "exception raised by provider {}:{} when examining manifest: ",
             engineProvider.name(),
             engineProvider.version(),
-            e)
+            e
+          )
         } catch (e: Exception) {
           this.logger.error("exception raised when talking to provider: ", e)
         }

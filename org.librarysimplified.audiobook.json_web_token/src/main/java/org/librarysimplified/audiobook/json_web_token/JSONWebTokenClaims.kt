@@ -140,9 +140,11 @@ data class JSONWebTokenClaims(
           .createParser(
             uri = uri,
             stream = ByteArrayInputStream(data),
-            rootParser = FRValueParsers.forObjectMap(forKey = {
-              FRValueParsers.acceptingNull(FRValueParsers.forString())
-            })
+            rootParser = FRValueParsers.forObjectMap(
+              forKey = {
+                FRValueParsers.acceptingNull(FRValueParsers.forString())
+              }
+            )
           )
 
       return when (val result = parser.parse()) {

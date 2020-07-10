@@ -225,8 +225,10 @@ abstract class ExoEngineProviderContract {
         ResourceDownloadProvider.create(
           this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -265,7 +267,8 @@ abstract class ExoEngineProviderContract {
     player.events.subscribe(
       { event -> events.add(this.eventToString(event)) },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
   }
 
   /**
@@ -282,8 +285,10 @@ abstract class ExoEngineProviderContract {
         ResourceDownloadProvider.create(
           this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -326,8 +331,10 @@ abstract class ExoEngineProviderContract {
         ResourceDownloadProvider.create(
           this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -380,10 +387,12 @@ abstract class ExoEngineProviderContract {
           mapOf(
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") }),
+              { this.resourceStream("noise.mp3") }
+            ),
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -443,8 +452,10 @@ abstract class ExoEngineProviderContract {
         ResourceDownloadProvider.create(
           this.exec,
           mapOf(
-            Pair(URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+            Pair(
+              URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -491,10 +502,12 @@ abstract class ExoEngineProviderContract {
           mapOf(
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") }),
+              { this.resourceStream("noise.mp3") }
+            ),
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -553,10 +566,12 @@ abstract class ExoEngineProviderContract {
           mapOf(
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") }),
+              { this.resourceStream("noise.mp3") }
+            ),
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -623,10 +638,12 @@ abstract class ExoEngineProviderContract {
           mapOf(
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") }),
+              { this.resourceStream("noise.mp3") }
+            ),
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -680,10 +697,12 @@ abstract class ExoEngineProviderContract {
           mapOf(
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_1_abbott.mp3"),
-              { this.resourceStream("noise.mp3") }),
+              { this.resourceStream("noise.mp3") }
+            ),
             Pair(
               URI.create("http://www.archive.org/download/flatland_rg_librivox/flatland_2_abbott.mp3"),
-              { this.resourceStream("noise.mp3") })
+              { this.resourceStream("noise.mp3") }
+            )
           )
         )
       )
@@ -993,9 +1012,11 @@ abstract class ExoEngineProviderContract {
     Thread.sleep(1_000L)
 
     Assert.assertTrue(
-      audioBook.spine[0].downloadStatus is PlayerSpineElementDownloadExpired)
+      audioBook.spine[0].downloadStatus is PlayerSpineElementDownloadExpired
+    )
     Assert.assertTrue(
-      audioBook.spine[1].downloadStatus is PlayerSpineElementDownloadFailed)
+      audioBook.spine[1].downloadStatus is PlayerSpineElementDownloadFailed
+    )
   }
 
   /**

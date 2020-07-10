@@ -94,8 +94,11 @@ class RBDigitalLinkDocumentParser {
     if (node is ObjectNode) {
       return this.parseFromObjectNode(node)
     } else {
-      return ParseResult.ParseFailed(IOException(
-        "Expected an object node, received " + node.nodeType))
+      return ParseResult.ParseFailed(
+        IOException(
+          "Expected an object node, received " + node.nodeType
+        )
+      )
     }
   }
 }

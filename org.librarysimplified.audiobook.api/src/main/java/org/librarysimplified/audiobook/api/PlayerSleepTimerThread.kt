@@ -26,7 +26,8 @@ class PlayerSleepTimerThread(runnable: Runnable) : Thread(runnable) {
             .append("  Thread: ")
             .append(Thread.currentThread())
             .append('\n')
-            .toString())
+            .toString()
+        )
       }
     }
   }

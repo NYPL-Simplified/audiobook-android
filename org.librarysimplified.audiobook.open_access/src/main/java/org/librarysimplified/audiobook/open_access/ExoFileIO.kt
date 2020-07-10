@@ -76,7 +76,9 @@ object ExoFileIO {
       if (!from.isFile) {
         throw IOException(
           String.format(
-            "Could not rename '%s' to '%s' ('%s' does not exist or is not a " + "file)", from, to, from))
+            "Could not rename '%s' to '%s' ('%s' does not exist or is not a " + "file)", from, to, from
+          )
+        )
       }
 
       val to_parent = to.parentFile
@@ -86,12 +88,16 @@ object ExoFileIO {
             "Could not rename '%s' to '%s' ('%s' is not a directory)",
             from,
             to,
-            to_parent))
+            to_parent
+          )
+        )
       }
 
       throw IOException(
         String.format(
-          "Could not rename '%s' to '%s'", from, to))
+          "Could not rename '%s' to '%s'", from, to
+        )
+      )
     }
   }
 }

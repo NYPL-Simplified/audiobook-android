@@ -19,7 +19,8 @@ class SandboxLoremIpsum private constructor(
 
     fun create(): SandboxLoremIpsum {
       return SandboxLoremIpsum::class.java.getResourceAsStream(
-        "/org/librarysimplified/audiobook/tests/sandbox/lorem.txt").use { stream ->
+        "/org/librarysimplified/audiobook/tests/sandbox/lorem.txt"
+      ).use { stream ->
         BufferedReader(InputStreamReader(stream, "UTF-8")).useLines { lines ->
           val shuffled = lines.toMutableList()
           shuffled.shuffle()

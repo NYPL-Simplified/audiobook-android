@@ -42,7 +42,8 @@ class MockingAudioBook(
       index = spineItems.size,
       duration = duration,
       id = id,
-      title = title)
+      title = title
+    )
     this.spineItems.add(element)
     return element
   }

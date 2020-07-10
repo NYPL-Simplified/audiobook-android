@@ -156,7 +156,8 @@ class PlayerSleepTimer private constructor(
                 this.log.debug("received start request: {}", initialRequest.duration)
                 this.running = Running(this.paused, initialRequest.duration)
                 this.timer.statusEvents.onNext(
-                  PlayerSleepTimerRunning(this.paused, initialRequest.duration))
+                  PlayerSleepTimerRunning(this.paused, initialRequest.duration)
+                )
               }
 
               PlayerTimerRequestPause -> {
@@ -204,7 +205,8 @@ class PlayerSleepTimer private constructor(
                   if (this.paused) {
                     this.running = Running(paused = true, duration = currentRemaining)
                     this.timer.statusEvents.onNext(
-                      PlayerSleepTimerRunning(this.paused, currentRemaining))
+                      PlayerSleepTimerRunning(this.paused, currentRemaining)
+                    )
                     continue@processingTimerRequests
                   }
 
@@ -212,7 +214,8 @@ class PlayerSleepTimer private constructor(
                     val newRemaining = currentRemaining.minus(this.oneSecond)
                     this.running = Running(this.paused, newRemaining)
                     this.timer.statusEvents.onNext(
-                      PlayerSleepTimerRunning(this.paused, newRemaining))
+                      PlayerSleepTimerRunning(this.paused, newRemaining)
+                    )
 
                     if (newRemaining.isShorterThan(this.oneSecond)) {
                       this.log.debug("timer finished")
@@ -231,7 +234,8 @@ class PlayerSleepTimer private constructor(
                   this.paused = false
                   this.running = Running(this.paused, request.duration)
                   this.timer.statusEvents.onNext(
-                    PlayerSleepTimerRunning(this.paused, request.duration))
+                    PlayerSleepTimerRunning(this.paused, request.duration)
+                  )
                   continue@processingTimerRequests
                 }
 
@@ -289,7 +293,8 @@ class PlayerSleepTimer private constructor(
     fun create(): PlayerSleepTimerType {
       return PlayerSleepTimer(
         executor = Executors.newFixedThreadPool(1) { run -> createTimerThread(run) },
-        statusEvents = BehaviorSubject.create())
+        statusEvents = BehaviorSubject.create()
+      )
     }
 
     /**

@@ -76,7 +76,9 @@ internal object DownloadFileIO {
       if (!from.isFile) {
         throw IOException(
           String.format(
-            "Could not rename '%s' to '%s' ('%s' does not exist or is not a " + "file)", from, to, from))
+            "Could not rename '%s' to '%s' ('%s' does not exist or is not a " + "file)", from, to, from
+          )
+        )
       }
 
       val toParent = to.parentFile
@@ -86,12 +88,16 @@ internal object DownloadFileIO {
             "Could not rename '%s' to '%s' ('%s' is not a directory)",
             from,
             to,
-            toParent))
+            toParent
+          )
+        )
       }
 
       throw IOException(
         String.format(
-          "Could not rename '%s' to '%s'", from, to))
+          "Could not rename '%s' to '%s'", from, to
+        )
+      )
     }
   }
 }

@@ -109,25 +109,29 @@ class ExoDownloadTask(
      * Add a callback to the future that will report download success and failure.
      */
 
-    Futures.addCallback(future, object : FutureCallback<Unit> {
-      override fun onSuccess(result: Unit?) {
-        this@ExoDownloadTask.onDownloadCompleted()
-      }
+    Futures.addCallback(
+      future,
+      object : FutureCallback<Unit> {
+        override fun onSuccess(result: Unit?) {
+          this@ExoDownloadTask.onDownloadCompleted()
+        }
 
-      override fun onFailure(exception: Throwable?) {
-        when (exception) {
-          is CancellationException ->
-            this@ExoDownloadTask.onDownloadCancelled()
-          else -> {
-            if (targetLink.expires) {
-              this@ExoDownloadTask.onDownloadExpired(Exception(exception))
-            } else {
-              this@ExoDownloadTask.onDownloadFailed(Exception(exception))
+        override fun onFailure(exception: Throwable?) {
+          when (exception) {
+            is CancellationException ->
+              this@ExoDownloadTask.onDownloadCancelled()
+            else -> {
+              if (targetLink.expires) {
+                this@ExoDownloadTask.onDownloadExpired(Exception(exception))
+              } else {
+                this@ExoDownloadTask.onDownloadFailed(Exception(exception))
+              }
             }
           }
         }
-      }
-    }, this.downloadStatusExecutor)
+      },
+      this.downloadStatusExecutor
+    )
 
     return future
   }

@@ -20,7 +20,8 @@ abstract class JSONWebTokenClaimsContract {
     val result =
       JSONWebTokenClaims.parse(
         uri = URI("urn:test"),
-        data = """{ }""".toByteArray()
+        data =
+          """{ }""".toByteArray()
       ) as ParseResult.Success
 
     val token = result.result
@@ -36,7 +37,8 @@ abstract class JSONWebTokenClaimsContract {
     val result =
       JSONWebTokenClaims.parse(
         uri = URI("urn:test"),
-        data = """
+        data =
+          """
      {"typ":"JWT",
       "alg":"HS256"}
           """.trimIndent().toByteArray()

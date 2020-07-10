@@ -47,19 +47,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running"
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running"
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
@@ -100,19 +102,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running"
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running"
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
@@ -153,19 +157,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running"
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running"
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
@@ -260,19 +266,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running " + event.remaining
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running " + event.remaining
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(Duration.millis(1000L))
@@ -315,19 +323,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running " + event.remaining
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running " + event.remaining
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(null)
@@ -372,19 +382,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running " + event.remaining
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running " + event.remaining
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(Duration.standardSeconds(2L))
@@ -422,19 +434,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
@@ -479,19 +493,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
@@ -545,19 +561,21 @@ abstract class PlayerSleepTimerContract {
     val waitLatch = CountDownLatch(1)
     val events = ArrayList<String>()
 
-    timer.status.subscribe({ event ->
-      logger.debug("event: {}", event)
-      events.add(
-        when (event) {
-          PlayerSleepTimerStopped -> "stopped"
-          is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
-          is PlayerSleepTimerCancelled -> "cancelled"
-          PlayerSleepTimerFinished -> "finished"
-        }
-      )
-    },
+    timer.status.subscribe(
+      { event ->
+        logger.debug("event: {}", event)
+        events.add(
+          when (event) {
+            PlayerSleepTimerStopped -> "stopped"
+            is PlayerSleepTimerRunning -> "running" + (if (event.paused) " paused" else "")
+            is PlayerSleepTimerCancelled -> "cancelled"
+            PlayerSleepTimerFinished -> "finished"
+          }
+        )
+      },
       { waitLatch.countDown() },
-      { waitLatch.countDown() })
+      { waitLatch.countDown() }
+    )
 
     logger.debug("starting timer")
     timer.start(Duration.millis(3000L))
