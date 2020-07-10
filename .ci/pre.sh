@@ -73,8 +73,8 @@ gpg --sign -a hello.txt || fatal "could not produce test signature"
 # Download Brooklime if necessary.
 #
 
-BROOKLIME_URL="https://repo1.maven.org/maven2/com/io7m/brooklime/com.io7m.brooklime.cmdline/0.1.0/com.io7m.brooklime.cmdline-0.1.0-main.jar"
-BROOKLIME_SHA256_EXPECTED="d706dee5ce6be4992d35b3d61094872e194b7f8f3ad798a845ceb692a8ac8fcd"
+BROOKLIME_URL="https://repo1.maven.org/maven2/com/io7m/brooklime/com.io7m.brooklime.cmdline/0.1.1/com.io7m.brooklime.cmdline-0.1.1-main.jar"
+BROOKLIME_SHA256_EXPECTED="efce745f90741aa18c9751c5707580abc123088a8de6d6081fff58f8533f9d8e"
 
 wget -O "brooklime.jar.tmp" "${BROOKLIME_URL}" || fatal "could not download brooklime"
 mv "brooklime.jar.tmp" "brooklime.jar" || fatal "could not rename brooklime"
