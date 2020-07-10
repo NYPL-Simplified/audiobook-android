@@ -1,17 +1,11 @@
 #!/bin/bash
 
-exec &> >(tee -a ".ci/build.log")
-
 #------------------------------------------------------------------------
 # Utility methods
 
 fatal()
 {
   echo "fatal: $1" 1>&2
-  echo
-  echo "dumping log: " 1>&2
-  echo
-  cat .ci/build.log
   exit 1
 }
 
@@ -23,6 +17,14 @@ info()
 #------------------------------------------------------------------------
 # Build the project
 #
+
+(cat <<EOF
+
+org.gradle.daemon=true
+org.gradle.configureondemand=true
+org.gradle.jvmargs=-Xmx4g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError
+EOF
+) >> gradle.properties
 
 info "Executing build"
 ./gradlew \
