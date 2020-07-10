@@ -64,7 +64,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
 
     this.parameters =
       this.arguments!!.getSerializable(parametersKey)
-        as PlayerFragmentParameters
+      as PlayerFragmentParameters
 
     if (context is PlayerFragmentListenerType) {
       this.listener = context
@@ -76,7 +76,8 @@ class PlayerSleepTimerFragment : DialogFragment() {
         PlayerSleepTimerAdapter(
           context = context,
           rates = this.enabledSleepTimerConfigurations(),
-          onSelect = { item -> this.onSleepTimerSelected(item) })
+          onSelect = { item -> this.onSleepTimerSelected(item) }
+        )
     } else {
       throw ClassCastException(
         StringBuilder(64)
@@ -87,7 +88,8 @@ class PlayerSleepTimerFragment : DialogFragment() {
           .append("  Required interface: ")
           .append(PlayerFragmentListenerType::class.java.canonicalName)
           .append('\n')
-          .toString())
+          .toString()
+      )
     }
   }
 
@@ -113,7 +115,9 @@ class PlayerSleepTimerFragment : DialogFragment() {
     try {
       this.listener.onPlayerAccessibilityEvent(
         PlayerAccessibilitySleepTimerSettingChanged(
-          PlayerSleepTimerAdapter.hasBeenSetToContentDescriptionOf(resources, item)))
+          PlayerSleepTimerAdapter.hasBeenSetToContentDescriptionOf(resources, item)
+        )
+      )
     } catch (ex: Exception) {
       this.log.debug("ignored exception in event handler: ", ex)
     }

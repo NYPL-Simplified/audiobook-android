@@ -55,7 +55,8 @@ class WebPubManifestParser(
             },
             onReceive = { _, metadata ->
               this.metadata = metadata
-            })
+            }
+          )
         }
       )
 
@@ -69,7 +70,8 @@ class WebPubManifestParser(
             },
             receiver = { spineItems ->
               this.spineItems.addAll(spineItems)
-            })
+            }
+          )
         },
         isOptional = true
       )
@@ -84,7 +86,8 @@ class WebPubManifestParser(
             },
             receiver = { spineItems ->
               this.spineItems.addAll(spineItems)
-            })
+            }
+          )
         },
         isOptional = true
       )
@@ -99,7 +102,8 @@ class WebPubManifestParser(
             },
             receiver = { links ->
               this.links.addAll(links)
-            })
+            }
+          )
         },
         isOptional = true
       )

@@ -48,7 +48,8 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
       executorService = this.downloadExecutor,
       shouldFail = { request ->
         request.uri.toString().endsWith("0") || request.uri.toString().endsWith("5")
-      })
+      }
+    )
 
   private val lorem = SandboxLoremIpsum.create()
 
@@ -57,7 +58,8 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
       id = PlayerBookID.transform("abc"),
       players = { book -> MockingPlayer(book) },
       downloadStatusExecutor = this.downloadStatusExecutor,
-      downloadProvider = this.downloadProvider)
+      downloadProvider = this.downloadProvider
+    )
 
   private val player: MockingPlayer = this.book.createPlayer()
 
@@ -73,7 +75,8 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
       val e = this.book.createSpineElement(
         "id$i",
         this.lorem.lines[i % this.lorem.lines.size],
-        Duration.standardSeconds(20))
+        Duration.standardSeconds(20)
+      )
 
       if (!i.toString().endsWith("3")) {
         e.downloadTask().fetch()
@@ -206,11 +209,13 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
      * The player fragment wants us to open the playback rate selection dialog.
      */
 
-    runOnUIThread(Runnable {
-      val fragment =
-        PlayerPlaybackRateFragment.newInstance(PlayerFragmentParameters())
-      fragment.show(this.supportFragmentManager, "PLAYER_RATE")
-    })
+    runOnUIThread(
+      Runnable {
+        val fragment =
+          PlayerPlaybackRateFragment.newInstance(PlayerFragmentParameters())
+        fragment.show(this.supportFragmentManager, "PLAYER_RATE")
+      }
+    )
   }
 
   private fun runOnUIThread(r: Runnable) {
@@ -225,11 +230,13 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
      * The player fragment wants us to open the sleep timer.
      */
 
-    runOnUIThread(Runnable {
-      val fragment =
-        PlayerSleepTimerFragment.newInstance(PlayerFragmentParameters())
-      fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
-    })
+    runOnUIThread(
+      Runnable {
+        val fragment =
+          PlayerSleepTimerFragment.newInstance(PlayerFragmentParameters())
+        fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
+      }
+    )
   }
 
   override fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService {
@@ -237,9 +244,11 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   }
 
   override fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent) {
-    runOnUIThread(Runnable {
-      val toast = Toast.makeText(this.applicationContext, event.message, Toast.LENGTH_SHORT)
-      toast.show()
-    })
+    runOnUIThread(
+      Runnable {
+        val toast = Toast.makeText(this.applicationContext, event.message, Toast.LENGTH_SHORT)
+        toast.show()
+      }
+    )
   }
 }

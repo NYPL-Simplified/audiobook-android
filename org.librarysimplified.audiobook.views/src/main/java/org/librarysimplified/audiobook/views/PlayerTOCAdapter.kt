@@ -113,7 +113,8 @@ class PlayerTOCAdapter(
             holder.notDownloadedStreamableRefresh.contentDescription =
               this.context.getString(
                 R.string.audiobook_accessibility_toc_download,
-                normalIndex)
+                normalIndex
+              )
             holder.notDownloadedStreamableRefresh.isEnabled = true
           } else {
             holder.notDownloadedStreamableRefresh.contentDescription = null
@@ -128,7 +129,8 @@ class PlayerTOCAdapter(
             holder.notDownloadedStreamableRefresh.contentDescription =
               this.context.getString(
                 R.string.audiobook_accessibility_toc_download,
-                normalIndex)
+                normalIndex
+              )
             holder.notDownloadedStreamableRefresh.isEnabled = true
           } else {
             holder.notDownloadedStreamableRefresh.contentDescription = null
@@ -213,7 +215,8 @@ class PlayerTOCAdapter(
         playing = position == this.currentSpineElement,
         requiresDownload = requiresDownload,
         failedDownload = failedDownload,
-        downloading = downloading)
+        downloading = downloading
+      )
 
     if (position == this.currentSpineElement) {
       holder.isCurrent.visibility = VISIBLE
@@ -276,10 +279,12 @@ class PlayerTOCAdapter(
         .setMessage(R.string.audiobook_part_download_stop_confirm)
         .setPositiveButton(
           R.string.audiobook_part_download_stop,
-          { _: DialogInterface, _: Int -> item.downloadTask().cancel() })
+          { _: DialogInterface, _: Int -> item.downloadTask().cancel() }
+        )
         .setNegativeButton(
           R.string.audiobook_part_download_continue,
-          { _: DialogInterface, _: Int -> })
+          { _: DialogInterface, _: Int -> }
+        )
         .create()
     dialog.show()
   }
@@ -337,14 +342,17 @@ class PlayerTOCAdapter(
 
     val notDownloadedStreamableRefresh: ImageView =
       this.buttonsNotDownloadedStreamable.findViewById(
-        R.id.player_toc_item_not_downloaded_streamable_refresh)
+        R.id.player_toc_item_not_downloaded_streamable_refresh
+      )
     val notDownloadedStreamableProgress: PlayerCircularProgressView =
       this.buttonsNotDownloadedStreamable.findViewById(
-        R.id.player_toc_item_not_downloaded_streamable_progress)
+        R.id.player_toc_item_not_downloaded_streamable_progress
+      )
 
     val notDownloadedNotStreamableRefresh: ImageView =
       this.buttonsNotDownloadedNotStreamable.findViewById(
-        R.id.player_toc_item_not_downloaded_not_streamable_refresh)
+        R.id.player_toc_item_not_downloaded_not_streamable_refresh
+      )
 
     val downloadingProgress: PlayerCircularProgressView =
       this.buttonsDownloading.findViewById(R.id.player_toc_item_downloading_progress)
@@ -359,18 +367,23 @@ class PlayerTOCAdapter(
       this.notDownloadedStreamableProgress.color = primaryColorResolved
 
       this.downloadFailedErrorIcon.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY
+      )
       this.downloadFailedRefresh.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY
+      )
 
       this.notDownloadedStreamableRefresh.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY
+      )
 
       this.notDownloadedNotStreamableRefresh.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY
+      )
 
       this.isCurrent.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY)
+        primaryColorResolved, PorterDuff.Mode.MULTIPLY
+      )
     }
   }
 }

@@ -67,7 +67,8 @@ class MockingSpineElement(
     MockingDownloadTask(
       downloadStatusExecutor = this.downloadStatusExecutor,
       downloadProvider = this.downloadProvider,
-      spineElement = this)
+      spineElement = this
+    )
 
   override fun downloadTask(): PlayerDownloadTaskType {
     return this.downloadTaskValue

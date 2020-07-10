@@ -45,7 +45,8 @@ class WebPubLinkParser(
         name = "href",
         parser = {
           FRValueParsers.forString { uri -> this.href = uri }
-        })
+        }
+      )
 
     val templatedSchema =
       FRParserObjectFieldSchema(

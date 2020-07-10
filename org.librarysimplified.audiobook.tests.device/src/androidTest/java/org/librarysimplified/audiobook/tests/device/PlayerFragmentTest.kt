@@ -52,7 +52,8 @@ class PlayerFragmentTest {
       PowerManager.FULL_WAKE_LOCK
         or PowerManager.ACQUIRE_CAUSES_WAKEUP
         or PowerManager.ON_AFTER_RELEASE,
-      this.javaClass.simpleName)
+      this.javaClass.simpleName
+    )
     this.wakeLock.acquire()
   }
 
@@ -122,9 +123,12 @@ class PlayerFragmentTest {
     Espresso.onView(ViewMatchers.withId(R.id.player_menu_sleep))
       .perform(ViewActions.click())
 
-    Espresso.onView(Matchers.allOf(
-      ViewMatchers.withText(R.string.audiobook_player_menu_sleep_title),
-      ViewMatchers.isDisplayed()))
+    Espresso.onView(
+      Matchers.allOf(
+        ViewMatchers.withText(R.string.audiobook_player_menu_sleep_title),
+        ViewMatchers.isDisplayed()
+      )
+    )
   }
 
   /**
@@ -180,12 +184,18 @@ class PlayerFragmentTest {
       Espresso.onView(ViewMatchers.withId(R.id.player_menu_playback_rate))
         .perform(ViewActions.click())
 
-      Espresso.onView(Matchers.allOf(
-        ViewMatchers.withText(R.string.audiobook_player_menu_playback_rate_title),
-        ViewMatchers.isDisplayed()))
+      Espresso.onView(
+        Matchers.allOf(
+          ViewMatchers.withText(R.string.audiobook_player_menu_playback_rate_title),
+          ViewMatchers.isDisplayed()
+        )
+      )
 
-      Espresso.onView(ViewMatchers.withText(
-        PlayerPlaybackRateAdapter.textOfRate(rate)))
+      Espresso.onView(
+        ViewMatchers.withText(
+          PlayerPlaybackRateAdapter.textOfRate(rate)
+        )
+      )
         .perform(ViewActions.click())
 
       if (rate != PlayerPlaybackRate.NORMAL_TIME) {
@@ -202,7 +212,8 @@ class PlayerFragmentTest {
     activity.player.calls.subscribe(
       { event -> this.log.debug("{}", event); calls.add(event) },
       { error -> this.log.debug("{}", error); },
-      { })
+      { }
+    )
     return calls
   }
 }

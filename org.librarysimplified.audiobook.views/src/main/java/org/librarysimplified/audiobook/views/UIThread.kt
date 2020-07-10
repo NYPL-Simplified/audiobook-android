@@ -21,7 +21,9 @@ internal class UIThread private constructor() {
         throw IllegalStateException(
           String.format(
             "Current thread '%s' is not the Android UI thread",
-            Thread.currentThread()))
+            Thread.currentThread()
+          )
+        )
       }
     }
 

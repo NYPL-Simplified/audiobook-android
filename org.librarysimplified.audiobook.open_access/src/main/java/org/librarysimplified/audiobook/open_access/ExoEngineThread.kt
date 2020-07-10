@@ -64,7 +64,8 @@ class ExoEngineThread private constructor(
             .append("  Thread: ")
             .append(Thread.currentThread())
             .append('\n')
-            .toString())
+            .toString()
+        )
       }
     }
   }

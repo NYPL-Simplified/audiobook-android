@@ -56,7 +56,8 @@ class PlayerCircularProgressView(context: Context, attrs: AttributeSet) : View(c
       this.thicknessValue,
       this.thicknessValue,
       w.toFloat() - this.thicknessValue,
-      h.toFloat() - this.thicknessValue)
+      h.toFloat() - this.thicknessValue
+    )
   }
 
   private var progressValue = 0.0f
@@ -133,21 +134,24 @@ class PlayerCircularProgressView(context: Context, attrs: AttributeSet) : View(c
         -90.0f,
         360.0f,
         true,
-        this.bgPaint)
+        this.bgPaint
+      )
 
       this.imageCanvas.drawArc(
         this.rectOuter,
         -90.0f,
         this.progress * 360.0f,
         true,
-        this.arcPaint)
+        this.arcPaint
+      )
 
       this.imageCanvas.drawArc(
         this.rectInner,
         -90.0f,
         360.0f,
         true,
-        this.cutPaint)
+        this.cutPaint
+      )
 
       canvas.drawBitmap(this.image, 0.0f, 0.0f, this.emptyPaint)
     }

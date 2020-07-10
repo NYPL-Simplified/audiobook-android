@@ -30,7 +30,8 @@ data class ExoManifest(
             manifest.metadata.identifier,
             manifest.readingOrder.mapIndexed { index, item ->
               this.processSpineItem(index, item)
-            })
+            }
+          )
         )
       } catch (e: Exception) {
         return PlayerResult.Failure(e)

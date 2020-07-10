@@ -13,10 +13,13 @@ import org.librarysimplified.audiobook.api.PlayerDownloadRequest
 class DishonestDownloadProvider : PlayerDownloadProviderType {
 
   override fun download(request: PlayerDownloadRequest): ListenableFuture<Unit> {
-    return ListenableFutureTask.create({
-      request.onProgress.invoke(0)
-      request.onProgress.invoke(50)
-      request.onProgress.invoke(100)
-    }, Unit)
+    return ListenableFutureTask.create(
+      {
+        request.onProgress.invoke(0)
+        request.onProgress.invoke(50)
+        request.onProgress.invoke(100)
+      },
+      Unit
+    )
   }
 }

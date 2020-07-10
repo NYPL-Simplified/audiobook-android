@@ -202,7 +202,8 @@ class ExoAudioBookPlayer private constructor(
     this.downloadEventSubscription =
       this.book.spineElementDownloadStatus.subscribe(
         { status -> this.engineExecutor.execute { this.onDownloadStatusChanged(status) } },
-        { exception -> this.log.error("download status error: ", exception) })
+        { exception -> this.log.error("download status error: ", exception) }
+      )
   }
 
   companion object {
@@ -222,7 +223,8 @@ class ExoAudioBookPlayer private constructor(
        * Initialize the audio player on the engine thread.
        */
 
-      return engineExecutor.submit(Callable {
+      return engineExecutor.submit(
+        Callable {
 
         /*
          * The rendererCount parameter is not well documented. It appears to be the number of
@@ -231,19 +233,20 @@ class ExoAudioBookPlayer private constructor(
          * require just one.
          */
 
-        val player =
-          ExoPlayer.Factory.newInstance(1)
+          val player =
+            ExoPlayer.Factory.newInstance(1)
 
-        return@Callable ExoAudioBookPlayer(
-          book = book,
-          context = context,
-          engineProvider = engineProvider,
-          engineExecutor = engineExecutor,
-          exoPlayer = player,
-          statusEvents = statusEvents,
-          manifestUpdates = manifestUpdates
-        )
-      }).get(5L, SECONDS)
+          return@Callable ExoAudioBookPlayer(
+            book = book,
+            context = context,
+            engineProvider = engineProvider,
+            engineExecutor = engineExecutor,
+            exoPlayer = player,
+            statusEvents = statusEvents,
+            manifestUpdates = manifestUpdates
+          )
+        }
+      ).get(5L, SECONDS)
     }
   }
 

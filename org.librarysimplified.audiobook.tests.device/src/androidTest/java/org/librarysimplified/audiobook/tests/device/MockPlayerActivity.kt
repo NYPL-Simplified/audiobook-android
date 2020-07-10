@@ -44,14 +44,16 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   val downloadProvider: PlayerDownloadProviderType =
     MockingDownloadProvider(
       executorService = this.downloadExecutor,
-      shouldFail = { request -> false })
+      shouldFail = { request -> false }
+    )
 
   val book: MockingAudioBook =
     MockingAudioBook(
       id = PlayerBookID.transform("abc"),
       players = { book -> MockingPlayer(book) },
       downloadStatusExecutor = this.downloadStatusExecutor,
-      downloadProvider = this.downloadProvider)
+      downloadProvider = this.downloadProvider
+    )
 
   val player: MockingPlayer = this.book.createPlayer()
 
@@ -66,13 +68,17 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
       val e = this.book.createSpineElement(
         "id$i",
         "P$i",
-        Duration.standardSeconds(20))
+        Duration.standardSeconds(20)
+      )
     }
 
     this.setContentView(R.layout.mocking_player_activity)
 
-    this.playerFragment = PlayerFragment.newInstance(PlayerFragmentParameters(
-      primaryColor = Color.parseColor("#f02020")))
+    this.playerFragment = PlayerFragment.newInstance(
+      PlayerFragmentParameters(
+        primaryColor = Color.parseColor("#f02020")
+      )
+    )
 
     this.supportFragmentManager
       .beginTransaction()
@@ -101,8 +107,11 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerTOCShouldOpen() {
     val fragment =
-      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters(
-        primaryColor = Color.parseColor("#f02020")))
+      PlayerTOCFragment.newInstance(
+        PlayerTOCFragmentParameters(
+          primaryColor = Color.parseColor("#f02020")
+        )
+      )
 
     this.supportFragmentManager
       .beginTransaction()
@@ -122,8 +131,11 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   override fun onPlayerPlaybackRateShouldOpen() {
     Handler(Looper.getMainLooper()).post {
       val fragment =
-        PlayerPlaybackRateFragment.newInstance(PlayerFragmentParameters(
-          primaryColor = Color.parseColor("#f02020")))
+        PlayerPlaybackRateFragment.newInstance(
+          PlayerFragmentParameters(
+            primaryColor = Color.parseColor("#f02020")
+          )
+        )
       fragment.show(this.supportFragmentManager, "PLAYER_RATE")
     }
   }
@@ -131,8 +143,11 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   override fun onPlayerSleepTimerShouldOpen() {
     Handler(Looper.getMainLooper()).post {
       val fragment =
-        PlayerSleepTimerFragment.newInstance(PlayerFragmentParameters(
-          primaryColor = Color.parseColor("#f02020")))
+        PlayerSleepTimerFragment.newInstance(
+          PlayerFragmentParameters(
+            primaryColor = Color.parseColor("#f02020")
+          )
+        )
       fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
     }
   }

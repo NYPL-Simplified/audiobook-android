@@ -37,11 +37,14 @@ object PlayerPositions : PlayerPositionParserType, PlayerPositionSerializerType 
     val title =
       PlayerJSONParserUtilities.getStringOptional(positionNode, "title")
 
-    return PlayerResult.Success(PlayerPosition(
-      title = title,
-      part = part,
-      chapter = chapter,
-      offsetMilliseconds = offsetMilliseconds))
+    return PlayerResult.Success(
+      PlayerPosition(
+        title = title,
+        part = part,
+        chapter = chapter,
+        offsetMilliseconds = offsetMilliseconds
+      )
+    )
   }
 
   override fun serializeToObjectNode(position: PlayerPosition): ObjectNode {

@@ -89,11 +89,14 @@ class RBDigitialPlayerExtension : PlayerExtensionType {
         )
       )
 
-    return future.transformAsync(AsyncFunction<Unit, Unit> {
-      val uri = this.parseRBDigitalLinkDocument(tempFile)
-      tempFile.delete()
-      downloadProvider.download(originalRequest.copy(uri = uri))
-    }, statusExecutor)
+    return future.transformAsync(
+      AsyncFunction<Unit, Unit> {
+        val uri = this.parseRBDigitalLinkDocument(tempFile)
+        tempFile.delete()
+        downloadProvider.download(originalRequest.copy(uri = uri))
+      },
+      statusExecutor
+    )
   }
 
   private fun parseRBDigitalLinkDocument(tempFile: File): URI {

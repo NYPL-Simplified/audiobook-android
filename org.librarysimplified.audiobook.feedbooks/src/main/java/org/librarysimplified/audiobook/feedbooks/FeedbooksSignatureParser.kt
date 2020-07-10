@@ -37,7 +37,8 @@ class FeedbooksSignatureParser(
           FRValueParsers.forString { algo ->
             this.algorithm = algo
           }
-        })
+        }
+      )
 
     val issuerSchema =
       FRParserObjectFieldSchema(
@@ -57,7 +58,8 @@ class FeedbooksSignatureParser(
           FRValueParsers.forString { name ->
             this.value = name
           }
-        })
+        }
+      )
 
     return FRParserObjectSchema(listOf(algoSchema, issuerSchema, valueSchema))
   }

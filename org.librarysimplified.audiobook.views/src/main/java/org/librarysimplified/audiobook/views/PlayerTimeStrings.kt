@@ -69,7 +69,8 @@ object PlayerTimeStrings {
           minutesText = resources.getString(R.string.audiobook_accessibility_minutes),
           minuteText = resources.getString(R.string.audiobook_accessibility_minute),
           secondsText = resources.getString(R.string.audiobook_accessibility_seconds),
-          secondText = resources.getString(R.string.audiobook_accessibility_second))
+          secondText = resources.getString(R.string.audiobook_accessibility_second)
+        )
       }
     }
   }
