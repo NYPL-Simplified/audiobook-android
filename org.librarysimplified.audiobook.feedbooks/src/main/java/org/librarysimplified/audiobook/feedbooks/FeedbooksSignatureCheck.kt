@@ -22,14 +22,19 @@ class FeedbooksSignatureCheck(
         ?: return SingleLicenseCheckResult.NotApplicable("No signature information supplied.")
 
     this.event("Deserializing manifest bytes")
-    val objectMapper =
-      ObjectMapper()
-    val objectNode =
-      objectMapper.readTree(this.parameters.manifest.originalBytes) as ObjectNode
+    val objectMapper = ObjectMapper()
+    val objectNode = objectMapper.readTree(this.parameters.manifest.originalBytes) as ObjectNode
     objectNode.remove("http://www.feedbooks.com/audiobooks/signature")
+
+    val metaNode = objectNode["metadata"]
+    if (metaNode is ObjectNode) {
+      metaNode.remove("http://www.feedbooks.com/audiobooks/signature")
+    }
 
     this.event("Canonicalizing manifest")
     val canonBytes = JSONCanonicalization.canonicalize(objectNode)
+
+    System.out.println(String(canonBytes))
 
     return SingleLicenseCheckResult.NotApplicable("Not implemented!")
   }
