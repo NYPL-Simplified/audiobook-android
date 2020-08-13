@@ -15,8 +15,8 @@ object AudioBookHTTPClients {
 
   private val defaultClient =
     OkHttpClient.Builder()
-      .connectTimeout(1L, TimeUnit.MINUTES)
-      .callTimeout(1L, TimeUnit.MINUTES)
+      .connectTimeout(3L, TimeUnit.MINUTES)
+      .callTimeout(3L, TimeUnit.MINUTES)
       .addInterceptor(AudioBookHTTPInterceptor(this.logger))
       .build()
 
