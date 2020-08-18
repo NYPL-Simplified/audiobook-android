@@ -53,7 +53,7 @@ interface PlayerSpineElementType {
    * The title of the spine item.
    */
 
-  val title: String
+  val title: String?
 
   /**
    * The player position for the start of the spine item. This position may be used to play

@@ -47,7 +47,7 @@ data class ExoManifest(
     ): ExoManifestSpineItem {
 
       val title =
-        item.title ?: index.toString()
+        item.title
       val type =
         item.type ?: this.OCTET_STREAM
       val uri =
