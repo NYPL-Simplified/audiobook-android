@@ -9,7 +9,7 @@ import java.net.URI
  */
 
 data class ExoManifestSpineItem(
-  val title: String,
+  val title: String?,
   val part: Int,
   val chapter: Int,
   val type: MIMEType,

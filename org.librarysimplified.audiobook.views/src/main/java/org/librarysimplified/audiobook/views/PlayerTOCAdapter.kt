@@ -79,8 +79,14 @@ class PlayerTOCAdapter(
     UIThread.checkIsUIThread()
 
     val item = this.spineElements[position]
+    val normalIndex = item.index + 1
 
-    holder.titleText.text = item.title
+    val title = item.title ?: this.context.getString(
+      R.string.audiobook_player_toc_chapter_n,
+      normalIndex
+    )
+
+    holder.titleText.text = title
     holder.titleText.isEnabled = false
 
     if (item.book.supportsStreaming) {
@@ -93,7 +99,6 @@ class PlayerTOCAdapter(
       holder.view.isEnabled = false
     }
 
-    val normalIndex = item.index + 1
     var requiresDownload = false
     var failedDownload = false
     var downloading = false
@@ -210,7 +215,7 @@ class PlayerTOCAdapter(
     view.contentDescription =
       contentDescriptionOf(
         resources = context.resources,
-        title = item.title,
+        title = title,
         duration = item.duration,
         playing = position == this.currentSpineElement,
         requiresDownload = requiresDownload,
