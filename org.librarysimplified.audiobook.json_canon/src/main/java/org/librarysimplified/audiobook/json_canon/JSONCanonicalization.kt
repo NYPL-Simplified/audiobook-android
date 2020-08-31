@@ -1,8 +1,6 @@
 package org.librarysimplified.audiobook.json_canon
 
-import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationConfig
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.node.ObjectNode
 import java.io.ByteArrayOutputStream
@@ -25,10 +23,11 @@ object JSONCanonicalization {
     outputStream: OutputStream
   ) {
     val mapper = ObjectMapper()
+    val map = mapper.treeToValue(objectNode, Map::class.java)
+
     mapper.configure(SerializationFeature.INDENT_OUTPUT, false)
-    mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
     mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-    mapper.writeValue(outputStream, objectNode)
+    mapper.writeValue(outputStream, map)
   }
 
   /**
