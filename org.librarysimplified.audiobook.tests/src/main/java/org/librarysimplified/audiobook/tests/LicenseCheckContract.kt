@@ -2,7 +2,9 @@ package org.librarysimplified.audiobook.tests
 
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.license_check.api.LicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.api.LicenseCheckProviderType
@@ -20,6 +22,7 @@ import java.io.IOException
 import java.net.URI
 import java.util.ServiceLoader
 
+
 abstract class LicenseCheckContract {
 
   private lateinit var eventLog: MutableList<SingleLicenseCheckStatus>
@@ -27,6 +30,10 @@ abstract class LicenseCheckContract {
   abstract fun log(): Logger
 
   abstract fun licenseChecks(): LicenseCheckProviderType
+
+  @Rule
+  @JvmField
+  val tempFolder = TemporaryFolder()
 
   @Before
   fun testSetup() {
@@ -46,7 +53,8 @@ abstract class LicenseCheckContract {
       LicenseCheckParameters(
         manifest = manifest,
         userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
-        checks = listOf()
+        checks = listOf(),
+        cacheDirectory = tempFolder.newFolder("cache")
       )
 
     val result =
@@ -77,7 +85,8 @@ abstract class LicenseCheckContract {
           SucceedingTest(),
           FailingTest(),
           SucceedingTest()
-        )
+        ),
+        cacheDirectory = tempFolder.newFolder("cache")
       )
 
     val result =
@@ -108,7 +117,8 @@ abstract class LicenseCheckContract {
           SucceedingTest(),
           CrashingTest(),
           SucceedingTest()
-        )
+        ),
+        cacheDirectory = tempFolder.newFolder("cache")
       )
 
     val result =
@@ -139,7 +149,8 @@ abstract class LicenseCheckContract {
           NonApplicableTest(),
           NonApplicableTest(),
           NonApplicableTest()
-        )
+        ),
+        cacheDirectory = tempFolder.newFolder("cache")
       )
 
     val result =

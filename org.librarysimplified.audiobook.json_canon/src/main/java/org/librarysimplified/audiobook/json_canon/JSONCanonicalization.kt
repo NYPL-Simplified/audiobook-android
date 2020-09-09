@@ -23,9 +23,11 @@ object JSONCanonicalization {
     outputStream: OutputStream
   ) {
     val mapper = ObjectMapper()
+    val map = mapper.treeToValue(objectNode, Map::class.java)
+
     mapper.configure(SerializationFeature.INDENT_OUTPUT, false)
     mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-    mapper.writeValue(outputStream, objectNode)
+    mapper.writeValue(outputStream, map)
   }
 
   /**

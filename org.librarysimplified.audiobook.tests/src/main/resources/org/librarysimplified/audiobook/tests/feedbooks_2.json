@@ -1,0 +1,854 @@
+{
+  "@context": "http://readium.org/webpub/default.jsonld",
+  "metadata": {
+    "@type": "http://schema.org/book",
+    "title": "Rise of the Dragons, Book 1",
+    "author": "Angie Sage",
+    "identifier": "urn:uuid:35c5e499-9cb9-46e0-9e47-c517973f9e7f",
+    "language": "unknown",
+    "modified": "N/A",
+    "http://www.feedbooks.com/audiobooks/rights": {
+      "start": null,
+      "end": "2020-02-19T00:00:00Z"
+    },
+    "http://www.feedbooks.com/audiobooks/signature": {
+      "issuer": "https://www.cantookaudio.com",
+      "algorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+      "value": "hEAVibxd0TnbFKnVj2X4ooH7PKPg9+5X1ODIp0BlpzVnF6SZtZcwB1Di4uX+JVgFNFFdn/s34ooemdJGGaLgZyqtr0kEwDAbBtegSQ09F/xJZ9UsnWpbjMlk0m4LBOmlhOKtmXnu/EJu9zLsLN8c/hHe8dbs2T0Ky5evbvsqVV3dkKTV60B7xGjlac3TrCkCnwq3pWdxDCnV75HUTxvhLDpL/REaIM+SG7lUE2WJabrn0qZ99YDonUm9T+LHnorV2v5EZ1bQu1IdQ9Nhv8nJ6IXOKzLP4N26Qu0047asGTHRBts5ydgKVMwuU+b6RgLs3aYMwsSh1k3PlRTZglgpyw=="
+    }
+  },
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://listen.cantookaudio.com/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4?sig=25Gx6ZBTmBS7pqoKSdD19ZLiKzDxYhy9Axq4n7KmG8k=",
+      "type": "application/audiobook+json"
+    },
+    {
+      "rel": "cover",
+      "href": "https://storage.googleapis.com/cantookhub-media-cant/f8/356d36b9a857a8fb1bcf61e58148943d761b6f.jpg",
+      "type": "image/jpeg"
+    }
+  ],
+  "spine": [
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/a520974b-21a1-4746-87f0-1bce9d4bd194.mp4",
+      "type": "audio/mp4",
+      "title": "001_RiseOfTheDragons_Ch01",
+      "duration": 567,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/a520974b-21a1-4746-87f0-1bce9d4bd194.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/56a1b5a9-3857-4372-9019-eb1217135fe2.mp4",
+      "type": "audio/mp4",
+      "title": "002_RiseOfTheDragons_Ch02",
+      "duration": 741,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/56a1b5a9-3857-4372-9019-eb1217135fe2.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/e9692c29-e1f0-4840-8efe-136ab6b0d20c.mp4",
+      "type": "audio/mp4",
+      "title": "003_RiseOfTheDragons_Ch03",
+      "duration": 756,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/e9692c29-e1f0-4840-8efe-136ab6b0d20c.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/a789ba5c-ebf3-4618-b7a3-c374e1fab820.mp4",
+      "type": "audio/mp4",
+      "title": "004_RiseOfTheDragons_Ch04",
+      "duration": 202,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/a789ba5c-ebf3-4618-b7a3-c374e1fab820.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/f578714f-251e-4a04-a069-5a37f4170177.mp4",
+      "type": "audio/mp4",
+      "title": "005_RiseOfTheDragons_Ch05",
+      "duration": 695,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/f578714f-251e-4a04-a069-5a37f4170177.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/2a8e62da-30d5-45b2-b890-c3821c6fbfbd.mp4",
+      "type": "audio/mp4",
+      "title": "006_RiseOfTheDragons_Ch06",
+      "duration": 879,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/2a8e62da-30d5-45b2-b890-c3821c6fbfbd.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/30842ad8-e1aa-4c70-9805-fb2f30b2e92f.mp4",
+      "type": "audio/mp4",
+      "title": "007_RiseOfTheDragons_Ch07",
+      "duration": 791,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/30842ad8-e1aa-4c70-9805-fb2f30b2e92f.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/fe44249e-bed4-463c-83ef-d8db923ded20.mp4",
+      "type": "audio/mp4",
+      "title": "008_RiseOfTheDragons_Ch08",
+      "duration": 1046,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/fe44249e-bed4-463c-83ef-d8db923ded20.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/491e9a56-5991-4885-83c8-585adf9b8fcd.mp4",
+      "type": "audio/mp4",
+      "title": "009_RiseOfTheDragons_Ch09",
+      "duration": 268,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/491e9a56-5991-4885-83c8-585adf9b8fcd.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/459a5ccc-98eb-4cfb-b3d7-028fe447e543.mp4",
+      "type": "audio/mp4",
+      "title": "010_RiseOfTheDragons_Ch10",
+      "duration": 228,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/459a5ccc-98eb-4cfb-b3d7-028fe447e543.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/533ff3cb-370f-427d-911d-fbd88a043c4c.mp4",
+      "type": "audio/mp4",
+      "title": "011_RiseOfTheDragons_Ch11",
+      "duration": 995,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/533ff3cb-370f-427d-911d-fbd88a043c4c.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/7068f71a-22ca-461b-9219-73212dbefbdc.mp4",
+      "type": "audio/mp4",
+      "title": "012_RiseOfTheDragons_Ch12",
+      "duration": 527,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/7068f71a-22ca-461b-9219-73212dbefbdc.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/b6aab012-cb6d-4ed8-af3e-2cb901cb23ae.mp4",
+      "type": "audio/mp4",
+      "title": "013_RiseOfTheDragons_Ch13",
+      "duration": 633,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/b6aab012-cb6d-4ed8-af3e-2cb901cb23ae.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/4a67b43c-93da-4a11-838b-16e39e441a88.mp4",
+      "type": "audio/mp4",
+      "title": "014_RiseOfTheDragons_Ch14",
+      "duration": 1025,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/4a67b43c-93da-4a11-838b-16e39e441a88.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/eb91bda1-ac89-4ea5-9fe2-ba0190d7e79d.mp4",
+      "type": "audio/mp4",
+      "title": "015_RiseOfTheDragons_Ch15",
+      "duration": 1091,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/eb91bda1-ac89-4ea5-9fe2-ba0190d7e79d.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d9a8221f-dc79-495f-81a3-3e0f61cc4cca.mp4",
+      "type": "audio/mp4",
+      "title": "016_RiseOfTheDragons_Ch16",
+      "duration": 806,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d9a8221f-dc79-495f-81a3-3e0f61cc4cca.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/27c387dd-ee30-4d42-bfe0-f6e7c8e15119.mp4",
+      "type": "audio/mp4",
+      "title": "017_RiseOfTheDragons_Ch17",
+      "duration": 690,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/27c387dd-ee30-4d42-bfe0-f6e7c8e15119.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/08c3d916-58e6-4952-a25b-7a7de7a0c1fc.mp4",
+      "type": "audio/mp4",
+      "title": "018_RiseOfTheDragons_Ch18",
+      "duration": 371,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/08c3d916-58e6-4952-a25b-7a7de7a0c1fc.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/f0a55dc0-b9ef-4191-9b73-77810d90de41.mp4",
+      "type": "audio/mp4",
+      "title": "019_RiseOfTheDragons_Ch19",
+      "duration": 953,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/f0a55dc0-b9ef-4191-9b73-77810d90de41.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d33c84e8-7f3a-43ec-a5b8-cda510eb7550.mp4",
+      "type": "audio/mp4",
+      "title": "020_RiseOfTheDragons_Ch20",
+      "duration": 317,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d33c84e8-7f3a-43ec-a5b8-cda510eb7550.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d3198438-a8c5-4651-b9ad-3ef5c2948b46.mp4",
+      "type": "audio/mp4",
+      "title": "021_RiseOfTheDragons_Ch21",
+      "duration": 453,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d3198438-a8c5-4651-b9ad-3ef5c2948b46.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/80405eb2-66f0-4b19-9506-403243d3809f.mp4",
+      "type": "audio/mp4",
+      "title": "022_RiseOfTheDragons_Ch22",
+      "duration": 704,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/80405eb2-66f0-4b19-9506-403243d3809f.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/ee4fe3ca-89e5-4659-b691-95bcc985f6f0.mp4",
+      "type": "audio/mp4",
+      "title": "023_RiseOfTheDragons_Ch23",
+      "duration": 792,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/ee4fe3ca-89e5-4659-b691-95bcc985f6f0.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/bea10189-918e-4b7f-a3d5-49298c43f215.mp4",
+      "type": "audio/mp4",
+      "title": "024_RiseOfTheDragons_Ch24",
+      "duration": 1252,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/bea10189-918e-4b7f-a3d5-49298c43f215.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/3d678379-22ac-46a5-aefd-2f546768576e.mp4",
+      "type": "audio/mp4",
+      "title": "025_RiseOfTheDragons_Ch25",
+      "duration": 775,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/3d678379-22ac-46a5-aefd-2f546768576e.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d1ef8023-daf3-4833-a240-70ffbc2dba1c.mp4",
+      "type": "audio/mp4",
+      "title": "026_RiseOfTheDragons_Ch26",
+      "duration": 1010,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d1ef8023-daf3-4833-a240-70ffbc2dba1c.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/1c0ba428-1f4a-41b0-ae78-7c9db5ea7b34.mp4",
+      "type": "audio/mp4",
+      "title": "027_RiseOfTheDragons_Ch27",
+      "duration": 844,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/1c0ba428-1f4a-41b0-ae78-7c9db5ea7b34.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/86cd4f75-1d5d-4c9b-8f89-c4b5d8e704ca.mp4",
+      "type": "audio/mp4",
+      "title": "028_RiseOfTheDragons_Ch28",
+      "duration": 807,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/86cd4f75-1d5d-4c9b-8f89-c4b5d8e704ca.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/a8a19fa2-adce-474e-ae14-5e1dac614cd8.mp4",
+      "type": "audio/mp4",
+      "title": "029_RiseOfTheDragons_Ch29",
+      "duration": 834,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/a8a19fa2-adce-474e-ae14-5e1dac614cd8.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/c12ebf0b-4d91-479a-911a-31c7b6bb0f06.mp4",
+      "type": "audio/mp4",
+      "title": "030_RiseOfTheDragons_Ch30",
+      "duration": 412,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/c12ebf0b-4d91-479a-911a-31c7b6bb0f06.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/76779e6e-ec5d-4763-9b44-0fd8645551df.mp4",
+      "type": "audio/mp4",
+      "title": "031_RiseOfTheDragons_Ch31",
+      "duration": 614,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/76779e6e-ec5d-4763-9b44-0fd8645551df.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/bca01df9-bc9c-4d48-b027-e1baef84fbab.mp4",
+      "type": "audio/mp4",
+      "title": "032_RiseOfTheDragons_Ch32",
+      "duration": 757,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/bca01df9-bc9c-4d48-b027-e1baef84fbab.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d460fcb0-8258-41e6-9957-788b704338ed.mp4",
+      "type": "audio/mp4",
+      "title": "033_RiseOfTheDragons_Ch33",
+      "duration": 460,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/d460fcb0-8258-41e6-9957-788b704338ed.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/c9bc2902-932c-44fa-b928-5e7d2a1700f0.mp4",
+      "type": "audio/mp4",
+      "title": "034_RiseOfTheDragons_Ch34",
+      "duration": 388,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/c9bc2902-932c-44fa-b928-5e7d2a1700f0.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/cc24bfb1-5bd1-41ae-9f7a-e87dac6aa8a6.mp4",
+      "type": "audio/mp4",
+      "title": "035_RiseOfTheDragons_Ch35",
+      "duration": 351,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/cc24bfb1-5bd1-41ae-9f7a-e87dac6aa8a6.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/52bafeeb-afd0-4191-a962-5e26459f3630.mp4",
+      "type": "audio/mp4",
+      "title": "036_RiseOfTheDragons_Ch36",
+      "duration": 686,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/52bafeeb-afd0-4191-a962-5e26459f3630.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/b1bc9698-a41f-460e-9a71-bab1020c514a.mp4",
+      "type": "audio/mp4",
+      "title": "037_RiseOfTheDragons_Ch37",
+      "duration": 368,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/b1bc9698-a41f-460e-9a71-bab1020c514a.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/176f28cf-0d9a-408d-8542-3b9152969a4d.mp4",
+      "type": "audio/mp4",
+      "title": "038_RiseOfTheDragons_Ch38",
+      "duration": 1624,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/176f28cf-0d9a-408d-8542-3b9152969a4d.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/f6723fd3-2c20-4d65-b844-9d7ba9217000.mp4",
+      "type": "audio/mp4",
+      "title": "039_RiseOfTheDragons_Ch39",
+      "duration": 292,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/f6723fd3-2c20-4d65-b844-9d7ba9217000.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/78d853f2-7a23-43a8-b1be-06960df07148.mp4",
+      "type": "audio/mp4",
+      "title": "040_RiseOfTheDragons_Ch40",
+      "duration": 1083,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/78d853f2-7a23-43a8-b1be-06960df07148.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    },
+    {
+      "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/239ebec6-1f8e-41d2-a84f-47c5b26d9373.mp4",
+      "type": "audio/mp4",
+      "title": "041_RiseOfTheDragons_Ch41",
+      "duration": 1078,
+      "bitrate": 64,
+      "alternates": [
+        {
+          "href": "https://listen.cantookaudio.com/item/f41c9234-e0a2-42fb-946d-8e92ec0f1ac4/239ebec6-1f8e-41d2-a84f-47c5b26d9373.ogg",
+          "type": "audio/ogg",
+          "bitrate": 32
+        }
+      ],
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    }
+  ]
+}
