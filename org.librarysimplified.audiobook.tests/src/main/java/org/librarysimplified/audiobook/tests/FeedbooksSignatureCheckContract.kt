@@ -25,7 +25,6 @@ import java.io.File
 import java.net.URI
 import java.util.ServiceLoader
 
-
 abstract class FeedbooksSignatureCheckContract {
 
   private lateinit var eventLog: MutableList<SingleLicenseCheckStatus>
@@ -228,7 +227,7 @@ abstract class FeedbooksSignatureCheckContract {
 
   private fun mockHttpClient(respondToUrl: String, responseResourceName: String): OkHttpClient {
     return OkHttpClient.Builder()
-      .addInterceptor(object: Interceptor {
+      .addInterceptor(object : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
           val uri = chain.request().url().uri().toString()
 
@@ -238,11 +237,12 @@ abstract class FeedbooksSignatureCheckContract {
               .code(200)
               .protocol(Protocol.HTTP_1_1)
               .message("OK")
-              .body(ResponseBody.create(
-                MediaType.parse("application/json"),
-                resource(responseResourceName)
-              ))
-              .addHeader("content-type", "application/json")
+              .body(
+                ResponseBody.create(
+                  MediaType.parse("application/json"),
+                  resource(responseResourceName)
+                )
+              ).addHeader("content-type", "application/json")
               .build()
           }
 
@@ -251,11 +251,12 @@ abstract class FeedbooksSignatureCheckContract {
             .code(404)
             .protocol(Protocol.HTTP_1_1)
             .message("Not Found")
-            .body(ResponseBody.create(
-              MediaType.parse("text/plain"),
-              "Not found"
-            ))
-            .addHeader("content-type", "text/plain")
+            .body(
+              ResponseBody.create(
+                MediaType.parse("text/plain"),
+                "Not found"
+              )
+            ).addHeader("content-type", "text/plain")
             .build()
         }
       })
@@ -264,18 +265,19 @@ abstract class FeedbooksSignatureCheckContract {
 
   private fun mockFailingHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
-      .addInterceptor(object: Interceptor {
+      .addInterceptor(object : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
           return chain.proceed(chain.request())
             .newBuilder()
             .code(500)
             .protocol(Protocol.HTTP_1_1)
             .message("Nope")
-            .body(ResponseBody.create(
-              MediaType.parse("text/plain"),
-              "Nope nope nope"
-            ))
-            .addHeader("content-type", "text/plain")
+            .body(
+              ResponseBody.create(
+                MediaType.parse("text/plain"),
+                "Nope nope nope"
+              )
+            ).addHeader("content-type", "text/plain")
             .build()
         }
       })

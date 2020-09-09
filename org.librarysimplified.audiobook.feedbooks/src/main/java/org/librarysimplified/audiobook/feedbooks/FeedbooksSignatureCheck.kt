@@ -29,9 +29,10 @@ class FeedbooksSignatureCheck(
   /*
    * Map issuer URI to certificate URL.
    */
+
   private val issuers = mapOf(
     "https://www.cantookaudio.com" to "https://listen.cantookaudio.com/.well-known/jwks.json"
-  );
+  )
 
   override fun execute(): SingleLicenseCheckResult {
     this.event("Started check")
@@ -63,17 +64,13 @@ class FeedbooksSignatureCheck(
 
     return try {
       checkSignature(canonicalManifestBytes, signature)
-    }
-    catch (e: UnsupportedAlgorithmException) {
+    } catch (e: UnsupportedAlgorithmException) {
       SingleLicenseCheckResult.Failed(e.message ?: "Unsupported signature algorithm.")
-    }
-    catch (e: UnknownIssuerException) {
+    } catch (e: UnknownIssuerException) {
       SingleLicenseCheckResult.Failed(e.message ?: "Unknown signature issuer.")
-    }
-    catch (e: CertificateRetrievalException) {
+    } catch (e: CertificateRetrievalException) {
       SingleLicenseCheckResult.Failed("Certificate could not be retrieved.")
-    }
-    catch (e: ParseException) {
+    } catch (e: ParseException) {
       SingleLicenseCheckResult.Failed("Certificate could not be parsed.")
     }
   }
@@ -117,7 +114,7 @@ class FeedbooksSignatureCheck(
         return verifier.verify(Base64.from(signature.value).decode())
       }
       else -> {
-        throw UnsupportedAlgorithmException("Unsupported signature algorithm ${algorithm}.")
+        throw UnsupportedAlgorithmException("Unsupported signature algorithm $algorithm.")
       }
     }
   }
@@ -127,7 +124,7 @@ class FeedbooksSignatureCheck(
   ): ByteArray {
     val certificateURL = getCertificateURL(signature.issuer)
 
-    this.event("Retrieving certificate ${certificateURL}...");
+    this.event("Retrieving certificate $certificateURL...")
 
     val request =
       Request.Builder()
@@ -148,10 +145,9 @@ class FeedbooksSignatureCheck(
         val bodyBytes = response.body()?.bytes() ?: ByteArray(0)
         this.logger.debug("received {} bytes", bodyBytes.size)
 
-        return bodyBytes;
+        return bodyBytes
       }
-    }
-    catch (e: IOException) {
+    } catch (e: IOException) {
       throw CertificateRetrievalException()
     }
   }
@@ -160,7 +156,7 @@ class FeedbooksSignatureCheck(
     val certificateUrl = issuers[issuerURI]
 
     if (certificateUrl == null) {
-      throw UnknownIssuerException("Unknown signature issuer ${issuerURI}.")
+      throw UnknownIssuerException("Unknown signature issuer $issuerURI.")
     }
 
     return URL(certificateUrl)

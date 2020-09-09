@@ -22,7 +22,6 @@ import java.io.IOException
 import java.net.URI
 import java.util.ServiceLoader
 
-
 abstract class LicenseCheckContract {
 
   private lateinit var eventLog: MutableList<SingleLicenseCheckStatus>

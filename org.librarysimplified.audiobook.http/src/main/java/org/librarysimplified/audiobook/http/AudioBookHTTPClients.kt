@@ -42,19 +42,20 @@ object AudioBookHTTPClients {
     val client = cachingClients[cachePath]
 
     if (client != null) {
-      return client;
+      return client
     }
 
     // Otherwise, configure a caching client based on the default client, and memoize it.
 
     return defaultClient.newBuilder()
-      .cache(Cache(
-        File(cacheDirectory, "audiobook-http"),
-        // A small (16 KB) cache should suffice, as the cache is currently only used for a feedbooks
-        // certificate (about 1 KB).
-        16L * 1024L
-      ))
-      .build()
+      .cache(
+        Cache(
+          File(cacheDirectory, "audiobook-http"),
+          // A small (16 KB) cache should suffice, as the cache is currently only used for a feedbooks
+          // certificate (about 1 KB).
+          16L * 1024L
+        )
+      ).build()
       .also {
         cachingClients.put(cachePath, it)
       }
