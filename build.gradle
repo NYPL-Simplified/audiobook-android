@@ -17,11 +17,11 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:4.0.0"
+    classpath "com.android.tools.build:gradle:4.0.1"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath "digital.wup:android-maven-publish:3.6.3"
     classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
-    classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.1.1"
+    classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.1.2"
   }
 }
 
