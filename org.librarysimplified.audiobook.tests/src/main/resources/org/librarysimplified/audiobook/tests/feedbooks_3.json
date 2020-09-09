@@ -1,0 +1,59 @@
+{
+  "@context": "http://readium.org/webpub-manifest/context.jsonld",
+
+  "readingOrder": [
+    {
+      "duration": 128,
+      "title": "01 - Invocation",
+      "href": "http://archive.org/download/gleams_of_sunshine_1607_librivox/gleamsofsunshine_01_chant.mp3",
+      "bitrate": "120",
+      "type": "audio/mpeg",
+      "properties": {
+        "encrypted": {
+          "scheme": "http://www.feedbooks.com/audiobooks/access-restriction",
+          "profile": "https://www.cantookaudio.com"
+        }
+      }
+    }
+  ],
+
+  "links": [
+    {
+      "href": "http://archive.org/services/img/gleams_of_sunshine_1607_librivox",
+      "rel": "cover",
+      "width": 180,
+      "height": 180,
+      "type": "image/jpeg"
+    },
+    {
+      "rel": "self",
+      "href": "https://api.archivelab.org/books/gleams_of_sunshine_1607_librivox/opds_audio_manifest",
+      "type": "application/audiobook+json"
+    },
+    {
+      "href": "http://example.com/license/status",
+      "type": "application/vnd.readium.license.status.v1.0+json",
+      "rel": "license"
+    }
+  ],
+
+  "metadata": {
+    "identifier": "http://archive.org/details/gleams_of_sunshine_1607_librivox",
+    "@type": "https://schema.org/Audiobook",
+    "author": "Joseph Horatio Chant",
+    "tracks": 172,
+    "duration": 22173,
+    "title": "Gleams of Sunshine",
+    "language": "en",
+
+    "http://www.feedbooks.com/audiobooks/signature": {
+      "algorithm": "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256",
+      "issuer": "https://www.cantookaudio.com",
+      "value": "eKLux/4TtJc6VH6RTOi5lBMh9mT1j2y1z50OruWZgy8QjyPMjDV+aVZWUt7OUTinUHQfWNPBB6DxixgTZ07TQsix4uScL2dJZRQTjUKKHv3he7oJdOkcxjWDh51Q6U2KbDfC2MReG/+Qa4meoI5BN0Q8FKIEFMDZJ2KQTSRj13ZETaD0Nwz+8d6IN7csQGFJHvW/bBJthty+eZNzIr+VE0Kf02OS4yX+wvsExfRabvHlfimT1uUTWc89CgPAuM+Y7vdtjb+B3YFr7ibXATk6lQJkXzKol9ms6vkNwnvxzXwsQ+p1ZjejH1LOYADvedl/ItPrBGkhmq7bbUz91jUd+w=="
+    },
+    "http://www.feedbooks.com/audiobooks/rights": {
+      "start": "2020-02-01T17:15:52Z",
+      "end": "2020-03-29T17:15:52Z"
+    }
+  }
+}

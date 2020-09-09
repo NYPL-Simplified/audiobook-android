@@ -64,7 +64,7 @@ class ExoSpineElement(
       0
     )
 
-  override val title: String
+  override val title: String?
     get() = this.itemManifest.title
 
   private val downloadTask: PlayerDownloadTaskType =

@@ -31,7 +31,8 @@ internal class LicenseCheck internal constructor(
             SingleLicenseCheckParameters(
               manifest = this.parameters.manifest,
               userAgent = this.parameters.userAgent,
-              onStatusChanged = this.eventSubject::onNext
+              onStatusChanged = this.eventSubject::onNext,
+              cacheDirectory = this.parameters.cacheDirectory
             )
           )
         singleCheck.execute()

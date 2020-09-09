@@ -1,5 +1,6 @@
 package org.librarysimplified.audiobook.feedbooks
 
+import org.librarysimplified.audiobook.http.AudioBookHTTPClients
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckProviderType
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckType
@@ -12,6 +13,9 @@ class FeedbooksSignatureChecks : SingleLicenseCheckProviderType {
   override fun createLicenseCheck(
     parameters: SingleLicenseCheckParameters
   ): SingleLicenseCheckType {
-    return FeedbooksSignatureCheck(parameters)
+    return FeedbooksSignatureCheck(
+      httpClient = AudioBookHTTPClients.cachingClient(parameters.cacheDirectory),
+      parameters = parameters
+    )
   }
 }

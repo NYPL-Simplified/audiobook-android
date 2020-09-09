@@ -2,6 +2,7 @@ package org.librarysimplified.audiobook.license_check.spi
 
 import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+import java.io.File
 
 /**
  * The parameters for a single license check.
@@ -25,5 +26,11 @@ data class SingleLicenseCheckParameters(
    * A function that will receive the results of license checking.
    */
 
-  val onStatusChanged: (SingleLicenseCheckStatus) -> Unit
+  val onStatusChanged: (SingleLicenseCheckStatus) -> Unit,
+
+  /**
+   * The directory in which to store cache files.
+   */
+
+  val cacheDirectory: File
 )

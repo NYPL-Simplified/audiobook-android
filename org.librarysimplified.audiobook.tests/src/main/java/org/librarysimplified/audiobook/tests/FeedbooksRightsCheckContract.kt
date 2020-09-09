@@ -3,7 +3,9 @@ package org.librarysimplified.audiobook.tests
 import org.joda.time.LocalDateTime
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.feedbooks.FeedbooksRightsCheck
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
@@ -23,6 +25,10 @@ abstract class FeedbooksRightsCheckContract {
 
   abstract fun log(): Logger
 
+  @Rule
+  @JvmField
+  val tempFolder = TemporaryFolder()
+
   @Before
   fun testSetup() {
     this.eventLog = mutableListOf()
@@ -37,7 +43,8 @@ abstract class FeedbooksRightsCheckContract {
         parameters = SingleLicenseCheckParameters(
           manifest = manifest,
           userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
-          onStatusChanged = { }
+          onStatusChanged = { },
+          cacheDirectory = tempFolder.newFolder("cache")
         ),
         timeNow = LocalDateTime.now()
       ).execute()
@@ -54,7 +61,8 @@ abstract class FeedbooksRightsCheckContract {
         parameters = SingleLicenseCheckParameters(
           manifest = manifest,
           userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
-          onStatusChanged = { }
+          onStatusChanged = { },
+          cacheDirectory = tempFolder.newFolder("cache")
         ),
         timeNow = LocalDateTime.parse("2000-01-01T00:10:00.000")
       ).execute()
@@ -71,7 +79,8 @@ abstract class FeedbooksRightsCheckContract {
         parameters = SingleLicenseCheckParameters(
           manifest = manifest,
           userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
-          onStatusChanged = { }
+          onStatusChanged = { },
+          cacheDirectory = tempFolder.newFolder("cache")
         ),
         timeNow = LocalDateTime.parse("1999-01-01T00:10:00.000")
       ).execute()
@@ -89,7 +98,8 @@ abstract class FeedbooksRightsCheckContract {
         parameters = SingleLicenseCheckParameters(
           manifest = manifest,
           userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
-          onStatusChanged = { }
+          onStatusChanged = { },
+          cacheDirectory = tempFolder.newFolder("cache")
         ),
         timeNow = LocalDateTime.parse("2002-01-01T00:10:00.000")
       ).execute()
@@ -107,7 +117,8 @@ abstract class FeedbooksRightsCheckContract {
         parameters = SingleLicenseCheckParameters(
           manifest = manifest,
           userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
-          onStatusChanged = { }
+          onStatusChanged = { },
+          cacheDirectory = tempFolder.newFolder("cache")
         ),
         timeNow = LocalDateTime.parse("2000-01-01T00:10:00.000")
       ).execute()
@@ -124,7 +135,8 @@ abstract class FeedbooksRightsCheckContract {
         parameters = SingleLicenseCheckParameters(
           manifest = manifest,
           userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0"),
-          onStatusChanged = { }
+          onStatusChanged = { },
+          cacheDirectory = tempFolder.newFolder("cache")
         ),
         timeNow = LocalDateTime.parse("2000-01-01T00:10:00.000")
       ).execute()
