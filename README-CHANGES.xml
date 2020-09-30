@@ -63,13 +63,18 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2020-09-09T14:33:20+00:00" ticket-system="org.nypl.jira" version="6.0.0">
+    <c:release date="2020-09-09T00:00:00+00:00" ticket-system="org.nypl.jira" version="6.0.0">
       <c:changes>
-        <c:change date="2020-09-09T14:33:20+00:00" summary="Enable Feedbooks signature checking">
+        <c:change date="2020-09-09T00:00:00+00:00" summary="Enable Feedbooks signature checking">
           <c:tickets>
             <c:ticket id="SIMPLY-2507"/>
           </c:tickets>
         </c:change>
+      </c:changes>
+    </c:release>
+    <c:release date="2020-09-30T15:48:16+00:00" ticket-system="org.nypl.jira" version="6.0.1">
+      <c:changes>
+        <c:change date="2020-09-30T15:48:16+00:00" summary="Update irradia packages to their latest published versions"/>
       </c:changes>
     </c:release>
   </c:releases>
