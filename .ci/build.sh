@@ -27,4 +27,4 @@ info()
 info "Executing build"
 ./gradlew \
   -Dorg.gradle.internal.publish.checksums.insecure=true \
-  clean assemble ktlint test verifySemanticVersioning || fatal "could not build"
+  clean assemble ktlint test || fatal "could not build"
