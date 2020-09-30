@@ -56,6 +56,9 @@ ext {
     useDirectoryPublish = false
     useDirectoryPublishPath = null
   }
+
+  irradiaFieldrushVersion = "0.0.9"
+  irradiaMimeVersion = "1.1.1"
 }
 
 subprojects {
@@ -88,10 +91,10 @@ ext.libraries = [
   androidXTestRunner      : "androidx.test:runner:1.1.0",
   googleExoplayer         : "com.google.android.exoplayer:exoplayer:r1.5.15",
   googleGuava             : "com.google.guava:guava:27.1-android",
-  irradiaFieldrushAPI     : "one.irradia.fieldrush:one.irradia.fieldrush.api:0.0.8",
-  irradiaFieldrushVanilla : "one.irradia.fieldrush:one.irradia.fieldrush.vanilla:0.0.8",
-  irradiaMimeAPI          : "one.irradia.mime:one.irradia.mime.api:1.0.0",
-  irradiaMimeVanilla      : "one.irradia.mime:one.irradia.mime.vanilla:1.0.0",
+  irradiaFieldrushAPI     : "one.irradia.fieldrush:one.irradia.fieldrush.api:${irradiaFieldrushVersion}",
+  irradiaFieldrushVanilla : "one.irradia.fieldrush:one.irradia.fieldrush.vanilla:${irradiaFieldrushVersion}",
+  irradiaMimeAPI          : "one.irradia.mime:one.irradia.mime.api:${irradiaMimeVersion}",
+  irradiaMimeVanilla      : "one.irradia.mime:one.irradia.mime.vanilla:${irradiaMimeVersion}",
   jacksonCore             : "com.fasterxml.jackson.core:jackson-core:2.10.2",
   jacksonDatabind         : "com.fasterxml.jackson.core:jackson-databind:2.10.2",
   jcip                    : "com.io7m.jcip:jcip-annotations:1.0.2",

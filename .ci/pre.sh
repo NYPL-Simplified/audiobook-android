@@ -8,9 +8,9 @@ exec &> >(tee -a ".ci/pre.log")
 
 fatal()
 {
-  echo "fatal: $1" 1>&2
+  echo "pre.sh: fatal: $1" 1>&2
   echo
-  echo "dumping log: " 1>&2
+  echo "pre.sh: dumping log: " 1>&2
   echo
   cat .ci/pre.log
   exit 1
@@ -18,7 +18,7 @@ fatal()
 
 info()
 {
-  echo "info: $1" 1>&2
+  echo "pre.sh: info: $1" 1>&2
 }
 
 #------------------------------------------------------------------------
