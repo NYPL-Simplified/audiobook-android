@@ -27,4 +27,6 @@ info()
 info "Executing build"
 ./gradlew \
   -Dorg.gradle.internal.publish.checksums.insecure=true \
+  -Dorg.gradle.daemon=false \
+  -Dorg.gradle.parallel=false \
   clean assemble ktlint test || fatal "could not build"
