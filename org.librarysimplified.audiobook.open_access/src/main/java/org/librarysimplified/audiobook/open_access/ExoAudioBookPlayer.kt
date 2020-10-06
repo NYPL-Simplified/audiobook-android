@@ -353,11 +353,11 @@ class ExoAudioBookPlayer private constructor(
       )
 
     this.exoPlayer.prepare(this.exoAudioRenderer)
-    this.exoPlayer.playWhenReady = true
     this.seek(offset)
+    this.exoPlayer.playWhenReady = true
 
     this.setPlayerPlaybackRate(this.currentPlaybackRate)
-    return this.schedulePlaybackObserverForSpineElement(spineElement, initialSeek = offset)
+    return this.schedulePlaybackObserverForSpineElement(spineElement, initialSeek = null)
   }
 
   /**
