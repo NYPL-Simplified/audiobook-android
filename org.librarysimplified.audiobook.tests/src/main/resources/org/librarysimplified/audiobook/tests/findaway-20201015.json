@@ -1,0 +1,41 @@
+{
+  "readingOrder": [
+    {
+      "duration": 3333.381,
+      "findaway:sequence": 1,
+      "type": "audio/mpeg",
+      "findaway:part": 0,
+      "title": "Track 1"
+    }
+  ],
+  "@context": [
+    "http://readium.org/webpub/default.jsonld",
+    {
+      "findaway": "http://librarysimplified.org/terms/third-parties/findaway.com/"
+    }
+  ],
+  "links": [
+    {
+      "href": "https://covers.nypl.org/scaled/300/Library+Simplified+metadata+wrangler/Bibliotheca+ID/ebwowg9/Jacket.png",
+      "rel": "cover"
+    }
+  ],
+  "metadata": {
+    "language": "en",
+    "author": [
+      "Louis L'Amour"
+    ],
+    "encrypted": {
+      "findaway:accountId": "REDACTED0",
+      "findaway:checkoutId": "REDACTED1",
+      "findaway:sessionKey": "REDACTED2",
+      "findaway:fulfillmentId": "REDACTED3",
+      "findaway:licenseId": "REDACTED4",
+      "scheme": "http://librarysimplified.org/terms/drm/scheme/FAE"
+    },
+    "title": "Man Riding West",
+    "duration": 3333.381,
+    "identifier": "urn:librarysimplified.org/terms/id/Bibliotheca%20ID/ebwowg9",
+    "@type": "http://bib.schema.org/Audiobook"
+  }
+}
