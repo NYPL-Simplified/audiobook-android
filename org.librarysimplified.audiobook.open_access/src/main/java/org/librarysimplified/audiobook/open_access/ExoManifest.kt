@@ -70,7 +70,7 @@ data class ExoManifest(
     ): URI {
       return when (link) {
         is PlayerManifestLink.LinkBasic ->
-          link.href
+          link.href ?: throw IllegalArgumentException("Spine item $index has a null 'href' field")
         is PlayerManifestLink.LinkTemplated ->
           throw IllegalArgumentException("Spine item $index has a templated 'href' field")
       }

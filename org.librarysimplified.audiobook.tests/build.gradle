@@ -22,7 +22,7 @@ dependencies {
   api libraries.quicktheories
   api libraries.slf4j
 
-  implementation libraries.logbackClassic
+  testImplementation libraries.logbackClassic
 }
 
 /*

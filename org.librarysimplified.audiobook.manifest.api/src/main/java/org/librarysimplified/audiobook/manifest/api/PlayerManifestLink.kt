@@ -80,7 +80,7 @@ sealed class PlayerManifestLink {
    */
 
   data class LinkBasic(
-    val href: URI,
+    val href: URI?,
     override val type: MIMEType? = null,
     override val relation: List<String> = listOf(),
     override val title: String? = null,

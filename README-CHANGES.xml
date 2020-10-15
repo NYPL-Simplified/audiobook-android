@@ -77,11 +77,21 @@
         <c:change date="2020-09-30T00:00:00+00:00" summary="Update irradia packages to their latest published versions"/>
       </c:changes>
     </c:release>
-    <c:release date="2020-10-06T18:39:06+00:00" ticket-system="org.nypl.jira" version="6.0.2">
+    <c:release date="2020-10-15T00:00:00+00:00" ticket-system="org.nypl.jira" version="6.0.2">
       <c:changes>
-        <c:change date="2020-10-06T18:39:06+00:00" summary="Fix word repetitions at the start of chapters.">
+        <c:change date="2020-10-06T00:00:00+00:00" summary="Fix word repetitions at the start of chapters.">
           <c:tickets>
             <c:ticket id="SIMPLY-2947"/>
+          </c:tickets>
+        </c:change>
+      </c:changes>
+    </c:release>
+    <c:release date="2020-10-15T18:24:42+00:00" ticket-system="org.nypl.jira" version="6.1.0">
+      <c:changes>
+        <c:change date="2020-10-15T00:00:00+00:00" summary="The href field of manifest links is now nullable.">
+          <c:tickets>
+            <c:ticket id="SIMPLY-3197"/>
+            <c:ticket id="SIMPLY-3004"/>
           </c:tickets>
         </c:change>
       </c:changes>

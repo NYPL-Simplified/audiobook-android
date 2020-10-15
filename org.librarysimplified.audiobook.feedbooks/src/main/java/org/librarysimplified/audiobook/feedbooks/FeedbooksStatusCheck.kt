@@ -37,8 +37,14 @@ class FeedbooksStatusCheck(
     return when (val link = this.parameters.manifest.links.find(this::linkIsLicenseLink)) {
       null ->
         SingleLicenseCheckResult.NotApplicable("No license link.")
-      is PlayerManifestLink.LinkBasic ->
-        this.checkLink(link.href)
+      is PlayerManifestLink.LinkBasic -> {
+        val href = link.href
+        if (href == null) {
+          SingleLicenseCheckResult.NotApplicable("No license link.")
+        } else {
+          this.checkLink(href)
+        }
+      }
       is PlayerManifestLink.LinkTemplated ->
         SingleLicenseCheckResult.NotApplicable("Templated links are not supported.")
     }

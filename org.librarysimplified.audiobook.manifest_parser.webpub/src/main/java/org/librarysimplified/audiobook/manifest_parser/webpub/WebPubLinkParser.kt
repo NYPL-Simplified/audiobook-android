@@ -26,7 +26,7 @@ class WebPubLinkParser(
   private val logger =
     LoggerFactory.getLogger(WebPubLinkParser::class.java)
 
-  private lateinit var href: String
+  private var href: String? = null
   private val relations = mutableListOf<String>()
   private var bitrate: Double? = null
   private var duration: Double? = null
@@ -44,8 +44,11 @@ class WebPubLinkParser(
       FRParserObjectFieldSchema(
         name = "href",
         parser = {
-          FRValueParsers.forString { uri -> this.href = uri }
-        }
+          FRValueParsers.acceptingNull(
+            FRValueParsers.forString { uri -> this.href = uri }
+          )
+        },
+        isOptional = true
       )
 
     val templatedSchema =
@@ -198,7 +201,7 @@ class WebPubLinkParser(
           bitrate = this.bitrate,
           duration = this.duration,
           height = this.height?.toInt(),
-          href = this.href,
+          href = this.href ?: "",
           properties = mergedProperties,
           relation = this.relations.toList(),
           title = this.title,
@@ -214,7 +217,7 @@ class WebPubLinkParser(
             bitrate = this.bitrate,
             duration = this.duration,
             height = this.height?.toInt(),
-            href = URI(href),
+            href = this.href?.let { URI(it) },
             properties = mergedProperties,
             relation = this.relations.toList(),
             title = this.title,
