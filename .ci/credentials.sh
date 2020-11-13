@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exec &> >(tee -a ".ci/pre.log")
+exec &> >(tee -a ".ci/credentials.log")
 
 #------------------------------------------------------------------------
 # Utility methods
@@ -8,17 +8,17 @@ exec &> >(tee -a ".ci/pre.log")
 
 fatal()
 {
-  echo "pre.sh: fatal: $1" 1>&2
+  echo "credentials.sh: fatal: $1" 1>&2
   echo
-  echo "pre.sh: dumping log: " 1>&2
+  echo "credentials.sh: Dumping log: " 1>&2
   echo
-  cat .ci/pre.log
+  cat .ci/credentials.log
   exit 1
 }
 
 info()
 {
-  echo "pre.sh: info: $1" 1>&2
+  echo "credentials.sh: info: $1" 1>&2
 }
 
 #------------------------------------------------------------------------
@@ -50,36 +50,36 @@ fi
 # Clone credentials repos
 #
 
-info "cloning credentials"
+info "Cloning credentials"
 
 git clone \
   --depth 1 \
   "https://${NYPL_GITHUB_ACCESS_TOKEN}@github.com/NYPL-Simplified/Certificates" \
-  ".ci/credentials" || fatal "could not clone credentials"
+  ".ci/credentials" || fatal "Could not clone credentials"
 
 #------------------------------------------------------------------------
 # Import the PGP key for signing Central releases, and try to sign a test
 # file to check that the key hasn't expired.
 #
 
-info "importing GPG key"
-gpg --import ".ci/credentials/APK Signing/librarySimplified.asc" || fatal "could not import GPG key"
+info "Importing GPG key"
+gpg --import ".ci/credentials/APK Signing/librarySimplified.asc" || fatal "Could not import GPG key"
 
-info "signing test file"
-echo "Test" > hello.txt || fatal "could not create test file"
-gpg --sign -a hello.txt || fatal "could not produce test signature"
+info "Signing test file"
+echo "Test" > hello.txt || fatal "Could not create test file"
+gpg --sign -a hello.txt || fatal "Could not produce test signature"
 
 #------------------------------------------------------------------------
 # Download Brooklime if necessary.
 #
 
-BROOKLIME_URL="https://repo1.maven.org/maven2/com/io7m/brooklime/com.io7m.brooklime.cmdline/0.1.1/com.io7m.brooklime.cmdline-0.1.1-main.jar"
-BROOKLIME_SHA256_EXPECTED="efce745f90741aa18c9751c5707580abc123088a8de6d6081fff58f8533f9d8e"
+BROOKLIME_URL="https://repo1.maven.org/maven2/com/io7m/brooklime/com.io7m.brooklime.cmdline/0.1.0/com.io7m.brooklime.cmdline-0.1.0-main.jar"
+BROOKLIME_SHA256_EXPECTED="d706dee5ce6be4992d35b3d61094872e194b7f8f3ad798a845ceb692a8ac8fcd"
 
-wget -O "brooklime.jar.tmp" "${BROOKLIME_URL}" || fatal "could not download brooklime"
-mv "brooklime.jar.tmp" "brooklime.jar" || fatal "could not rename brooklime"
+wget -O "brooklime.jar.tmp" "${BROOKLIME_URL}" || fatal "Could not download brooklime"
+mv "brooklime.jar.tmp" "brooklime.jar" || fatal "Could not rename brooklime"
 
-BROOKLIME_SHA256_RECEIVED=$(openssl sha256 "brooklime.jar" | awk '{print $NF}') || fatal "could not checksum brooklime.jar"
+BROOKLIME_SHA256_RECEIVED=$(openssl sha256 "brooklime.jar" | awk '{print $NF}') || fatal "Could not checksum brooklime.jar"
 
 if [ "${BROOKLIME_SHA256_EXPECTED}" != "${BROOKLIME_SHA256_RECEIVED}" ]
 then

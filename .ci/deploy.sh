@@ -24,7 +24,7 @@ info()
 # Determine version and whether or not this is a snapshot.
 #
 
-VERSION_NAME=$(./.ci/version.sh) || fatal "could not determine project version"
+VERSION_NAME=$(./.ci/version.sh) || fatal "Could not determine project version"
 VERSION_TYPE=none
 
 echo "${VERSION_NAME}" | grep -E -- '-SNAPSHOT$'
@@ -39,7 +39,7 @@ else
   fi
 fi
 
-info "version to be deployed is ${VERSION_NAME}"
+info "Version to be deployed is ${VERSION_NAME}"
 
 #------------------------------------------------------------------------
 # Publish the built artifacts to wherever they need to go.
@@ -62,21 +62,21 @@ then
     -Psigning.gnupg.useLegacyGpg=false \
     -Psigning.gnupg.keyName="${MAVEN_CENTRAL_SIGNING_KEY_ID}" \
     -Dorg.gradle.internal.publish.checksums.insecure=true \
-    publish || fatal "could not publish snapshot"
+    publish || fatal "Could not publish snapshot"
   exit 0
 fi
 
 if [ "${VERSION_TYPE}" != "tag" ]
 then
-  fatal "unrecognized version type!"
+  fatal "Unrecognized version type!"
 fi
 
 info "Current version is a tag (${VERSION_TAG})"
 
 DEPLOY_DIRECTORY="$(pwd)/deploy"
 info "Artifacts will temporarily be deployed to ${DEPLOY_DIRECTORY}"
-rm -rf "${DEPLOY_DIRECTORY}" || fatal "could not ensure temporary directory is clean"
-mkdir -p "${DEPLOY_DIRECTORY}" || fatal "could not create a temporary directory"
+rm -rf "${DEPLOY_DIRECTORY}" || fatal "Could not ensure temporary directory is clean"
+mkdir -p "${DEPLOY_DIRECTORY}" || fatal "Could not create a temporary directory"
 
 info "Executing tagged release deployment"
 ./gradlew \
@@ -87,14 +87,14 @@ info "Executing tagged release deployment"
   -Psigning.gnupg.keyName="${MAVEN_CENTRAL_SIGNING_KEY_ID}" \
   -Porg.librarysimplified.directory.publish="${DEPLOY_DIRECTORY}" \
   -Dorg.gradle.internal.publish.checksums.insecure=true \
-  publish || fatal "could not publish"
+  publish || fatal "Could not publish"
 
 info "Checking signatures were created"
-SIGNATURE_COUNT=$(find "${DEPLOY_DIRECTORY}" -type f -name '*.asc' | wc -l) || fatal "could not list signatures"
+SIGNATURE_COUNT=$(find "${DEPLOY_DIRECTORY}" -type f -name '*.asc' | wc -l) || fatal "Could not list signatures"
 info "Generated ${SIGNATURE_COUNT} signatures"
 if [ "${SIGNATURE_COUNT}" -lt 2 ]
 then
-  fatal "too few signatures were produced! check the Gradle/PGP setup!"
+  fatal "Too few signatures were produced! check the Gradle/PGP setup!"
 fi
 
 #------------------------------------------------------------------------

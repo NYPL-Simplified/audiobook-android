@@ -20,13 +20,31 @@ info()
   echo "build.sh: info: $1" 1>&2
 }
 
+BUILD_TYPE="$1"
+shift
+
+if [ -z "${BUILD_TYPE}" ]
+then
+  BUILD_TYPE="normal"
+fi
+
 #------------------------------------------------------------------------
 # Build the project
 #
 
-info "Executing build"
-./gradlew \
-  -Dorg.gradle.internal.publish.checksums.insecure=true \
-  -Dorg.gradle.daemon=false \
-  -Dorg.gradle.parallel=false \
-  clean assemble ktlint test || fatal "could not build"
+info "Executing build in '${BUILD_TYPE}' mode"
+
+case ${BUILD_TYPE} in
+  normal)
+    ./gradlew \
+      -Dorg.gradle.internal.publish.checksums.insecure=true \
+      clean assembleRelease ktlint test verifySemanticVersioning || fatal "could not build"
+    ;;
+
+  pull-request)
+    ./gradlew \
+      -Porg.librarysimplified.no_signing=true \
+      -Dorg.gradle.internal.publish.checksums.insecure=true \
+      clean assembleDebug ktlint test verifySemanticVersioning || fatal "could not build"
+    ;;
+esac
