@@ -45,7 +45,14 @@ case ${BUILD_TYPE} in
       -Dorg.gradle.daemon=false \
       -Dorg.gradle.parallel=false \
       -Dorg.gradle.internal.publish.checksums.insecure=true \
-      clean ktlint assembleRelease test verifySemanticVersioning || fatal "could not build"
+      ktlint assembleDebug test verifySemanticVersioning || fatal "could not build"
+
+    ./gradlew \
+      -Dorg.gradle.jvmargs="${JVM_ARGUMENTS}" \
+      -Dorg.gradle.daemon=false \
+      -Dorg.gradle.parallel=false \
+      -Dorg.gradle.internal.publish.checksums.insecure=true \
+      assembleRelease || fatal "could not build"
     ;;
 
   pull-request)
@@ -55,6 +62,6 @@ case ${BUILD_TYPE} in
       -Dorg.gradle.daemon=false \
       -Dorg.gradle.parallel=false \
       -Dorg.gradle.internal.publish.checksums.insecure=true \
-      clean ktlint assembleDebug test verifySemanticVersioning || fatal "could not build"
+      ktlint assembleDebug test verifySemanticVersioning || fatal "could not build"
     ;;
 esac
