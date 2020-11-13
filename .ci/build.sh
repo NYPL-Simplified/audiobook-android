@@ -37,14 +37,18 @@ info "Executing build in '${BUILD_TYPE}' mode"
 case ${BUILD_TYPE} in
   normal)
     ./gradlew \
+      -Dorg.gradle.daemon=false \
+      -Dorg.gradle.parallel=false \
       -Dorg.gradle.internal.publish.checksums.insecure=true \
-      clean assembleRelease ktlint test verifySemanticVersioning || fatal "could not build"
+      clean ktlint assembleRelease test verifySemanticVersioning || fatal "could not build"
     ;;
 
   pull-request)
     ./gradlew \
       -Porg.librarysimplified.no_signing=true \
+      -Dorg.gradle.daemon=false \
+      -Dorg.gradle.parallel=false \
       -Dorg.gradle.internal.publish.checksums.insecure=true \
-      clean assembleDebug ktlint test verifySemanticVersioning || fatal "could not build"
+      clean ktlint assembleDebug test verifySemanticVersioning || fatal "could not build"
     ;;
 esac
