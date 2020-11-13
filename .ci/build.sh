@@ -34,9 +34,14 @@ fi
 
 info "Executing build in '${BUILD_TYPE}' mode"
 
+JVM_ARGUMENTS="-Xmx4096m -XX:+PrintGC -XX:+PrintGCDetails -XX:MaxMetaspaceSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
+
+info "Gradle JVM arguments: ${JVM_ARGUMENTS}"
+
 case ${BUILD_TYPE} in
   normal)
     ./gradlew \
+      -Dorg.gradle.jvmargs="${JVM_ARGUMENTS}" \
       -Dorg.gradle.daemon=false \
       -Dorg.gradle.parallel=false \
       -Dorg.gradle.internal.publish.checksums.insecure=true \
@@ -46,6 +51,7 @@ case ${BUILD_TYPE} in
   pull-request)
     ./gradlew \
       -Porg.librarysimplified.no_signing=true \
+      -Dorg.gradle.jvmargs="${JVM_ARGUMENTS}" \
       -Dorg.gradle.daemon=false \
       -Dorg.gradle.parallel=false \
       -Dorg.gradle.internal.publish.checksums.insecure=true \
