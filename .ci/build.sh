@@ -1,17 +1,11 @@
 #!/bin/bash
 
-exec &> >(tee -a ".ci/build.log")
-
 #------------------------------------------------------------------------
 # Utility methods
 
 fatal()
 {
   echo "build.sh: fatal: $1" 1>&2
-  echo
-  echo "build.sh: dumping log: " 1>&2
-  echo
-  cat .ci/build.log
   exit 1
 }
 

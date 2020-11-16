@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exec &> >(tee -a ".ci/credentials.log")
-
 #------------------------------------------------------------------------
 # Utility methods
 #
@@ -9,10 +7,6 @@ exec &> >(tee -a ".ci/credentials.log")
 fatal()
 {
   echo "credentials.sh: fatal: $1" 1>&2
-  echo
-  echo "credentials.sh: Dumping log: " 1>&2
-  echo
-  cat .ci/credentials.log
   exit 1
 }
 

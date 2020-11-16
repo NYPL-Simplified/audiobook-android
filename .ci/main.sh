@@ -5,10 +5,6 @@ exec &> >(tee -a ".ci/main.log")
 fatal()
 {
   echo "main.sh: fatal: $1" 1>&2
-  echo
-  echo "main.sh: Dumping log: " 1>&2
-  echo
-  cat .ci/main.log
   exit 1
 }
 

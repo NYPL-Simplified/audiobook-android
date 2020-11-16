@@ -1,17 +1,11 @@
 #!/bin/bash
 
-exec &> >(tee -a ".ci/deploy.log")
-
 #------------------------------------------------------------------------
 # Utility methods
 
 fatal()
 {
   echo "deploy.sh: fatal: $1" 1>&2
-  echo
-  echo "deploy.sh: dumping log: " 1>&2
-  echo
-  cat .ci/deploy.log
   exit 1
 }
 
