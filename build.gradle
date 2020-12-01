@@ -1,6 +1,6 @@
 buildscript {
-  if ("$gradle.gradleVersion" != "6.3") {
-    throw new GradleException("Gradle version 6.3 is required (received $gradle.gradleVersion)")
+  if ("$gradle.gradleVersion" != "6.7") {
+    throw new GradleException("Gradle version 6.7 is required (received $gradle.gradleVersion)")
   }
 
   // https://github.com/gradle/gradle/issues/11308#issuecomment-554317655
@@ -8,7 +8,7 @@ buildscript {
     throw new GradleException("org.gradle.internal.publish.checksums.insecure must be 'true'")
   }
 
-  ext.kotlin_version = "1.3.72"
+  ext.kotlin_version = "1.4.10"
 
   repositories {
     mavenCentral()
@@ -17,11 +17,12 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:4.0.1"
+    classpath "com.android.tools.build:gradle:4.1.1"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath "digital.wup:android-maven-publish:3.6.3"
     classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
-    classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.1.2"
+    classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.2.0"
+    classpath "de.undercouch:gradle-download-task:4.1.1"
   }
 }
 
@@ -55,6 +56,14 @@ ext {
     logger.warn("org.librarysimplified.directory.publish is not set: We will not publish artifacts to a custom directory")
     useDirectoryPublish = false
     useDirectoryPublishPath = null
+  }
+
+  if (project.hasProperty("org.librarysimplified.no_signing")) {
+    disableSigning = true
+    logger.warn("org.librarysimplified.no_signing is set: We will not sign artifacts")
+  } else {
+    disableSigning = false
+    logger.warn("org.librarysimplified.no_signing is not set: We will attempt to sign artifacts")
   }
 
   irradiaFieldrushVersion = "0.0.9"
@@ -103,6 +112,7 @@ ext.libraries = [
 ]
 
 apply plugin: "com.vanniktech.android.junit.jacoco"
+apply plugin: "de.undercouch.download"
 
 allprojects {
   group = project.ext["GROUP"]
@@ -113,7 +123,7 @@ subprojects { project ->
 
   switch (POM_PACKAGING) {
     case "jar":
-      logger.info("Configuring ${project} (${POM_PACKAGING}) as jar project")
+      logger.info("Configuring ${project} ${version} (${POM_PACKAGING}) as jar project")
 
       apply plugin: "java"
       apply plugin: "java-library"
@@ -127,7 +137,7 @@ subprojects { project ->
 
       dependencies {
         signature "org.codehaus.mojo.signature:java16:1.1@signature"
-        signature "net.sf.androidscents.signature:android-api-level-14:4.0_r4@signature"
+        signature "net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature"
       }
 
       /*
@@ -146,7 +156,7 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
       break
 
     case "apk":
-      logger.info("Configuring ${project} (${POM_PACKAGING}) as Android application project")
+      logger.info("Configuring ${project} ${version} (${POM_PACKAGING}) as Android application project")
 
       apply plugin: "com.android.application"
       apply plugin: "kotlin-android"
@@ -158,21 +168,17 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
         defaultConfig {
           minSdkVersion androidMinimumSDKVersion
           targetSdkVersion androidTargetSDKVersion
-          testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         }
         compileOptions {
+          encoding 'UTF-8'
           sourceCompatibility JavaVersion.VERSION_1_8
           targetCompatibility JavaVersion.VERSION_1_8
-        }
-        testOptions {
-          execution "ANDROIDX_TEST_ORCHESTRATOR"
-          animationsDisabled = true
         }
       }
       break
 
     case "aar":
-      logger.info("Configuring ${project} (${POM_PACKAGING}) as Android library project")
+      logger.info("Configuring ${project} ${version} (${POM_PACKAGING}) as Android library project")
 
       apply plugin: "com.android.library"
       apply plugin: "kotlin-android"
@@ -185,14 +191,74 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           minSdkVersion androidMinimumSDKVersion
           targetSdkVersion androidTargetSDKVersion
           testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+          useLibrary 'org.apache.http.legacy'
         }
         compileOptions {
+          encoding 'UTF-8'
           sourceCompatibility JavaVersion.VERSION_1_8
           targetCompatibility JavaVersion.VERSION_1_8
         }
         testOptions {
-          execution "ANDROIDX_TEST_ORCHESTRATOR"
+          execution 'ANDROIDX_TEST_ORCHESTRATOR'
           animationsDisabled = true
+        }
+      }
+
+      afterEvaluate {
+        def scandoVersion     = "0.0.5"
+        def scandoSHA256      = "d1e6e57a791363d2a6e9930a15b779fb45855006f5ee7e0119286652ccad7827"
+        def scandoSource      = "https://repo1.maven.org/maven2/com/io7m/scando/com.io7m.scando.cmdline/${scandoVersion}/com.io7m.scando.cmdline-${scandoVersion}-main.jar"
+        def scandoBinDir      = "${project.buildDir}/bin/"
+        def scandoTarget      = "${scandoBinDir}/scando.jar"
+
+        task scandoMakeDirectories() {
+          mkdir "${scandoBinDir}"
+        }
+
+        task scandoDownload(type: Download, dependsOn: scandoMakeDirectories) {
+          src scandoSource
+          dest scandoTarget
+          overwrite true
+        }
+
+        task scandoDownloadVerify(type: Verify, dependsOn: scandoDownload) {
+          src scandoTarget
+          checksum scandoSHA256
+          algorithm 'SHA-256'
+        }
+
+        task scandoAnalyze(type: Exec, dependsOn: [scandoDownloadVerify, assembleDebug]) {
+          def oldGroup =
+            "${project.group}".replace('.', '/')
+          def oldPath =
+            "${oldGroup}/${POM_ARTIFACT_ID}/${VERSION_PREVIOUS}/${POM_ARTIFACT_ID}-${VERSION_PREVIOUS}.aar"
+          def oldUrl =
+            "https://repo1.maven.org/maven2/${oldPath}"
+
+          commandLine = [
+            "java",
+            "-jar",
+            scandoTarget,
+            "--excludeList",
+            "${project.rootDir}/VERSIONING.txt",
+            "--oldJarUri",
+            "${oldUrl}",
+            "--oldJarVersion",
+            "${VERSION_PREVIOUS}",
+            "--ignoreMissingOld",
+            "--newJar",
+            "${buildDir}/outputs/aar/${POM_ARTIFACT_ID}-debug.aar",
+            "--newJarVersion",
+            "${VERSION_NAME}",
+            "--textReport",
+            "${project.buildDir}/scando-report.txt",
+            "--htmlReport",
+            "${project.buildDir}/scando-report.html"
+          ]
+        }
+
+        task verifySemanticVersioning(dependsOn: [scandoAnalyze]) {
+
         }
       }
       break
@@ -212,7 +278,6 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
   }
 
   apply plugin: "digital.wup.android-maven-publish"
-  apply plugin: "signing"
 
   publishing {
     publications {
@@ -289,22 +354,12 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
     }
   }
 
-  signing {
-    useGpgCmd()
-    sign publishing.publications.basicJar
-  }
+  if (!disableSigning) {
+    apply plugin: "signing"
 
-  tasks.withType(Sign) { task ->
-    def isSnapshot = version.endsWith("SNAPSHOT")
-
-    // Sign release versions only; not snapshots
-    onlyIf {
-      if (isSnapshot) {
-        logger.warn("$POM_NAME: '$version' is a snapshot version; artifacts will not be signed")
-      } else {
-        logger.info("$POM_NAME: '$version' is a release version; artifacts will be signed")
-      }
-      return !isSnapshot
+    signing {
+      useGpgCmd()
+      sign publishing.publications.basicJar
     }
   }
 
