@@ -86,12 +86,21 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2020-10-15T18:24:42+00:00" ticket-system="org.nypl.jira" version="6.1.0">
+    <c:release date="2020-10-15T00:00:00+00:00" ticket-system="org.nypl.jira" version="6.1.0">
       <c:changes>
         <c:change date="2020-10-15T00:00:00+00:00" summary="The href field of manifest links is now nullable.">
           <c:tickets>
             <c:ticket id="SIMPLY-3197"/>
             <c:ticket id="SIMPLY-3004"/>
+          </c:tickets>
+        </c:change>
+      </c:changes>
+    </c:release>
+    <c:release date="2020-12-01T10:49:34+00:00" ticket-system="org.nypl.jira" version="6.2.0">
+      <c:changes>
+        <c:change date="2020-12-01T10:49:34+00:00" summary="Use the correct RecyclerView class">
+          <c:tickets>
+            <c:ticket id="SIMPLY-3333"/>
           </c:tickets>
         </c:change>
       </c:changes>
