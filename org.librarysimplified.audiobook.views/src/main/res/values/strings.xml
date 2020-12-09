@@ -20,9 +20,9 @@
   <string name="audiobook_player_toc_title">Table Of Contents</string>
   <string name="audiobook_player_title">Audio Book Player</string>
 
-  <string name="audiobook_player_spine_element">Chapter %1$d of %2$d</string>
+  <string name="audiobook_player_spine_element">%1$s (file %2$d of %3$d)</string>
 
-  <string name="audiobook_player_sleep_end_of_chapter">End of chapter</string>
+  <string name="audiobook_player_sleep_end_of_chapter">End of file</string>
   <string name="audiobook_player_sleep_60">60:00</string>
   <string name="audiobook_player_sleep_45">45:00</string>
   <string name="audiobook_player_sleep_30">30:00</string>
@@ -31,7 +31,7 @@
   <string name="audiobook_player_sleep_off">Off</string>
 
   <string name="audiobook_player_buffering">Buffering…</string>
-  <string name="audiobook_player_waiting">Chapter %1$d must be downloaded to continue playback.</string>
+  <string name="audiobook_player_waiting">File %1$d must be downloaded to continue playback.</string>
   <string name="audiobook_player_error">An error occurred during playback. Error code: %1$d</string>
 
   <string name="audiobook_player_toc_chapter_n">Chapter %1$d</string>
@@ -59,7 +59,7 @@
 
   <string name="audiobook_accessibility_menu_sleep_timer_icon">Set Your Sleep Timer</string>
   <string name="audiobook_accessibility_menu_sleep_timer">Sleep Timer Menu</string>
-  <string name="audiobook_accessibility_menu_sleep_timer_item_at_end_of_chapter">Sleep At End of Chapter</string>
+  <string name="audiobook_accessibility_menu_sleep_timer_item_at_end_of_chapter">Sleep At End of File</string>
   <string name="audiobook_accessibility_menu_sleep_timer_item_in_60_minutes">Sleep In 60 Minutes</string>
   <string name="audiobook_accessibility_menu_sleep_timer_item_in_45_minutes">Sleep In 45 Minutes</string>
   <string name="audiobook_accessibility_menu_sleep_timer_item_in_30_minutes">Sleep In 30 Minutes</string>
@@ -67,7 +67,7 @@
   <string name="audiobook_accessibility_menu_sleep_timer_item_off">Sleep Timer Off</string>
   <string name="audiobook_accessibility_menu_sleep_timer_item_now">Sleep Now</string>
 
-  <string name="audiobook_accessibility_sleep_timer_description_end_of_chapter">Sleep At End of Chapter</string>
+  <string name="audiobook_accessibility_sleep_timer_description_end_of_chapter">Sleep At End of File</string>
   <string name="audiobook_accessibility_sleep_timer_description_60_minutes">Sleep In 60 Minutes</string>
   <string name="audiobook_accessibility_sleep_timer_description_45_minutes">Sleep In 45 Minutes</string>
   <string name="audiobook_accessibility_sleep_timer_description_30_minutes">Sleep In 30 Minutes</string>
@@ -79,7 +79,7 @@
   <string name="audiobook_accessibility_sleep_timer_label">Sleep Timer</string>
   <string name="audiobook_accessibility_sleep_timer_is_paused">The Sleep Timer Is Paused Because Playback Is Paused.</string>
 
-  <string name="audiobook_accessibility_chapter_of">Chapter %1$d of %2$d</string>
+  <string name="audiobook_accessibility_chapter_of">%1$s (file %2$d of %3$d)</string>
 
   <string name="audiobook_accessibility_menu_playback_speed_icon">Set Your Playback Speed</string>
   <string name="audiobook_accessibility_menu_playback_speed_0p75">75 percent</string>
@@ -100,18 +100,18 @@
 
   <string name="audiobook_accessibility_toc_chapter_n">Chapter %1$d</string>
   <string name="audiobook_accessibility_toc_chapter_is_current">Selected</string>
-  <string name="audiobook_accessibility_toc_chapter_requires_download">Chapter Must Be Downloaded Before It Can Be Played</string>
-  <string name="audiobook_accessibility_toc_chapter_failed_download">Chapter Has Failed To Download</string>
-  <string name="audiobook_accessibility_toc_chapter_downloading">Chapter Is Currently Downloading</string>
+  <string name="audiobook_accessibility_toc_chapter_requires_download">File Must Be Downloaded Before It Can Be Played</string>
+  <string name="audiobook_accessibility_toc_chapter_failed_download">File Has Failed To Download</string>
+  <string name="audiobook_accessibility_toc_chapter_downloading">File Is Currently Downloading</string>
   <string name="audiobook_accessibility_toc_chapter_duration_is">Duration</string>
 
-  <string name="audiobook_accessibility_toc_refresh_all">Download All Chapters</string>
-  <string name="audiobook_accessibility_toc_stop_all">Stop All Chapter Downloads</string>
-  <string name="audiobook_accessibility_toc_download">Download Chapter %1$d</string>
-  <string name="audiobook_accessibility_toc_cancel">Cancel Download Of Chapter %1$d</string>
-  <string name="audiobook_accessibility_toc_retry">Retry Download Of Chapter %1$d</string>
-  <string name="audiobook_accessibility_toc_progress">Download Progress Of Chapter %1$d is
+  <string name="audiobook_accessibility_toc_refresh_all">Download All Files</string>
+  <string name="audiobook_accessibility_toc_stop_all">Stop All File Downloads</string>
+  <string name="audiobook_accessibility_toc_download">Download File %1$d</string>
+  <string name="audiobook_accessibility_toc_cancel">Cancel Download Of File %1$d</string>
+  <string name="audiobook_accessibility_toc_retry">Retry Download Of File %1$d</string>
+  <string name="audiobook_accessibility_toc_progress">Download Progress Of File %1$d is
     %2$d Percent. Click To Stop Download.</string>
-  <string name="audiobook_accessibility_toc_selected">Selected Chapter %1$d</string>
+  <string name="audiobook_accessibility_toc_selected">Selected File %1$d</string>
 
 </resources>
