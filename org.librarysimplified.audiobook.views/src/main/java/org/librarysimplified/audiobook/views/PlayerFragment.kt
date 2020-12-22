@@ -721,8 +721,14 @@ class PlayerFragment : Fragment() {
   }
 
   private fun spineElementText(spineElement: PlayerSpineElementType): String {
+    val title = spineElement.title ?: this.getString(
+      R.string.audiobook_player_toc_chapter_n,
+      spineElement.index + 1
+    )
+
     return this.getString(
       R.string.audiobook_player_spine_element,
+      title,
       spineElement.index + 1,
       spineElement.book.spine.size
     )
@@ -735,9 +741,16 @@ class PlayerFragment : Fragment() {
 
   private fun configureSpineElementText(element: PlayerSpineElementType) {
     this.playerSpineElement.text = this.spineElementText(element)
+
+    val accessibilityTitle = element.title ?: this.getString(
+      R.string.audiobook_accessibility_toc_chapter_n,
+      element.index + 1
+    )
+
     this.playerSpineElement.contentDescription =
       this.getString(
         R.string.audiobook_accessibility_chapter_of,
+        accessibilityTitle,
         element.index + 1,
         this.book.spine.size
       )
