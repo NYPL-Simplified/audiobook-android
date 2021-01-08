@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <c:changelog project="org.librarysimplified.audiobook" xmlns:c="urn:com.io7m.changelog:4.0">
   <c:releases>
-    <c:release date="2019-01-23T00:00:00+00:00" ticket-system="org.nypl.jira" version="1.0.0">
+    <c:release date="2019-01-23T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="1.0.0">
       <c:changes/>
     </c:release>
-    <c:release date="2019-04-19T00:00:00+00:00" ticket-system="org.nypl.jira" version="2.0.0">
+    <c:release date="2019-04-19T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="2.0.0">
       <c:changes>
         <c:change compatible="false" date="2019-04-19T00:00:00+00:00" summary="Take all color scheme information from the current Android theme"/>
       </c:changes>
     </c:release>
-    <c:release date="2019-05-16T00:00:00+00:00" ticket-system="org.nypl.jira" version="2.0.1">
+    <c:release date="2019-05-16T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="2.0.1">
       <c:changes>
         <c:change date="2019-05-16T00:00:00+00:00" summary="Aggressively seek to ensure playback positions are restored">
           <c:tickets>
@@ -18,7 +18,7 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2019-05-21T00:00:00+00:00" ticket-system="org.nypl.jira" version="2.0.2">
+    <c:release date="2019-05-21T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="2.0.2">
       <c:changes>
         <c:change date="2019-05-21T00:00:00+00:00" summary="Add workaround so that code can run on non-AppCompat themes">
           <c:tickets>
@@ -27,12 +27,12 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2019-10-03T00:00:00+00:00" ticket-system="org.nypl.jira" version="3.0.0">
+    <c:release date="2019-10-03T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="3.0.0">
       <c:changes>
         <c:change compatible="false" date="2019-10-03T00:00:00+00:00" summary="All views are now AndroidX views"/>
       </c:changes>
     </c:release>
-    <c:release date="2020-02-07T00:00:00+00:00" ticket-system="org.nypl.jira" version="4.0.0">
+    <c:release date="2020-02-07T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="4.0.0">
       <c:changes>
         <c:change compatible="false" date="2020-01-27T00:00:00+00:00" summary="Rename PlayerAudioEngineVersion to PlayerVersion"/>
         <c:change compatible="false" date="2020-01-27T00:00:00+00:00" summary="Move manifest types into their own org.librarysimplified.audiobook.manifest.api module"/>
@@ -41,7 +41,7 @@
         <c:change date="2020-02-07T00:00:00+00:00" summary="Add a player extension SPI"/>
       </c:changes>
     </c:release>
-    <c:release date="2020-07-21T00:00:00+00:00" ticket-system="org.nypl.jira" version="5.0.0">
+    <c:release date="2020-07-21T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="5.0.0">
       <c:changes>
         <c:change compatible="false" date="2020-07-21T00:00:00+00:00" summary="Require a User-Agent everywhere"/>
         <c:change date="2020-07-21T00:00:00+00:00" summary="Add an Overdrive Patron Auth API"/>
@@ -49,12 +49,12 @@
         <c:change date="2020-07-21T00:00:00+00:00" summary="Provide a new http module for consistent http clients"/>
       </c:changes>
     </c:release>
-    <c:release date="2020-08-13T00:00:00+00:00" ticket-system="org.nypl.jira" version="5.0.1">
+    <c:release date="2020-08-13T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="5.0.1">
       <c:changes>
         <c:change date="2020-08-13T00:00:00+00:00" summary="Bump default timeout value to 180 seconds"/>
       </c:changes>
     </c:release>
-    <c:release date="2020-08-14T00:00:00+00:00" ticket-system="org.nypl.jira" version="5.0.2">
+    <c:release date="2020-08-14T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="5.0.2">
       <c:changes>
         <c:change date="2020-08-14T00:00:00+00:00" summary="Fixed broken service registration that prevented RBDigital extensions from loading">
           <c:tickets>
@@ -63,7 +63,7 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2020-09-09T00:00:00+00:00" ticket-system="org.nypl.jira" version="6.0.0">
+    <c:release date="2020-09-09T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="6.0.0">
       <c:changes>
         <c:change date="2020-09-09T00:00:00+00:00" summary="Enable Feedbooks signature checking">
           <c:tickets>
@@ -72,12 +72,12 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2020-09-30T00:00:00+00:00" ticket-system="org.nypl.jira" version="6.0.1">
+    <c:release date="2020-09-30T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="6.0.1">
       <c:changes>
         <c:change date="2020-09-30T00:00:00+00:00" summary="Update irradia packages to their latest published versions"/>
       </c:changes>
     </c:release>
-    <c:release date="2020-10-15T00:00:00+00:00" ticket-system="org.nypl.jira" version="6.0.2">
+    <c:release date="2020-10-15T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="6.0.2">
       <c:changes>
         <c:change date="2020-10-06T00:00:00+00:00" summary="Fix word repetitions at the start of chapters.">
           <c:tickets>
@@ -86,7 +86,7 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2020-10-15T00:00:00+00:00" ticket-system="org.nypl.jira" version="6.1.0">
+    <c:release date="2020-10-15T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="6.1.0">
       <c:changes>
         <c:change date="2020-10-15T00:00:00+00:00" summary="The href field of manifest links is now nullable.">
           <c:tickets>
@@ -96,13 +96,18 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2020-12-01T10:49:34+00:00" ticket-system="org.nypl.jira" version="6.2.0">
+    <c:release date="2020-12-01T00:00:00+00:00" is-open="false" ticket-system="org.nypl.jira" version="6.2.0">
       <c:changes>
-        <c:change date="2020-12-01T10:49:34+00:00" summary="Use the correct RecyclerView class">
+        <c:change date="2020-12-01T00:00:00+00:00" summary="Use the correct RecyclerView class">
           <c:tickets>
             <c:ticket id="SIMPLY-3333"/>
           </c:tickets>
         </c:change>
+      </c:changes>
+    </c:release>
+    <c:release date="2021-01-08T10:37:39+00:00" is-open="false" ticket-system="org.nypl.jira" version="6.3.1">
+      <c:changes>
+        <c:change date="2021-01-08T00:00:00+00:00" summary="Adjust some string resources"/>
       </c:changes>
     </c:release>
   </c:releases>
