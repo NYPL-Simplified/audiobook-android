@@ -30,7 +30,7 @@ class WebPubMetadataParser(
   override fun onCompleted(
     context: FRParserContextType
   ): FRParseResult<PlayerManifestMetadata> {
-    return FRParseResult.errorsOr(this.errors) {
+    return FRParseResult.errorsOr(listOf(), this.errors) {
       FRParseResult.succeed(
         PlayerManifestMetadata(
           title = this.title,

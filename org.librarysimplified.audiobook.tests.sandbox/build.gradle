@@ -1,5 +1,6 @@
 dependencies {
   implementation libraries.kotlinStdlib
+  implementation libraries.kotlinReflect
   implementation libraries.junit
   implementation libraries.slf4j
 

@@ -10,6 +10,7 @@ dependencies {
   implementation libraries.irradiaFieldrushAPI
   implementation libraries.irradiaFieldrushVanilla
   implementation libraries.kotlinStdlib
+  implementation libraries.kotlinReflect
   implementation libraries.nimbusJoseJWT
   implementation libraries.okhttp
   implementation libraries.slf4j

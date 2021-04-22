@@ -3,6 +3,7 @@ dependencies {
 
   implementation libraries.slf4j
   implementation libraries.kotlinStdlib
+  implementation libraries.kotlinReflect
 
   compileOnly libraries.jcip
 }
