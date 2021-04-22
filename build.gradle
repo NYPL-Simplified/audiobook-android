@@ -8,7 +8,7 @@ buildscript {
     throw new GradleException("org.gradle.internal.publish.checksums.insecure must be 'true'")
   }
 
-  ext.kotlin_version = "1.4.10"
+  ext.kotlin_version = "1.4.20"
 
   repositories {
     mavenCentral()
@@ -66,7 +66,7 @@ ext {
     logger.warn("org.librarysimplified.no_signing is not set: We will attempt to sign artifacts")
   }
 
-  irradiaFieldrushVersion = "0.0.9"
+  irradiaFieldrushVersion = "0.0.16"
   irradiaMimeVersion = "1.1.1"
 }
 
@@ -101,6 +101,7 @@ ext.libraries = [
   jodaTime                : "joda-time:joda-time:2.10.5",
   junit                   : "junit:junit:4.12",
   kotlinStdlib            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+  kotlinReflect           : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
   logbackAndroid          : "com.github.tony19:logback-android:2.0.0",
   logbackClassic          : "ch.qos.logback:logback-classic:1.3.0-alpha5",
   mockito                 : "org.mockito:mockito-core:2.27.0",
@@ -205,11 +206,11 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
       }
 
       afterEvaluate {
-        def scandoVersion     = "0.0.5"
-        def scandoSHA256      = "d1e6e57a791363d2a6e9930a15b779fb45855006f5ee7e0119286652ccad7827"
-        def scandoSource      = "https://repo1.maven.org/maven2/com/io7m/scando/com.io7m.scando.cmdline/${scandoVersion}/com.io7m.scando.cmdline-${scandoVersion}-main.jar"
-        def scandoBinDir      = "${project.buildDir}/bin/"
-        def scandoTarget      = "${scandoBinDir}/scando.jar"
+        def scandoVersion = "0.0.5"
+        def scandoSHA256 = "d1e6e57a791363d2a6e9930a15b779fb45855006f5ee7e0119286652ccad7827"
+        def scandoSource = "https://repo1.maven.org/maven2/com/io7m/scando/com.io7m.scando.cmdline/${scandoVersion}/com.io7m.scando.cmdline-${scandoVersion}-main.jar"
+        def scandoBinDir = "${project.buildDir}/bin/"
+        def scandoTarget = "${scandoBinDir}/scando.jar"
 
         task scandoMakeDirectories() {
           mkdir "${scandoBinDir}"
@@ -381,3 +382,7 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
 // the tasks for each subproject individually.
 
 apply from: file("$rootDir/ktlint.gradle")
+
+subprojects {
+  assemble.dependsOn ktlint
+}

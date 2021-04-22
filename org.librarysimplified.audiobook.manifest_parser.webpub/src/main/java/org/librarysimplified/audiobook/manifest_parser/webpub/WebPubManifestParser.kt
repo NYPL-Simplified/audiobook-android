@@ -30,7 +30,7 @@ class WebPubManifestParser(
   private val errors = mutableListOf<FRParseError>()
 
   override fun onCompleted(context: FRParserContextType): FRParseResult<PlayerManifest> {
-    return FRParseResult.errorsOr(this.errors) {
+    return FRParseResult.errorsOr(listOf(), this.errors) {
       FRParseResult.succeed(
         PlayerManifest(
           originalBytes = this.originalBytes,

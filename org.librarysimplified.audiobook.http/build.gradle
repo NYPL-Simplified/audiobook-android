@@ -2,6 +2,7 @@ dependencies {
   api libraries.okhttp
 
   implementation libraries.kotlinStdlib
+  implementation libraries.kotlinReflect
   implementation libraries.slf4j
 
   compileOnly libraries.jcip

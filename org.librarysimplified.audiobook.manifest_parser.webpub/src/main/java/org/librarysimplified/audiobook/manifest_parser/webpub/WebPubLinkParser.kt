@@ -227,8 +227,9 @@ class WebPubLinkParser(
         )
       } catch (e: Exception) {
         this.logger.error("could not parse URI: ", e)
-        FRParseResult.FRParseFailed<PlayerManifestLink>(
-          listOf(context.errorOf(e.message ?: e.javaClass.name, e))
+        FRParseResult.FRParseFailed(
+          warnings = listOf(),
+          errors = listOf(context.errorOf(e.message ?: e.javaClass.name, e))
         )
       }
     }

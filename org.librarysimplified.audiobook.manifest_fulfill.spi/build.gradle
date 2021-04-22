@@ -3,6 +3,7 @@ dependencies {
   api project(":org.librarysimplified.audiobook.parser.api")
 
   implementation libraries.kotlinStdlib
+  implementation libraries.kotlinReflect
 
   compileOnly libraries.jcip
 }

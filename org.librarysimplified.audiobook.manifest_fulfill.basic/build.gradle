@@ -5,6 +5,7 @@ dependencies {
 
   implementation libraries.irradiaMimeVanilla
   implementation libraries.kotlinStdlib
+  implementation libraries.kotlinReflect
   implementation libraries.okhttp
   implementation libraries.slf4j
 

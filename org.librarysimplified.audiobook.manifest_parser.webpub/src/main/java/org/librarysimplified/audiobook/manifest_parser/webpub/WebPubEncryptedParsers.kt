@@ -29,7 +29,8 @@ object WebPubEncryptedParsers {
         FRParseResult.succeed(encrypted)
       } else {
         FRParseResult.FRParseFailed(
-          listOf(context.errorOf("A 'scheme' value must be provided"))
+          warnings = listOf(),
+          errors = listOf(context.errorOf("A 'scheme' value must be provided"))
         )
       }
     }

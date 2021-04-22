@@ -2,6 +2,7 @@ dependencies {
   api project(':org.librarysimplified.audiobook.api')
 
   implementation libraries.kotlinStdlib
+  implementation libraries.kotlinReflect
   implementation libraries.slf4j
   implementation libraries.jodaTime
 
