@@ -1,177 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/player_view"
-  android:background="@color/audiobook_player_background_color"
-  android:padding="16dp"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-
-  <TextView
-    android:id="@+id/player_title"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:gravity="center"
-    android:lines="1"
-    android:ellipsize="end"
-    android:text="Very, very, very long placeholder text that should never be seen in practice."
-    android:textColor="@color/audiobook_player_text_color"
-    android:textSize="24sp"
-    android:textStyle="bold" />
-
-  <TextView
-    android:id="@+id/player_author"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/player_title"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="8dp"
-    android:gravity="center"
-    android:lines="1"
-    android:ellipsize="end"
-    android:text="Very, very, very long placeholder text that should never be seen in practice."
-    android:textColor="@color/audiobook_player_text_color"
-    android:textSize="18sp" />
-
-  <SeekBar
-    android:id="@+id/player_progress"
-    style="?android:attr/progressBarStyleHorizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/player_author"
-    android:layout_marginTop="16dp"
-    android:progress="0"
-    android:scaleY="2" />
-
-  <TextView
-    android:id="@+id/player_time"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_below="@+id/player_progress"
-    android:layout_marginTop="8dp"
-    android:text="00:00:00"
-    android:textColor="@color/audiobook_player_text_color"
-    android:textSize="16sp" />
-
-  <TextView
-    android:id="@+id/player_time_maximum"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
-    android:layout_below="@+id/player_progress"
-    android:layout_marginTop="8dp"
-    android:text="00:00:00"
-    android:textColor="@color/audiobook_player_text_color"
-    android:textSize="16sp" />
-
-  <TextView
-    android:id="@+id/player_spine_element"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/player_progress"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="8dp"
-    android:gravity="center"
-    android:text="Chapter 0 of 0"
-    android:textSize="16sp"
-    android:textColor="@color/audiobook_player_text_color"
-    android:textStyle="bold" />
-
-  <ImageView
-    android:id="@+id/player_play_button"
-    android:layout_width="64dp"
-    android:layout_height="64dp"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:contentDescription="@string/audiobook_accessibility_play"
-    android:src="@drawable/play_icon" />
-
-  <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_marginRight="32dp"
-    android:layout_toLeftOf="@+id/player_play_button">
-
-    <ImageView
-      android:id="@+id/player_jump_backwards"
-      android:layout_width="64dp"
-      android:layout_height="64dp"
-      android:contentDescription="@string/audiobook_accessibility_backward_15"
-      android:src="@drawable/circle_arrow_backward" />
-
-    <TextView
-      android:id="@+id/player_jump_forwards_text"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
-      android:layout_centerVertical="true"
-      android:paddingTop="4dp"
-      android:gravity="center"
-      android:clickable="false"
-      android:focusable="false"
-      android:importantForAccessibility="no"
-      android:text="15"
-      android:textColor="@color/audiobook_player_text_color"
-      android:textSize="18sp"
-      android:textStyle="bold" />
-  </RelativeLayout>
-
-  <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_marginLeft="32dp"
-    android:layout_toRightOf="@+id/player_play_button">
-
-    <ImageView
-      android:id="@+id/player_jump_forwards"
-      android:layout_width="64dp"
-      android:layout_height="64dp"
-      android:contentDescription="@string/audiobook_accessibility_forward_15"
-      android:src="@drawable/circle_arrow_forward" />
-
-    <TextView
-      android:id="@+id/player_jump_backwards_text"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
-      android:layout_centerVertical="true"
-      android:paddingTop="4dp"
-      android:gravity="center"
-      android:clickable="false"
-      android:focusable="false"
-      android:importantForAccessibility="no"
-      android:text="15"
-      android:textColor="@color/audiobook_player_text_color"
-      android:textSize="18sp"
-      android:textStyle="bold" />
-  </RelativeLayout>
-
-  <TextView
-    android:id="@+id/player_waiting_buffering"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_above="@id/player_play_button"
-    android:layout_marginBottom="16dp"
-    android:gravity="center"
-    android:text="@string/audiobook_player_waiting"
-    android:textColor="@color/audiobook_player_text_color"
-    android:textStyle="bold"
-    android:textSize="14sp" />
-
-  <ImageView
-    android:id="@+id/player_cover"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/player_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@id/player_spine_element"
-    android:layout_above="@id/player_waiting_buffering"
-    android:layout_marginTop="32dp"
-    android:layout_marginBottom="16dp"
-    android:src="@drawable/icon" />
+    android:background="@color/audiobook_player_background_color"
+    android:padding="16dp">
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/player_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:textColor="@color/audiobook_player_text_color"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Very, very, very long placeholder text that should never be seen in practice." />
+
+    <TextView
+        android:id="@+id/player_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/player_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:textColor="@color/audiobook_player_text_color"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player_title"
+        tools:text="Very, very, very long placeholder text that should never be seen in practice." />
+
+    <SeekBar
+        android:id="@+id/player_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:progress="0"
+        android:scaleY="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player_author" />
+
+    <TextView
+        android:id="@+id/player_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/player_progress"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/audiobook_player_initial"
+        android:textColor="@color/audiobook_player_text_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player_progress" />
+
+    <TextView
+        android:id="@+id/player_time_maximum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/player_progress"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/audiobook_player_initial"
+        android:textColor="@color/audiobook_player_text_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player_progress" />
+
+    <TextView
+        android:id="@+id/player_spine_element"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/player_progress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        tools:text="Very, very, very long placeholder text that should never be seen in practice."
+        android:textColor="@color/audiobook_player_text_color"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player_time" />
+
+    <ImageView
+        android:id="@+id/player_play_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/audiobook_accessibility_play"
+        android:src="@drawable/play_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/player_jump_backwards"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="32dp"
+        android:contentDescription="@string/audiobook_accessibility_backward_15"
+        android:src="@drawable/circle_arrow_backward"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/player_play_button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/player_jump_forwards_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:importantForAccessibility="no"
+        android:text="@string/audiobook_player_seek_15"
+        android:textColor="@color/audiobook_player_text_color"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/player_jump_forwards"
+        app:layout_constraintEnd_toEndOf="@id/player_jump_forwards"
+        app:layout_constraintStart_toStartOf="@id/player_jump_forwards"
+        app:layout_constraintTop_toTopOf="@id/player_jump_forwards" />
+
+    <ImageView
+        android:id="@+id/player_jump_forwards"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="32dp"
+        android:contentDescription="@string/audiobook_accessibility_forward_15"
+        android:src="@drawable/circle_arrow_forward"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/player_play_button" />
+
+    <TextView
+        android:id="@+id/player_jump_backwards_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:importantForAccessibility="no"
+        android:text="@string/audiobook_player_seek_15"
+        android:textColor="@color/audiobook_player_text_color"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/player_jump_backwards"
+        app:layout_constraintEnd_toEndOf="@id/player_jump_backwards"
+        app:layout_constraintStart_toStartOf="@id/player_jump_backwards"
+        app:layout_constraintTop_toTopOf="@id/player_jump_backwards" />
+
+    <TextView
+        android:id="@+id/player_waiting_buffering"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="@string/audiobook_player_waiting"
+        android:textColor="@color/audiobook_player_text_color"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/player_play_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/player_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/audiobook_accessibility_book_cover"
+        android:src="@drawable/icon"
+        app:layout_constraintBottom_toTopOf="@id/player_waiting_buffering"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player_time" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
