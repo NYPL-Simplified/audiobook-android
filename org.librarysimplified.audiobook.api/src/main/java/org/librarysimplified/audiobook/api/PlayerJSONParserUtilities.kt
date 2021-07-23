@@ -30,6 +30,7 @@ import java.net.URISyntaxException
  * and exceptions are raised if the type is not exactly as expected.
  */
 
+@Deprecated("Use Jackson Databind or Fieldrush")
 class PlayerJSONParserUtilities private constructor() {
 
   companion object {
@@ -349,9 +350,32 @@ class PlayerJSONParserUtilities private constructor() {
       key: String
     ): String? {
 
-      return if (n.has(key)) {
-        getString(n, key)
-      } else null
+      val v = n[key] ?: return null
+      return when (v.nodeType) {
+        null,
+        NULL ->
+          null
+
+        ARRAY,
+        BINARY,
+        BOOLEAN,
+        MISSING,
+        NUMBER,
+        OBJECT,
+        POJO -> {
+          val sb = StringBuilder(128)
+          sb.append("Expected: A key '")
+          sb.append(key)
+          sb.append("' with a value of type String\n")
+          sb.append("Received: A value of type ")
+          sb.append(v.nodeType)
+          sb.append("\n")
+          throw PlayerJSONParseException(sb.toString())
+        }
+
+        STRING ->
+          v.asText()
+      }
     }
 
     /**
