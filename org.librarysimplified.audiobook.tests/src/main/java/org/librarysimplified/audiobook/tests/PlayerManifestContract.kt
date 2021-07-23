@@ -104,6 +104,34 @@ abstract class PlayerManifestContract {
   }
 
   @Test
+  fun testOkNullTitles() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("nulltitles"),
+        streams = this.resource("null_titles.json"),
+        extensions = listOf()
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
+    this.checkNullTitleValues(manifest)
+  }
+
+  private fun checkNullTitleValues(manifest: PlayerManifest) {
+    Assert.assertEquals(2, manifest.readingOrder.size)
+
+    // null title should be null
+    Assert.assertNull(manifest.readingOrder[0].title)
+
+    // no title should be null
+    Assert.assertNull(manifest.readingOrder[1].title)
+  }
+
+  @Test
   fun testOkFlatlandGardeur() {
     val result =
       ManifestParsers.parse(
