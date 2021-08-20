@@ -132,6 +132,34 @@ abstract class PlayerManifestContract {
   }
 
   @Test
+  fun testOkNullLinkType() {
+    val result =
+      ManifestParsers.parse(
+        uri = URI.create("null_link_type"),
+        streams = this.resource("null_link_type.json"),
+        extensions = listOf()
+      )
+    this.log().debug("result: {}", result)
+    assertTrue("Result is success", result is ParseResult.Success)
+
+    val success: ParseResult.Success<PlayerManifest> =
+      result as ParseResult.Success<PlayerManifest>
+
+    val manifest = success.result
+    this.checkNullLinkTypeValues(manifest)
+  }
+
+  private fun checkNullLinkTypeValues(manifest: PlayerManifest) {
+    Assert.assertEquals(2, manifest.links.size)
+
+    // null type should be null
+    Assert.assertNull(manifest.links[0].type)
+
+    // no type should be null
+    Assert.assertNull(manifest.links[1].type)
+  }
+
+  @Test
   fun testOkFlatlandGardeur() {
     val result =
       ManifestParsers.parse(

@@ -66,9 +66,11 @@ class WebPubLinkParser(
       FRParserObjectFieldSchema(
         name = "type",
         parser = {
-          FRValueParsers.forMIME { mime ->
-            this.type = mime
-          }
+          FRValueParsers.acceptingNull(
+            FRValueParsers.forMIME { mime ->
+              this.type = mime
+            }
+          )
         },
         isOptional = true
       )
