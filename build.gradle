@@ -89,6 +89,7 @@ ext.libraries = [
   androidXTestOrchestrator: "androidx.test:orchestrator:1.1.0",
   androidXTestRules       : "androidx.test:rules:1.1.0",
   androidXTestRunner      : "androidx.test:runner:1.1.0",
+  constraintLayout        : "androidx.constraintlayout:constraintlayout:2.0.4",
   googleExoplayer         : "com.google.android.exoplayer:exoplayer:r1.5.15",
   googleGuava             : "com.google.guava:guava:27.1-android",
   irradiaFieldrushAPI     : "one.irradia.fieldrush:one.irradia.fieldrush.api:${irradiaFieldrushVersion}",
