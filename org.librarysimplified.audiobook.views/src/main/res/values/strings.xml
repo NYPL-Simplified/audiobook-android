@@ -25,10 +25,12 @@
   <string name="audiobook_player_sleep_end_of_chapter">End of file</string>
   <string name="audiobook_player_sleep_60">60:00</string>
   <string name="audiobook_player_sleep_45">45:00</string>
+  <string name="audiobook_player_initial">00:00:00</string>
   <string name="audiobook_player_sleep_30">30:00</string>
   <string name="audiobook_player_sleep_15">15:00</string>
   <string name="audiobook_player_sleep_now">Now</string>
   <string name="audiobook_player_sleep_off">Off</string>
+  <string name="audiobook_player_seek_15">15</string>
 
   <string name="audiobook_player_buffering">Buffering…</string>
   <string name="audiobook_player_waiting">File %1$d must be downloaded to continue playback.</string>
@@ -40,6 +42,7 @@
   <string name="audiobook_player_toc_menu_stop_all_confirm">Stop all downloads?</string>
   <string name="audiobook_player_toc_menu_stop_confirm_positive">Stop</string>
   <string name="audiobook_player_toc_menu_stop_confirm_negative">Continue</string>
+
 
   <!--
     Accessibility strings.
@@ -97,6 +100,7 @@
   <string name="audiobook_accessibility_backward_15">Rewind 15 seconds</string>
   <string name="audiobook_accessibility_play">Play</string>
   <string name="audiobook_accessibility_pause">Pause</string>
+  <string name="audiobook_accessibility_book_cover">Book cover</string>
 
   <string name="audiobook_accessibility_toc_chapter_n">Chapter %1$d</string>
   <string name="audiobook_accessibility_toc_chapter_is_current">Selected</string>

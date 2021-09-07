@@ -1,0 +1,46 @@
+{
+  "@context": [
+    "http://readium.org/webpub/default.jsonld"
+  ],
+
+  "links": [
+    {
+      "href": "http://example.org/a",
+      "rel": "something-0"
+    },
+    {
+      "href": "http://example.org/b",
+      "rel": "something-1"
+    },
+    {
+      "href": "http://example.org/c",
+      "rel": "something-2"
+    }
+  ],
+
+  "readingOrder": [
+    {
+      "title": null,
+      "href": "http://www.example.com/0.mp3",
+      "duration": 100.0,
+      "type": "audio/mpeg"
+    },
+    {
+      "href": "http://www.example.com/1.mp3",
+      "duration": 200.0,
+      "type": "audio/mpeg"
+    }
+  ],
+
+  "metadata": {
+    "language": "en",
+    "title": "title",
+    "authors": [
+      "author_0",
+      "author_1",
+      "author_2"
+    ],
+    "duration": 1000.0,
+    "identifier": "urn:id"
+  }
+}
