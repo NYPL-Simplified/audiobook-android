@@ -1,6 +1,6 @@
 buildscript {
-  if ("$gradle.gradleVersion" != "6.7") {
-    throw new GradleException("Gradle version 6.7 is required (received $gradle.gradleVersion)")
+  if ("$gradle.gradleVersion" != "7.2") {
+    throw new GradleException("Gradle version 7.2 is required (received $gradle.gradleVersion)")
   }
 
   // https://github.com/gradle/gradle/issues/11308#issuecomment-554317655
@@ -8,20 +8,19 @@ buildscript {
     throw new GradleException("org.gradle.internal.publish.checksums.insecure must be 'true'")
   }
 
-  ext.kotlin_version = "1.4.20"
+  ext.kotlin_version = "1.5.30"
 
   repositories {
     mavenCentral()
     google()
-    jcenter()
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:4.1.1"
+    classpath 'com.android.tools.build:gradle:7.0.2'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath "digital.wup:android-maven-publish:3.6.3"
     classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
-    classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.2.0"
+    classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.3.0"
     classpath "de.undercouch:gradle-download-task:4.1.1"
   }
 }
@@ -34,7 +33,7 @@ plugins {
 }
 
 ext {
-  androidBuildToolsVersion = "29.0.2"
+  androidBuildToolsVersion = "30.0.2"
   androidCompileSDKVersion = 28
   androidMinimumSDKVersion = 21
   androidTargetSDKVersion = 28
@@ -65,53 +64,7 @@ ext {
     disableSigning = false
     logger.warn("org.librarysimplified.no_signing is not set: We will attempt to sign artifacts")
   }
-
-  irradiaFieldrushVersion = "0.0.16"
-  irradiaMimeVersion = "1.1.1"
 }
-
-subprojects {
-  // Force version 1.0.2 of appcompat. A bug in 1.1.0 causes a crash on API 21.
-  //
-  // https://issuetracker.google.com/issues/141132133#comment42
-  //
-  // TODO: Remove once appcompat:1.2.0 is available.
-  configurations.all {
-    resolutionStrategy.force 'androidx.appcompat:appcompat:1.0.2'
-  }
-}
-
-ext.libraries = [
-  androidXAppCompat       : "androidx.appcompat:appcompat:1.0.2",
-  androidXRecyclerView    : "androidx.recyclerview:recyclerview:1.1.0",
-  androidXTestEspresso    : "androidx.test.espresso:espresso-core:3.3.0-alpha02",
-  androidXTestExtJunit    : "androidx.test.ext:junit:1.1.2-alpha02",
-  androidXTestOrchestrator: "androidx.test:orchestrator:1.1.0",
-  androidXTestRules       : "androidx.test:rules:1.1.0",
-  androidXTestRunner      : "androidx.test:runner:1.1.0",
-  constraintLayout        : "androidx.constraintlayout:constraintlayout:2.0.4",
-  googleExoplayer         : "com.google.android.exoplayer:exoplayer:r1.5.15",
-  googleGuava             : "com.google.guava:guava:27.1-android",
-  irradiaFieldrushAPI     : "one.irradia.fieldrush:one.irradia.fieldrush.api:${irradiaFieldrushVersion}",
-  irradiaFieldrushVanilla : "one.irradia.fieldrush:one.irradia.fieldrush.vanilla:${irradiaFieldrushVersion}",
-  irradiaMimeAPI          : "one.irradia.mime:one.irradia.mime.api:${irradiaMimeVersion}",
-  irradiaMimeVanilla      : "one.irradia.mime:one.irradia.mime.vanilla:${irradiaMimeVersion}",
-  jacksonCore             : "com.fasterxml.jackson.core:jackson-core:2.10.2",
-  jacksonDatabind         : "com.fasterxml.jackson.core:jackson-databind:2.10.2",
-  jcip                    : "com.io7m.jcip:jcip-annotations:1.0.2",
-  jodaTime                : "joda-time:joda-time:2.10.5",
-  junit                   : "junit:junit:4.12",
-  kotlinStdlib            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-  kotlinReflect           : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
-  logbackAndroid          : "com.github.tony19:logback-android:2.0.0",
-  logbackClassic          : "ch.qos.logback:logback-classic:1.3.0-alpha5",
-  mockito                 : "org.mockito:mockito-core:2.27.0",
-  nimbusJoseJWT           : "com.nimbusds:nimbus-jose-jwt:8.20",
-  okhttp                  : "com.squareup.okhttp3:okhttp:3.14.1",
-  quicktheories           : 'org.quicktheories:quicktheories:0.26',
-  rxjava                  : "io.reactivex:rxjava:1.3.8",
-  slf4j                   : "org.slf4j:slf4j-api:2.0.0-alpha1",
-]
 
 apply plugin: "com.vanniktech.android.junit.jacoco"
 apply plugin: "de.undercouch.download"
@@ -176,6 +129,10 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           sourceCompatibility JavaVersion.VERSION_1_8
           targetCompatibility JavaVersion.VERSION_1_8
         }
+
+        kotlinOptions {
+          jvmTarget = JavaVersion.VERSION_1_8.toString()
+        }
       }
       break
 
@@ -199,6 +156,9 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           encoding 'UTF-8'
           sourceCompatibility JavaVersion.VERSION_1_8
           targetCompatibility JavaVersion.VERSION_1_8
+        }
+        kotlinOptions {
+          jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
         testOptions {
           execution 'ANDROIDX_TEST_ORCHESTRATOR'

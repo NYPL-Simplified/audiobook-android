@@ -1,10 +1,10 @@
 dependencies {
-  api libraries.jacksonCore
-  api libraries.jacksonDatabind
+  api libs.jackson.core
+  api libs.jackson.databind
 
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
-  implementation libraries.slf4j
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
+  implementation libs.slf4j
 
-  compileOnly libraries.jcip
+  compileOnly libs.jcip
 }

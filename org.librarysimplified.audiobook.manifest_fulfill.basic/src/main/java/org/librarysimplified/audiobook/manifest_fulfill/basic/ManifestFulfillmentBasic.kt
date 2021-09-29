@@ -56,9 +56,9 @@ class ManifestFulfillmentBasic(
 
     val call = this.client.newCall(request)
     val response = call.execute()
-    val bodyData = response.body()?.bytes() ?: ByteArray(0)
-    val responseCode = response.code()
-    val responseMessage = response.message()
+    val bodyData = response.body?.bytes() ?: ByteArray(0)
+    val responseCode = response.code
+    val responseMessage = response.message
     val contentType = response.header("Content-Type") ?: "application/octet-stream"
 
     this.logger.debug(

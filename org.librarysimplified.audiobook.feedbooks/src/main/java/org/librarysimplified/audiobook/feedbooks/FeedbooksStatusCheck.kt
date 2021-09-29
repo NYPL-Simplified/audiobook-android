@@ -70,7 +70,7 @@ class FeedbooksStatusCheck(
         .build()
 
     return this.httpClient.newCall(request).execute().use { response ->
-      this.logger.debug("response: {} {}", response.code(), response.message())
+      this.logger.debug("response: {} {}", response.code, response.message)
 
       if (!response.isSuccessful) {
         return SingleLicenseCheckResult.NotApplicable(
@@ -78,7 +78,7 @@ class FeedbooksStatusCheck(
         )
       }
 
-      val body = response.body()?.bytes() ?: ByteArray(0)
+      val body = response.body?.bytes() ?: ByteArray(0)
       this.logger.debug("received {} bytes", body.size)
       this.parsers.createParser(target, body).use(this::parseLicenseStatusDocument)
     }

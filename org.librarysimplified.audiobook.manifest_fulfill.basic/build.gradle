@@ -3,11 +3,11 @@ dependencies {
 
   implementation project(":org.librarysimplified.audiobook.http")
 
-  implementation libraries.irradiaMimeVanilla
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
-  implementation libraries.okhttp
-  implementation libraries.slf4j
+  implementation libs.irradia.mime.vanilla
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
+  implementation libs.okhttp3
+  implementation libs.slf4j
 
-  compileOnly libraries.jcip
+  compileOnly libs.jcip
 }

@@ -15,14 +15,14 @@ dependencies {
   api project(':org.librarysimplified.audiobook.rbdigital')
   api project(':org.librarysimplified.audiobook.views')
 
-  api libraries.junit
-  api libraries.kotlinStdlib
-  api libraries.mockito
-  api libraries.okhttp
-  api libraries.quicktheories
-  api libraries.slf4j
+  api libs.junit
+  api libs.kotlin.stdlib
+  api libs.mockito
+  api libs.okhttp3
+  api libs.quicktheories
+  api libs.slf4j
 
-  testImplementation libraries.logbackClassic
+  testImplementation libs.logback.classic
 }
 
 /*
