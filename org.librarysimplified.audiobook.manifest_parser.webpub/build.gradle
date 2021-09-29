@@ -1,12 +1,12 @@
 dependencies {
   api project(":org.librarysimplified.audiobook.manifest_parser.api")
 
-  implementation libraries.irradiaFieldrushAPI
-  implementation libraries.irradiaFieldrushVanilla
-  implementation libraries.jodaTime
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
-  implementation libraries.slf4j
+  implementation libs.irradia.fieldrush.api
+  implementation libs.irradia.fieldrush.vanilla
+  implementation libs.joda.time
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
+  implementation libs.slf4j
 
-  compileOnly libraries.jcip
+  compileOnly libs.jcip
 }

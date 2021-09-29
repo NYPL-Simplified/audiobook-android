@@ -2,8 +2,8 @@ dependencies {
   api project(":org.librarysimplified.audiobook.api")
   api project(":org.librarysimplified.audiobook.parser.api")
 
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
 
-  compileOnly libraries.jcip
+  compileOnly libs.jcip
 }

@@ -1,12 +1,12 @@
 dependencies {
   api project(":org.librarysimplified.audiobook.manifest.api")
 
-  api libraries.googleGuava
-  api libraries.jacksonDatabind
-  api libraries.jodaTime
-  api libraries.rxjava
+  api libs.google.guava
+  api libs.jackson.databind
+  api libs.joda.time
+  api libs.rxjava
 
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
-  implementation libraries.slf4j
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
+  implementation libs.slf4j
 }

@@ -1,8 +1,8 @@
 dependencies {
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
-  implementation libraries.junit
-  implementation libraries.slf4j
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
+  implementation libs.junit
+  implementation libs.slf4j
 
   implementation project(':org.librarysimplified.audiobook.api')
   implementation project(':org.librarysimplified.audiobook.manifest_parser.webpub')
@@ -10,6 +10,6 @@ dependencies {
   implementation project(':org.librarysimplified.audiobook.open_access')
   implementation project(':org.librarysimplified.audiobook.views')
 
-  implementation libraries.androidXAppCompat
-  implementation libraries.logbackAndroid
+  implementation libs.androidx.app.compat
+  implementation libs.logback.android
 }
