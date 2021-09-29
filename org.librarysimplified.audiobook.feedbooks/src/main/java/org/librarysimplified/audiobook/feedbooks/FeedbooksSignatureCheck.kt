@@ -134,15 +134,15 @@ class FeedbooksSignatureCheck(
 
     try {
       this.httpClient.newCall(request).execute().use { response ->
-        this.logger.debug("response: {} {}", response.code(), response.message())
+        this.logger.debug("response: {} {}", response.code, response.message)
 
         if (!response.isSuccessful) {
-          this.event("Error downloading certificate (${response.code()})")
+          this.event("Error downloading certificate (${response.code})")
 
           throw CertificateRetrievalException()
         }
 
-        val bodyBytes = response.body()?.bytes() ?: ByteArray(0)
+        val bodyBytes = response.body?.bytes() ?: ByteArray(0)
         this.logger.debug("received {} bytes", bodyBytes.size)
 
         return bodyBytes

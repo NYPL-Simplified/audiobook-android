@@ -7,13 +7,13 @@ dependencies {
   implementation project(":org.librarysimplified.audiobook.manifest_parser.extension_spi")
   implementation project(":org.librarysimplified.audiobook.manifest_parser.webpub")
 
-  implementation libraries.irradiaFieldrushAPI
-  implementation libraries.irradiaFieldrushVanilla
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
-  implementation libraries.nimbusJoseJWT
-  implementation libraries.okhttp
-  implementation libraries.slf4j
+  implementation libs.irradia.fieldrush.api
+  implementation libs.irradia.fieldrush.vanilla
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
+  implementation libs.nimbus.jose.jwt
+  implementation libs.okhttp3
+  implementation libs.slf4j
 }
 
 /*

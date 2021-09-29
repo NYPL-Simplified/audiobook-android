@@ -1,13 +1,13 @@
 dependencies {
   api project(':org.librarysimplified.audiobook.api')
 
-  implementation libraries.googleExoplayer
-  implementation libraries.jodaTime
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
-  implementation libraries.slf4j
+  implementation libs.google.exoplayer
+  implementation libs.joda.time
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
+  implementation libs.slf4j
 
-  compileOnly libraries.jcip
+  compileOnly libs.jcip
 }
 
 /*

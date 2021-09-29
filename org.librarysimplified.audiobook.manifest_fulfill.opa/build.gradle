@@ -1,10 +1,10 @@
 dependencies {
   api project(":org.librarysimplified.audiobook.manifest_fulfill.spi")
 
-  implementation libraries.kotlinStdlib
-  implementation libraries.kotlinReflect
-  implementation libraries.okhttp
-  implementation libraries.slf4j
+  implementation libs.kotlin.stdlib
+  implementation libs.kotlin.reflect
+  implementation libs.okhttp3
+  implementation libs.slf4j
 
-  compileOnly libraries.jcip
+  compileOnly libs.jcip
 }
