@@ -1,7 +1,7 @@
 package org.librarysimplified.audiobook.tests
 
 import okhttp3.Interceptor
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.Response
@@ -229,7 +229,7 @@ abstract class FeedbooksSignatureCheckContract {
     return OkHttpClient.Builder()
       .addInterceptor(object : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
-          val uri = chain.request().url().uri().toString()
+          val uri = chain.request().url.toUri().toString()
 
           if (uri == respondToUrl) {
             return chain.proceed(chain.request())
@@ -239,7 +239,7 @@ abstract class FeedbooksSignatureCheckContract {
               .message("OK")
               .body(
                 ResponseBody.create(
-                  MediaType.parse("application/json"),
+                  "application/json".toMediaTypeOrNull(),
                   resource(responseResourceName)
                 )
               ).addHeader("content-type", "application/json")
@@ -253,7 +253,7 @@ abstract class FeedbooksSignatureCheckContract {
             .message("Not Found")
             .body(
               ResponseBody.create(
-                MediaType.parse("text/plain"),
+                "text/plain".toMediaTypeOrNull(),
                 "Not found"
               )
             ).addHeader("content-type", "text/plain")
@@ -274,7 +274,7 @@ abstract class FeedbooksSignatureCheckContract {
             .message("Nope")
             .body(
               ResponseBody.create(
-                MediaType.parse("text/plain"),
+                "text/plain".toMediaTypeOrNull(),
                 "Nope nope nope"
               )
             ).addHeader("content-type", "text/plain")

@@ -106,9 +106,9 @@ class DownloadProvider private constructor(
           StringBuilder(128)
             .append("Server returned an error response.\n")
             .append("  Response: ")
-            .append(response.code())
+            .append(response.code)
             .append(' ')
-            .append(response.message())
+            .append(response.message)
             .append('\n')
             .toString()
         )
@@ -161,7 +161,7 @@ class DownloadProvider private constructor(
     }
 
     val body =
-      response.body() ?: throw IOException("HTTP server response did not contain a body")
+      response.body ?: throw IOException("HTTP server response did not contain a body")
     val expectedLength =
       body.contentLength()
 

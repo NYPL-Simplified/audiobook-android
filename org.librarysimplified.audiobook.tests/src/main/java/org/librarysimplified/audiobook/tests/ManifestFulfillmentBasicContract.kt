@@ -1,7 +1,7 @@
 package org.librarysimplified.audiobook.tests
 
 import okhttp3.Call
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.Request
@@ -101,7 +101,7 @@ abstract class ManifestFulfillmentBasicContract {
         )
         .body(
           ResponseBody.create(
-            MediaType.parse("text/plain"),
+            "text/plain".toMediaTypeOrNull(),
             "Some text."
           )
         )

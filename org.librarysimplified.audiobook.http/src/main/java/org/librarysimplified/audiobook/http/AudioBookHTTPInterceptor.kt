@@ -12,7 +12,7 @@ class AudioBookHTTPInterceptor(
   private val logger: Logger
 ) : Interceptor {
   override fun intercept(chain: Interceptor.Chain): Response {
-    this.logger.debug("request: {}", chain.request().url())
+    this.logger.debug("request: {}", chain.request().url)
     return chain.proceed(chain.request())
   }
 }

@@ -1,5 +1,5 @@
 dependencies {
-  api libs.okhttp
+  api libs.okhttp3
 
   implementation libs.kotlin.stdlib
   implementation libs.kotlin.reflect

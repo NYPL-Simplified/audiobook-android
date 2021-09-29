@@ -12,7 +12,7 @@ dependencies {
   implementation libs.kotlin.stdlib
   implementation libs.kotlin.reflect
   implementation libs.nimbus.jose.jwt
-  implementation libs.okhttp
+  implementation libs.okhttp3
   implementation libs.slf4j
 }
 

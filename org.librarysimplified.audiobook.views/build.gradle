@@ -2,9 +2,9 @@ dependencies {
   api project(':org.librarysimplified.audiobook.api')
 
   implementation libs.androidx.app.compat
+  implementation libs.androidx.constraint.layout
   implementation libs.androidx.recycler.view
-  implementation libs.constraint.layout
-  implementation libs.kotlin.stdlib
   implementation libs.kotlin.reflect
+  implementation libs.kotlin.stdlib
   implementation libs.slf4j
 }

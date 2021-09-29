@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Button
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -111,7 +111,7 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
        * A button that triggers a player error.
        */
 
-      val triggerError = dialogView.findViewById<Button>(R.id.controls_error)
+      val triggerError = dialogView.findViewById<View>(R.id.controls_error)
       triggerError.setOnClickListener {
         this.player.error(IllegalStateException("Serious problem occurred."), 1138)
       }
@@ -120,7 +120,7 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
        * A button that triggers a player error.
        */
 
-      val triggerBuffering = dialogView.findViewById<Button>(R.id.controls_buffering)
+      val triggerBuffering = dialogView.findViewById<View>(R.id.controls_buffering)
       triggerBuffering.setOnClickListener {
         this.player.buffering()
       }
@@ -129,7 +129,7 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
        * A button that enables streaming.
        */
 
-      val triggerStream = dialogView.findViewById<Button>(R.id.controls_set_streamable)
+      val triggerStream = dialogView.findViewById<View>(R.id.controls_set_streamable)
       triggerStream.setOnClickListener {
         this.book.supportsStreaming = true
       }
@@ -138,7 +138,7 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
        * A button that disables streaming.
        */
 
-      val triggerStreamOff = dialogView.findViewById<Button>(R.id.controls_set_not_streamable)
+      val triggerStreamOff = dialogView.findViewById<View>(R.id.controls_set_not_streamable)
       triggerStreamOff.setOnClickListener {
         this.book.supportsStreaming = false
       }
@@ -147,7 +147,7 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
        * A button that disables download tasks.
        */
 
-      val triggerTasksOff = dialogView.findViewById<Button>(R.id.controls_set_download_tasks_unsupported)
+      val triggerTasksOff = dialogView.findViewById<View>(R.id.controls_set_download_tasks_unsupported)
       triggerTasksOff.setOnClickListener {
         this.book.spineItems.forEach { item -> item.downloadTasksAreSupported = false }
       }
@@ -156,7 +156,7 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
        * A button that enables download tasks.
        */
 
-      val triggerTasksOn = dialogView.findViewById<Button>(R.id.controls_set_download_tasks_supported)
+      val triggerTasksOn = dialogView.findViewById<View>(R.id.controls_set_download_tasks_supported)
       triggerTasksOn.setOnClickListener {
         this.book.spineItems.forEach { item -> item.downloadTasksAreSupported = true }
       }

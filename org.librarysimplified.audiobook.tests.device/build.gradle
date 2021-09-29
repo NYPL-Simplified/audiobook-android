@@ -6,7 +6,8 @@ dependencies {
   androidTestImplementation libs.androidx.test.runner
   androidTestImplementation libs.junit
   androidTestImplementation libs.kotlin.stdlib
-  androidTestImplementation libs.logback.android
+  androidTestImplementation libs.logback.android.classic
+  androidTestImplementation libs.logback.android.core
   androidTestImplementation libs.slf4j
   androidTestUtil libs.androidx.test.orchestrator
 

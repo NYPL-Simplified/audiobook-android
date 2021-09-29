@@ -18,7 +18,7 @@ dependencies {
   api libs.junit
   api libs.kotlin.stdlib
   api libs.mockito
-  api libs.okhttp
+  api libs.okhttp3
   api libs.quicktheories
   api libs.slf4j
 

@@ -8,7 +8,7 @@ buildscript {
     throw new GradleException("org.gradle.internal.publish.checksums.insecure must be 'true'")
   }
 
-  ext.kotlin_version = "1.4.20"
+  ext.kotlin_version = "1.5.30"
 
   repositories {
     mavenCentral()
@@ -129,6 +129,9 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           sourceCompatibility JavaVersion.VERSION_1_8
           targetCompatibility JavaVersion.VERSION_1_8
         }
+        kotlinOptions {
+          jvmTarget = JavaVersion.VERSION_1_8.toString()
+        }
       }
       break
 
@@ -152,6 +155,9 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           encoding 'UTF-8'
           sourceCompatibility JavaVersion.VERSION_1_8
           targetCompatibility JavaVersion.VERSION_1_8
+        }
+        kotlinOptions {
+          jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
         testOptions {
           execution 'ANDROIDX_TEST_ORCHESTRATOR'
