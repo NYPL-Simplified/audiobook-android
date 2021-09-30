@@ -8,28 +8,30 @@ buildscript {
     throw new GradleException("org.gradle.internal.publish.checksums.insecure must be 'true'")
   }
 
-  ext.kotlin_version = "1.5.30"
-
   repositories {
     mavenCentral()
     google()
   }
 
+  ext.kotlin_version = "1.5.30"
+
   dependencies {
-    classpath 'com.android.tools.build:gradle:7.0.2'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath "digital.wup:android-maven-publish:3.6.3"
-    classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
     classpath "biz.aQute.bnd:biz.aQute.bnd.gradle:5.3.0"
-    classpath "de.undercouch:gradle-download-task:4.1.1"
+    classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
+    classpath "digital.wup:android-maven-publish:3.6.3"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath "com.android.tools.build:gradle:7.0.2"
+    classpath "de.undercouch:gradle-download-task:4.1.2"
+    classpath "de.mannodermaus.gradle.plugins:android-junit5:1.8.0.0"
   }
 }
 
 plugins {
-  id "com.github.ben-manes.versions" version "0.28.0"
+  id "com.github.ben-manes.versions" version "0.33.0"
   id "com.vanniktech.android.junit.jacoco" version "0.16.0"
-  id "digital.wup.android-maven-publish" version "3.6.3"
-  id "ru.vyarus.animalsniffer" version "1.5.0"
+  id "ru.vyarus.animalsniffer" version "1.5.1"
+  id "ca.cutterslade.analyze" version "1.4.3"
+  id "maven-publish"
 }
 
 ext {
@@ -69,11 +71,14 @@ ext {
 apply plugin: "com.vanniktech.android.junit.jacoco"
 apply plugin: "de.undercouch.download"
 
-allprojects {
+allprojects { project ->
   group = project.ext["GROUP"]
   version = project.ext["VERSION_NAME"]
+
+  apply plugin: 'ca.cutterslade.analyze'
 }
 
+// Configure all projects
 subprojects { project ->
 
   switch (POM_PACKAGING) {
@@ -129,7 +134,6 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           sourceCompatibility JavaVersion.VERSION_1_8
           targetCompatibility JavaVersion.VERSION_1_8
         }
-
         kotlinOptions {
           jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
@@ -141,6 +145,7 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
 
       apply plugin: "com.android.library"
       apply plugin: "kotlin-android"
+      apply plugin: "de.mannodermaus.android-junit5"
 
       android {
         compileSdkVersion androidCompileSDKVersion
@@ -161,8 +166,18 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
         testOptions {
-          execution 'ANDROIDX_TEST_ORCHESTRATOR'
-          animationsDisabled = true
+          junitPlatform {
+            releaseFilters {
+              excludePattern "**/**"
+            }
+          }
+          unitTests.includeAndroidResources = true
+          unitTests.all {
+            reports {
+              junitXml.enabled = true
+              html.enabled = true
+            }
+          }
         }
       }
 
@@ -230,119 +245,47 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
         "Unrecognized packaging type ${POM_PACKAGING} for ${project}")
   }
 
-  task javadocsJar(type: Jar) {
-    classifier = "javadoc"
-  }
+  /*
+   * Configure publishing for the various project types.
+   */
 
-  task sourcesJar(type: Jar) {
-    classifier = "sources"
-    from "src/main/java", "src/main/resources"
-  }
+  switch (POM_PACKAGING) {
+    case "jar":
+      apply from: file("$rootDir/build_publishing.gradle")
+      break
 
-  apply plugin: "digital.wup.android-maven-publish"
+    case "apk":
+      break
 
-  publishing {
-    publications {
-      basicJar(MavenPublication) {
+    case "aar":
+      apply from: file("$rootDir/build_publishing.gradle")
+      break
 
-        switch (POM_PACKAGING) {
-          case "jar":
-            from components.java
-            break
-
-          case "apk":
-            break
-
-          case "aar":
-            from components.android
-            break
-        }
-
-        artifact sourcesJar
-        artifact javadocsJar
-
-        pom {
-          artifactId = POM_ARTIFACT_ID
-          name = POM_NAME
-          packaging = POM_PACKAGING
-          description = POM_DESCRIPTION
-          url = POM_URL
-
-          scm {
-            connection = POM_SCM_CONNECTION
-            developerConnection = POM_SCM_DEV_CONNECTION
-            url = POM_SCM_URL
-          }
-
-          licenses {
-            license {
-              name = POM_LICENCE_NAME
-              url = POM_LICENCE_URL
-            }
-          }
-
-          developers {
-            developer {
-              id = POM_DEVELOPER_ID
-              name = POM_DEVELOPER_NAME
-              email = POM_DEVELOPER_EMAIL
-              url = POM_DEVELOPER_URL
-            }
-          }
-        }
-      }
-    }
-
-    repositories {
-      if (useDirectoryPublish) {
-        logger.info("Using ${useDirectoryPublishPath} for publication")
-
-        maven {
-          name = "Directory"
-          url = "file://${useDirectoryPublishPath}"
-        }
-      }
-
-      if (version.endsWith("SNAPSHOT")) {
-        logger.info("Using Sonatype snapshots repository for publication")
-        maven {
-          url = "https://oss.sonatype.org/content/repositories/snapshots/"
-          credentials(PasswordCredentials) {
-            username mavenCentralUsername
-            password mavenCentralPassword
-          }
-        }
-      }
-    }
-  }
-
-  if (!disableSigning) {
-    apply plugin: "signing"
-
-    signing {
-      useGpgCmd()
-      sign publishing.publications.basicJar
-    }
+    default:
+      throw new IllegalStateException(
+        "Unrecognized packaging type ${POM_PACKAGING} for ${project}")
   }
 
   repositories {
     mavenLocal()
     mavenCentral()
+    google()
 
     // Sonatype snapshots
     maven {
       url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
 
+    maven { url "https://jitpack.io" }
     jcenter()
-    google()
   }
 }
 
-// Add ktlint tasks to root project. This executes faster than configuring
-// the tasks for each subproject individually.
+/*
+ * Add ktlint tasks.
+ */
 
-apply from: file("$rootDir/ktlint.gradle")
+apply from: file("$rootDir/build_ktlint.gradle")
 
 subprojects {
   assemble.dependsOn ktlint
