@@ -23,6 +23,8 @@ dependencies {
   api libs.slf4j
 
   testImplementation libs.logback.classic
+  testImplementation libs.junit.jupiter.api
+  testImplementation libs.junit.jupiter.engine
 }
 
 /*
