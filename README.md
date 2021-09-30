@@ -7,6 +7,14 @@ audiobook-android
 
 ### Compilation
 
+Make sure you clone this repository with `git clone --recursive`. 
+If you forgot to use `--recursive`, then execute:
+
+```
+$ git submodule init
+$ git submodule update --remote --recursive
+```
+
 ```
 $ echo "org.gradle.internal.publish.checksums.insecure=true" >> "$HOME/.gradle/gradle.properties"
 
