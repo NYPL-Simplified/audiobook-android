@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="80dp"
   android:layout_height="80dp">
 
@@ -10,12 +11,12 @@
     android:layout_height="wrap_content"
     android:layout_alignParentRight="true"
     android:layout_centerVertical="true"
-    android:textColor="@color/audiobook_player_toc_spine_element_fg_normal"
     android:text="00:00:00"
     android:textSize="18sp"
     android:focusable="false"
     android:clickable="false"
     android:importantForAccessibility="no"
-    android:visibility="visible" />
+    android:visibility="visible"
+    app:tint="?attr/simplifiedColorControlList" />
 
 </RelativeLayout>

@@ -58,7 +58,7 @@ class PlayerTOCFragment : Fragment() {
     inflater: LayoutInflater,
     container: ViewGroup?,
     state: Bundle?
-  ): View? {
+  ): View {
 
     val view: RecyclerView =
       inflater.inflate(R.layout.player_toc_view, container, false) as RecyclerView
@@ -116,8 +116,6 @@ class PlayerTOCFragment : Fragment() {
         PlayerTOCAdapter(
           context = context,
           spineElements = this.book.spine,
-          parameters = this.parameters,
-          primaryColor = { PlayerColors.primaryColor(requireActivity(), this.parameters.primaryColor) },
           onSelect = { item -> this.onTOCItemSelected(item) }
         )
 

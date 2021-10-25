@@ -3,12 +3,7 @@
 <resources>
 
   <!-- Color settings for the table of contents. -->
-  <color name="audiobook_player_toc_spine_element_progress_color">#000000</color>
   <color name="audiobook_player_toc_spine_element_separator">#dddddd</color>
-  <color name="audiobook_player_toc_spine_element_bg_disabled">#eeeeee</color>
-  <color name="audiobook_player_toc_spine_element_bg_normal">#ffffff</color>
-  <color name="audiobook_player_toc_spine_element_fg_disabled">#909090</color>
-  <color name="audiobook_player_toc_spine_element_fg_normal">#000000</color>
 
   <!-- Color settings for the playback rate selection menu. -->
   <color name="audiobook_player_rate_separator">#dddddd</color>
@@ -17,11 +12,5 @@
 
   <!-- Color settings for the sleep timer configuration menu. -->
   <color name="audiobook_player_sleep_separator">#dddddd</color>
-  <color name="audiobook_player_sleep_bg_normal">#ffffff</color>
-  <color name="audiobook_player_sleep_fg_normal">#000000</color>
-
-  <!-- Color settings for the main player screen. -->
-  <color name="audiobook_player_background_color">#ffffff</color>
-  <color name="audiobook_player_text_color">#000000</color>
 
 </resources>

@@ -21,6 +21,7 @@
     android:id="@+id/player_menu_toc"
     android:title="@string/audiobook_player_menu_toc_title"
     android:icon="@drawable/list"
+    app:iconTint="?attr/simplifiedColorControlActionBar"
     app:showAsAction="always" />
 
 </menu>

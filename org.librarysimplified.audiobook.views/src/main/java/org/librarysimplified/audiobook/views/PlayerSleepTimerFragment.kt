@@ -45,7 +45,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
     inflater: LayoutInflater,
     container: ViewGroup?,
     state: Bundle?
-  ): View? {
+  ): View {
 
     val view: RecyclerView =
       inflater.inflate(R.layout.player_sleep_timer_view, container, false) as RecyclerView

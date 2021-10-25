@@ -26,12 +26,8 @@ class PlayerSleepTimerAdapter(
 ) :
   RecyclerView.Adapter<PlayerSleepTimerAdapter.ViewHolder>() {
 
-  private val listener: View.OnClickListener
-
-  init {
-    this.listener = View.OnClickListener { v ->
-      this.onSelect(v.tag as PlayerSleepTimerConfiguration)
-    }
+  private val listener: View.OnClickListener = View.OnClickListener { v ->
+    this.onSelect(v.tag as PlayerSleepTimerConfiguration)
   }
 
   companion object {
