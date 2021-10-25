@@ -1,0 +1,8 @@
+--branch
+develop
+--repository
+.git
+--project
+NYPL-Simplified/audiobook-android
+--formatter
+slack
