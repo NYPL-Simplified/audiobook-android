@@ -35,7 +35,7 @@ class PlayerPlaybackRateFragment : DialogFragment() {
     inflater: LayoutInflater,
     container: ViewGroup?,
     state: Bundle?
-  ): View? {
+  ): View {
 
     val view: RecyclerView =
       inflater.inflate(R.layout.player_rate_view, container, false) as RecyclerView
@@ -65,8 +65,6 @@ class PlayerPlaybackRateFragment : DialogFragment() {
         PlayerPlaybackRateAdapter(
           resources = this.resources,
           rates = PlayerPlaybackRate.values().toList(),
-          parameters = this.parameters,
-          primaryColor = { PlayerColors.primaryColor(requireActivity(), this.parameters.primaryColor) },
           onSelect = { item -> this.onPlaybackRateSelected(item) }
         )
 

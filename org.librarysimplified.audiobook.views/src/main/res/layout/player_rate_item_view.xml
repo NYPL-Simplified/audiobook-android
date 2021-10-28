@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:background="@color/audiobook_player_rate_bg_normal"
   android:layout_width="match_parent"
   android:layout_height="80dp">
 
@@ -23,15 +22,7 @@
     android:layout_margin="12dp"
     android:text="Placeholder"
     android:textAlignment="center"
-    android:textColor="@color/audiobook_player_rate_fg_normal"
     android:textSize="24sp" />
 
-  <ImageView
-    android:id="@+id/player_rate_item_view_border"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="false"
-    android:clickable="false"
-    android:src="@drawable/player_rate_item_border" />
 
 </RelativeLayout>

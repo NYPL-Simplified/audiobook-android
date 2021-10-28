@@ -24,18 +24,15 @@ import org.librarysimplified.audiobook.api.PlayerPlaybackRate.THREE_QUARTERS_TIM
 class PlayerPlaybackRateAdapter(
   private val resources: Resources,
   private val rates: List<PlayerPlaybackRate>,
-  private val parameters: PlayerFragmentParameters,
-  private val primaryColor: () -> Int,
   private val onSelect: (PlayerPlaybackRate) -> Unit
 ) :
   RecyclerView.Adapter<PlayerPlaybackRateAdapter.ViewHolder>() {
 
-  private val listener: View.OnClickListener
-  private var currentRate: PlayerPlaybackRate = NORMAL_TIME
+  private val listener: View.OnClickListener =
+    View.OnClickListener { v -> this.onSelect(v.tag as PlayerPlaybackRate) }
 
-  init {
-    this.listener = View.OnClickListener { v -> this.onSelect(v.tag as PlayerPlaybackRate) }
-  }
+  private var currentRate: PlayerPlaybackRate =
+    NORMAL_TIME
 
   companion object {
 
@@ -125,10 +122,8 @@ class PlayerPlaybackRateAdapter(
 
     val item = this.rates[position]
     holder.text.text = textOfRate(item)
-    holder.border.visibility = INVISIBLE
 
     if (item == this.currentRate) {
-      holder.border.visibility = VISIBLE
       holder.view.contentDescription = menuItemSelectedContentDescriptionOfRate(this.resources, item)
       holder.view.isEnabled = false
       holder.text.isEnabled = false
@@ -152,11 +147,5 @@ class PlayerPlaybackRateAdapter(
 
   inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     val text: TextView = view.findViewById(R.id.player_rate_item_view_name)
-    val border: ImageView = view.findViewById(R.id.player_rate_item_view_border)
-
-    init {
-      val colorResolved = this@PlayerPlaybackRateAdapter.primaryColor.invoke()
-      this.border.setColorFilter(colorResolved, PorterDuff.Mode.MULTIPLY)
-    }
   }
 }

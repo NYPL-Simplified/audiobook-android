@@ -1,7 +1,6 @@
 package org.librarysimplified.audiobook.views
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -189,7 +188,7 @@ class PlayerFragment : Fragment() {
      */
 
     if (Build.VERSION.SDK_INT < 23) {
-      this.menuPlaybackRate.setVisible(false)
+      this.menuPlaybackRate.isVisible = false
     }
 
     this.menuSleep = menu.findItem(R.id.player_menu_sleep)
@@ -389,7 +388,7 @@ class PlayerFragment : Fragment() {
     inflater: LayoutInflater,
     container: ViewGroup?,
     state: Bundle?
-  ): View? {
+  ): View {
     this.log.debug("onCreateView")
     return inflater.inflate(R.layout.player_view, container, false)
   }
@@ -423,14 +422,7 @@ class PlayerFragment : Fragment() {
     this.playerWaiting.text = ""
     this.playerWaiting.contentDescription = null
 
-    val primaryColorResolved =
-      PlayerColors.primaryColor(this.requireActivity(), this.parameters.primaryColor)
-
     this.playerPosition = view.findViewById(R.id.player_progress)!!
-    this.playerPosition.thumbTintList =
-      ColorStateList.valueOf(primaryColorResolved)
-    this.playerPosition.progressTintList =
-      ColorStateList.valueOf(primaryColorResolved)
     this.playerPosition.isEnabled = false
     this.playerPositionDragging = false
     this.playerPosition.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

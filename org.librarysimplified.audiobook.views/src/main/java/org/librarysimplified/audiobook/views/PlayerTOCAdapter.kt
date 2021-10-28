@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Resources
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -29,9 +28,7 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementType
 class PlayerTOCAdapter(
   private val context: Context,
   private val spineElements: List<PlayerSpineElementType>,
-  private val parameters: PlayerTOCFragmentParameters,
   private val onSelect: (PlayerSpineElementType) -> Unit,
-  private val primaryColor: () -> Int
 ) :
   RecyclerView.Adapter<PlayerTOCAdapter.ViewHolder>() {
 
@@ -89,15 +86,7 @@ class PlayerTOCAdapter(
     holder.titleText.text = title
     holder.titleText.isEnabled = false
 
-    if (item.book.supportsStreaming) {
-      holder.titleText.setTextColor(holder.textColorNormal)
-      holder.view.setBackgroundColor(holder.backgroundColorNormal)
-      holder.view.isEnabled = true
-    } else {
-      holder.titleText.setTextColor(holder.textColorDisabled)
-      holder.view.setBackgroundColor(holder.backgroundDisabled)
-      holder.view.isEnabled = false
-    }
+    holder.view.isEnabled = item.book.supportsStreaming
 
     var requiresDownload = false
     var failedDownload = false
@@ -176,8 +165,6 @@ class PlayerTOCAdapter(
         holder.buttonsNotDownloadedStreamable.visibility = INVISIBLE
         holder.buttonsNotDownloadedNotStreamable.visibility = INVISIBLE
 
-        holder.titleText.setTextColor(holder.textColorNormal)
-        holder.view.setBackgroundColor(holder.backgroundColorNormal)
         holder.view.isEnabled = true
 
         holder.downloadedDurationText.text =
@@ -309,15 +296,6 @@ class PlayerTOCAdapter(
   }
 
   inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-    val textColorNormal =
-      this.view.resources.getColor(R.color.audiobook_player_toc_spine_element_fg_normal)
-    val textColorDisabled =
-      this.view.resources.getColor(R.color.audiobook_player_toc_spine_element_fg_disabled)
-
-    val backgroundColorNormal =
-      this.view.resources.getColor(R.color.audiobook_player_toc_spine_element_bg_normal)
-    val backgroundDisabled =
-      this.view.resources.getColor(R.color.audiobook_player_toc_spine_element_bg_disabled)
 
     val buttons =
       this.view.findViewById<ViewGroup>(R.id.player_toc_end_controls)
@@ -363,32 +341,9 @@ class PlayerTOCAdapter(
       this.buttonsDownloading.findViewById(R.id.player_toc_item_downloading_progress)
 
     init {
-      val primaryColorResolved = this@PlayerTOCAdapter.primaryColor.invoke()
-
       this.downloadingProgress.thickness = 8.0f
-      this.downloadingProgress.color = primaryColorResolved
 
       this.notDownloadedStreamableProgress.thickness = 8.0f
-      this.notDownloadedStreamableProgress.color = primaryColorResolved
-
-      this.downloadFailedErrorIcon.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY
-      )
-      this.downloadFailedRefresh.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY
-      )
-
-      this.notDownloadedStreamableRefresh.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY
-      )
-
-      this.notDownloadedNotStreamableRefresh.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY
-      )
-
-      this.isCurrent.setColorFilter(
-        primaryColorResolved, PorterDuff.Mode.MULTIPLY
-      )
     }
   }
 }

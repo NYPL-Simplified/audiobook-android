@@ -1,6 +1,7 @@
 package org.librarysimplified.audiobook.views
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -10,6 +11,7 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
 
 /**
  * A circular progress view. Renders similarly to the circular android indefinite progress
@@ -17,18 +19,29 @@ import android.view.View
  * more of the circle is drawn as the progress value nears {@code 1.0}.
  */
 
-class PlayerCircularProgressView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class PlayerCircularProgressView(context: Context, attrs: AttributeSet, defStyleAttr: Int)
+  : View(context, attrs, defStyleAttr) {
 
-  private val defaultBgColor = "#cccccc"
-  private val defaultFgColor = "#ff00ff"
+  constructor(context: Context, attrs: AttributeSet) : this(context, attrs, R.attr.progressBarStyle)
+
+  private val defaultFgColor: Int
+
+  init {
+    val a: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.AppCompatTheme, defStyleAttr, 0)
+    val controlActivatedResource = a.getResourceId(R.styleable.AppCompatTheme_colorControlActivated, android.R.color.black)
+    defaultFgColor = ContextCompat.getColor(context, controlActivatedResource)
+    a.recycle()
+  }
+
+  private val defaultBgColor: Int = Color.parseColor("#cccccc")
 
   private val arcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-    this.color = Color.parseColor(defaultFgColor)
+    this.color = defaultFgColor
     this.isAntiAlias = true
   }
 
   private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-    this.color = Color.parseColor(defaultBgColor)
+    this.color = defaultBgColor
     this.isAntiAlias = true
   }
 
@@ -74,7 +87,7 @@ class PlayerCircularProgressView(context: Context, attrs: AttributeSet) : View(c
       this.invalidate()
     }
 
-  private var colorValue: Int = Color.parseColor(defaultFgColor)
+  private var colorValue: Int = defaultFgColor
 
   /**
    * The current colour value.
@@ -106,7 +119,7 @@ class PlayerCircularProgressView(context: Context, attrs: AttributeSet) : View(c
       this.invalidate()
     }
 
-  private var unfilledColorValue: Int = Color.parseColor(defaultBgColor)
+  private var unfilledColorValue: Int = defaultBgColor
 
   /**
    * The current background colour value.
