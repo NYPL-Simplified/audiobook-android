@@ -15,10 +15,15 @@ object AudioBookHTTPClients {
   private val logger =
     LoggerFactory.getLogger(AudioBookHTTPClients::class.java)
 
+  private val timeout =
+    Pair(3L, TimeUnit.MINUTES)
+
   private val defaultClient =
     OkHttpClient.Builder()
-      .connectTimeout(3L, TimeUnit.MINUTES)
-      .callTimeout(3L, TimeUnit.MINUTES)
+      .connectTimeout(this.timeout.first, this.timeout.second)
+      .callTimeout(this.timeout.first, this.timeout.second)
+      .readTimeout(this.timeout.first, this.timeout.second)
+      .writeTimeout(this.timeout.first, this.timeout.second)
       .addInterceptor(AudioBookHTTPInterceptor(this.logger))
       .build()
 
