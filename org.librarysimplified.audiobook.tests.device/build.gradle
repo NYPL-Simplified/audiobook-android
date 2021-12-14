@@ -1,7 +1,7 @@
 dependencies {
   androidTestImplementation libs.androidx.app.compat
-  androidTestImplementation libs.androidx.test.espresso
-  androidTestImplementation libs.androidx.test.ext.junit
+  androidTestImplementation libs.androidx.test.espresso.core
+  androidTestImplementation libs.androidx.test.ext.junit.ktx
   androidTestImplementation libs.androidx.test.rules
   androidTestImplementation libs.androidx.test.runner
   androidTestImplementation libs.junit
