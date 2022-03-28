@@ -55,6 +55,8 @@ class PlayerFragmentTest {
       this.javaClass.simpleName
     )
     this.wakeLock.acquire()
+
+    act.setTheme(R.style.AudioBooksActionBar)
   }
 
   @After

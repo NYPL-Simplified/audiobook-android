@@ -1,5 +1,7 @@
 package org.librarysimplified.audiobook.manifest_fulfill.basic
 
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -10,8 +12,6 @@ import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentE
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentEvent
 import org.librarysimplified.audiobook.manifest_fulfill.spi.ManifestFulfillmentStrategyType
 import org.slf4j.LoggerFactory
-import rx.Observable
-import rx.subjects.PublishSubject
 
 /**
  * A fulfillment strategy that expects to receive a manifest directly, via HTTP basic authentication.
@@ -98,6 +98,6 @@ class ManifestFulfillmentBasic(
   }
 
   override fun close() {
-    this.eventSubject.onCompleted()
+    this.eventSubject.onComplete()
   }
 }

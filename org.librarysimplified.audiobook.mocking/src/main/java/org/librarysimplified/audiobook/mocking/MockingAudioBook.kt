@@ -2,6 +2,8 @@ package org.librarysimplified.audiobook.mocking
 
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.SettableFuture
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerBookID
@@ -10,8 +12,6 @@ import org.librarysimplified.audiobook.api.PlayerDownloadWholeBookTaskType
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
-import rx.Observable
-import rx.subjects.BehaviorSubject
 import java.util.SortedMap
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.atomic.AtomicBoolean

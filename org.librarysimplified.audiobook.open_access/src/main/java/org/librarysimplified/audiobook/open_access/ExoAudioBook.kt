@@ -3,6 +3,7 @@ package org.librarysimplified.audiobook.open_access
 import android.content.Context
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.SettableFuture
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerBookID
@@ -16,7 +17,6 @@ import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.slf4j.LoggerFactory
-import rx.subjects.PublishSubject
 import java.io.File
 import java.util.SortedMap
 import java.util.TreeMap
@@ -241,8 +241,8 @@ class ExoAudioBook private constructor(
   override fun close() {
     if (this.isClosedNow.compareAndSet(false, true)) {
       this.logger.debug("closed audio book")
-      this.manifestUpdates.onCompleted()
-      this.spineElementDownloadStatus.onCompleted()
+      this.manifestUpdates.onComplete()
+      this.spineElementDownloadStatus.onComplete()
     }
   }
 

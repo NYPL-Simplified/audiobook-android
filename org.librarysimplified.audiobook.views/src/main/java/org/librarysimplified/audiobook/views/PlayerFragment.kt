@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import io.reactivex.disposables.Disposable
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerEvent
@@ -40,7 +41,6 @@ import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAcce
 import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityIsBuffering
 import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityIsWaitingForChapter
 import org.slf4j.LoggerFactory
-import rx.Subscription
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
@@ -101,8 +101,8 @@ class PlayerFragment : Fragment() {
 
   private var playerPositionCurrentSpine: PlayerSpineElementType? = null
   private var playerPositionCurrentOffset: Long = 0L
-  private var playerEventSubscription: Subscription? = null
-  private var playerSleepTimerEventSubscription: Subscription? = null
+  private var playerEventSubscription: Disposable? = null
+  private var playerSleepTimerEventSubscription: Disposable? = null
 
   private val log = LoggerFactory.getLogger(PlayerFragment::class.java)
 
@@ -112,7 +112,7 @@ class PlayerFragment : Fragment() {
     super.onCreate(state)
 
     this.parameters =
-      this.arguments!!.getSerializable(org.librarysimplified.audiobook.views.PlayerFragment.Companion.parametersKey)
+      this.requireArguments().getSerializable(parametersKey)
       as PlayerFragmentParameters
     this.timeStrings =
       PlayerTimeStrings.SpokenTranslations.createFromResources(this.resources)
@@ -396,8 +396,8 @@ class PlayerFragment : Fragment() {
   override fun onDestroyView() {
     this.log.debug("onDestroyView")
     super.onDestroyView()
-    this.playerEventSubscription?.unsubscribe()
-    this.playerSleepTimerEventSubscription?.unsubscribe()
+    this.playerEventSubscription?.dispose()
+    this.playerSleepTimerEventSubscription?.dispose()
     this.onPlayerBufferingStopped()
   }
 

@@ -16,6 +16,8 @@ import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmen
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicParameters
 import org.librarysimplified.audiobook.manifest_fulfill.basic.ManifestFulfillmentBasicProvider
 import org.mockito.Mockito
+import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 import java.net.URI
 import java.net.URL
 
@@ -50,10 +52,8 @@ abstract class ManifestFulfillmentBasicContract {
         )
         .build()
 
-    Mockito.`when`(this.client.newCall(Mockito.any()))
-      .thenReturn(this.call)
-    Mockito.`when`(this.call.execute())
-      .thenReturn(response)
+    whenever(client.newCall(any())).thenReturn(call)
+    whenever(call.execute()).thenReturn(response)
 
     val provider =
       ManifestFulfillmentBasicProvider(
@@ -107,10 +107,8 @@ abstract class ManifestFulfillmentBasicContract {
         )
         .build()
 
-    Mockito.`when`(this.client.newCall(Mockito.any()))
-      .thenReturn(this.call)
-    Mockito.`when`(this.call.execute())
-      .thenReturn(response)
+    whenever(client.newCall(any())).thenReturn(call)
+    whenever(call.execute()).thenReturn(response)
 
     val provider =
       ManifestFulfillmentBasicProvider(

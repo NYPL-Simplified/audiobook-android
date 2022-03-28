@@ -1,11 +1,11 @@
 package org.librarysimplified.audiobook.license_check.api
 
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckParameters
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckResult
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
 import org.slf4j.LoggerFactory
-import rx.Observable
-import rx.subjects.PublishSubject
 
 internal class LicenseCheck internal constructor(
   private val parameters: LicenseCheckParameters
@@ -60,6 +60,6 @@ internal class LicenseCheck internal constructor(
   }
 
   override fun close() {
-    this.eventSubject.onCompleted()
+    this.eventSubject.onComplete()
   }
 }

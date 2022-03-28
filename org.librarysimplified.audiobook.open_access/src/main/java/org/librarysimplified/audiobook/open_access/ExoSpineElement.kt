@@ -1,5 +1,6 @@
 package org.librarysimplified.audiobook.open_access
 
+import io.reactivex.subjects.PublishSubject
 import net.jcip.annotations.GuardedBy
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
@@ -12,7 +13,6 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.Play
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
-import rx.subjects.PublishSubject
 import java.io.File
 import java.util.concurrent.ExecutorService
 

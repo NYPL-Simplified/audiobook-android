@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import io.reactivex.disposables.Disposable
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerEvent
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
@@ -26,7 +27,6 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
 import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityChapterSelected
 import org.slf4j.LoggerFactory
-import rx.Subscription
 
 /**
  * A table of contents fragment.
@@ -51,8 +51,8 @@ class PlayerTOCFragment : Fragment() {
   private lateinit var menuRefreshAll: MenuItem
   private lateinit var menuCancelAll: MenuItem
 
-  private var bookSubscription: Subscription? = null
-  private var playerSubscription: Subscription? = null
+  private var bookSubscription: Disposable? = null
+  private var playerSubscription: Disposable? = null
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -95,15 +95,15 @@ class PlayerTOCFragment : Fragment() {
   override fun onDestroy() {
     super.onDestroy()
 
-    this.bookSubscription?.unsubscribe()
-    this.playerSubscription?.unsubscribe()
+    this.bookSubscription?.dispose()
+    this.playerSubscription?.dispose()
   }
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
 
     this.parameters =
-      this.arguments!!.getSerializable(parametersKey)
+      this.requireArguments().getSerializable(parametersKey)
       as PlayerTOCFragmentParameters
 
     if (context is PlayerFragmentListenerType) {
@@ -174,7 +174,7 @@ class PlayerTOCFragment : Fragment() {
       if (refreshVisibleNow != refreshVisibleThen || cancelVisibleNow != cancelVisibleThen) {
         this.menuRefreshAll.isVisible = refreshVisibleNow
         this.menuCancelAll.isVisible = cancelVisibleNow
-        this.activity!!.invalidateOptionsMenu()
+        this.requireActivity().invalidateOptionsMenu()
       }
     }
   }
@@ -252,7 +252,7 @@ class PlayerTOCFragment : Fragment() {
     try {
       this.listener.onPlayerAccessibilityEvent(
         PlayerAccessibilityChapterSelected(
-          this.context!!.getString(R.string.audiobook_accessibility_toc_selected, item.index + 1)
+          this.requireContext().getString(R.string.audiobook_accessibility_toc_selected, item.index + 1)
         )
       )
     } catch (ex: Exception) {

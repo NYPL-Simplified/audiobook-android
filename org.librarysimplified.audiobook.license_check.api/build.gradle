@@ -2,7 +2,7 @@ dependencies {
   api project(":org.librarysimplified.audiobook.manifest.api")
   api project(":org.librarysimplified.audiobook.license_check.spi")
 
-  api libs.rxjava
+  api libs.rxjava2
 
   implementation libs.kotlin.stdlib
   implementation libs.kotlin.reflect

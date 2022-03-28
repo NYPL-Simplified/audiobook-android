@@ -1,7 +1,7 @@
 package org.librarysimplified.audiobook.manifest_fulfill.spi
 
+import io.reactivex.Observable
 import org.librarysimplified.audiobook.api.PlayerResult
-import rx.Observable
 import java.io.Closeable
 
 /**
