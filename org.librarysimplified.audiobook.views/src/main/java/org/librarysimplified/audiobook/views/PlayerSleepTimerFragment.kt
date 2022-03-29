@@ -32,13 +32,14 @@ import org.slf4j.LoggerFactory
  * interface. An exception will be raised if this is not the case.
  */
 
-class PlayerSleepTimerFragment : DialogFragment() {
+class PlayerSleepTimerFragment(
+  private val listener: PlayerFragmentListenerType,
+  private val player: PlayerType,
+  private val sleepTimer: PlayerSleepTimerType
+) : DialogFragment() {
 
   private val log = LoggerFactory.getLogger(PlayerSleepTimerFragment::class.java)
-  private lateinit var listener: PlayerFragmentListenerType
   private lateinit var adapter: PlayerSleepTimerAdapter
-  private lateinit var timer: PlayerSleepTimerType
-  private lateinit var player: PlayerType
   private lateinit var parameters: PlayerFragmentParameters
 
   override fun onCreateView(
@@ -63,34 +64,15 @@ class PlayerSleepTimerFragment : DialogFragment() {
     super.onAttach(context)
 
     this.parameters =
-      this.arguments!!.getSerializable(parametersKey)
-      as PlayerFragmentParameters
+      this.requireArguments().getSerializable(parametersKey)
+        as PlayerFragmentParameters
 
-    if (context is PlayerFragmentListenerType) {
-      this.listener = context
-
-      this.player = this.listener.onPlayerWantsPlayer()
-      this.timer = this.listener.onPlayerWantsSleepTimer()
-
-      this.adapter =
-        PlayerSleepTimerAdapter(
-          context = context,
-          rates = this.enabledSleepTimerConfigurations(),
-          onSelect = { item -> this.onSleepTimerSelected(item) }
-        )
-    } else {
-      throw ClassCastException(
-        StringBuilder(64)
-          .append("The activity hosting this fragment must implement one or more listener interfaces.\n")
-          .append("  Activity: ")
-          .append(context::class.java.canonicalName)
-          .append('\n')
-          .append("  Required interface: ")
-          .append(PlayerFragmentListenerType::class.java.canonicalName)
-          .append('\n')
-          .toString()
+    this.adapter =
+      PlayerSleepTimerAdapter(
+        context = context,
+        rates = this.enabledSleepTimerConfigurations(),
+        onSelect = { item -> this.onSleepTimerSelected(item) }
       )
-    }
   }
 
   /**
@@ -100,7 +82,7 @@ class PlayerSleepTimerFragment : DialogFragment() {
 
   private fun enabledSleepTimerConfigurations(): List<PlayerSleepTimerConfiguration> {
     val nowEnabled =
-      this.context!!.resources.getBoolean(R.bool.audiobook_player_debug_sleep_timer_now_enabled)
+      this.requireContext().resources.getBoolean(R.bool.audiobook_player_debug_sleep_timer_now_enabled)
     return values().toList().filter { configuration ->
       when (configuration) {
         MINUTES_15, MINUTES_30, MINUTES_45, MINUTES_60, OFF, END_OF_CHAPTER -> true
@@ -124,31 +106,31 @@ class PlayerSleepTimerFragment : DialogFragment() {
 
     when (item) {
       END_OF_CHAPTER -> {
-        this.timer.start(null)
+        this.sleepTimer.start(null)
         this.dismiss()
       }
       MINUTES_60 -> {
-        this.timer.start(Duration.standardMinutes(60L))
+        this.sleepTimer.start(Duration.standardMinutes(60L))
         this.dismiss()
       }
       MINUTES_45 -> {
-        this.timer.start(Duration.standardMinutes(45L))
+        this.sleepTimer.start(Duration.standardMinutes(45L))
         this.dismiss()
       }
       MINUTES_30 -> {
-        this.timer.start(Duration.standardMinutes(30L))
+        this.sleepTimer.start(Duration.standardMinutes(30L))
         this.dismiss()
       }
       MINUTES_15 -> {
-        this.timer.start(Duration.standardMinutes(15L))
+        this.sleepTimer.start(Duration.standardMinutes(15L))
         this.dismiss()
       }
       NOW -> {
-        this.timer.start(Duration.standardSeconds(1L))
+        this.sleepTimer.start(Duration.standardSeconds(1L))
         this.dismiss()
       }
       OFF -> {
-        this.timer.cancel()
+        this.sleepTimer.cancel()
         this.dismiss()
       }
     }
@@ -160,10 +142,19 @@ class PlayerSleepTimerFragment : DialogFragment() {
       "org.librarysimplified.audiobook.views.PlayerSleepTimerFragment.parameters"
 
     @JvmStatic
-    fun newInstance(parameters: PlayerFragmentParameters): PlayerSleepTimerFragment {
+    fun newInstance(
+      parameters: PlayerFragmentParameters,
+      listener: PlayerFragmentListenerType,
+      player: PlayerType,
+      sleepTimer: PlayerSleepTimerType
+    ): PlayerSleepTimerFragment {
       val args = Bundle()
       args.putSerializable(parametersKey, parameters)
-      val fragment = PlayerSleepTimerFragment()
+      val fragment = PlayerSleepTimerFragment(
+        listener,
+        player,
+        sleepTimer
+      )
       fragment.arguments = args
       return fragment
     }

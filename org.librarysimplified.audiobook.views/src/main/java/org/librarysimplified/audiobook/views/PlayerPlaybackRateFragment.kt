@@ -23,12 +23,13 @@ import org.slf4j.LoggerFactory
  * interface. An exception will be raised if this is not the case.
  */
 
-class PlayerPlaybackRateFragment : DialogFragment() {
+class PlayerPlaybackRateFragment(
+  private val listener: PlayerFragmentListenerType,
+  private val player: PlayerType
+) : DialogFragment() {
 
   private val log = LoggerFactory.getLogger(PlayerPlaybackRateFragment::class.java)
-  private lateinit var listener: PlayerFragmentListenerType
   private lateinit var adapter: PlayerPlaybackRateAdapter
-  private lateinit var player: PlayerType
   private lateinit var parameters: PlayerFragmentParameters
 
   override fun onCreateView(
@@ -53,35 +54,17 @@ class PlayerPlaybackRateFragment : DialogFragment() {
     super.onAttach(context)
 
     this.parameters =
-      this.arguments!!.getSerializable(parametersKey)
-      as PlayerFragmentParameters
+      this.requireArguments().getSerializable(parametersKey)
+        as PlayerFragmentParameters
 
-    if (context is PlayerFragmentListenerType) {
-      this.listener = context
-
-      this.player = this.listener.onPlayerWantsPlayer()
-
-      this.adapter =
-        PlayerPlaybackRateAdapter(
-          resources = this.resources,
-          rates = PlayerPlaybackRate.values().toList(),
-          onSelect = { item -> this.onPlaybackRateSelected(item) }
-        )
-
-      this.adapter.setCurrentPlaybackRate(this.player.playbackRate)
-    } else {
-      throw ClassCastException(
-        StringBuilder(64)
-          .append("The activity hosting this fragment must implement one or more listener interfaces.\n")
-          .append("  Activity: ")
-          .append(context::class.java.canonicalName)
-          .append('\n')
-          .append("  Required interface: ")
-          .append(PlayerFragmentListenerType::class.java.canonicalName)
-          .append('\n')
-          .toString()
+    this.adapter =
+      PlayerPlaybackRateAdapter(
+        resources = this.resources,
+        rates = PlayerPlaybackRate.values().toList(),
+        onSelect = { item -> this.onPlaybackRateSelected(item) }
       )
-    }
+
+    this.adapter.setCurrentPlaybackRate(this.player.playbackRate)
   }
 
   private fun onPlaybackRateSelected(item: PlayerPlaybackRate) {
@@ -108,10 +91,14 @@ class PlayerPlaybackRateFragment : DialogFragment() {
       "org.librarysimplified.audiobook.views.PlayerPlaybackRateFragment.parameters"
 
     @JvmStatic
-    fun newInstance(parameters: PlayerFragmentParameters): PlayerPlaybackRateFragment {
+    fun newInstance(
+      parameters: PlayerFragmentParameters,
+      listener: PlayerFragmentListenerType,
+      player: PlayerType
+    ): PlayerPlaybackRateFragment {
       val args = Bundle()
       args.putSerializable(parametersKey, parameters)
-      val fragment = PlayerPlaybackRateFragment()
+      val fragment = PlayerPlaybackRateFragment(listener, player)
       fragment.arguments = args
       return fragment
     }

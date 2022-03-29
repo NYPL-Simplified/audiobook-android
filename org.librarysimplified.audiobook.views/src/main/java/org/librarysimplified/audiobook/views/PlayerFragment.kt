@@ -1,6 +1,5 @@
 package org.librarysimplified.audiobook.views
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -55,27 +54,41 @@ import java.util.concurrent.TimeUnit
  * interface. An exception will be raised if this is not the case.
  */
 
-class PlayerFragment : Fragment() {
+class PlayerFragment(
+  private val listener: PlayerFragmentListenerType,
+  private val player: PlayerType,
+  private val book: PlayerAudioBookType,
+  private val scheduledExecutorService: ScheduledExecutorService,
+  private val sleepTimer: PlayerSleepTimerType
+) : Fragment() {
 
   companion object {
 
     const val parametersKey = "org.librarysimplified.audiobook.views.PlayerFragment.parameters"
 
     @JvmStatic
-    fun newInstance(parameters: PlayerFragmentParameters): PlayerFragment {
+    fun newInstance(
+      parameters: PlayerFragmentParameters,
+      listener: PlayerFragmentListenerType,
+      player: PlayerType,
+      book: PlayerAudioBookType,
+      scheduledExecutorService: ScheduledExecutorService,
+      sleepTimer: PlayerSleepTimerType
+    ): PlayerFragment {
       val args = Bundle()
       args.putSerializable(this.parametersKey, parameters)
-      val fragment = PlayerFragment()
+      val fragment = PlayerFragment(listener, player, book, scheduledExecutorService, sleepTimer)
       fragment.arguments = args
       return fragment
     }
   }
 
-  private lateinit var listener: PlayerFragmentListenerType
-  private lateinit var player: PlayerType
-  private lateinit var book: PlayerAudioBookType
-  private lateinit var executor: ScheduledExecutorService
-  private lateinit var sleepTimer: PlayerSleepTimerType
+  // private lateinit var listener: PlayerFragmentListenerType
+  // private lateinit var player: PlayerType
+  // private lateinit var book: PlayerAudioBookType
+  // private lateinit var executor: ScheduledExecutorService
+  // private lateinit var sleepTimer: PlayerSleepTimerType
+
   private lateinit var coverView: ImageView
   private lateinit var playerTitleView: TextView
   private lateinit var playerAuthorView: TextView
@@ -124,30 +137,30 @@ class PlayerFragment : Fragment() {
     this.setHasOptionsMenu(true)
   }
 
-  override fun onAttach(context: Context) {
-    this.log.debug("onAttach")
-    super.onAttach(context)
-
-    if (context is PlayerFragmentListenerType) {
-      this.listener = context
-      this.player = this.listener.onPlayerWantsPlayer()
-      this.book = this.listener.onPlayerTOCWantsBook()
-      this.sleepTimer = this.listener.onPlayerWantsSleepTimer()
-      this.executor = this.listener.onPlayerWantsScheduledExecutor()
-    } else {
-      throw ClassCastException(
-        StringBuilder(64)
-          .append("The activity hosting this fragment must implement one or more listener interfaces.\n")
-          .append("  Activity: ")
-          .append(context::class.java.canonicalName)
-          .append('\n')
-          .append("  Required interface: ")
-          .append(PlayerFragmentListenerType::class.java.canonicalName)
-          .append('\n')
-          .toString()
-      )
-    }
-  }
+  // override fun onAttach(context: Context) {
+  //   this.log.debug("onAttach")
+  //   super.onAttach(context)
+  //
+  //   if (context is PlayerFragmentListenerType) {
+  //     this.listener = context
+  //     this.player = this.listener.onPlayerWantsPlayer()
+  //     this.book = this.listener.onPlayerTOCWantsBook()
+  //     this.sleepTimer = this.listener.onPlayerWantsSleepTimer()
+  //     this.executor = this.listener.onPlayerWantsScheduledExecutor()
+  //   } else {
+  //     throw ClassCastException(
+  //       StringBuilder(64)
+  //         .append("The activity hosting this fragment must implement one or more listener interfaces.\n")
+  //         .append("  Activity: ")
+  //         .append(context::class.java.canonicalName)
+  //         .append('\n')
+  //         .append("  Required interface: ")
+  //         .append(PlayerFragmentListenerType::class.java.canonicalName)
+  //         .append('\n')
+  //         .toString()
+  //     )
+  //   }
+  // }
 
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     this.log.debug("onCreateOptionsMenu")
@@ -759,7 +772,7 @@ class PlayerFragment : Fragment() {
         this.onPlayerBufferingStopTaskNow()
         this.playerBufferingStillOngoing = true
         this.playerBufferingTask =
-          this.executor.schedule({ this.onPlayerBufferingCheckNow() }, 2L, TimeUnit.SECONDS)
+          this.scheduledExecutorService.schedule({ this.onPlayerBufferingCheckNow() }, 2L, TimeUnit.SECONDS)
       }
     )
   }
