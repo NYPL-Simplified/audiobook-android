@@ -182,7 +182,12 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
 
   override fun onPlayerTOCShouldOpen() {
     val fragment =
-      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters())
+      PlayerTOCFragment.newInstance(
+        PlayerTOCFragmentParameters(),
+        this,
+        player,
+        book
+      )
 
     this.supportFragmentManager
       .beginTransaction()
@@ -204,7 +209,11 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     runOnUIThread(
       Runnable {
         val fragment =
-          PlayerPlaybackRateFragment.newInstance(PlayerFragmentParameters())
+          PlayerPlaybackRateFragment.newInstance(
+            PlayerFragmentParameters(),
+            this,
+            player
+          )
         fragment.show(this.supportFragmentManager, "PLAYER_RATE")
       }
     )
@@ -225,7 +234,12 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     runOnUIThread(
       Runnable {
         val fragment =
-          PlayerSleepTimerFragment.newInstance(PlayerFragmentParameters())
+          PlayerSleepTimerFragment.newInstance(
+            PlayerFragmentParameters(),
+            this,
+            player,
+            timer
+          )
         fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
       }
     )
