@@ -4,7 +4,7 @@ dependencies {
   api libs.google.guava
   api libs.jackson.databind
   api libs.joda.time
-  api libs.rxjava
+  api libs.rxjava2
 
   implementation libs.kotlin.stdlib
   implementation libs.kotlin.reflect

@@ -1,5 +1,6 @@
 package org.librarysimplified.audiobook.mocking
 
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
@@ -7,7 +8,6 @@ import org.librarysimplified.audiobook.api.PlayerDownloadTaskType
 import org.librarysimplified.audiobook.api.PlayerPosition
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
-import rx.subjects.BehaviorSubject
 import java.util.concurrent.ExecutorService
 
 /**

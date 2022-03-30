@@ -1,7 +1,7 @@
 package org.librarysimplified.audiobook.api
 
+import io.reactivex.Observable
 import org.joda.time.Duration
-import rx.Observable
 import javax.annotation.concurrent.ThreadSafe
 
 /**

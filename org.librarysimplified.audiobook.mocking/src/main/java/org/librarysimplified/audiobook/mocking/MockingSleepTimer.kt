@@ -1,10 +1,10 @@
 package org.librarysimplified.audiobook.mocking
 
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent
 import org.librarysimplified.audiobook.api.PlayerSleepTimerType
-import rx.Observable
-import rx.subjects.BehaviorSubject
 
 /**
  * A sleep timer that does nothing at all.
@@ -43,7 +43,7 @@ class MockingSleepTimer : PlayerSleepTimerType {
 
   override fun close() {
     this.closed = true
-    this.events.onCompleted()
+    this.events.onComplete()
   }
 
   override val isClosed: Boolean

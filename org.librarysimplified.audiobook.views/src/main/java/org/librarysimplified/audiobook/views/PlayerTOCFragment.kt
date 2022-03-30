@@ -14,8 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import io.reactivex.disposables.Disposable
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerEvent
+import org.librarysimplified.audiobook.api.PlayerSleepTimerType
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadExpired
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
@@ -26,7 +28,6 @@ import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import org.librarysimplified.audiobook.api.PlayerType
 import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityChapterSelected
 import org.slf4j.LoggerFactory
-import rx.Subscription
 
 /**
  * A table of contents fragment.
@@ -38,21 +39,22 @@ import rx.Subscription
  * interface. An exception will be raised if this is not the case.
  */
 
-class PlayerTOCFragment : Fragment() {
+class PlayerTOCFragment(
+  private val listener: PlayerFragmentListenerType,
+  private val book: PlayerAudioBookType,
+  private val player: PlayerType
+) : Fragment() {
 
   private val log = LoggerFactory.getLogger(PlayerTOCFragment::class.java)
 
-  private lateinit var listener: PlayerFragmentListenerType
   private lateinit var adapter: PlayerTOCAdapter
-  private lateinit var book: PlayerAudioBookType
-  private lateinit var player: PlayerType
   private lateinit var parameters: PlayerTOCFragmentParameters
   private var menuInitialized = false
   private lateinit var menuRefreshAll: MenuItem
   private lateinit var menuCancelAll: MenuItem
 
-  private var bookSubscription: Subscription? = null
-  private var playerSubscription: Subscription? = null
+  private var bookSubscription: Disposable? = null
+  private var playerSubscription: Disposable? = null
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -95,56 +97,37 @@ class PlayerTOCFragment : Fragment() {
   override fun onDestroy() {
     super.onDestroy()
 
-    this.bookSubscription?.unsubscribe()
-    this.playerSubscription?.unsubscribe()
+    this.bookSubscription?.dispose()
+    this.playerSubscription?.dispose()
   }
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
 
     this.parameters =
-      this.arguments!!.getSerializable(parametersKey)
-      as PlayerTOCFragmentParameters
+      this.requireArguments().getSerializable(parametersKey)
+        as PlayerTOCFragmentParameters
 
-    if (context is PlayerFragmentListenerType) {
-      this.listener = context
-
-      this.book = this.listener.onPlayerTOCWantsBook()
-      this.player = this.listener.onPlayerWantsPlayer()
-
-      this.adapter =
-        PlayerTOCAdapter(
-          context = context,
-          spineElements = this.book.spine,
-          onSelect = { item -> this.onTOCItemSelected(item) }
-        )
-
-      this.bookSubscription =
-        this.book.spineElementDownloadStatus.subscribe(
-          { status -> this.onSpineElementStatusChanged(status) },
-          { error -> this.onSpineElementStatusError(error) },
-          { }
-        )
-
-      this.playerSubscription =
-        this.player.events.subscribe(
-          { event -> this.onPlayerEvent(event) },
-          { error -> this.onPlayerError(error) },
-          { }
-        )
-    } else {
-      throw ClassCastException(
-        StringBuilder(64)
-          .append("The activity hosting this fragment must implement one or more listener interfaces.\n")
-          .append("  Activity: ")
-          .append(context::class.java.canonicalName)
-          .append('\n')
-          .append("  Required interface: ")
-          .append(PlayerFragmentListenerType::class.java.canonicalName)
-          .append('\n')
-          .toString()
+    this.adapter =
+      PlayerTOCAdapter(
+        context = context,
+        spineElements = this.book.spine,
+        onSelect = { item -> this.onTOCItemSelected(item) }
       )
-    }
+
+    this.bookSubscription =
+      this.book.spineElementDownloadStatus.subscribe(
+        { status -> this.onSpineElementStatusChanged(status) },
+        { error -> this.onSpineElementStatusError(error) },
+        { }
+      )
+
+    this.playerSubscription =
+      this.player.events.subscribe(
+        { event -> this.onPlayerEvent(event) },
+        { error -> this.onPlayerError(error) },
+        { }
+      )
   }
 
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -174,7 +157,7 @@ class PlayerTOCFragment : Fragment() {
       if (refreshVisibleNow != refreshVisibleThen || cancelVisibleNow != cancelVisibleThen) {
         this.menuRefreshAll.isVisible = refreshVisibleNow
         this.menuCancelAll.isVisible = cancelVisibleNow
-        this.activity!!.invalidateOptionsMenu()
+        this.requireActivity().invalidateOptionsMenu()
       }
     }
   }
@@ -252,7 +235,8 @@ class PlayerTOCFragment : Fragment() {
     try {
       this.listener.onPlayerAccessibilityEvent(
         PlayerAccessibilityChapterSelected(
-          this.context!!.getString(R.string.audiobook_accessibility_toc_selected, item.index + 1)
+          this.requireContext()
+            .getString(R.string.audiobook_accessibility_toc_selected, item.index + 1)
         )
       )
     } catch (ex: Exception) {
@@ -340,10 +324,15 @@ class PlayerTOCFragment : Fragment() {
       "org.librarysimplified.audiobook.views.PlayerTOCFragment.parameters"
 
     @JvmStatic
-    fun newInstance(parameters: PlayerTOCFragmentParameters): PlayerTOCFragment {
+    fun newInstance(
+      parameters: PlayerTOCFragmentParameters,
+      listener: PlayerFragmentListenerType,
+      player: PlayerType,
+      book: PlayerAudioBookType,
+    ): PlayerTOCFragment {
       val args = Bundle()
       args.putSerializable(parametersKey, parameters)
-      val fragment = PlayerTOCFragment()
+      val fragment = PlayerTOCFragment(listener, book, player)
       fragment.arguments = args
       return fragment
     }

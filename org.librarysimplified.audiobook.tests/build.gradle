@@ -18,6 +18,7 @@ dependencies {
   api libs.junit
   api libs.kotlin.stdlib
   api libs.mockito
+  api libs.mockito.kotlin
   api libs.okhttp3
   api libs.quicktheories
   api libs.slf4j
@@ -25,6 +26,7 @@ dependencies {
   testImplementation libs.logback.classic
   testImplementation libs.junit.jupiter.api
   testImplementation libs.junit.jupiter.engine
+  testImplementation libs.junit.vintage.engine
 }
 
 /*

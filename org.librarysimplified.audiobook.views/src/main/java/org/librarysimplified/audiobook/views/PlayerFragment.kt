@@ -1,6 +1,5 @@
 package org.librarysimplified.audiobook.views
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +15,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import io.reactivex.disposables.Disposable
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerEvent
@@ -40,7 +40,6 @@ import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAcce
 import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityIsBuffering
 import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent.PlayerAccessibilityIsWaitingForChapter
 import org.slf4j.LoggerFactory
-import rx.Subscription
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
@@ -55,27 +54,35 @@ import java.util.concurrent.TimeUnit
  * interface. An exception will be raised if this is not the case.
  */
 
-class PlayerFragment : Fragment() {
+class PlayerFragment(
+  private val listener: PlayerFragmentListenerType,
+  private val player: PlayerType,
+  private val book: PlayerAudioBookType,
+  private val scheduledExecutorService: ScheduledExecutorService,
+  private val sleepTimer: PlayerSleepTimerType
+) : Fragment() {
 
   companion object {
 
     const val parametersKey = "org.librarysimplified.audiobook.views.PlayerFragment.parameters"
 
     @JvmStatic
-    fun newInstance(parameters: PlayerFragmentParameters): PlayerFragment {
+    fun newInstance(
+      parameters: PlayerFragmentParameters,
+      listener: PlayerFragmentListenerType,
+      player: PlayerType,
+      book: PlayerAudioBookType,
+      scheduledExecutorService: ScheduledExecutorService,
+      sleepTimer: PlayerSleepTimerType
+    ): PlayerFragment {
       val args = Bundle()
       args.putSerializable(this.parametersKey, parameters)
-      val fragment = PlayerFragment()
+      val fragment = PlayerFragment(listener, player, book, scheduledExecutorService, sleepTimer)
       fragment.arguments = args
       return fragment
     }
   }
 
-  private lateinit var listener: PlayerFragmentListenerType
-  private lateinit var player: PlayerType
-  private lateinit var book: PlayerAudioBookType
-  private lateinit var executor: ScheduledExecutorService
-  private lateinit var sleepTimer: PlayerSleepTimerType
   private lateinit var coverView: ImageView
   private lateinit var playerTitleView: TextView
   private lateinit var playerAuthorView: TextView
@@ -101,8 +108,8 @@ class PlayerFragment : Fragment() {
 
   private var playerPositionCurrentSpine: PlayerSpineElementType? = null
   private var playerPositionCurrentOffset: Long = 0L
-  private var playerEventSubscription: Subscription? = null
-  private var playerSleepTimerEventSubscription: Subscription? = null
+  private var playerEventSubscription: Disposable? = null
+  private var playerSleepTimerEventSubscription: Disposable? = null
 
   private val log = LoggerFactory.getLogger(PlayerFragment::class.java)
 
@@ -112,7 +119,7 @@ class PlayerFragment : Fragment() {
     super.onCreate(state)
 
     this.parameters =
-      this.arguments!!.getSerializable(org.librarysimplified.audiobook.views.PlayerFragment.Companion.parametersKey)
+      this.requireArguments().getSerializable(parametersKey)
       as PlayerFragmentParameters
     this.timeStrings =
       PlayerTimeStrings.SpokenTranslations.createFromResources(this.resources)
@@ -122,31 +129,6 @@ class PlayerFragment : Fragment() {
      */
 
     this.setHasOptionsMenu(true)
-  }
-
-  override fun onAttach(context: Context) {
-    this.log.debug("onAttach")
-    super.onAttach(context)
-
-    if (context is PlayerFragmentListenerType) {
-      this.listener = context
-      this.player = this.listener.onPlayerWantsPlayer()
-      this.book = this.listener.onPlayerTOCWantsBook()
-      this.sleepTimer = this.listener.onPlayerWantsSleepTimer()
-      this.executor = this.listener.onPlayerWantsScheduledExecutor()
-    } else {
-      throw ClassCastException(
-        StringBuilder(64)
-          .append("The activity hosting this fragment must implement one or more listener interfaces.\n")
-          .append("  Activity: ")
-          .append(context::class.java.canonicalName)
-          .append('\n')
-          .append("  Required interface: ")
-          .append(PlayerFragmentListenerType::class.java.canonicalName)
-          .append('\n')
-          .toString()
-      )
-    }
   }
 
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -396,8 +378,8 @@ class PlayerFragment : Fragment() {
   override fun onDestroyView() {
     this.log.debug("onDestroyView")
     super.onDestroyView()
-    this.playerEventSubscription?.unsubscribe()
-    this.playerSleepTimerEventSubscription?.unsubscribe()
+    this.playerEventSubscription?.dispose()
+    this.playerSleepTimerEventSubscription?.dispose()
     this.onPlayerBufferingStopped()
   }
 
@@ -759,7 +741,7 @@ class PlayerFragment : Fragment() {
         this.onPlayerBufferingStopTaskNow()
         this.playerBufferingStillOngoing = true
         this.playerBufferingTask =
-          this.executor.schedule({ this.onPlayerBufferingCheckNow() }, 2L, TimeUnit.SECONDS)
+          this.scheduledExecutorService.schedule({ this.onPlayerBufferingCheckNow() }, 2L, TimeUnit.SECONDS)
       }
     )
   }

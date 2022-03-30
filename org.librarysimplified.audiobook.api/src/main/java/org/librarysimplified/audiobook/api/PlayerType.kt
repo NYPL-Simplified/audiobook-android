@@ -1,6 +1,6 @@
 package org.librarysimplified.audiobook.api
 
-import rx.Observable
+import io.reactivex.Observable
 
 /**
  * A player for a book.

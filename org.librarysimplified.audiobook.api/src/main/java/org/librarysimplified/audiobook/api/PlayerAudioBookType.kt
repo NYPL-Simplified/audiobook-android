@@ -1,8 +1,8 @@
 package org.librarysimplified.audiobook.api
 
 import com.google.common.util.concurrent.ListenableFuture
+import io.reactivex.Observable
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
-import rx.Observable
 import java.io.Closeable
 import java.util.SortedMap
 

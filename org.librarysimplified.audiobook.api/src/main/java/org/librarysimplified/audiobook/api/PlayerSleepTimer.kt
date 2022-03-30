@@ -1,5 +1,7 @@
 package org.librarysimplified.audiobook.api
 
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestClose
 import org.librarysimplified.audiobook.api.PlayerSleepTimer.PlayerTimerRequest.PlayerTimerRequestFinish
@@ -14,8 +16,6 @@ import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent.PlayerSleepTime
 import org.librarysimplified.audiobook.api.PlayerSleepTimerType.Running
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import rx.Observable
-import rx.subjects.BehaviorSubject
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
@@ -277,7 +277,7 @@ class PlayerSleepTimer private constructor(
         this.log.debug("stopping main task")
         this.log.debug("completing status events")
         this.timer.statusEvents.onNext(PlayerSleepTimerStopped)
-        this.timer.statusEvents.onCompleted()
+        this.timer.statusEvents.onComplete()
       }
     }
   }

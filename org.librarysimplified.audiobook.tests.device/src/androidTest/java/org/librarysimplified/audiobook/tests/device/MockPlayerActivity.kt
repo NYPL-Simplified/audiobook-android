@@ -62,7 +62,7 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
-    this.setTheme(R.style.AudioBooksWithActionBar)
+    this.setTheme(R.style.SimplifiedTheme_ActionBar)
 
     for (i in 0..100) {
       val e = this.book.createSpineElement(
@@ -75,9 +75,12 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     this.setContentView(R.layout.mocking_player_activity)
 
     this.playerFragment = PlayerFragment.newInstance(
-      PlayerFragmentParameters(
-        primaryColor = Color.parseColor("#f02020")
-      )
+      PlayerFragmentParameters(primaryColor = Color.parseColor("#f02020")),
+      this,
+      player,
+      book,
+      scheduledExecutor,
+      timer
     )
 
     this.supportFragmentManager
@@ -86,12 +89,7 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
       .commit()
   }
 
-  override fun onPlayerWantsPlayer(): PlayerType {
-    return this.player
-  }
-
-  override fun onPlayerWantsCoverImage(view: ImageView) {
-  }
+  override fun onPlayerWantsCoverImage(view: ImageView) {}
 
   override fun onPlayerWantsTitle(): String {
     return "Any Title"
@@ -101,16 +99,13 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     return "Any Author"
   }
 
-  override fun onPlayerWantsSleepTimer(): PlayerSleepTimerType {
-    return this.timer
-  }
-
   override fun onPlayerTOCShouldOpen() {
     val fragment =
       PlayerTOCFragment.newInstance(
-        PlayerTOCFragmentParameters(
-          primaryColor = Color.parseColor("#f02020")
-        )
+        PlayerTOCFragmentParameters(primaryColor = Color.parseColor("#f02020")),
+        this,
+        player,
+        book
       )
 
     this.supportFragmentManager
@@ -118,10 +113,6 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
       .replace(R.id.mocking_player_fragment_holder, fragment, "PLAYER_TOC")
       .addToBackStack(null)
       .commit()
-  }
-
-  override fun onPlayerTOCWantsBook(): PlayerAudioBookType {
-    return this.book
   }
 
   override fun onPlayerTOCWantsClose() {
@@ -132,9 +123,9 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     Handler(Looper.getMainLooper()).post {
       val fragment =
         PlayerPlaybackRateFragment.newInstance(
-          PlayerFragmentParameters(
-            primaryColor = Color.parseColor("#f02020")
-          )
+          PlayerFragmentParameters(primaryColor = Color.parseColor("#f02020")),
+          this,
+          player
         )
       fragment.show(this.supportFragmentManager, "PLAYER_RATE")
     }
@@ -144,18 +135,14 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     Handler(Looper.getMainLooper()).post {
       val fragment =
         PlayerSleepTimerFragment.newInstance(
-          PlayerFragmentParameters(
-            primaryColor = Color.parseColor("#f02020")
-          )
+          PlayerFragmentParameters(primaryColor = Color.parseColor("#f02020")),
+          this,
+          player,
+          timer
         )
       fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
     }
   }
 
-  override fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService {
-    return this.scheduledExecutor
-  }
-
-  override fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent) {
-  }
+  override fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent) {}
 }

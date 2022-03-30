@@ -11,11 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
 import org.joda.time.Duration
-import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerBookID
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
-import org.librarysimplified.audiobook.api.PlayerSleepTimerType
-import org.librarysimplified.audiobook.api.PlayerType
 import org.librarysimplified.audiobook.mocking.MockingAudioBook
 import org.librarysimplified.audiobook.mocking.MockingDownloadProvider
 import org.librarysimplified.audiobook.mocking.MockingPlayer
@@ -86,16 +83,19 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     this.setContentView(R.layout.example_player_activity)
 
     this.playerFragment =
-      PlayerFragment.newInstance(PlayerFragmentParameters())
+      PlayerFragment.newInstance(
+        PlayerFragmentParameters(),
+        this,
+        player,
+        book,
+        scheduledExecutor,
+        timer
+      )
 
     this.supportFragmentManager
       .beginTransaction()
       .replace(R.id.example_player_fragment_holder, this.playerFragment, "PLAYER")
       .commit()
-  }
-
-  override fun onPlayerWantsPlayer(): PlayerType {
-    return this.player
   }
 
   override fun onPlayerWantsCoverImage(view: ImageView) {
@@ -180,23 +180,20 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     return "Any Author"
   }
 
-  override fun onPlayerWantsSleepTimer(): PlayerSleepTimerType {
-    return this.timer
-  }
-
   override fun onPlayerTOCShouldOpen() {
     val fragment =
-      PlayerTOCFragment.newInstance(PlayerTOCFragmentParameters())
+      PlayerTOCFragment.newInstance(
+        PlayerTOCFragmentParameters(),
+        this,
+        player,
+        book
+      )
 
     this.supportFragmentManager
       .beginTransaction()
       .replace(R.id.example_player_fragment_holder, fragment, "PLAYER_TOC")
       .addToBackStack(null)
       .commit()
-  }
-
-  override fun onPlayerTOCWantsBook(): PlayerAudioBookType {
-    return this.book
   }
 
   override fun onPlayerTOCWantsClose() {
@@ -212,7 +209,11 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     runOnUIThread(
       Runnable {
         val fragment =
-          PlayerPlaybackRateFragment.newInstance(PlayerFragmentParameters())
+          PlayerPlaybackRateFragment.newInstance(
+            PlayerFragmentParameters(),
+            this,
+            player
+          )
         fragment.show(this.supportFragmentManager, "PLAYER_RATE")
       }
     )
@@ -233,14 +234,15 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
     runOnUIThread(
       Runnable {
         val fragment =
-          PlayerSleepTimerFragment.newInstance(PlayerFragmentParameters())
+          PlayerSleepTimerFragment.newInstance(
+            PlayerFragmentParameters(),
+            this,
+            player,
+            timer
+          )
         fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
       }
     )
-  }
-
-  override fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService {
-    return this.scheduledExecutor
   }
 
   override fun onPlayerAccessibilityEvent(event: PlayerAccessibilityEvent) {

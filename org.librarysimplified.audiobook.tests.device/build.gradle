@@ -4,6 +4,7 @@ dependencies {
   androidTestImplementation libs.androidx.test.ext.junit.ktx
   androidTestImplementation libs.androidx.test.rules
   androidTestImplementation libs.androidx.test.runner
+  androidTestImplementation libs.androidx.fragment.testing
   androidTestImplementation libs.junit
   androidTestImplementation libs.kotlin.stdlib
   androidTestImplementation libs.logback.android

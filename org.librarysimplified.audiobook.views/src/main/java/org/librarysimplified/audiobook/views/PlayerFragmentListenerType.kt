@@ -12,15 +12,6 @@ import java.util.concurrent.ScheduledExecutorService
  */
 
 interface PlayerFragmentListenerType {
-
-  /**
-   * Called when the player wants access to a player instance. The player should be created once
-   * by the hosting activity and the same instance should be returned here each time this method
-   * is called.
-   */
-
-  fun onPlayerWantsPlayer(): PlayerType
-
   /**
    * A fragment has created an image view representing a book cover image. The receiver must
    * now do whatever work is required to load the actual cover image into the given image view.
@@ -43,26 +34,12 @@ interface PlayerFragmentListenerType {
   fun onPlayerWantsAuthor(): String
 
   /**
-   * Called when the player wants access to a sleep timer instance. The sleep timer should be
-   * created once by the hosting activity and the same instance should be returned here each time
-   * this method is called.
-   */
-
-  fun onPlayerWantsSleepTimer(): PlayerSleepTimerType
-
-  /**
    * The user has performed an action that requires that the TOC be opened. The caller should
    * load a fragment capable of displaying the TOC
    * (such as {@link org.librarysimplified.audiobook.views.PlayerTOCFragment}).
    */
 
   fun onPlayerTOCShouldOpen()
-
-  /**
-   * The loaded TOC fragment wants access to the audio book currently playing.
-   */
-
-  fun onPlayerTOCWantsBook(): PlayerAudioBookType
 
   /**
    * The user has closed the table of contents. The callee should remove the TOC fragment from
@@ -86,13 +63,6 @@ interface PlayerFragmentListenerType {
    */
 
   fun onPlayerSleepTimerShouldOpen()
-
-  /**
-   * The player wants access to a scheduled executor on which it can submit short time-related
-   * tasks.
-   */
-
-  fun onPlayerWantsScheduledExecutor(): ScheduledExecutorService
 
   /**
    * The player published an event relevant to accessibility.

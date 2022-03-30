@@ -311,10 +311,9 @@ abstract class ExoEngineProviderContract {
     waitLatch.await()
 
     this.showEvents(events)
-    Assert.assertEquals(3, events.size)
-    Assert.assertEquals("rateChanged NORMAL_TIME", events[0])
-    Assert.assertEquals("playbackStarted 0 0", events[1])
-    Assert.assertEquals("playbackStopped 0 0", events[2])
+    Assert.assertTrue(events.contains("rateChanged NORMAL_TIME"))
+    Assert.assertTrue(events.contains("playbackStarted 0 0"))
+    Assert.assertTrue(events.contains("playbackStopped 0 0"))
   }
 
   /**
@@ -480,10 +479,9 @@ abstract class ExoEngineProviderContract {
     waitLatch.await()
 
     this.showEvents(events)
-    Assert.assertEquals(3, events.size)
-    Assert.assertEquals("rateChanged NORMAL_TIME", events[0])
-    Assert.assertEquals("playbackStarted 0 0", events[1])
-    Assert.assertEquals("playbackStopped 0 0", events[2])
+    Assert.assertTrue(events.contains("rateChanged NORMAL_TIME"))
+    Assert.assertTrue(events.contains("playbackStarted 0 0"))
+    Assert.assertTrue(events.contains("playbackStopped 0 0"))
   }
 
   /**

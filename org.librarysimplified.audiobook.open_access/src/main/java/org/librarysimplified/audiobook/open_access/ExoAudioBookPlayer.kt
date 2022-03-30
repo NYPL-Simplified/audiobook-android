@@ -14,6 +14,9 @@ import com.google.android.exoplayer.extractor.ExtractorSampleSource
 import com.google.android.exoplayer.upstream.Allocator
 import com.google.android.exoplayer.upstream.DefaultAllocator
 import com.google.android.exoplayer.upstream.DefaultUriDataSource
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 import net.jcip.annotations.GuardedBy
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerEvent
@@ -43,9 +46,6 @@ import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.SkipChapte
 import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_NOT_DOWNLOADED
 import org.librarysimplified.audiobook.open_access.ExoAudioBookPlayer.SkipChapterStatus.SKIP_TO_CHAPTER_READY
 import org.slf4j.LoggerFactory
-import rx.Observable
-import rx.Subscription
-import rx.subjects.BehaviorSubject
 import java.util.concurrent.Callable
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
@@ -66,7 +66,7 @@ class ExoAudioBookPlayer private constructor(
   manifestUpdates: Observable<Unit>
 ) : PlayerType {
 
-  private val manifestSubscription: Subscription
+  private val manifestSubscription: Disposable
   private val log = LoggerFactory.getLogger(ExoAudioBookPlayer::class.java)
   private val bufferSegmentSize = 64 * 1024
   private val bufferSegmentCount = 256
@@ -139,7 +139,7 @@ class ExoAudioBookPlayer private constructor(
   @GuardedBy("stateLock")
   private var state: ExoPlayerState = ExoPlayerStateInitial
 
-  private val downloadEventSubscription: Subscription
+  private val downloadEventSubscription: Disposable
   private val allocator: Allocator = DefaultAllocator(this.bufferSegmentSize)
   private var exoAudioRenderer: MediaCodecAudioTrackRenderer? = null
 
@@ -892,11 +892,11 @@ class ExoAudioBookPlayer private constructor(
   private fun opClose() {
     ExoEngineThread.checkIsExoEngineThread()
     this.log.debug("opClose")
-    this.manifestSubscription.unsubscribe()
-    this.downloadEventSubscription.unsubscribe()
+    this.manifestSubscription.dispose()
+    this.downloadEventSubscription.dispose()
     this.playNothing()
     this.exoPlayer.release()
-    this.statusEvents.onCompleted()
+    this.statusEvents.onComplete()
   }
 
   override val isPlaying: Boolean

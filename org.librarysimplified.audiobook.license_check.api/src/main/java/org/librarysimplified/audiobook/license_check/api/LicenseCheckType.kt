@@ -1,7 +1,7 @@
 package org.librarysimplified.audiobook.license_check.api
 
+import io.reactivex.Observable
 import org.librarysimplified.audiobook.license_check.spi.SingleLicenseCheckStatus
-import rx.Observable
 import java.io.Closeable
 
 /**

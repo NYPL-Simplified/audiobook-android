@@ -16,6 +16,7 @@ import org.librarysimplified.audiobook.api.PlayerPlaybackRate.NORMAL_TIME
 import org.librarysimplified.audiobook.api.PlayerPlaybackRate.ONE_AND_A_HALF_TIME
 import org.librarysimplified.audiobook.api.PlayerPlaybackRate.ONE_AND_A_QUARTER_TIME
 import org.librarysimplified.audiobook.api.PlayerPlaybackRate.THREE_QUARTERS_TIME
+import java.math.RoundingMode
 
 /**
  * A Recycler view adapter used to display and control a playback rate configuration menu.
@@ -44,6 +45,10 @@ class PlayerPlaybackRateAdapter(
         ONE_AND_A_HALF_TIME -> "1.5x"
         DOUBLE_TIME -> "2.0x"
       }
+    }
+
+    fun textOfRate(rate: Float): String {
+      return "${rate.toBigDecimal().setScale(2, RoundingMode.FLOOR)}x"
     }
 
     fun menuItemContentDescriptionOfRate(
