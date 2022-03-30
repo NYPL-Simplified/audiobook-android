@@ -62,7 +62,6 @@ class MockPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   override fun onCreate(state: Bundle?) {
     super.onCreate(state)
 
-    // this.setTheme(R.style.AudioBooksWithActionBar)
     this.setTheme(R.style.SimplifiedTheme_ActionBar)
 
     for (i in 0..100) {

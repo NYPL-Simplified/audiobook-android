@@ -83,12 +83,6 @@ class PlayerFragment(
     }
   }
 
-  // private lateinit var listener: PlayerFragmentListenerType
-  // private lateinit var player: PlayerType
-  // private lateinit var book: PlayerAudioBookType
-  // private lateinit var executor: ScheduledExecutorService
-  // private lateinit var sleepTimer: PlayerSleepTimerType
-
   private lateinit var coverView: ImageView
   private lateinit var playerTitleView: TextView
   private lateinit var playerAuthorView: TextView
@@ -136,31 +130,6 @@ class PlayerFragment(
 
     this.setHasOptionsMenu(true)
   }
-
-  // override fun onAttach(context: Context) {
-  //   this.log.debug("onAttach")
-  //   super.onAttach(context)
-  //
-  //   if (context is PlayerFragmentListenerType) {
-  //     this.listener = context
-  //     this.player = this.listener.onPlayerWantsPlayer()
-  //     this.book = this.listener.onPlayerTOCWantsBook()
-  //     this.sleepTimer = this.listener.onPlayerWantsSleepTimer()
-  //     this.executor = this.listener.onPlayerWantsScheduledExecutor()
-  //   } else {
-  //     throw ClassCastException(
-  //       StringBuilder(64)
-  //         .append("The activity hosting this fragment must implement one or more listener interfaces.\n")
-  //         .append("  Activity: ")
-  //         .append(context::class.java.canonicalName)
-  //         .append('\n')
-  //         .append("  Required interface: ")
-  //         .append(PlayerFragmentListenerType::class.java.canonicalName)
-  //         .append('\n')
-  //         .toString()
-  //     )
-  //   }
-  // }
 
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     this.log.debug("onCreateOptionsMenu")
