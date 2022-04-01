@@ -180,6 +180,10 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
           }
         }
       }
+
+      afterEvaluate {
+        task verifySemanticVersioning() {}
+      }
       break
 
     default:
