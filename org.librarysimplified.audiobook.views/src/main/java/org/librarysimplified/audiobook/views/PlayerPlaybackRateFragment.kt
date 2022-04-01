@@ -30,7 +30,6 @@ class PlayerPlaybackRateFragment(
 
   private val log = LoggerFactory.getLogger(PlayerPlaybackRateFragment::class.java)
   private lateinit var adapter: PlayerPlaybackRateAdapter
-  private lateinit var parameters: PlayerFragmentParameters
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -52,10 +51,6 @@ class PlayerPlaybackRateFragment(
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
-
-    this.parameters =
-      this.requireArguments().getSerializable(parametersKey)
-        as PlayerFragmentParameters
 
     this.adapter =
       PlayerPlaybackRateAdapter(
@@ -83,24 +78,5 @@ class PlayerPlaybackRateFragment(
     this.adapter.setCurrentPlaybackRate(item)
     this.player.playbackRate = item
     this.dismiss()
-  }
-
-  companion object {
-
-    const val parametersKey =
-      "org.librarysimplified.audiobook.views.PlayerPlaybackRateFragment.parameters"
-
-    @JvmStatic
-    fun newInstance(
-      parameters: PlayerFragmentParameters,
-      listener: PlayerFragmentListenerType,
-      player: PlayerType
-    ): PlayerPlaybackRateFragment {
-      val args = Bundle()
-      args.putSerializable(parametersKey, parameters)
-      val fragment = PlayerPlaybackRateFragment(listener, player)
-      fragment.arguments = args
-      return fragment
-    }
   }
 }

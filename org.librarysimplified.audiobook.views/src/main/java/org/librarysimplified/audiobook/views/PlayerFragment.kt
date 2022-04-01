@@ -62,27 +62,6 @@ class PlayerFragment(
   private val sleepTimer: PlayerSleepTimerType
 ) : Fragment() {
 
-  companion object {
-
-    const val parametersKey = "org.librarysimplified.audiobook.views.PlayerFragment.parameters"
-
-    @JvmStatic
-    fun newInstance(
-      parameters: PlayerFragmentParameters,
-      listener: PlayerFragmentListenerType,
-      player: PlayerType,
-      book: PlayerAudioBookType,
-      scheduledExecutorService: ScheduledExecutorService,
-      sleepTimer: PlayerSleepTimerType
-    ): PlayerFragment {
-      val args = Bundle()
-      args.putSerializable(this.parametersKey, parameters)
-      val fragment = PlayerFragment(listener, player, book, scheduledExecutorService, sleepTimer)
-      fragment.arguments = args
-      return fragment
-    }
-  }
-
   private lateinit var coverView: ImageView
   private lateinit var playerTitleView: TextView
   private lateinit var playerAuthorView: TextView
@@ -103,7 +82,6 @@ class PlayerFragment(
   private lateinit var menuSleepText: TextView
   private lateinit var menuSleepEndOfChapter: ImageView
   private lateinit var menuTOC: MenuItem
-  private lateinit var parameters: PlayerFragmentParameters
   private lateinit var timeStrings: PlayerTimeStrings.SpokenTranslations
 
   private var playerPositionCurrentSpine: PlayerSpineElementType? = null
@@ -117,10 +95,6 @@ class PlayerFragment(
     this.log.debug("onCreate")
 
     super.onCreate(state)
-
-    this.parameters =
-      this.requireArguments().getSerializable(parametersKey)
-      as PlayerFragmentParameters
     this.timeStrings =
       PlayerTimeStrings.SpokenTranslations.createFromResources(this.resources)
 
