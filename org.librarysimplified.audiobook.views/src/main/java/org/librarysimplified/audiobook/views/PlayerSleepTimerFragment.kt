@@ -34,13 +34,11 @@ import org.slf4j.LoggerFactory
 
 class PlayerSleepTimerFragment(
   private val listener: PlayerFragmentListenerType,
-  private val player: PlayerType,
   private val sleepTimer: PlayerSleepTimerType
 ) : DialogFragment() {
 
   private val log = LoggerFactory.getLogger(PlayerSleepTimerFragment::class.java)
   private lateinit var adapter: PlayerSleepTimerAdapter
-  private lateinit var parameters: PlayerFragmentParameters
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -62,10 +60,6 @@ class PlayerSleepTimerFragment(
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
-
-    this.parameters =
-      this.requireArguments().getSerializable(parametersKey)
-        as PlayerFragmentParameters
 
     this.adapter =
       PlayerSleepTimerAdapter(
@@ -133,30 +127,6 @@ class PlayerSleepTimerFragment(
         this.sleepTimer.cancel()
         this.dismiss()
       }
-    }
-  }
-
-  companion object {
-
-    const val parametersKey =
-      "org.librarysimplified.audiobook.views.PlayerSleepTimerFragment.parameters"
-
-    @JvmStatic
-    fun newInstance(
-      parameters: PlayerFragmentParameters,
-      listener: PlayerFragmentListenerType,
-      player: PlayerType,
-      sleepTimer: PlayerSleepTimerType
-    ): PlayerSleepTimerFragment {
-      val args = Bundle()
-      args.putSerializable(parametersKey, parameters)
-      val fragment = PlayerSleepTimerFragment(
-        listener,
-        player,
-        sleepTimer
-      )
-      fragment.arguments = args
-      return fragment
     }
   }
 }

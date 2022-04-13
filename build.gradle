@@ -182,61 +182,7 @@ Automatic-Module-Name: ${POM_AUTOMATIC_MODULE_NAME}
       }
 
       afterEvaluate {
-        def scandoVersion = "0.0.5"
-        def scandoSHA256 = "d1e6e57a791363d2a6e9930a15b779fb45855006f5ee7e0119286652ccad7827"
-        def scandoSource = "https://repo1.maven.org/maven2/com/io7m/scando/com.io7m.scando.cmdline/${scandoVersion}/com.io7m.scando.cmdline-${scandoVersion}-main.jar"
-        def scandoBinDir = "${project.buildDir}/bin/"
-        def scandoTarget = "${scandoBinDir}/scando.jar"
-
-        task scandoMakeDirectories() {
-          mkdir "${scandoBinDir}"
-        }
-
-        task scandoDownload(type: Download, dependsOn: scandoMakeDirectories) {
-          src scandoSource
-          dest scandoTarget
-          overwrite true
-        }
-
-        task scandoDownloadVerify(type: Verify, dependsOn: scandoDownload) {
-          src scandoTarget
-          checksum scandoSHA256
-          algorithm 'SHA-256'
-        }
-
-        task scandoAnalyze(type: Exec, dependsOn: [scandoDownloadVerify, assembleDebug]) {
-          def oldGroup =
-            "${project.group}".replace('.', '/')
-          def oldPath =
-            "${oldGroup}/${POM_ARTIFACT_ID}/${VERSION_PREVIOUS}/${POM_ARTIFACT_ID}-${VERSION_PREVIOUS}.aar"
-          def oldUrl =
-            "https://repo1.maven.org/maven2/${oldPath}"
-
-          commandLine = [
-            "java",
-            "-jar",
-            scandoTarget,
-            "--excludeList",
-            "${project.rootDir}/VERSIONING.txt",
-            "--oldJarUri",
-            "${oldUrl}",
-            "--oldJarVersion",
-            "${VERSION_PREVIOUS}",
-            "--ignoreMissingOld",
-            "--newJar",
-            "${buildDir}/outputs/aar/${POM_ARTIFACT_ID}-debug.aar",
-            "--newJarVersion",
-            "${VERSION_NAME}",
-            "--textReport",
-            "${project.buildDir}/scando-report.txt",
-            "--htmlReport",
-            "${project.buildDir}/scando-report.html"
-          ]
-        }
-
-        task verifySemanticVersioning(dependsOn: [scandoAnalyze]) {
-
-        }
+        task verifySemanticVersioning() {}
       }
       break
 

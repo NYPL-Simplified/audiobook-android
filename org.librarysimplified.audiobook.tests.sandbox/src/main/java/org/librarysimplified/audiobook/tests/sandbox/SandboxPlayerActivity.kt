@@ -8,11 +8,16 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import com.google.common.util.concurrent.ListeningExecutorService
 import com.google.common.util.concurrent.MoreExecutors
 import org.joda.time.Duration
+import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerBookID
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
+import org.librarysimplified.audiobook.api.PlayerSleepTimerType
+import org.librarysimplified.audiobook.api.PlayerType
 import org.librarysimplified.audiobook.mocking.MockingAudioBook
 import org.librarysimplified.audiobook.mocking.MockingDownloadProvider
 import org.librarysimplified.audiobook.mocking.MockingPlayer
@@ -20,11 +25,9 @@ import org.librarysimplified.audiobook.mocking.MockingSleepTimer
 import org.librarysimplified.audiobook.views.PlayerAccessibilityEvent
 import org.librarysimplified.audiobook.views.PlayerFragment
 import org.librarysimplified.audiobook.views.PlayerFragmentListenerType
-import org.librarysimplified.audiobook.views.PlayerFragmentParameters
 import org.librarysimplified.audiobook.views.PlayerPlaybackRateFragment
 import org.librarysimplified.audiobook.views.PlayerSleepTimerFragment
 import org.librarysimplified.audiobook.views.PlayerTOCFragment
-import org.librarysimplified.audiobook.views.PlayerTOCFragmentParameters
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -63,6 +66,13 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   private lateinit var playerFragment: PlayerFragment
 
   override fun onCreate(state: Bundle?) {
+    supportFragmentManager.fragmentFactory = SandboxPlayerFragmentFactory(
+      lazy { player },
+      lazy { book },
+      this,
+      scheduledExecutor,
+      timer
+    )
     super.onCreate(state)
 
     this.setTheme(R.style.AudioBooksWithActionBar)
@@ -82,19 +92,9 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
 
     this.setContentView(R.layout.example_player_activity)
 
-    this.playerFragment =
-      PlayerFragment.newInstance(
-        PlayerFragmentParameters(),
-        this,
-        player,
-        book,
-        scheduledExecutor,
-        timer
-      )
-
     this.supportFragmentManager
       .beginTransaction()
-      .replace(R.id.example_player_fragment_holder, this.playerFragment, "PLAYER")
+      .replace(R.id.example_player_fragment_holder, PlayerFragment::class.java, null, "PLAYER")
       .commit()
   }
 
@@ -181,17 +181,10 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
   }
 
   override fun onPlayerTOCShouldOpen() {
-    val fragment =
-      PlayerTOCFragment.newInstance(
-        PlayerTOCFragmentParameters(),
-        this,
-        player,
-        book
-      )
 
     this.supportFragmentManager
       .beginTransaction()
-      .replace(R.id.example_player_fragment_holder, fragment, "PLAYER_TOC")
+      .replace(R.id.example_player_fragment_holder, PlayerTOCFragment::class.java, null, "PLAYER_TOC")
       .addToBackStack(null)
       .commit()
   }
@@ -208,13 +201,10 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
 
     runOnUIThread(
       Runnable {
-        val fragment =
-          PlayerPlaybackRateFragment.newInstance(
-            PlayerFragmentParameters(),
-            this,
-            player
-          )
-        fragment.show(this.supportFragmentManager, "PLAYER_RATE")
+        this.supportFragmentManager
+          .beginTransaction()
+          .add(PlayerPlaybackRateFragment::class.java, null, "PLAYER_RATE")
+          .commit()
       }
     )
   }
@@ -233,14 +223,10 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
 
     runOnUIThread(
       Runnable {
-        val fragment =
-          PlayerSleepTimerFragment.newInstance(
-            PlayerFragmentParameters(),
-            this,
-            player,
-            timer
-          )
-        fragment.show(this.supportFragmentManager, "PLAYER_SLEEP_TIMER")
+        this.supportFragmentManager
+          .beginTransaction()
+          .add(PlayerSleepTimerFragment::class.java, null, "PLAYER_SLEEP_TIMER")
+          .commit()
       }
     )
   }
@@ -253,4 +239,26 @@ class SandboxPlayerActivity : AppCompatActivity(), PlayerFragmentListenerType {
       }
     )
   }
+}
+
+internal class SandboxPlayerFragmentFactory(
+    private val playerDelegate: Lazy<PlayerType>,
+    private val bookDelegate: Lazy<PlayerAudioBookType>,
+    private val listener: PlayerFragmentListenerType,
+    private val scheduledExecutorService: ScheduledExecutorService,
+    private val sleepTimer: PlayerSleepTimerType
+  ): FragmentFactory() {
+    override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+      return when (className) {
+        PlayerFragment::class.java.name ->
+          PlayerFragment(listener, playerDelegate.value, bookDelegate.value, scheduledExecutorService, sleepTimer)
+        PlayerPlaybackRateFragment::class.java.name ->
+          PlayerPlaybackRateFragment(listener, playerDelegate.value)
+        PlayerSleepTimerFragment::class.java.name ->
+          PlayerSleepTimerFragment(listener, sleepTimer)
+        PlayerTOCFragment::class.java.name ->
+          PlayerTOCFragment(listener, bookDelegate.value, playerDelegate.value)
+        else -> super.instantiate(classLoader, className)
+      }
+    }
 }

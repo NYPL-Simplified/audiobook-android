@@ -48,7 +48,6 @@ class PlayerTOCFragment(
   private val log = LoggerFactory.getLogger(PlayerTOCFragment::class.java)
 
   private lateinit var adapter: PlayerTOCAdapter
-  private lateinit var parameters: PlayerTOCFragmentParameters
   private var menuInitialized = false
   private lateinit var menuRefreshAll: MenuItem
   private lateinit var menuCancelAll: MenuItem
@@ -103,10 +102,6 @@ class PlayerTOCFragment(
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
-
-    this.parameters =
-      this.requireArguments().getSerializable(parametersKey)
-        as PlayerTOCFragmentParameters
 
     this.adapter =
       PlayerTOCAdapter(
@@ -316,25 +311,5 @@ class PlayerTOCFragment(
         this.menusConfigureVisibility()
       }
     )
-  }
-
-  companion object {
-
-    private val parametersKey =
-      "org.librarysimplified.audiobook.views.PlayerTOCFragment.parameters"
-
-    @JvmStatic
-    fun newInstance(
-      parameters: PlayerTOCFragmentParameters,
-      listener: PlayerFragmentListenerType,
-      player: PlayerType,
-      book: PlayerAudioBookType,
-    ): PlayerTOCFragment {
-      val args = Bundle()
-      args.putSerializable(parametersKey, parameters)
-      val fragment = PlayerTOCFragment(listener, book, player)
-      fragment.arguments = args
-      return fragment
-    }
   }
 }
