@@ -1,18 +1,14 @@
 package org.librarysimplified.audiobook.mocking
 
-import com.google.common.util.concurrent.ListenableFuture
-import com.google.common.util.concurrent.SettableFuture
-import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerBookID
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
-import org.librarysimplified.audiobook.api.PlayerDownloadWholeBookTaskType
+import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
-import org.librarysimplified.audiobook.manifest.api.PlayerManifest
-import java.util.SortedMap
+import org.librarysimplified.audiobook.api.PlayerType
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -54,32 +50,12 @@ class MockingAudioBook(
     get() = true
 
   override val spine: List<PlayerSpineElementType>
-    get() = this.spineItems
+    get() = spineItems
 
-  override val spineByID: Map<String, PlayerSpineElementType>
-    get() = this.spineItems.associateBy(keySelector = { e -> e.id }, valueTransform = { e -> e })
-
-  override val spineByPartAndChapter: SortedMap<Int, SortedMap<Int, PlayerSpineElementType>>
-    get() = sortedMapOf()
-
-  override val spineElementDownloadStatus: Observable<PlayerSpineElementDownloadStatus>
-    get() = this.statusEvents
-
-  override val wholeBookDownloadTask: PlayerDownloadWholeBookTaskType
-    get() = this.wholeTask
-
-  override fun replaceManifest(
-    manifest: PlayerManifest
-  ): ListenableFuture<Unit> {
-    val future = SettableFuture.create<Unit>()
-    future.set(Unit)
-    return future
-  }
-
-  override fun createPlayer(): MockingPlayer {
+  override fun createPlayer(): PlayerResult<PlayerType, Exception> {
     check(!this.isClosed) { "Audio book has been closed" }
 
-    return this.players.invoke(this)
+    return PlayerResult.Success(this.players.invoke(this))
   }
 
   override fun close() {

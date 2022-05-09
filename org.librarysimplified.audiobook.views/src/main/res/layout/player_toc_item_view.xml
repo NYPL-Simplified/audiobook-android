@@ -17,40 +17,11 @@
     android:src="@drawable/circle"
     app:tint="?attr/simplifiedColorControlList" />
 
-  <FrameLayout
-    android:id="@+id/player_toc_end_controls"
-    android:layout_marginRight="16dp"
-    android:layout_alignParentRight="true"
-    android:layout_width="80dp"
-    android:layout_height="80dp">
-    <include
-      android:id="@+id/player_toc_item_buttons_error"
-      layout="@layout/player_toc_item_buttons_download_failed"
-      android:visibility="gone" />
-    <include
-      android:id="@+id/player_toc_item_buttons_downloaded"
-      layout="@layout/player_toc_item_buttons_downloaded"
-      android:visibility="gone" />
-    <include
-      android:id="@+id/player_toc_item_buttons_not_downloaded_not_streamable"
-      layout="@layout/player_toc_item_buttons_not_downloaded_not_streamable"
-      android:visibility="gone" />
-    <include
-      android:id="@+id/player_toc_item_buttons_not_downloaded_streamable"
-      layout="@layout/player_toc_item_buttons_not_downloaded_streamable"
-      android:visibility="gone" />
-    <include
-      android:id="@+id/player_toc_item_buttons_downloading"
-      layout="@layout/player_toc_item_buttons_downloading"
-      android:visibility="gone" />
-  </FrameLayout>
-
   <TextView
     android:id="@+id/player_toc_item_view_title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_toLeftOf="@id/player_toc_end_controls"
     android:layout_toRightOf="@+id/player_toc_item_is_current"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="64dp"

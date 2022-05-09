@@ -7,13 +7,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 
 import org.junit.Before
 import org.junit.runner.RunWith
-import org.librarysimplified.audiobook.tests.open_access.ExoEngineProviderContract
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class ExoEngineProviderTest : ExoEngineProviderContract() {
+class ReadiumEngineProviderTest : ReadiumEngineProviderContract() {
 
   private var instrumentationContext: Context? = null
 
@@ -24,7 +23,7 @@ class ExoEngineProviderTest : ExoEngineProviderContract() {
   }
 
   override fun log(): Logger {
-    return LoggerFactory.getLogger(ExoEngineProviderTest::class.java)
+    return LoggerFactory.getLogger(ReadiumEngineProviderTest::class.java)
   }
 
   override fun context(): Context {
