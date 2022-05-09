@@ -6,50 +6,35 @@ import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
 import org.librarysimplified.audiobook.api.PlayerVersion
 import org.librarysimplified.audiobook.api.PlayerVersions
 import org.slf4j.LoggerFactory
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
 
 /**
- * An audio engine provider based on ExoPlayer.
+ * An audio engine provider based on the Readium navigator.
  *
  * Note: This class MUST have a no-argument public constructor in order to be used via
  * java.util.ServiceLoader.
  */
 
-class ExoEngineProvider(
-  private val threadFactory: (Runnable) -> ExoEngineThread
-) : PlayerAudioEngineProviderType {
+class ReadiumEngineProvider : PlayerAudioEngineProviderType {
 
-  constructor() : this({
-    runnable ->
-    ExoEngineThread.create(runnable)
-  })
-
-  private val log = LoggerFactory.getLogger(ExoEngineProvider::class.java)
+  private val log = LoggerFactory.getLogger(ReadiumEngineProvider::class.java)
 
   private val version: PlayerVersion =
     PlayerVersions.ofPropertiesClassOrNull(
-      clazz = ExoEngineProvider::class.java,
+      clazz = ReadiumEngineProvider::class.java,
       path = "/org/librarysimplified/audiobook/rbdigital/provider.properties"
     ) ?: PlayerVersion(0, 0, 0)
-
-  private val engineExecutor: ScheduledExecutorService =
-    Executors.newSingleThreadScheduledExecutor(this.threadFactory::invoke)
 
   override fun tryRequest(request: PlayerAudioEngineRequest): PlayerAudioBookProviderType? {
     val manifest = request.manifest
     val encrypted = manifest.metadata.encrypted
-    if (encrypted != null) {
+    if (encrypted != null || request.downloadManifest == null) {
       this.log.debug("cannot open encrypted books")
       return null
     }
 
-    return ExoAudioBookProvider(
-      engineProvider = this,
-      engineExecutor = this.engineExecutor,
-      downloadProvider = request.downloadProvider,
+    return ReadiumAudioBookProvider(
       manifest = manifest,
-      userAgent = request.userAgent
+      downloadManifest = request.downloadManifest!!
     )
   }
 

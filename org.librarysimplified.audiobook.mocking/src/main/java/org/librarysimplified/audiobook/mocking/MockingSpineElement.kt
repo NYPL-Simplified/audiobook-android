@@ -5,7 +5,6 @@ import org.joda.time.Duration
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerDownloadProviderType
 import org.librarysimplified.audiobook.api.PlayerDownloadTaskType
-import org.librarysimplified.audiobook.api.PlayerPosition
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
 import org.librarysimplified.audiobook.api.PlayerSpineElementType
 import java.util.concurrent.ExecutorService
@@ -48,9 +47,6 @@ class MockingSpineElement(
       } else {
         null
       }
-
-  override val position: PlayerPosition
-    get() = PlayerPosition(title = this.title, offsetMilliseconds = 0, part = 0, chapter = this.index + 1)
 
   private var downloadStatusValue: PlayerSpineElementDownloadStatus =
     PlayerSpineElementDownloadStatus.PlayerSpineElementNotDownloaded(this)

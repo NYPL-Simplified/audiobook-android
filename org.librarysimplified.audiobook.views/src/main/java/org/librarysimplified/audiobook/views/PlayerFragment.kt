@@ -28,6 +28,7 @@ import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineEleme
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackProgressUpdate
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStarted
 import org.librarysimplified.audiobook.api.PlayerEvent.PlayerEventWithSpineElement.PlayerEventPlaybackStopped
+import org.librarysimplified.audiobook.api.PlayerPosition
 import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent
 import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent.PlayerSleepTimerCancelled
 import org.librarysimplified.audiobook.api.PlayerSleepTimerEvent.PlayerSleepTimerFinished
@@ -411,7 +412,10 @@ class PlayerFragment(
 
     val spine = this.playerPositionCurrentSpine
     if (spine != null) {
-      val target = spine.position.copy(
+      val target = PlayerPosition(
+        title = spine.title,
+        part = 0,
+        chapter = spine.index,
         offsetMilliseconds =
           TimeUnit.MILLISECONDS.convert(this.playerPosition.progress.toLong(), TimeUnit.SECONDS)
       )

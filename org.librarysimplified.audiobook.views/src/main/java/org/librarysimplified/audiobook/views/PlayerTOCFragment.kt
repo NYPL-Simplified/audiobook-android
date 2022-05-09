@@ -1,13 +1,8 @@
 package org.librarysimplified.audiobook.views
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -17,8 +12,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import io.reactivex.disposables.Disposable
 import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerEvent
-import org.librarysimplified.audiobook.api.PlayerSleepTimerType
-import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus
+import org.librarysimplified.audiobook.api.PlayerPosition
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadExpired
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloadFailed
 import org.librarysimplified.audiobook.api.PlayerSpineElementDownloadStatus.PlayerSpineElementDownloaded
@@ -48,9 +42,6 @@ class PlayerTOCFragment(
   private val log = LoggerFactory.getLogger(PlayerTOCFragment::class.java)
 
   private lateinit var adapter: PlayerTOCAdapter
-  private var menuInitialized = false
-  private lateinit var menuRefreshAll: MenuItem
-  private lateinit var menuCancelAll: MenuItem
 
   private var bookSubscription: Disposable? = null
   private var playerSubscription: Disposable? = null
@@ -110,118 +101,12 @@ class PlayerTOCFragment(
         onSelect = { item -> this.onTOCItemSelected(item) }
       )
 
-    this.bookSubscription =
-      this.book.spineElementDownloadStatus.subscribe(
-        { status -> this.onSpineElementStatusChanged(status) },
-        { error -> this.onSpineElementStatusError(error) },
-        { }
-      )
-
     this.playerSubscription =
       this.player.events.subscribe(
         { event -> this.onPlayerEvent(event) },
         { error -> this.onPlayerError(error) },
         { }
       )
-  }
-
-  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-    this.log.debug("onCreateOptionsMenu")
-    super.onCreateOptionsMenu(menu, inflater)
-
-    inflater.inflate(R.menu.player_toc_menu, menu)
-
-    this.menuRefreshAll = menu.findItem(R.id.player_toc_menu_refresh_all)
-    this.menuCancelAll = menu.findItem(R.id.player_toc_menu_stop_all)
-    this.menuInitialized = true
-    this.menusConfigureVisibility()
-  }
-
-  private fun menusConfigureVisibility() {
-    UIThread.checkIsUIThread()
-
-    if (this.menuInitialized) {
-      val refreshVisibleThen = this.menuRefreshAll.isVisible
-      val cancelVisibleThen = this.menuCancelAll.isVisible
-
-      val refreshVisibleNow =
-        this.book.spine.any { item -> isRefreshable(item) }
-      val cancelVisibleNow =
-        this.book.spine.any { item -> isCancellable(item) }
-
-      if (refreshVisibleNow != refreshVisibleThen || cancelVisibleNow != cancelVisibleThen) {
-        this.menuRefreshAll.isVisible = refreshVisibleNow
-        this.menuCancelAll.isVisible = cancelVisibleNow
-        this.requireActivity().invalidateOptionsMenu()
-      }
-    }
-  }
-
-  private fun isCancellable(item: PlayerSpineElementType): Boolean {
-    return when (item.downloadStatus) {
-      is PlayerSpineElementDownloadExpired -> false
-      is PlayerSpineElementDownloadFailed -> false
-      is PlayerSpineElementNotDownloaded -> false
-      is PlayerSpineElementDownloading -> true
-      is PlayerSpineElementDownloaded -> false
-    }
-  }
-
-  private fun isRefreshable(item: PlayerSpineElementType): Boolean {
-    return when (item.downloadStatus) {
-      is PlayerSpineElementDownloadExpired -> false
-      is PlayerSpineElementDownloadFailed -> true
-      is PlayerSpineElementNotDownloaded -> true
-      is PlayerSpineElementDownloading -> false
-      is PlayerSpineElementDownloaded -> false
-    }
-  }
-
-  override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    val id = item.itemId
-    return when (id) {
-      R.id.player_toc_menu_refresh_all -> {
-        this.onMenuRefreshAllSelected()
-        true
-      }
-      R.id.player_toc_menu_stop_all -> {
-        this.onMenuStopAllSelected()
-        true
-      }
-      else -> {
-        this.log.debug("unrecognized menu item: {}", id)
-        false
-      }
-    }
-  }
-
-  private fun onMenuStopAllSelected() {
-    this.log.debug("onMenuStopAllSelected")
-
-    val dialog =
-      AlertDialog.Builder(this.context)
-        .setCancelable(true)
-        .setMessage(R.string.audiobook_player_toc_menu_stop_all_confirm)
-        .setPositiveButton(
-          R.string.audiobook_part_download_stop,
-          { _: DialogInterface, _: Int -> onMenuStopAllSelectedConfirmed() }
-        )
-        .setNegativeButton(
-          R.string.audiobook_part_download_continue,
-          { _: DialogInterface, _: Int -> }
-        )
-        .create()
-    dialog.show()
-  }
-
-  private fun onMenuStopAllSelectedConfirmed() {
-    this.log.debug("onMenuStopAllSelectedConfirmed")
-    this.book.wholeBookDownloadTask.cancel()
-  }
-
-  private fun onMenuRefreshAllSelected() {
-    this.log.debug("onMenuRefreshAllSelected")
-    this.book.wholeBookDownloadTask.fetch()
   }
 
   private fun onTOCItemSelected(item: PlayerSpineElementType) {
@@ -269,7 +154,13 @@ class PlayerTOCFragment(
   }
 
   private fun playItemAndClose(item: PlayerSpineElementType) {
-    this.player.playAtLocation(item.position)
+    val position = PlayerPosition(
+      title = item.title,
+      chapter = item.index,
+      part = 0,
+      offsetMilliseconds = 0
+    )
+    this.player.playAtLocation(position)
     this.closeTOC()
   }
 
@@ -295,20 +186,6 @@ class PlayerTOCFragment(
     UIThread.runOnUIThread(
       Runnable {
         this.adapter.setCurrentSpineElement(index)
-      }
-    )
-  }
-
-  private fun onSpineElementStatusError(error: Throwable?) {
-    this.log.error("onSpineElementStatusError: ", error)
-  }
-
-  private fun onSpineElementStatusChanged(status: PlayerSpineElementDownloadStatus) {
-    UIThread.runOnUIThread(
-      Runnable {
-        val spineElement = status.spineElement
-        this.adapter.notifyItemChanged(spineElement.index)
-        this.menusConfigureVisibility()
       }
     )
   }

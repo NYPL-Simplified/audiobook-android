@@ -200,7 +200,7 @@ Implementations must implement the [PlayerAudioEngineProviderType](https://githu
 interface and register themselves in the same manner as [manifest parsers](#creating_manifest_parsers).
 
 Creating a new audio engine provider is a fairly involved process. The provided
-[ExoPlayer-based implementation](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.open_access/src/main/java/org/librarysimplified/audiobook/open_access/ExoEngineProvider.kt)
+[ExoPlayer-based implementation](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.open_access/src/main/java/org/librarysimplified/audiobook/open_access/ReadiumEngineProvider.kt)
 may serve as an example for new implementations.
 
 In order to reduce duplication of code between audio engines, the downloading of books is
