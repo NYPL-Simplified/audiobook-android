@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.open_access
+package org.librarysimplified.audiobook.readium
 
 import android.content.Context
 import androidx.media2.common.SessionPlayer
@@ -247,7 +247,7 @@ class ReadiumAudioBookPlayer private constructor(
           context = context,
           publication = publication,
           initialLocator = null,
-          player = createPlayer(context, publication, book.id),
+          player = SessionPlayers.findBestFor(book, publication),
           configuration = MediaNavigator.Configuration(
             skipForwardInterval = 15.seconds,
             skipBackwardInterval = 15.seconds,
@@ -269,46 +269,6 @@ class ReadiumAudioBookPlayer private constructor(
           PlayerResult.Failure(playerTry.exception)
         }
       }
-    }
-
-    private fun findDirectoryFor(context: Context, id: PlayerBookID): File {
-      val base = context.filesDir
-      val all = File(base, "exoplayer_audio")
-      return File(all, id.value)
-    }
-
-    private fun createPlayer(context: Context, publication: Publication, bookID: PlayerBookID): SessionPlayer {
-      val directory = this.findDirectoryFor(context, bookID)
-
-      val cache = SimpleCache(
-        directory,
-        NoOpCacheEvictor(),
-        StandaloneDatabaseProvider(context)
-      )
-
-      val publicationDataSource = ExoPlayerDataSource.Factory(publication)
-
-      val dataSourceFactory =
-        CacheDataSource.Factory()
-          .setCache(cache)
-          .setUpstreamDataSourceFactory(publicationDataSource)
-          // Disable writing to the cache by the player. We'll handle downloads through the
-          // service.
-          .setCacheWriteDataSinkFactory(null)
-
-      val player: ExoPlayer = ExoPlayer.Builder(context)
-        .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory))
-        .setAudioAttributes(
-          AudioAttributes.Builder()
-            .setContentType(C.CONTENT_TYPE_MUSIC)
-            .setUsage(C.USAGE_MEDIA)
-            .build(),
-          true
-        )
-        .setHandleAudioBecomingNoisy(true)
-        .build()
-
-      return SessionPlayerConnector(player)
     }
   }
 }

@@ -17,4 +17,7 @@ data class FeedbooksPlayerExtensionConfiguration(
    */
 
   val issuerURL: String
-)
+) {
+
+  val encryptionScheme = "http://www.feedbooks.com/audiobooks/access-restriction"
+}

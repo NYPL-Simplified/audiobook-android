@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.open_access
+package org.librarysimplified.audiobook.readium
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

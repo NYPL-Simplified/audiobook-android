@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.open_access
+package org.librarysimplified.audiobook.readium
 
 import android.content.Context
 import org.librarysimplified.audiobook.api.PlayerAudioBookProviderType
@@ -6,6 +6,7 @@ import org.librarysimplified.audiobook.api.PlayerAudioBookType
 import org.librarysimplified.audiobook.api.PlayerResult
 import org.librarysimplified.audiobook.api.extensions.PlayerExtensionType
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+import org.librarysimplified.audiobook.readium.ReadiumAudioBook
 import org.readium.navigator.media2.ExperimentalMedia2
 import kotlin.time.ExperimentalTime
 

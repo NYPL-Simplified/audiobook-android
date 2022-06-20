@@ -24,7 +24,6 @@ abstract class PlayerAudioEnginesContract {
     val manifest = parseManifest("ok_minimal_0.json")
     val request = PlayerAudioEngineRequest(
       manifest = manifest,
-      downloadManifest = null,
       filter = { true },
       downloadProvider = DishonestDownloadProvider(),
       userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
@@ -38,7 +37,6 @@ abstract class PlayerAudioEnginesContract {
     val manifest = parseManifest("ok_minimal_0.json")
     val request = PlayerAudioEngineRequest(
       manifest = manifest,
-      downloadManifest = null,
       filter = { false },
       downloadProvider = DishonestDownloadProvider(),
       userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")

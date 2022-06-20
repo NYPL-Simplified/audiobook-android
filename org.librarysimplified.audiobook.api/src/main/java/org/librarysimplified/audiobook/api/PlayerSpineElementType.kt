@@ -56,6 +56,13 @@ interface PlayerSpineElementType {
   val title: String?
 
   /**
+   * The player position for the start of the spine item. This position may be used to play
+   * this specific spine item.
+   */
+
+  val position: PlayerPosition
+
+  /**
    * The latest published download status for the spine item.
    */
 

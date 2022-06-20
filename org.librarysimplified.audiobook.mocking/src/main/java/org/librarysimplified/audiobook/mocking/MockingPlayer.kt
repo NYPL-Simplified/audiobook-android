@@ -65,7 +65,7 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
   fun buffering() {
     this.statusEvents.onNext(
       PlayerEventWithSpineElement.PlayerEventPlaybackBuffering(
-        spineElement = this.book.spineItems.first(),
+        spineElement = this.book.spine.first(),
         offsetMilliseconds = 0L
       )
     )
@@ -114,30 +114,18 @@ class MockingPlayer(private val book: MockingAudioBook) : PlayerType {
 
   override fun playAtBookStart() {
     this.log.debug("playAtBookStart")
-    val beginning = PlayerPosition(
-      title = null,
-      part = 0,
-      chapter = 0,
-      offsetMilliseconds = 0
-    )
-    this.playAtLocation(beginning)
+    this.playAtLocation(this.book.spineItems.first().position)
   }
 
   override fun movePlayheadToBookStart() {
     this.log.debug("movePlayheadToBookStart")
-    val beginning = PlayerPosition(
-      title = null,
-      part = 0,
-      chapter = 0,
-      offsetMilliseconds = 0
-    )
-    this.movePlayheadToLocation(beginning)
+    this.movePlayheadToLocation(this.book.spineItems.first().position)
   }
 
   private fun goToChapter(chapter: Int) {
     val element = this.book.spineItems.find {
       element ->
-      element.index == chapter
+      element.position.chapter == chapter
     }
     if (element != null) {
       this.statusEvents.onNext(PlayerEventWithSpineElement.PlayerEventPlaybackStarted(element, 0))

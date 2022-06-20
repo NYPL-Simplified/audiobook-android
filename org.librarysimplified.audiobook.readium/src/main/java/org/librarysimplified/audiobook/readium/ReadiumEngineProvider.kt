@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.open_access
+package org.librarysimplified.audiobook.readium
 
 import org.librarysimplified.audiobook.api.PlayerAudioBookProviderType
 import org.librarysimplified.audiobook.api.PlayerAudioEngineProviderType
@@ -39,7 +39,7 @@ class ReadiumEngineProvider : PlayerAudioEngineProviderType {
   }
 
   override fun name(): String {
-    return "org.librarysimplified.audiobook.open_access"
+    return "org.librarysimplified.audiobook.readium"
   }
 
   override fun version(): PlayerVersion {

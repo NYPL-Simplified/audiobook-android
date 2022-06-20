@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.open_access
+package org.librarysimplified.audiobook.readium
 
 import org.readium.r2.shared.fetcher.Fetcher
 import org.readium.r2.shared.fetcher.Resource

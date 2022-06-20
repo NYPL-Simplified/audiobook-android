@@ -14,21 +14,21 @@ class MockingDownloadWholeBookTask(
   private val log = LoggerFactory.getLogger(MockingDownloadWholeBookTask::class.java)
 
   override fun fetch() {
-    this.audioBook.spineItems.map { item -> item.downloadTask().fetch() }
+    this.audioBook.spine.map { item -> item.downloadTask().fetch() }
   }
 
   override fun cancel() {
-    this.audioBook.spineItems.map { item -> item.downloadTask().cancel() }
+    this.audioBook.spine.map { item -> item.downloadTask().cancel() }
   }
 
   override fun delete() {
-    this.audioBook.spineItems.map { item -> item.downloadTask().delete() }
+    this.audioBook.spine.map { item -> item.downloadTask().delete() }
   }
 
   override val progress: Double
     get() = calculateProgress()
 
   private fun calculateProgress(): Double {
-    return this.audioBook.spineItems.sumByDouble { item -> item.downloadTask().progress } / this.audioBook.spineItems.size
+    return this.audioBook.spine.sumByDouble { item -> item.downloadTask().progress } / this.audioBook.spine.size
   }
 }

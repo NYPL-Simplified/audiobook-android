@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class ReadiumEngineProviderTest : ReadiumEngineProviderContract() {
+class ExoPlayerEngineProviderTest : ReadiumEngineProviderContract() {
 
   private var instrumentationContext: Context? = null
 
@@ -23,7 +23,7 @@ class ReadiumEngineProviderTest : ReadiumEngineProviderContract() {
   }
 
   override fun log(): Logger {
-    return LoggerFactory.getLogger(ReadiumEngineProviderTest::class.java)
+    return LoggerFactory.getLogger(ExoPlayerEngineProviderTest::class.java)
   }
 
   override fun context(): Context {

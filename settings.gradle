@@ -11,6 +11,7 @@ dependencyResolutionManagement {
 rootProject.name = 'org.librarysimplified.audiobook'
 
 include ':org.librarysimplified.audiobook.api'
+include ':org.librarysimplified.audiobook.player.api'
 include ':org.librarysimplified.audiobook.downloads'
 include ':org.librarysimplified.audiobook.feedbooks'
 include ':org.librarysimplified.audiobook.http'

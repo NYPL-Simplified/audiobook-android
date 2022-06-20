@@ -1,4 +1,4 @@
-package org.librarysimplified.audiobook.open_access
+package org.librarysimplified.audiobook.readium
 
 import android.content.Context
 import com.google.common.util.concurrent.ListeningExecutorService
@@ -73,8 +73,8 @@ class ReadiumAudioBook private constructor(
       downloadManifest: () -> PlayerManifest
     ): PlayerAudioBookType {
       val bookId = PlayerBookID.transform(manifest.metadata.identifier)
-      val directory = this.findDirectoryFor(context, bookId)
-      this.log.debug("book directory: {}", directory)
+      val directory = findDirectoryFor(context, bookId)
+      log.debug("book directory: {}", directory)
 
       /*
        * Set up all the various bits of state required.

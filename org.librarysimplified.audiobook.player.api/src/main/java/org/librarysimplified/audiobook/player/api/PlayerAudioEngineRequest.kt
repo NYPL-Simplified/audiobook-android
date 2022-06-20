@@ -1,6 +1,8 @@
-package org.librarysimplified.audiobook.api
+package org.librarysimplified.audiobook.player.api
 
+import android.content.Context
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
+import org.readium.r2.shared.publication.Publication
 
 /**
  * A request for an audio engine.
@@ -8,11 +10,19 @@ import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 
 data class PlayerAudioEngineRequest(
 
+  val context: Context,
+
+  val publication: Publication,
+
+  val bookID: PlayerBookID,
+
   /**
    * The book manifest.
    */
 
   val manifest: PlayerManifest,
+
+  val downloadManifest: (() -> PlayerManifest)?,
 
   /**
    * The user agent used to make HTTP requests.
@@ -29,12 +39,4 @@ data class PlayerAudioEngineRequest(
     {
       true
     },
-
-  /**
-   * A provider of downloads for book parts. Depending on the audio engine used, this provider
-   * may not actually be used (some audio engines implement their own downloading and don't
-   * allow for using a custom implementation).
-   */
-
-  val downloadProvider: PlayerDownloadProviderType
 )
