@@ -27,7 +27,7 @@ class ExoPlayerEngineProvider : PlayerAudioEngineProviderType {
   override fun tryRequest(request: PlayerAudioEngineRequest): PlayerFactoryType? {
     val manifest = request.manifest
     val encrypted = manifest.metadata.encrypted
-    if (encrypted != null || request.downloadManifest == null) {
+    if (encrypted != null) {
       this.log.debug("cannot open encrypted books")
       return null
     }

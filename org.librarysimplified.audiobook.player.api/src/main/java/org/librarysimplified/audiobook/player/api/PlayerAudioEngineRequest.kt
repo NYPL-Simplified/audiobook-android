@@ -22,8 +22,6 @@ data class PlayerAudioEngineRequest(
 
   val manifest: PlayerManifest,
 
-  val downloadManifest: (() -> PlayerManifest)?,
-
   /**
    * The user agent used to make HTTP requests.
    */

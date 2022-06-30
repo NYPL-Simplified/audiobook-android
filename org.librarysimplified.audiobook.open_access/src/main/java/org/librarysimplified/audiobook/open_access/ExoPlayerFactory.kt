@@ -27,6 +27,7 @@ class ExoPlayerFactory(
 ) : PlayerFactoryType {
 
   override fun createPlayer(): PlayerType {
+
    val cache = createCache()
    val sessionPlayer = createSessionPlayer(cache)
    return ExoPlayer(sessionPlayer, cache)

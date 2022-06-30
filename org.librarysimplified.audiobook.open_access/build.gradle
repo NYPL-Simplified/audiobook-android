@@ -2,7 +2,6 @@ dependencies {
   api project(':org.librarysimplified.audiobook.player.api')
 
   implementation libs.r2.navigator.media2
-  implementation libs.google.exoplayer
   implementation libs.joda.time
   implementation libs.kotlin.stdlib
   implementation libs.kotlin.reflect
