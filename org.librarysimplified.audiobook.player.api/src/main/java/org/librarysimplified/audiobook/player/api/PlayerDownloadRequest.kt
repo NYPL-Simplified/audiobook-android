@@ -1,5 +1,6 @@
 package org.librarysimplified.audiobook.player.api
 
+import org.librarysimplified.audiobook.api.PlayerUserAgent
 import java.io.File
 import java.net.URI
 

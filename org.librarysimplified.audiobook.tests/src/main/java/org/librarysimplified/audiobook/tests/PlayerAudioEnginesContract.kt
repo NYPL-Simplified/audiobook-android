@@ -1,13 +1,17 @@
 package org.librarysimplified.audiobook.tests
 
+import android.content.Context
 import org.junit.Assert
 import org.junit.Test
-import org.librarysimplified.audiobook.api.PlayerAudioEngineRequest
-import org.librarysimplified.audiobook.api.PlayerAudioEngines
 import org.librarysimplified.audiobook.api.PlayerUserAgent
 import org.librarysimplified.audiobook.manifest.api.PlayerManifest
 import org.librarysimplified.audiobook.manifest_parser.api.ManifestParsers
 import org.librarysimplified.audiobook.parser.api.ParseResult
+import org.librarysimplified.audiobook.player.api.PlayerAudioEngineRequest
+import org.librarysimplified.audiobook.player.api.PlayerAudioEngines
+import org.librarysimplified.audiobook.player.api.PlayerBookID
+import org.mockito.Mockito
+import org.readium.r2.shared.publication.Publication
 import org.slf4j.Logger
 import java.net.URI
 
@@ -22,27 +26,35 @@ abstract class PlayerAudioEnginesContract {
   @Test
   fun testAudioEnginesTrivial() {
     val manifest = parseManifest("ok_minimal_0.json")
+    val context = Mockito.mock(Context::class.java)
+    val pubication = Mockito.mock(Publication::class.java)
     val request = PlayerAudioEngineRequest(
+      context = context,
+      bookID = PlayerBookID.transform("dummy"),
+      publication = pubication,
       manifest = manifest,
       filter = { true },
-      downloadProvider = DishonestDownloadProvider(),
       userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
     )
-    val providers = PlayerAudioEngines.findAllFor(request)
-    Assert.assertEquals("Exactly one open access provider should be present", 1, providers.size)
+    val provider = PlayerAudioEngines.findBestFor(request)
+    Assert.assertNotNull("Exactly one open access provider should be present", provider)
   }
 
   @Test
   fun testAudioEnginesAllFiltered() {
     val manifest = parseManifest("ok_minimal_0.json")
+    val context = Mockito.mock(Context::class.java)
+    val pubication = Mockito.mock(Publication::class.java)
     val request = PlayerAudioEngineRequest(
+      context = context,
+      bookID = PlayerBookID.transform("dummy"),
+      publication = pubication,
       manifest = manifest,
       filter = { false },
-      downloadProvider = DishonestDownloadProvider(),
       userAgent = PlayerUserAgent("org.librarysimplified.audiobook.tests 1.0.0")
     )
-    val providers = PlayerAudioEngines.findAllFor(request)
-    Assert.assertEquals("No providers should be present", 0, providers.size)
+    val provider = PlayerAudioEngines.findBestFor(request)
+    Assert.assertNull("No providers should be present",  provider)
   }
 
   private fun parseManifest(file: String): PlayerManifest {

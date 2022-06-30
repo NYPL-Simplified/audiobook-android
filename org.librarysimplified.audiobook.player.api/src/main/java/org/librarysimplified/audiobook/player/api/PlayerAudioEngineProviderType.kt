@@ -1,5 +1,7 @@
 package org.librarysimplified.audiobook.player.api
 
+import org.librarysimplified.audiobook.api.PlayerVersion
+
 /**
  * The interface exposed by audio engine providers.
  */

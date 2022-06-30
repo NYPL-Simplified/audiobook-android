@@ -1,5 +1,0 @@
-package org.librarysimplified.audiobook.tests.local
-
-import org.librarysimplified.audiobook.tests.rbdigital.RBDigitalLinkDocumentParserContract
-
-class RBDigitalLinkDocumentParserTest : RBDigitalLinkDocumentParserContract()

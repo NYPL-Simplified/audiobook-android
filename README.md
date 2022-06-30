@@ -34,20 +34,14 @@ redundant nowadays.
 ### Project Structure
 
 The project is divided into separate modules. Programmers wishing to use the API will primarily be
-concerned with the [Core API](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.api),
+concerned with the [Core API](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.api)
+and the [Player API](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.player.api),
 but will also need to add [providers](#providers) to the classpaths of their projects in order
-to actually do useful work. The API is designed to make it easy to develop an event-driven user
-interface, but this project also includes a ready-made [player UI](#player_ui) that can be embedded
-into applications. Additionally, audio engine providers that do not, by themselves, handle downloads
-require callers to provide a _download provider_. Normally, this code would be provided directly
-by applications (as applications tend to have centralized code to handle downloads), but a
-[simple implementation](https://github.com/NYPL-Simplified/audiobook-android/tree/develop/org.librarysimplified.audiobook.downloads)
-is available to ease integration.
+to actually do useful work.
 
 |Module|Description|
 |------|-----------|
 |[org.librarysimplified.audiobook.api](org.librarysimplified.audiobook.api)|AudioBook API (API specification)|
-|[org.librarysimplified.audiobook.downloads](org.librarysimplified.audiobook.downloads)|AudioBook API (Download provider)|
 |[org.librarysimplified.audiobook.feedbooks](org.librarysimplified.audiobook.feedbooks)|AudioBook API (Feedbooks-specific functionality)|
 |[org.librarysimplified.audiobook.json_canon](org.librarysimplified.audiobook.json_canon)|AudioBook API (JSON canonicalization functionality)|
 |[org.librarysimplified.audiobook.json_web_token](org.librarysimplified.audiobook.json_web_token)|AudioBook API (JSON web token functionality)|
@@ -58,14 +52,10 @@ is available to ease integration.
 |[org.librarysimplified.audiobook.manifest_parser.api](org.librarysimplified.audiobook.manifest_parser.api)|AudioBook API (Manifest parser API)|
 |[org.librarysimplified.audiobook.manifest_parser.extension_spi](org.librarysimplified.audiobook.manifest_parser.extension_spi)|AudioBook API (Manifest parser extension SPI)|
 |[org.librarysimplified.audiobook.manifest_parser.webpub](org.librarysimplified.audiobook.manifest_parser.webpub)|AudioBook API (Readium WebPub manifest parser)|
-|[org.librarysimplified.audiobook.mocking](org.librarysimplified.audiobook.mocking)|AudioBook API (Mock API implementation)|
-|[org.librarysimplified.audiobook.open_access](org.librarysimplified.audiobook.open_access)|AudioBook API (Open access player implementation)|
+|[org.librarysimplified.audiobook.exoplayer](org.librarysimplified.audiobook.open_access)|AudioBook API (Exoplayer engine implementation)|
+|[org.librarysimplified.audiobook.player.api](org.librarysimplified.audiobook.player.api)|AudioBook API (Player API)|
 |[org.librarysimplified.audiobook.parser.api](org.librarysimplified.audiobook.parser.api)|AudioBook API (Parser API)|
-|[org.librarysimplified.audiobook.rbdigital](org.librarysimplified.audiobook.rbdigital)|AudioBook API (RBDigital-specific functionality)|
 |[org.librarysimplified.audiobook.tests](org.librarysimplified.audiobook.tests)|AudioBook API (Test suite)|
-|[org.librarysimplified.audiobook.tests.device](org.librarysimplified.audiobook.tests.device)|AudioBook API (On-device test suite)|
-|[org.librarysimplified.audiobook.tests.sandbox](org.librarysimplified.audiobook.tests.sandbox)|AudioBook API (Sandbox)|
-|[org.librarysimplified.audiobook.views](org.librarysimplified.audiobook.views)|AudioBook API (Standard UI components)|
 
 ### Changelog
 
@@ -77,29 +67,27 @@ to manage release changelogs.
 1. Download (or synthesize) an [audio book manifest](#manifest_parsers). [Hadrien Gardeur](https://github.com/HadrienGardeur/audiobook-manifest/) publishes many example manifests in formats supported by the API.
 2. Ask the API to [parse the manifest](#using_manifest_parsers).
 3. (Optional) Ask the API to [perform license checks](#license_checking).
-4. (Optional) Configure any [player extensions](#player_extensions) you may want to use.
-5. Ask the API to [create an audio engine](#using_audio_engines) from the parsed manifest.
-6. Make calls to the resulting [audio book](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/PlayerAudioBookType.kt) to download and play individual parts of the book.
-
-See the provided [example project](https://github.com/NYPL-Simplified/audiobook-demo-android) for a
-complete example that is capable of downloading and playing audio books.
+5. Ask the API to [create a PlayerFactory](#using_audio_engines) from the parsed manifest.
+6. Make calls to the resulting [player factory](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.player.api/src/main/java/org/librarysimplified/audiobook/player/api/PlayerFactoryType.kt) to create a
+[media2 SessionPlayer](https://developer.android.com/reference/androidx/media2/common/SessionPlayer).
 
 ### Dependencies
 
 At a minimum, applications will need the Core API, one or more [manifest parser](#manifest_parsers)
-implementations, and one or more [audio engine](#audio_engines) implementations. Use the following
+implementations, and one or more [audio engine provider](#audio_engines) implementations. Use the following
 Gradle dependencies to get a manifest parser that can parse the Readium WebPub manifest format, and 
 an audio engine that can play non-encrypted audio books:
 
 ```
 ext {
-  nypl_audiobook_api_version = "4.0.0-SNAPSHOT"
+  nypl_audiobook_api_version = "8.0.0"
 }
 
 dependencies {
   implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.manifest_parser.webpub:${nypl_audiobook_api_version}"
   implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.api:${nypl_audiobook_api_version}"
-  implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.open_access:${nypl_audiobook_api_version}"
+  implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.player.api:${nypl_audiobook_api_version}"
+  implementation "org.librarysimplified.audiobook:org.librarysimplified.audiobook.exoplayer:${nypl_audiobook_api_version}"
 }
 ```
 
@@ -200,7 +188,7 @@ Implementations must implement the [PlayerAudioEngineProviderType](https://githu
 interface and register themselves in the same manner as [manifest parsers](#creating_manifest_parsers).
 
 Creating a new audio engine provider is a fairly involved process. The provided
-[ExoPlayer-based implementation](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.open_access/src/main/java/org/librarysimplified/audiobook/open_access/ReadiumEngineProvider.kt)
+[ExoPlayer-based implementation](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.exoplayer/src/main/java/org/librarysimplified/audiobook/exoplayer/ExoPlayerEngineProvider.kt)
 may serve as an example for new implementations.
 
 In order to reduce duplication of code between audio engines, the downloading of books is
@@ -208,32 +196,6 @@ abstracted out into a [PlayerDownloadProviderType](https://github.com/NYPL-Simpl
 interface that audio engine implementations can call in order to perform the work of actually
 downloading books. Implementations of this interface are actually provided by the calling programmer
 as this kind of code is generally provided by the application using the audio engine.
-
-#### Player Extensions <a id="player_extensions"/>
-
-Audio engines may support [extensions](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/extensions/PlayerExtensionType.kt)
-that allow for augmenting the behaviour of existing implementations. This
-is primarily useful for, for example, adding unusual authentication
-mechanisms that may be required by book distributors when downloading
-book chapters. A list of extensions may be passed in to the `create`
-method of the [PlayerAudioBookProviderType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.api/src/main/java/org/librarysimplified/audiobook/api/PlayerAudioBookProviderType.kt)
-interface. Extensions _must_ be explicitly passed in in order to be
-used; passing in an empty list results in no extensions being used.
-
-### Player UI <a id="player_ui"/>
-
-#### Overview
-
-The API comes with a set of Android views and fragments that can be embedded into an application
-to provide a simple user interface for the player API.
-
-#### Using the UI
-
-1. Declare an `Activity` that implements the [PlayerFragmentListenerType](https://github.com/NYPL-Simplified/audiobook-android/blob/develop/org.librarysimplified.audiobook.views/src/main/java/org/librarysimplified/audiobook/views/PlayerFragmentListenerType.kt).
-2. Load a `PlayerFragment` instance into the activity.
-
-Please consult the provided [example project](https://github.com/NYPL-Simplified/audiobook-demo-android)
-and the documentation comments on the `PlayerFragmentListenerType` for details.
 
 ### Testing <a id="testing"/>
 
@@ -255,37 +217,5 @@ run locally *and* on devices as abstract classes ("contracts")
 in `src/main/java` in the `org.librarysimplified.audiobook.tests`
 module. It then defines a set of classes that extend
 the abstract test classes in `src/test/java` in the
-`org.librarysimplified.audiobook.tests` module, and a set of classes that
-extend the abstract test classes in `src/androidTest/java` in the
-`org.librarysimplified.audiobook.tests.device` module. The latter are _instrumented
-device tests_ and will run on real or emulated devices. The former
-classes will run the tests locally.
-
-Some tests will _only_ run on real devices because they have
-hard dependencies on the Android API. These tests do not have any
-corresponding abstract base classes.
-
-#### Espresso
-
-The test suite contains tests that will exercise user interface code
-with [Espresso](https://developer.android.com/training/testing/espresso).
-Unfortunately, Espresso appears to be rather fragile, and the following
-points _must_ be observed if the test suite is to run correctly:
-
-1. Device animations must be switched off. This can be achieved manually
-   by changing all of the _animation scale_ settings in the device's
-   developer options menu to 0. Alternatively, the following `adb`
-   invocations achieve the same thing:
-
-```
-  adb shell settings put global window_animation_scale 0 &
-  adb shell settings put global transition_animation_scale 0 &
-  adb shell settings put global animator_duration_scale 0 &
-```
-
-2. The device must not be locked/sleeping during the test execution.
-   This is not mentioned in the Espresso documentation. If the device
-   is locked, many activities will not correctly go into the `RESUMED`
-   state and the test code will not execute properly.
-
-
+`org.librarysimplified.audiobook.tests` module. These classes
+will run the tests locally.
